@@ -50,7 +50,6 @@
     "swiper": "^9.3.2",
     "web-vitals": "^2.1.4"
   },
-  "homepage": "/",
   "resolutions": {
     "autoprefixer": "10.4.5"
   },

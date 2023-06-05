@@ -39,11 +39,11 @@ function SignIn() {
   };
 
   lock.on('authenticated', (authResult) => {
+    authResult.accessToken = undefined;
     lock.getUserInfo(authResult.accessToken, (error) => {
       if (error) {
         return;
       }
-
       handleSubmit();
       lock.hide();
     });
@@ -61,12 +61,12 @@ function SignIn() {
               <Form.Item
                 name="email"
                 rules={[{ message: 'Please input your username or Email!', required: true }]}
-                initialValue="ninjadash@dm.com"
+                initialValue="root1357"
                 label="Username or Email Address"
               >
                 <Input placeholder="name@example.com" />
               </Form.Item>
-              <Form.Item name="password" initialValue="123456" label="Password">
+              <Form.Item name="password" initialValue="1234" label="Password">
                 <Input.Password placeholder="Password" />
               </Form.Item>
               <div className="ninjadash-auth-extra-links">

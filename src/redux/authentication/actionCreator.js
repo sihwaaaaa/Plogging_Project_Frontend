@@ -8,11 +8,11 @@ const login = (values, callback) => {
   return async (dispatch) => {
     dispatch(loginBegin());
     try {
-      const response = await DataService.post('/login', values);
+      const response = await DataService.post('/member/signin', values);
       if (response.data.errors) {
         dispatch(loginErr(response.data.errors));
       } else {
-        Cookies.set('access_token', response.data.data.token);
+        Cookies.set('access_token', response.data.token);
         Cookies.set('logedIn', true);
         dispatch(loginSuccess(true));
         callback();

@@ -10,8 +10,6 @@ function Index() {
     <>
       <div className="index-page-plogging">
         <h2>플로깅 시작 !</h2>
-        <span>${process.env.REACT_APP_BASE_URL}</span>
-        <span>${process.env.REACT_APP_API_ENDPOINT}</span>
         <FontAwesome className="smileIcon" name="smile-o" />
       </div>
       <div className="index-page-ploggingInfo">
