@@ -186,14 +186,14 @@ function SignIn() {
               </ul>
               <div className="auth0-login">
                 <Link to="#" onClick={() => lock.show()}>
-                  Sign In with Auth0
+                  소셜 로그인
                 </Link>
               </div>
             </Form>
           </div>
           <div className="ninjadash-authentication-bottom">
             <p>
-              Don`t have an account?<Link to="/register">Sign up</Link>
+              계정이 없으신가요?<Link to="/register">회원가입</Link>
             </p>
           </div>
         </AuthFormWrap>
