@@ -98,7 +98,7 @@
       .ninjadash-knowledgetop{
         background: #f8f9fb;
         .ninjadash-knowledgetop__title{
-          color: #FFCB77;
+          color: #0eb24c;
           font-size: 27px;
         }
         .ninjadash-knowledgetop__search--form{
@@ -136,6 +136,10 @@
       }
     }
   }
+  .createChallenge{
+    background-color: #0eb24c;
+    color: #f8f9fb;
+  }
   .challenge-slider-title {
     width: 70%;
     @media only screen and (max-width: 620px) {
@@ -152,6 +156,9 @@
     flex-wrap: wrap;
     align-content: center;
     justify-content: center;
+    .ploImage{
+      width: 100%;
+    }
     .mapWrapper{
       margin-bottom: 50px;
       overflow: hidden;
