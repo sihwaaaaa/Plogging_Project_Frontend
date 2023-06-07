@@ -61,6 +61,14 @@ const AuthFormWrap = Styled.div`
     @media only screen and (max-width: 1599px){
       padding: 30px;
     }
+
+
+    select {
+      
+      padding-left: 5px;
+      
+    }
+
     .ant-form-item-label {
       > label{
         font-size: 14px;
