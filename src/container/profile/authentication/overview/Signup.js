@@ -1,15 +1,69 @@
 import React, { useState } from 'react';
+import ReactDOM from 'react-dom';
 import { Link } from 'react-router-dom';
 import { Row, Col, Form, Input, Button} from 'antd';
 import { useDispatch } from 'react-redux';
 // import { Option } from 'antd/lib/mentions';
+import DaumPostcode, { DaumPostcodeEmbed } from 'react-daum-postcode';
 import { AuthFormWrap } from './style';
 // import { Checkbox, CheckboxGroup } from '../../../../components/checkbox/checkbox';
 import { register } from '../../../../redux/authentication/actionCreator';
 // import FormItemLabel from 'antd/es/form/FormItemLabel';
 
+
+
+const PopUpDom = ({children}) => {
+  const element1 = document.getElementById("popUpDom");
+  return ReactDOM.createPortal(children, element1);
+}
+
+
+
+
+
 function SignUp() {
   const dispatch = useDispatch();
+
+  // 주소 state
+  // const [openPostCode, setOpenPostCode] = React.useState<boolean>(false);
+  const [isPopUpOpen, setIsPopUpOpen] = useState(false);
+  const [text, setText] = useState('');
+
+  const maintainText = (e) => {
+    setText(e.target.value);
+  }
+
+  const handleAuthEmail = () => {
+
+  }
+
+  const handleComplete = (data) => {
+    let fullAddress = data.address;
+    let extraAddress = '';
+
+    if (data.addressType === 'R') {
+      if (data.bname !== '') {
+        extraAddress += data.bname;
+      }
+      if (data.buildingName !== '') {
+        extraAddress += extraAddress !== '' ? `, ${data.buildingName}` : data.buildingName;
+      }
+      fullAddress += extraAddress !== '' ? ` (${extraAddress})` : '';
+    }
+    const addressDom = document.getElementById('address');
+    addressDom.value = fullAddress;
+    console.log(fullAddress); // e.g. '서울 성동구 왕십리로2길 20 (성수동1가)'
+  };
+ 
+  const popUpOpen = (e) => {
+    console.log(e);
+    setIsPopUpOpen(true);
+  }
+
+  const popUpClose = () => {
+    setIsPopUpOpen(false);
+  }
+
 
   // 지금 있는 값 또는 체크를 한번에 관리하겠다는 의도
   
@@ -26,6 +80,8 @@ function SignUp() {
   // const [nickName, setNickName] = useState('');
   // // 이름
   // const [userName, setUserName] = useState('');
+ 
+ 
   // 생년월일
   const now = new Date();
   const [birth, setBirth] = useState({
@@ -162,13 +218,15 @@ function SignUp() {
                 <Input placeholder="닉네임을 입력하세요" />
               </Form.Item>
               <Form.Item label="성별" name="gender">
-                  <Input
+                <label htmlFor="male">남자</label>
+                <Input
                     type='radio'
                     id="male"
                     value="남자"
                     checked={gender.selectValue === '남자'}
                     onChange={handleGender}
-                  />
+                />
+                <label htmlFor='male'>여자</label>
                   <Input
                     type='radio'
                     id="female"
@@ -199,7 +257,12 @@ function SignUp() {
                 년
                 <select
                   value={birth.month}
-                  onChange={(e) => setBirth({ ...birth, month: e.target.value })}
+                  onChange={(e) =>
+                    setBirth({
+                      ...birth,
+                      month: e.target.value,
+                    })
+                  }
                 >
                   {birth &&
                     months.map((item) => (
@@ -223,9 +286,23 @@ function SignUp() {
                 <Input placeholder="주소를 입력해주세요." />
                 <Button type='button' onClick={handlePopUp}></Button>
               </Form.Item> */}
-              <Form.Item label="주소" name="address" rules={[{ required: true, message: '주소를 입력해주세요.' }]}>
-                <Input placeholder="주소를 입력해주세요." />
+              <Form.Item className='address-form' label="주소" name="address" rules={[{ required: true, message: '주소를 입력해주세요.' }]}>
+                  <Input readOnly id='address' placeholder="주소를 입력해주세요." onClick={maintainText} />
+                  <Button onClick={popUpOpen}>버튼</Button>
+                  <div id='popUpDom'>
+                  {isPopUpOpen && 
+                    <PopUpDom onClose={popUpClose}>
+                      <DaumPostcode className='modal-post' onComplete={handleComplete} />
+                    </PopUpDom>
+                  }
+                </div>
               </Form.Item>
+
+              {/* <DaumPostcode 
+                        onComplete={handlePostCode.selectAddress}  // 값을 선택할 경우 실행되는 이벤트
+                        autoClose={false} // 값을 선택할 경우 사용되는 DOM을 제거하여 자동 닫힘 설정
+                        defaultQuery='판교역로' // 팝업을 열때 기본적으로 입력되는 검색어 
+                      /> */}
               <Form.Item
                 label="이메일"
                 name="email"
@@ -242,6 +319,8 @@ function SignUp() {
                 ]}
               >
                 <Input placeholder="이메일을 입력하세요." />
+                <Button onClick={handleAuthEmail}>인증</Button>
+                <Input type='hidden' id='authCode' />
               </Form.Item>
               <Form.Item>
                 <Button className="btn-create" htmlType="submit" type="primary" size="large">
