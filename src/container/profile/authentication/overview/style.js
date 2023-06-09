@@ -61,7 +61,19 @@ const AuthFormWrap = Styled.div`
     @media only screen and (max-width: 1599px){
       padding: 30px;
     }
+    
+    #address {
+      pointer-events: none;
+    }
 
+    .modal-post {
+      display: "block",
+      position: "absolute",
+      top: "10%",
+      width: "600px",
+      height: "600px",
+      padding: "7px",
+    }
 
     select {
       
