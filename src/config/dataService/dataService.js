@@ -4,13 +4,13 @@ import { getItem } from '../../utility/localStorageControl';
 const API_ENDPOINT = `${process.env.REACT_APP_API_ENDPOINT}`;
 
 const authHeader = () => ({
-  Authorization: `Bearer ${getItem('access_token')}`,
+  Authorization: `Bearer ${getItem('ACCESS_TOKEN')}`,
 });
 
 const client = axios.create({
   baseURL: API_ENDPOINT,
   headers: {
-    Authorization: `Bearer ${getItem('access_token')}`,
+    Authorization: `Bearer ${getItem('ACCESS_TOKEN')}`,
     'Content-Type': 'application/json',
   },
 });
@@ -52,6 +52,10 @@ class DataService {
   }
 }
 
+export default function socialLogin(provider) {
+  window.location.href = `${API_ENDPOINT}/oauth2/auth/${provider}?redirect_url=${window.location.protocol}//${window.location.host}`;
+}
+
 /**
  * axios interceptors runs before and after a request, letting the developer modify req,req more
  * For more details on axios interceptor see https://github.com/axios/axios#interceptors
@@ -61,7 +65,7 @@ client.interceptors.request.use((config) => {
   // For example tag along the bearer access token to request header or set a cookie
   const requestConfig = config;
   const { headers } = config;
-  requestConfig.headers = { ...headers, Authorization: `Bearer ${getItem('access_token')}` };
+  requestConfig.headers = { ...headers, Authorization: `Bearer ${getItem('ACCESS_TOKEN')}` };
 
   return requestConfig;
 });
