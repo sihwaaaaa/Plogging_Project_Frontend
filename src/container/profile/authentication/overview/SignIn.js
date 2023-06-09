@@ -114,7 +114,7 @@ function SignIn() {
                   },
                 ]}
                 // rules={[{ message: userIdMessage, required: true }]}
-                initialValue="root1234"
+                initialValue="pkkj"
                 label="아이디"
                 // onChange={onChangeUserId}
               >
@@ -140,7 +140,7 @@ function SignIn() {
                   },
                 ]}
                 // rules={[{ message: passwordMessage, required: true }]}
-                initialValue="123456"
+                initialValue="wkwjsrj5!"
                 label="비밀번호"
                 // onChange={onChangePassword}
               >
