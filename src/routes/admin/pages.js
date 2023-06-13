@@ -8,6 +8,7 @@ const Challenge = lazy(() => import('../../container/pages/challenge'));
 const Profile = lazy(() => import('../../container/pages/profile'));
 const Friend = lazy(() => import('../../container/pages/friend'));
 const Reward = lazy(() => import('../../container/pages/reward'));
+// const ChallengeCreate = lazy(() => import('../../container/pages/ChallengeCreate'));
 
 function PagesRoute() {
   return (
@@ -19,6 +20,7 @@ function PagesRoute() {
       <Route path="profile" element={<Profile />} />
       <Route path="friend" element={<Friend />} />
       <Route path="reward" element={<Reward />} />
+      {/* <Route path="callengeCreate" element={<ChallengeCreate />} /> */}
     </Routes>
   );
 }

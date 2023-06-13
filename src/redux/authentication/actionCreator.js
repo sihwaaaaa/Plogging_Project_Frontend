@@ -27,7 +27,7 @@ const register = (values) => {
   return async (dispatch) => {
     dispatch(loginBegin());
     try {
-      const response = await DataService.post('/register', values);
+      const response = await DataService.post('/member/signup', values);
       if (response.data.errors) {
         dispatch(loginErr('Registration failed!'));
       } else {
