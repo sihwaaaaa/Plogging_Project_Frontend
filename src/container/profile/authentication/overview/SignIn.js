@@ -1,17 +1,14 @@
 import React, { useState, useCallback } from 'react';
 import { Link, NavLink, useNavigate } from 'react-router-dom';
-import { Form, Input, Button, Row, Col } from 'antd';
+import { Form, Input, Button, Row, Col, Image } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
 // eslint-disable-next-line import/no-extraneous-dependencies
-import { ReactSVG } from 'react-svg';
-import UilFacebook from '@iconscout/react-unicons/icons/uil-facebook-f';
-import UilTwitter from '@iconscout/react-unicons/icons/uil-twitter';
-import UilGithub from '@iconscout/react-unicons/icons/uil-github';
 import { Auth0Lock } from 'auth0-lock';
 import { AuthFormWrap } from './style';
 import { login } from '../../../../redux/authentication/actionCreator';
 import { Checkbox } from '../../../../components/checkbox/checkbox';
 import { auth0options } from '../../../../config/auth0';
+import socialLogin from '../../../../config/dataService/dataService';
 
 const domain = process.env.REACT_APP_AUTH0_DOMAIN;
 const clientId = process.env.REACT_APP_AUTH0_CLIENT_ID;
@@ -82,9 +79,14 @@ function SignIn() {
       }
 
       handleSubmit();
+      socialLogin();
       lock.hide();
     });
   });
+
+  const handleSocialLogin = (provider) => {
+    socialLogin(provider);
+  };
 
   return (
     <Row justify="center">
@@ -164,31 +166,11 @@ function SignIn() {
               </p>
               <ul className="ninjadash-social-login">
                 <li>
-                  <Link className="google-social" to="#">
-                    <ReactSVG src={require(`../../../../static/img/icon/google-plus.svg`).default} />
-                  </Link>
-                </li>
-                <li>
-                  <Link className="facebook-social" to="#">
-                    <UilFacebook />
-                  </Link>
-                </li>
-                <li>
-                  <Link className="twitter-social" to="#">
-                    <UilTwitter />
-                  </Link>
-                </li>
-                <li>
-                  <Link className="github-social" to="#">
-                    <UilGithub />
+                  <Link onClick={() => handleSocialLogin('google')} itemType="submit">
+                    <Image srcSet="../../../../static/img/btn_google_dark_normal_ios.png" alt="" />
                   </Link>
                 </li>
               </ul>
-              <div className="auth0-login">
-                <Link to="#" onClick={() => lock.show()}>
-                  소셜 로그인
-                </Link>
-              </div>
             </Form>
           </div>
           <div className="ninjadash-authentication-bottom">
