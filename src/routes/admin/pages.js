@@ -1,5 +1,7 @@
 import React, { lazy } from 'react';
 import { Routes, Route } from 'react-router-dom';
+import WritePage from "../../container/pages/WritePage";
+import PostPage from "../../container/pages/PostPage";
 
 const Plogging = lazy(() => import('../../container/pages/plogging'));
 const Index = lazy(() => import('../../container/pages/index'));
@@ -20,6 +22,8 @@ function PagesRoute() {
       <Route path="profile" element={<Profile />} />
       <Route path="friend" element={<Friend />} />
       <Route path="reward" element={<Reward />} />
+      <Route path="write" element={<WritePage />} />
+      <Route path=":username" element={<PostPage />} />
       {/* <Route path="callengeCreate" element={<ChallengeCreate />} /> */}
     </Routes>
   );
