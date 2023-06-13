@@ -72,7 +72,11 @@ function ChallengeCreate({ visible, onCancel }) {
         <BasicFormWrapper>
           <Form form={form} name="createProject" onFinish={handleOk}>
             <Form.Item name="project" label="">
-              <Input placeholder="챌린지 이름*" />
+              <Input
+                name="title"
+                rules={[{ max: 20, min: 5, message: '20자 이내로 적어주세요' }]}
+                placeholder="챌린지 이름*"
+              />
             </Form.Item>
             <Form.Item name="category" initialValue="" label="">
               <Select style={{ width: '100%' }}>
