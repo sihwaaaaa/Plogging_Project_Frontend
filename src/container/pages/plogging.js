@@ -48,7 +48,7 @@ const plogging = () => {
       const marker = new Tmapv2.Marker({
         position: new Tmapv2.LatLng(latitude, longitude),
         icon: 'http://tmapapi.sktelecom.com/resources/images/common/pin_car.png',
-        map: map,
+        map,
       });
       console.log(marker);
     }

@@ -13,19 +13,10 @@ import { AuthFormWrap } from './style';
 import { register, emailAuth } from '../../../../redux/authentication/actionCreator';
 // import FormItemLabel from 'antd/es/form/FormItemLabel';
 
-
-/**
- * 
- * @param {*} param0 
- * @returns 
- */
-const PopUpDom = ({children}) => {
-  const element1 = document.getElementById("popUpDom");
+const PopUpDom = ({ children }) => {
+  const element1 = document.getElementById('popUpDom');
   return ReactDOM.createPortal(children, element1);
 }
-
-
-
 
 
 function SignUp() {
@@ -134,16 +125,6 @@ function SignUp() {
       selectValue: e.target.value,
     });
   };
-
-  const handleAuthEmail = () => {
-    const emailVal = document.getElementById("email").value;
-    if (emailVal !== null) {
-      document.getElementById("authCode").type = "text";
-      emailAuth(emailVal);
-    }
-    
-  }
-  
   // Submit 했을 시에 값 등록
   const handleSubmit = (e) => {
     const { userId, password, nickName, userName, email, address} = e

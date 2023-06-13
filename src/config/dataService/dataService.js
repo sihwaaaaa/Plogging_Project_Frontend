@@ -59,7 +59,7 @@ class DataService {
       method: 'DELETE',
       url: path,
       data: JSON.stringify(data.data),
-      headers: {...authHeader()},
+      headers: { ...authHeader() },
     });
   }
 }

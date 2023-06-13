@@ -1,14 +1,15 @@
 /* eslint-disable import/named */
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Form, Input } from 'antd';
 import { useSelector } from 'react-redux';
 import FontAwesome from 'react-fontawesome';
-import '../../static/css/indexPageStyle.scss';
+import '../../static/css/ChallengeStyle.scss';
 import UilPlus from '@iconscout/react-unicons/icons/uil-plus';
 import { ProjectHeader } from './ChallengeStyle';
 import { KnowledgebaseTopWrap } from './knowledgeBase/style';
 import ChallengeCreate from './ChallengeCreate';
-import ChallengeList from './ChallengeList';
+import ChallengeOne from './ChallengeOne';
+import { DataService } from '../../config/dataService/dataService';
 import { PageHeader } from '../../components/page-headers/page-headers';
 import { Button } from '../../components/buttons/buttons';
 
@@ -19,6 +20,26 @@ function Challenge() {
     visible: false,
     categoryActive: 'all',
   });
+  const [challenges, setchallenges] = useState([]);
+
+  useEffect(() => {
+    DataService.get('/challenge').then(function (response) {
+      setchallenges(response.data.data);
+      console.log(response.data.data);
+      console.log(response.status);
+      console.log(response.config.headers.Author);
+    });
+  }, []);
+
+  useEffect(() => {
+    DataService.post('/challenge').then(function (response) {
+      setchallenges(response.data.data);
+      console.log(response.data.data);
+      console.log(response.status);
+      console.log(response.config.headers.Author);
+    });
+  }, []);
+
   const { visible } = state;
   const showModal = () => {
     setState({
@@ -69,7 +90,14 @@ function Challenge() {
             ]}
           />
         </ProjectHeader>
-        <ChallengeList />
+        <div className="challenge-slider-title">
+          <h4>현재 진행중인 챌린지</h4>
+        </div>
+        <div className="challengeList" style={{ display: 'flex', flexWrap: 'wrap', flexDirection: 'row' }}>
+          {challenges.map((data) => (
+            <ChallengeOne challenge={data} />
+          ))}
+        </div>
         <ChallengeCreate onCancel={onCancel} visible={visible} />
       </div>
     </>
