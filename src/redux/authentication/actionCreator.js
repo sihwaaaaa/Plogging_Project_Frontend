@@ -17,6 +17,8 @@ const login = (values, callback) => {
       } else {
         Cookies.set('ACCESS_TOKEN', response.data.token);
         Cookies.set('logedIn', true);
+        Cookies.set('userId', response.data.userId)
+        Cookies.set('memberNo', response.data.memberNo)
         dispatch(loginSuccess(true));
         callback();
       }

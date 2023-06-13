@@ -6,7 +6,7 @@ const Index = lazy(() => import('../../container/pages/index'));
 const Board = lazy(() => import('../../container/pages/board'));
 const Challenge = lazy(() => import('../../container/pages/challenge'));
 const Profile = lazy(() => import('../../container/pages/profile'));
-const Friend = lazy(() => import('../../container/pages/friend'));
+const Friend = lazy(() => import('../../container/pages/friends'));
 const Reward = lazy(() => import('../../container/pages/reward'));
 // const ChallengeCreate = lazy(() => import('../../container/pages/ChallengeCreate'));
 
