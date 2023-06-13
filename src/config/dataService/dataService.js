@@ -13,6 +13,9 @@ const client = axios.create({
     Authorization: `Bearer ${getItem('access_token')}`,
     'Content-Type': 'application/json',
   },
+  responseType: 'json',
+  responseEncoding: 'utf-8',
+  withCredentials: true
 });
 
 class DataService {
@@ -37,17 +40,28 @@ class DataService {
     return client({
       method: 'PATCH',
       url: path,
-      data: JSON.stringify(data),
+      data: JSON.stringify(data.data),
       headers: { ...authHeader() },
     });
   }
 
   static put(path = '', data = {}) {
+    console.log(data)
+    console.log(JSON.stringify(data))
     return client({
       method: 'PUT',
       url: path,
-      data: JSON.stringify(data),
+      data: JSON.stringify(data.data),
       headers: { ...authHeader() },
+    });
+  }
+
+  static delete(path = '', data = {}) {
+    return client({
+      method: 'DELETE',
+      url: path,
+      data: JSON.stringify(data.data),
+      headers: {...authHeader()},
     });
   }
 }
@@ -61,7 +75,8 @@ client.interceptors.request.use((config) => {
   // For example tag along the bearer access token to request header or set a cookie
   const requestConfig = config;
   const { headers } = config;
-  requestConfig.headers = { ...headers, Authorization: `Bearer ${getItem('access_token')}` };
+  requestConfig.headers = { ...headers, Authorization: `Bearer ${getItem('access_token')}`
+    , userId: `${getItem('userId')}`};
 
   return requestConfig;
 });
