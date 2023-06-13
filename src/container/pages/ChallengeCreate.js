@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { Form, Input, Select, Col, Row, DatePicker } from 'antd';
+import { Form, Input, Select, Col, Row, DatePicker, message } from 'antd';
 import propTypes from 'prop-types';
+import Dragger from 'antd/lib/upload/Dragger';
 import { Button } from '../../components/buttons/buttons';
 import { Modal } from '../../components/modals/antd-modals';
-import { CheckboxGroup } from '../../components/checkbox/checkbox';
 import { BasicFormWrapper } from '../styled';
+import { Cards } from '../../components/cards/frame/cards-frame';
 
 const { Option } = Select;
 const dateFormat = 'MM/DD/YYYY';
@@ -37,34 +38,31 @@ function ChallengeCreate({ visible, onCancel }) {
   const handleCancel = () => {
     onCancel();
   };
-
-  const options = [
-    {
-      label: 'Privet',
-      value: 'privet',
+  const props = {
+    name: 'file',
+    multiple: true,
+    action: 'https://www.mocky.io/v2/5cc8019d300000980a055e76',
+    onChange(info) {
+      const { status } = info.file;
+      if (status === 'done') {
+        message.success(`${info.file.name} file uploaded successfully.`);
+      } else if (status === 'error') {
+        message.error(`${info.file.name} file upload failed.`);
+      }
     },
-    {
-      label: 'Team',
-      value: 'team',
-    },
-    {
-      label: 'Public',
-      value: 'public',
-    },
-  ];
-
+  };
   return (
     <Modal
       type={state.modalType}
-      title="Create Project"
+      title="챌린지 생성"
       visible={state.visible}
       footer={[
         <div key="1" className="project-modal-footer">
           <Button size="default" type="primary" key="submit" onClick={handleOk}>
-            Add New Project
+            챌린지 만들기
           </Button>
           <Button size="default" type="white" key="back" outlined onClick={handleCancel}>
-            Cancel
+            취소
           </Button>
         </div>,
       ]}
@@ -74,43 +72,41 @@ function ChallengeCreate({ visible, onCancel }) {
         <BasicFormWrapper>
           <Form form={form} name="createProject" onFinish={handleOk}>
             <Form.Item name="project" label="">
-              <Input placeholder="Project Name" />
+              <Input placeholder="챌린지 이름*" />
             </Form.Item>
             <Form.Item name="category" initialValue="" label="">
               <Select style={{ width: '100%' }}>
-                <Option value="">Project Category</Option>
-                <Option value="one">Project One</Option>
-                <Option value="two">Project Two</Option>
+                <Option value="">공개여부*</Option>
+                <Option value="one">공개 챌린지</Option>
+                <Option value="two">비공개 챌린지</Option>
               </Select>
             </Form.Item>
             <Form.Item name="description" label="">
-              <Input.TextArea rows={4} placeholder="Project Description" />
+              <Input.TextArea rows={4} placeholder="챌린지 소개*" />
             </Form.Item>
-            <Form.Item name="pricacy" initialValue={['team']} label="Project Privacy">
-              <CheckboxGroup options={options} />
+
+            <Form.Item name="members" label="챌린지 인원수*">
+              <Input placeholder="최소2명에서 10명까지 설정가능합니다" />
             </Form.Item>
-            <Form.Item name="members" label="Project Members">
-              <Input placeholder="Search Members" />
-            </Form.Item>
-            <div className="projects-members mb-30">
-              {/* <img style={{ width: '35px' }} src={require(`../../../static/img/users/1.png`)} alt="" />
-              <img style={{ width: '35px' }} src={require(`../../../static/img/users/2.png`)} alt="" />
-              <img style={{ width: '35px' }} src={require(`../../../static/img/users/3.png`)} alt="" />
-              <img style={{ width: '35px' }} src={require(`../../../static/img/users/4.png`)} alt="" />
-              <img style={{ width: '35px' }} src={require(`../../../static/img/users/5.png`)} alt="" /> */}
-            </div>
             <Row gutter={15}>
               <Col md={12} xs={24}>
-                <Form.Item name="start" label="Start Date">
+                <Form.Item name="start" label="챌린지 시작날짜*">
                   <DatePicker placeholder="mm/dd/yyyy" format={dateFormat} />
                 </Form.Item>
               </Col>
               <Col md={12} xs={24}>
-                <Form.Item name="end" label="End Date">
+                <Form.Item name="end" label="챌린지 모집 마감날짜*">
                   <DatePicker placeholder="mm/dd/yyyy" format={dateFormat} />
                 </Form.Item>
               </Col>
             </Row>
+            <Cards title="챌린지 사진" className="mb-25">
+              <div className="ninjadash_uploader-list">
+                <Dragger {...props}>
+                  <p className="ant-upload-text">사진을 업로드 해주세요!</p>
+                </Dragger>
+              </div>
+            </Cards>
           </Form>
         </BasicFormWrapper>
       </div>

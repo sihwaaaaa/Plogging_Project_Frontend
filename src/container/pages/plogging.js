@@ -1,10 +1,8 @@
-import React, { useEffect } from 'react';
-// import { Row, Col } from 'antd';
+import React, { useEffect, useState } from 'react';
 import { PageHeader } from '../../components/page-headers/page-headers';
 import useGeolocation from '../../utility/plogging/useGeolocation';
+import axios from 'axios';
 
-// import { Main } from '../styled';
-// import { Cards } from '../../components/cards/frame/cards-frame';
 const { Tmapv2 } = window;
 
 const geolocationOptions = {
@@ -12,7 +10,23 @@ const geolocationOptions = {
   timeout: 1000 * 60 * 1, // 1 min (1000 ms * 60 sec * 1 minute = 60 000ms)
   maximumAge: 1000 * 3600 * 24, // 24 hour
 };
+
 const plogging = () => {
+  const [mapList, setMapList] = useState(null);
+
+  function getMapList() {
+    axios
+      .get('http://localhost:8080/plogging')
+      .then(function (response) {
+        setMapList(response.data);
+      })
+      .catch(function (error) {
+        console.log('실패');
+        // 오류발생시 실행
+      })
+      .then(function () {});
+  }
+
   const { location, error } = useGeolocation(geolocationOptions);
 
   useEffect(() => {
@@ -49,6 +63,8 @@ const plogging = () => {
     <>
       <PageHeader className="ninjadash-page-header-main" title="플로깅하기" routes={ploggingPage} />
       <div id="map_div" />
+      <button onClick={getMapList}>불러오기</button>
+      <div>{mapList && mapList.map((item) => <li key={item.mapNo}>{item.courseName}</li>)}</div>
       {/* <Main>
         <Row gutter={25}>
           <Col sm={24} xs={24}>

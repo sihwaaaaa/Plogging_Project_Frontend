@@ -9,11 +9,16 @@ const login = (values, callback) => {
     dispatch(loginBegin());
     try {
       const response = await DataService.post('/member/signin', values);
+      if (response.data.token) {
+        localStorage.setItem('ACCESS_TOKEN', response.token);
+      }
       if (response.data.errors) {
         dispatch(loginErr(response.data.errors));
       } else {
-        Cookies.set('access_token', response.data.token);
+        Cookies.set('ACCESS_TOKEN', response.data.token);
         Cookies.set('logedIn', true);
+        Cookies.set('userId', response.data.userId)
+        Cookies.set('memberNo', response.data.memberNo)
         dispatch(loginSuccess(true));
         callback();
       }
@@ -44,7 +49,7 @@ const logOut = (callback) => {
     dispatch(logoutBegin());
     try {
       Cookies.remove('logedIn');
-      Cookies.remove('access_token');
+      Cookies.remove('ACCESS_TOKEN');
       dispatch(logoutSuccess(false));
       callback();
     } catch (err) {
