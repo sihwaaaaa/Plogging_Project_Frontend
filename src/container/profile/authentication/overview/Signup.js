@@ -36,13 +36,12 @@ function SignUp() {
   const [isPopUpOpen, setIsPopUpOpen] = useState(false);
   // const [text, setText] = useState('');
 
-  // const handleAuthEmail = () => {
-  //   const emailVal = document.getElementById()
-  //   let codeInput = document.getElementById('authCode');
-  //   console.log(codeInput.getAttribute);
-  //   email
-  //     dispatch(email (codeInput.value) => );
-  // }
+  const handleAuthEmail = () => {
+    const emailVal = document.getElementById('email').value;
+    document.getElementById('authCode').type = "text";
+    emailAuth(emailVal);
+    // console.log(codeInput.getAttribute);
+  }
 
   const handleComplete = (data) => {
     let fullAddress = data.address;

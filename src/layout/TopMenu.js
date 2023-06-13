@@ -1,10 +1,13 @@
+/* eslint-disable no-restricted-globals */
 import React, { useLayoutEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Avatar } from 'antd';
 import { UserOutlined } from '@ant-design/icons';
+import { useDispatch } from 'react-redux';
 import { TopMenuStyle } from './Style';
 import { Dropdown } from '../components/dropdown/dropdown';
 import { AvatarWraperStyle } from '../container/ui-elements/ui-elements-styled';
+import { logOut } from '../redux/authentication/actionCreator';
 
 function TopMenu() {
   // const path  = '/admin';
@@ -25,6 +28,13 @@ function TopMenu() {
     return () => window.removeEventListener('load', activeDefault);
   }, []);
 
+  const dispatch = useDispatch();
+  // const navigate = useNavigate();
+
+  const handleLogout = () => {
+    dispatch(logOut(() => history('/')));
+  };
+
   const togetherTab = (
     <>
       <Link to="board">
@@ -44,7 +54,7 @@ function TopMenu() {
       <Link to="friend">
         <span>플친 / 채팅</span>
       </Link>
-      <Link to="#">
+      <Link to="/" onClick={handleLogout}>
         <span>로그아웃</span>
       </Link>
     </>
