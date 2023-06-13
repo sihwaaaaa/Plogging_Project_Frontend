@@ -1,45 +1,48 @@
+/* eslint-disable import/named */
+/* eslint-disable no-restricted-globals */
+/* eslint-disable prettier/prettier */
 import React, { useState } from 'react';
 import ReactDOM from 'react-dom';
 import { Link } from 'react-router-dom';
-import { Row, Col, Form, Input, Button } from 'antd';
+import { Row, Col, Form, Input, Button} from 'antd';
 import { useDispatch } from 'react-redux';
 // import { Option } from 'antd/lib/mentions';
 import DaumPostcode from 'react-daum-postcode';
 import FormItemLabel from 'antd/es/form/FormItemLabel';
 import { AuthFormWrap } from './style';
-// import { Checkbox, CheckboxGroup } from '../../../../components/checkbox/checkbox';
-import { register } from '../../../../redux/authentication/actionCreator';
+import { register, emailAuth } from '../../../../redux/authentication/actionCreator';
 // import FormItemLabel from 'antd/es/form/FormItemLabel';
 
-const PopUpDom = ({ children }) => {
-  const element1 = document.getElementById('popUpDom');
+
+/**
+ * 
+ * @param {*} param0 
+ * @returns 
+ */
+const PopUpDom = ({children}) => {
+  const element1 = document.getElementById("popUpDom");
   return ReactDOM.createPortal(children, element1);
-};
+}
+
+
+
+
 
 function SignUp() {
-  // 지금 있는 값 또는 체크를 한번에 관리하겠다는 의도
-  // 성별 관리
-  // const [isGender, setIsGender] = useState({
-  //   male: false,
-  //   female: false,
-  // });
-  // // 회원 아이디
-  // const [userId, setUserId] = useState('');
-  // // 비밀번호
-  // const [password, setPassword] = useState('');
-  // // 닉네임
-  // const [nickName, setNickName] = useState('');
-  // // 이름
-  // const [userName, setUserName] = useState('');
-  // const handleAuthEmail = () => {
-
-  // }
-  // 주소 state
-  // const [openPostCode, setOpenPostCode] = React.useState<boolean>(false);
-
   const dispatch = useDispatch();
 
+  // 주소 state
+  // const [openPostCode, setOpenPostCode] = React.useState<boolean>(false);
   const [isPopUpOpen, setIsPopUpOpen] = useState(false);
+  // const [text, setText] = useState('');
+
+  // const handleAuthEmail = () => {
+  //   const emailVal = document.getElementById()
+  //   let codeInput = document.getElementById('authCode');
+  //   console.log(codeInput.getAttribute);
+  //   email
+  //     dispatch(email (codeInput.value) => );
+  // }
 
   const handleComplete = (data) => {
     let fullAddress = data.address;
@@ -56,16 +59,32 @@ function SignUp() {
     }
     const addressDom = document.getElementById('address');
     addressDom.value = fullAddress;
-    // console.log(fullAddress); // e.g. '서울 성동구 왕십리로2길 20 (성수동1가)'
+    console.log(fullAddress); // e.g. '서울 성동구 왕십리로2길 20 (성수동1가)'
   };
-  const popUpOpen = () => {
-    // console.log(e);
+ 
+  const popUpOpen = (e) => {
+    console.log(e);
     setIsPopUpOpen(true);
-  };
+  }
 
   const popUpClose = () => {
     setIsPopUpOpen(false);
-  };
+  }
+
+  // 지금 있는 값 또는 체크를 한번에 관리하겠다는 의도
+  // 성별 관리
+  // const [isGender, setIsGender] = useState({
+  //   male: false,
+  //   female: false,
+  // });
+  // // 회원 아이디
+  // const [userId, setUserId] = useState('');
+  // // 비밀번호
+  // const [password, setPassword] = useState('');
+  // // 닉네임
+  // const [nickName, setNickName] = useState('');
+  // // 이름
+  // const [userName, setUserName] = useState('');
 
   // 생년월일
   const now = new Date();
@@ -110,29 +129,37 @@ function SignUp() {
   //   setIsPopUpOpen(true);
   // }
   const handleGender = (e) => {
-    // console.log(e.target.value);
+    console.log(e.target.value);
     setGender({
       selectValue: e.target.value,
     });
   };
+
+  const handleAuthEmail = () => {
+    const emailVal = document.getElementById("email").value;
+    if (emailVal !== null) {
+      document.getElementById("authCode").type = "text";
+      emailAuth(emailVal);
+    }
+    
+  }
+  
   // Submit 했을 시에 값 등록
   const handleSubmit = (e) => {
-    const { userId, password, nickName, userName, email, address } = e;
+    const { userId, password, nickName, userName, email, address} = e
     // const objValue = useState({
     //   userId, password, nickName, userName, email, gender, birth
     // });
-    dispatch(
-      register({
-        userId,
-        password,
-        nickName,
-        userName,
-        email,
-        gender: gender.selectValue,
-        birth: birth.year + birth.month + birth.day,
-        address,
-      }),
-    );
+    dispatch(register({
+      userId,
+      password,
+      nickName,
+      userName,
+      email,
+      gender: gender.selectValue,
+      birth: birth.year + birth.month + birth.day,
+      address
+    }));
   };
 
   // const onChange = (checked) => {
@@ -204,21 +231,22 @@ function SignUp() {
               <Form.Item label="성별" name="gender">
                 <FormItemLabel htmlFor="male">남자</FormItemLabel>
                 <Input
-                  type="radio"
-                  id="male"
-                  value="남자"
-                  checked={gender.selectValue === '남자'}
-                  onChange={handleGender}
+                    type='radio'
+                    id="male"
+                    value="남자"
+                    checked={gender.selectValue === '남자'}
+                    onChange={handleGender}
                 />
-                <FormItemLabel htmlFor="female">여자</FormItemLabel>
-                <Input
-                  type="radio"
-                  id="female"
-                  value="여자"
-                  checked={gender.selectValue === '여자'}
-                  onChange={handleGender}
-                />
+                <FormItemLabel htmlFor='female'>여자</FormItemLabel>
+                  <Input
+                    type='radio'
+                    id="female"
+                    value="여자"
+                    checked={gender.selectValue === '여자'}
+                    onChange={handleGender}
+                  />
               </Form.Item>
+              
               <Form.Item
                 label="생년월일"
                 className="birth-form"
@@ -269,20 +297,15 @@ function SignUp() {
                 <Input placeholder="주소를 입력해주세요." />
                 <Button type='button' onClick={handlePopUp}></Button>
               </Form.Item> */}
-              <Form.Item
-                className="address-form"
-                label="주소"
-                name="address"
-                rules={[{ required: true, message: '주소를 입력해주세요.' }]}
-              >
-                <Input readOnly id="address" placeholder="주소를 입력해주세요." />
-                <Button onClick={popUpOpen}>버튼</Button>
-                <div id="popUpDom">
-                  {isPopUpOpen && (
+              <Form.Item className='address-form' label="주소" name="address" rules={[{ required: true, message: '주소를 입력해주세요.' }]}>
+                  <Input readOnly id='address' placeholder="주소를 입력해주세요." />
+                  <Button onClick={popUpOpen}>버튼</Button>
+                  <div id='popUpDom'>
+                  {isPopUpOpen && 
                     <PopUpDom onClose={popUpClose}>
-                      <DaumPostcode className="modal-post" onComplete={handleComplete} />
+                      <DaumPostcode className='modal-post' onComplete={handleComplete} />
                     </PopUpDom>
-                  )}
+                  }
                 </div>
               </Form.Item>
 
@@ -306,9 +329,12 @@ function SignUp() {
                   },
                 ]}
               >
-                <Input placeholder="이메일을 입력하세요." />
-                <Button>인증</Button>
-                <Input type="hidden" id="authCode" />
+                <Input
+                  id='email'
+                  name='email'
+                  placeholder="이메일을 입력하세요." />
+                <Button onClick={handleAuthEmail}>인증</Button>
+                <Input type='hidden' id='authCode' />
               </Form.Item>
               <Form.Item>
                 <Button className="btn-create" htmlType="submit" type="primary" size="large">
