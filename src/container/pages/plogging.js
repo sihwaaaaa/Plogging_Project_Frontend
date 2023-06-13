@@ -4,6 +4,7 @@ import { DataService } from '../../config/dataService/dataService';
 import Col from 'antd/es/grid/col';
 import { Row } from 'antd';
 import routeList from './routeList';
+import { Main } from '../styled';
 
 const { Tmapv2 } = window;
 
@@ -39,7 +40,7 @@ const plogging = () => {
         {
           center: new Tmapv2.LatLng(latitude, longitude),
           width: '100%',
-          height: '750px',
+          height: '700px',
           zoom: 15,
         },
         [location],
@@ -63,14 +64,16 @@ const plogging = () => {
   });
 
   return (
-    <Row>
-      <Col span={5}>
-        <routeList mapList={mapList} />
-      </Col>
-      <Col span={19}>
-        <div id="map_div"></div>
-      </Col>
-    </Row>
+    <>
+      <Main style={{ padding: '0' }}>
+        <Row gutter={24}>
+          <Col span={6}>{mapList && mapList.map((item) => <routeList mapList={item} key={item.mapNo} />)}</Col>
+          <Col span={18}>
+            <div id="map_div"></div>
+          </Col>
+        </Row>
+      </Main>
+    </>
   );
 };
 
