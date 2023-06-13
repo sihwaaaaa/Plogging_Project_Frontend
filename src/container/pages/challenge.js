@@ -31,6 +31,15 @@ function Challenge() {
     });
   }, []);
 
+  useEffect(() => {
+    DataService.post('/challenge').then(function (response) {
+      setchallenges(response.data.data);
+      console.log(response.data.data);
+      console.log(response.status);
+      console.log(response.config.headers.Author);
+    });
+  }, []);
+
   const { visible } = state;
   const showModal = () => {
     setState({
