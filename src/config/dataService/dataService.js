@@ -46,7 +46,7 @@ class DataService {
     return client({
       method: 'PUT',
       url: path,
-      data: JSON.stringify(data),
+      data: JSON.stringify(data.data),
       headers: { ...authHeader() },
     });
   }

@@ -103,35 +103,35 @@
         }
         .ninjadash-knowledgetop__search--form{
           width: 100%;
-            .ninjadash-knowledgetop__formInner{
-              background: #f8f9fb;
-              box-shadow: 0 2px 2px #92949F30;
-              @media only screen and (max-width: 575px) {
-                box-shadow: none;
-              }
-              .ant-form-item-control-input{
+          .ninjadash-knowledgetop__formInner{
+            background: #f8f9fb;
+            box-shadow: 0 2px 2px #92949F30;
+            @media only screen and (max-width: 575px) {
+              box-shadow: none;
+            }
+            .ant-form-item-control-input{
               input{
                 position: relative;
               }
+            }
+            max-width: 800px;
+            .btn-search{
+              @media only screen and (max-width: 575px){
+                border-radius: 4px;
+                border-right: 1px solid rgb(227, 230, 239);
               }
-              max-width: 800px;
-              .btn-search{
-                @media only screen and (max-width: 575px){
-                  border-radius: 4px;
-                  border-right: 1px solid rgb(227, 230, 239);
-                }
-                position: absolute;
-                right: 0;
-                top:0;
-                color: #f8f9fb;
-                background: #227C9D;
-                border: 0;
-                &:hover{
-                  color: #00AF89;
-                  background: white;
-                }
+              position: absolute;
+              right: 0;
+              top:0;
+              color: #f8f9fb;
+              background: #227C9D;
+              border: 0;
+              &:hover{
+                color: #00AF89;
+                background: white;
               }
             }
+          }
         }
       }
     }
@@ -149,71 +149,72 @@
       font-weight: bold;
     }
   }
-  .sliderWrapper{
-    width: 90%;
-    display: flex;
-    flex-flow: row;
-    flex-wrap: wrap;
-    align-content: center;
-    justify-content: center;
-    .ploImage{
-      width: 100%;
-    }
-    .mapWrapper{
-      margin-bottom: 50px;
-      overflow: hidden;
-      border-radius: 10px;
-      width: 250px;
-      position: relative;
-      .mapHover {
-        display: none;
-        position: absolute;
-        bottom: 0;
-        right: 0;
-        .challengeInfo {
-          h4 {
-            font-weight: bold;
-            color: white;
-          }
-          width: 100%;
-          padding: 0 20px;
-          height: 100%;
-          display: flex;
-          flex-flow: column;
-          align-content: center;
-          justify-content: center;
-          flex-wrap: wrap;
-          align-items: flex-start
-        }
-      }
-      &:hover {
-        transition: .2s;
-        .mapHover{
-          width: 100%;
-          height: 60%;
-          background: #0b28328a;
-          color: white;
-          display: block;
-        }
-      }
-    }
-    .mapWrapper + .mapWrapper {
-      margin-left : 20px;
-    }
-    @media only screen and (max-width: 620px) {
-      flex-flow: column;
-      h2 {
-        padding-top: 30px;
-      }
-      .mapWrapper {
+  //style={{ display: 'flex', flexWrap: 'wrap', flexDirection: 'row' }}
+  .challengeList{
+    .sliderWrapper{
+      margin-left: 20px;
+      width: 30%;
+      display: flex;
+      flex-flow: row;
+      flex-wrap: wrap;
+      align-content: center;
+      justify-content: center;
+      .ploImage{
         width: 100%;
       }
+      .mapWrapper{
+        margin-bottom: 50px;
+        overflow: hidden;
+        border-radius: 10px;
+        width: 250px;
+        position: relative;
+        .mapHover {
+          display: none;
+          position: absolute;
+          bottom: 0;
+          right: 0;
+          .challengeInfo {
+            h4 {
+              font-weight: bold;
+              color: white;
+            }
+            width: 100%;
+            padding: 0 20px;
+            height: 100%;
+            display: flex;
+            flex-flow: column;
+            align-content: center;
+            justify-content: center;
+            flex-wrap: wrap;
+            align-items: flex-start
+          }
+        }
+        &:hover {
+          transition: .2s;
+          .mapHover{
+            width: 100%;
+            height: 60%;
+            background: #0b28328a;
+            color: white;
+            display: block;
+          }
+        }
+      }
       .mapWrapper + .mapWrapper {
-        margin-left: 0;
+        margin-left : 20px;
+      }
+      @media only screen and (max-width: 620px) {
+        flex-flow: column;
+        h2 {
+          padding-top: 30px;
+        }
+        .mapWrapper {
+          width: 100%;
+        }
+        .mapWrapper + .mapWrapper {
+          margin-left: 0;
+        }
       }
     }
-  }
-  .challengeList{
-    width: 100%;
   }
 }
