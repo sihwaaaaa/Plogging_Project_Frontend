@@ -2,6 +2,7 @@ import React, { lazy } from 'react';
 import { Routes, Route } from 'react-router-dom';
 
 const Plogging = lazy(() => import('../../container/pages/plogging'));
+const MapList = lazy(() => import('../../container/pages/mapList'));
 const Index = lazy(() => import('../../container/pages/index'));
 const Board = lazy(() => import('../../container/pages/board'));
 const Challenge = lazy(() => import('../../container/pages/challenge'));
@@ -15,6 +16,7 @@ function PagesRoute() {
     <Routes>
       <Route index element={<Index />} />
       <Route path="plogging" element={<Plogging />} />
+      <Route path="plogging/mapList/:mapNo" element={<MapList />} />
       <Route path="board" element={<Board />} />
       <Route path="challenge" element={<Challenge />} />
       <Route path="profile" element={<Profile />} />
