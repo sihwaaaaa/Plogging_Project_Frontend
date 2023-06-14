@@ -4,6 +4,7 @@ import { PageHeader } from '../../components/page-headers/page-headers';
 import { Main } from '../styled';
 import cardData from '../../demoData/sampleCards.json';
 import BlogCard from '../../components/cards/BlogCard';
+import Button from "../../components/board/Button";
 
 const { BlogCardData } = cardData;
 function Board() {
@@ -17,24 +18,9 @@ function Board() {
     <>
       <PageHeader className="ninjadash-page-header-main" title="커뮤니티" routes={boardPage} />
       <Main>
-        <Row gutter={1} className="mt-sm-10">
-          {BlogCardData.slice(1, 2).map((blog) => {
-            return (
-              <Col key={blog.id} xxl={4} xl={4} sm={4} xs={4}>
-                <BlogCard item={blog} theme="style-2" />
-              </Col>
-            );
-          })}
-        </Row>
-        <Row gutter={1} className="mt-sm-10">
-          {BlogCardData.slice(1, 2).map((blog) => {
-            return (
-              <Col key={blog.id} xxl={4} xl={4} sm={4} xs={4}>
-                <BlogCard item={blog} theme="style-2" />
-              </Col>
-            );
-          })}
-        </Row>
+        <div>
+          <Button>버튼</Button>
+        </div>
       </Main>
     </>
   );
