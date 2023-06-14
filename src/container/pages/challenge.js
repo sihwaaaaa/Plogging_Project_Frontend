@@ -28,9 +28,10 @@ function Challenge() {
       setchallenges(response.data.data);
       console.log(response.data.data);
       console.log(response.status);
-      console.log(response.config.headers.Author);
+      // console.log(response.config.headers.Author);
     });
   }, []);
+
 
   const { visible } = state;
   const showModal = () => {
