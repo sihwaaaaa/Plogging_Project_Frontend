@@ -5,11 +5,10 @@
 * */
 import React from "react";
 import Responsive from "../../components/board/Responsive";
-import Editor from "../../components/board/Editor";
 import {PageHeader} from "../../components/page-headers/page-headers";
 import {Main} from "../styled";
 import { VerticalForm } from "../forms/overview/VerticalForm";
-
+import '../../static/css/boardStyle.scss';
 
 function WritePage() {
   const boardPage = [
@@ -22,9 +21,10 @@ function WritePage() {
   return (
     <>
       <PageHeader className="ninjadash-page-header-main" title="커뮤니티" routes={boardPage} />
-      <Main>
+      <Main className="writePage">
         <Responsive>
           <VerticalForm />
+
         </Responsive>
       </Main>
     </>

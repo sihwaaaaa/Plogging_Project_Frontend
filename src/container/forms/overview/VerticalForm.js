@@ -1,9 +1,10 @@
 import React, { useState } from "react";
-import { Form, Input, Button, message } from "antd";
+import { Form, Input,  message } from "antd";
 import { VerticalFormStyleWrap } from './Style';
 import { Cards } from '../../../components/cards/frame/cards-frame';
 import { BasicFormWrapper } from '../../styled';
 import RichTextEditor from 'react-rte';
+import WriteActionButton from "../../../components/board/WriteActionButton";
 
 function VerticalForm({ onChange }) {
   const PageRoutes = [
@@ -47,12 +48,16 @@ function VerticalForm({ onChange }) {
     },
   };
 
+  const title = () => {
+
+  }
+
   return (
     <BasicFormWrapper>
       <VerticalFormStyleWrap>
         <Cards title="게시글 작성">
           <Form name="ninjadash-vertical-form" layout="vertical">
-            <Form.Item name="title" initialValue="제목을 입력해주세요" label="Title">
+            <Form.Item name="title" initialValue="제목을 입력해주세요" label="Title" value={title}>
               <Input />
             </Form.Item>
             <Form.Item name="content" initialValue="내용을 입력하세요" label="글 내용">
@@ -64,16 +69,13 @@ function VerticalForm({ onChange }) {
               <Input />
             </Form.Item>
             <div className="ninjadash-form-action">
-              <Button className="btn-signin" htmlType="submit" type="light" size="large">
-                취소
-              </Button>
-              <Button className="btn-signin" type="primary" size="large">
-                글 작성
-              </Button>
+              <WriteActionButton />
             </div>
           </Form>
+
         </Cards>
       </VerticalFormStyleWrap>
+
     </BasicFormWrapper>
   );
 }
