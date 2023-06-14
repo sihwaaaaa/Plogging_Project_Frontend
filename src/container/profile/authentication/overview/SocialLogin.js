@@ -18,7 +18,7 @@ function SocialLogin(props) {
   if (token) {
     console.log(`로컬 스토리지에 토큰 저장${token}`);
     localStorage.setItem('ACCESS_TOKEN', token);
-    dispatch(actions.loginSuccess());
+    dispatch(actions.loginSuccess(true));
     return (
       <Navigate
         to={{

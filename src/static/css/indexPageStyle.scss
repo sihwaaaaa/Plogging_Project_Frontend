@@ -27,6 +27,7 @@
   align-items: center;
   justify-content: center;
   .container {
+    background: #227C9D;
     max-width: 800px;
     display: flex;
     justify-content: center;
@@ -98,7 +99,7 @@
       .ninjadash-knowledgetop{
         background: #f8f9fb;
         .ninjadash-knowledgetop__title{
-          color: #0eb24c;
+          color: #227C9D;
           font-size: 27px;
         }
         .ninjadash-knowledgetop__search--form{
@@ -123,8 +124,8 @@
                 position: absolute;
                 right: 0;
                 top:0;
-                color: #002920;
-                background: #FEF9EF;
+                color: #f8f9fb;
+                background: #227C9D;
                 border: 0;
                 &:hover{
                   color: #00AF89;
@@ -137,7 +138,7 @@
     }
   }
   .createChallenge{
-    background-color: #0eb24c;
+    background-color: #17C382;
     color: #f8f9fb;
   }
   .challenge-slider-title {
@@ -165,7 +166,6 @@
       border-radius: 10px;
       width: 250px;
       position: relative;
-      z-index: 2000000;
       .mapHover {
         display: none;
         position: absolute;
@@ -213,5 +213,8 @@
         margin-left: 0;
       }
     }
+  }
+  .challengeList{
+    width: 100%;
   }
 }

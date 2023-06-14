@@ -1,21 +1,39 @@
-import React, { useState } from 'react';
+/* eslint-disable import/named */
+import React, { useEffect, useState } from 'react';
 import { Form, Input } from 'antd';
+import { useSelector } from 'react-redux';
 import FontAwesome from 'react-fontawesome';
-import '../../static/css/indexPageStyle.scss';
+import '../../static/css/ChallengeStyle.scss';
 import UilPlus from '@iconscout/react-unicons/icons/uil-plus';
 import { ProjectHeader } from './ChallengeStyle';
 import { KnowledgebaseTopWrap } from './knowledgeBase/style';
 import ChallengeCreate from './ChallengeCreate';
+import ChallengeOne from './ChallengeOne';
+import { DataService } from '../../config/dataService/dataService';
 import { PageHeader } from '../../components/page-headers/page-headers';
 import { Button } from '../../components/buttons/buttons';
-import ploggingImage from '../../static/img/ploggingImage.png';
 
 function Challenge() {
+  const searchData = useSelector((state) => state.headerSearchData);
   const [state, setState] = useState({
-    visible: true,
+    notData: searchData,
+    visible: false,
     categoryActive: 'all',
   });
+  const [challenges, setchallenges] = useState([]);
+  const [challengeCreate, setChallengeCreate] = useState();
 
+  useEffect(() => {
+    DataService.get('/challenge').then(function (response) {
+      setchallenges(response.data.data);
+      console.log(response.data.data);
+      console.log(response.status);
+      // console.log(response.config.headers.Author);
+    });
+  }, []);
+
+
+  const { visible } = state;
   const showModal = () => {
     setState({
       ...state,
@@ -52,11 +70,7 @@ function Challenge() {
             </KnowledgebaseTopWrap>
           </div>
         </div>
-        {/* <Link to="callengeCreate">
-          <Button className="create-Challenge" htmlType="submit" size="large">
-            챌린지만들기!
-          </Button>
-        </Link> */}
+        {/* <Modals /> */}
         <ProjectHeader>
           <PageHeader
             className="ninjadash-page-header-main"
@@ -72,73 +86,12 @@ function Challenge() {
         <div className="challenge-slider-title">
           <h4>현재 진행중인 챌린지</h4>
         </div>
-        <div className="sliderWrapper">
-          <div className="mapWrapper">
-            {/* <GoogleMaps latitude="55.797897" longitude="-1.077641" /> */}
-            <img src={ploggingImage} alt="Logo" className="ploImage" />
-            <div className="mapHover">
-              <div className="challengeInfo">
-                <h4>한강 떡잎방범대</h4>
-                <span>
-                  요즘 날씨 한강 걷기 좋아요!
-                  <br />
-                  **매주 수요일 저녁 7시
-                  <br />
-                  고속터미널역 8번 출구**
-                </span>
-              </div>
-            </div>
-          </div>
-          <div className="mapWrapper">
-            {/* <GoogleMaps latitude="55.797897" longitude="-1.077641" /> */}
-            <img src={ploggingImage} alt="Logo" className="ploImage" />
-            <div className="mapHover">
-              <div className="challengeInfo">
-                <h4>한강 떡잎방범대</h4>
-                <span>
-                  요즘 날씨 한강 걷기 좋아요!
-                  <br />
-                  **매주 수요일 저녁 7시
-                  <br />
-                  고속터미널역 8번 출구**
-                </span>
-              </div>
-            </div>
-          </div>
-          <div className="mapWrapper">
-            {/* <GoogleMaps latitude="55.797897" longitude="-1.077641" /> */}
-            <img src={ploggingImage} alt="Logo" className="ploImage" />
-            <div className="mapHover">
-              <div className="challengeInfo">
-                <h4>한강 떡잎방범대</h4>
-                <span>
-                  요즘 날씨 한강 걷기 좋아요!
-                  <br />
-                  **매주 수요일 저녁 7시
-                  <br />
-                  고속터미널역 8번 출구**
-                </span>
-              </div>
-            </div>
-          </div>
-          <div className="mapWrapper">
-            {/* <GoogleMaps latitude="55.797897" longitude="-1.077641" /> */}
-            <img src={ploggingImage} alt="Logo" className="ploImage" />
-            <div className="mapHover">
-              <div className="challengeInfo">
-                <h4>한강 떡잎방범대</h4>
-                <span>
-                  요즘 날씨 한강 걷기 좋아요!
-                  <br />
-                  **매주 수요일 저녁 7시
-                  <br />
-                  고속터미널역 8번 출구**
-                </span>
-              </div>
-            </div>
-          </div>
+        <div className="challengeList" style={{ display: 'flex', flexWrap: 'wrap', flexDirection: 'row' }}>
+          {challenges.map((data) => (
+            <ChallengeOne challenge={data} />
+          ))}
         </div>
-        <ChallengeCreate onCancel={onCancel} />
+        <ChallengeCreate onCancel={onCancel} visible={visible} />
       </div>
     </>
   );

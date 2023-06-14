@@ -1,7 +1,7 @@
 import Cookies from 'js-cookie';
 import actions from './actions';
 
-const { LOGIN_BEGIN, LOGIN_SUCCESS, LOGIN_ERR, LOGOUT_BEGIN, LOGOUT_SUCCESS, LOGOUT_ERR } = actions;
+const { LOGIN_BEGIN, LOGIN_SUCCESS, LOGIN_ERR, LOGOUT_BEGIN, LOGOUT_SUCCESS, LOGOUT_ERR, EMAILCONFIRM_BEGIN, EMAILCONFIRM_SUCCESS, EMAILCONFIRM_ERR } = actions;
 
 const initState = {
   login: Cookies.get('logedIn'),
@@ -45,6 +45,23 @@ const AuthReducer = (state = initState, action) => {
         loading: false,
       };
     case LOGOUT_ERR:
+      return {
+        ...state,
+        error: err,
+        loading: false,
+      };
+    case EMAILCONFIRM_BEGIN:
+      return {
+        ...state,
+        loading: true,
+      };
+    case EMAILCONFIRM_SUCCESS:
+      return {
+        ...state,
+        login: data,
+        loading: false,
+      };
+    case EMAILCONFIRM_ERR:
       return {
         ...state,
         error: err,

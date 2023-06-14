@@ -1,10 +1,11 @@
-import React, { useEffect } from 'react';
-// import { Row, Col } from 'antd';
-import { PageHeader } from '../../components/page-headers/page-headers';
+import React, { useEffect, useState } from 'react';
 import useGeolocation from '../../utility/plogging/useGeolocation';
+import { DataService } from '../../config/dataService/dataService';
+import Col from 'antd/es/grid/col';
+import { Row } from 'antd';
+import routeList from './routeList';
+import { Main } from '../styled';
 
-// import { Main } from '../styled';
-// import { Cards } from '../../components/cards/frame/cards-frame';
 const { Tmapv2 } = window;
 
 const geolocationOptions = {
@@ -12,7 +13,20 @@ const geolocationOptions = {
   timeout: 1000 * 60 * 1, // 1 min (1000 ms * 60 sec * 1 minute = 60 000ms)
   maximumAge: 1000 * 3600 * 24, // 24 hour
 };
+
 const plogging = () => {
+  const [mapList, setMapList] = useState(null);
+
+  function getMapList() {
+    DataService.get('/plogging')
+      .then(function (response) {
+        setMapList(response.data);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  }
+
   const { location, error } = useGeolocation(geolocationOptions);
 
   useEffect(() => {
@@ -26,7 +40,7 @@ const plogging = () => {
         {
           center: new Tmapv2.LatLng(latitude, longitude),
           width: '100%',
-          height: '500px',
+          height: '700px',
           zoom: 15,
         },
         [location],
@@ -34,30 +48,31 @@ const plogging = () => {
       const marker = new Tmapv2.Marker({
         position: new Tmapv2.LatLng(latitude, longitude),
         icon: 'http://tmapapi.sktelecom.com/resources/images/common/pin_car.png',
-        map: map,
+        map,
       });
-      console.log(marker);
+
+      // const content = '<div>' + '    <button>' + '        시작하기';
+      // '    </button>' + '</div>';
+      // const infoWindow = new Tmapv2.InfoWindow({
+      //   position: new Tmapv2.LatLng(latitude, longitude), //Popup 이 표출될 맵 좌표
+      //   content: content, //Popup 표시될 text
+      //   type: 2, //Popup의 type 설정.
+      //   map: map, //Popup이 표시될 맵 객체
+      //   align: Tmapv2.InfoWindowOptions.ALIGN_LEFTBOTTOM,
+      // });
     }
   });
-  const ploggingPage = [
-    {
-      path: '',
-      breadcrumbName: '플로깅하기',
-    },
-  ];
+
   return (
     <>
-      <PageHeader className="ninjadash-page-header-main" title="플로깅하기" routes={ploggingPage} />
-      <div id="map_div" />
-      {/* <Main>
-        <Row gutter={25}>
-          <Col sm={24} xs={24}>
-            <Cards headless>
-              <h3>플로깅 페이지</h3>
-            </Cards>
+      <Main style={{ padding: '0' }}>
+        <Row gutter={24}>
+          <Col span={6}>{mapList && mapList.map((item) => <routeList mapList={item} key={item.mapNo} />)}</Col>
+          <Col span={18}>
+            <div id="map_div"></div>
           </Col>
         </Row>
-      </Main> */}
+      </Main>
     </>
   );
 };
