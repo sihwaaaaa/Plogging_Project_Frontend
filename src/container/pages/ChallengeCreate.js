@@ -19,6 +19,19 @@ function ChallengeCreate({ visible, onCancel }) {
     checked: [],
   });
 
+
+
+  const createChallenge = (data) => {
+    DataService.post('/challenge', { data })
+        .then((response) => {
+          // setchallenges(response.data.data);
+          console.log(response.data.data);
+          console.log(response.status);
+          console.log(response.config.headers.Author);
+        });
+  }
+
+
   useEffect(() => {
     let unmounted = false;
     if (!unmounted) {
@@ -58,7 +71,7 @@ function ChallengeCreate({ visible, onCancel }) {
       visible={state.visible}
       footer={[
         <div key="1" className="project-modal-footer">
-          <Button size="default" type="primary" key="submit" onClick={handleOk}>
+          <Button size="default" type="primary" key="submit" onClick={createChallenge}>
             챌린지 만들기
           </Button>
           <Button size="default" type="white" key="back" outlined onClick={handleCancel}>
@@ -73,33 +86,31 @@ function ChallengeCreate({ visible, onCancel }) {
           <Form form={form} name="createProject" onFinish={handleOk}>
             <Form.Item name="project" label="">
               <Input
-                name="title"
                 rules={[{ max: 20, min: 5, message: '20자 이내로 적어주세요' }]}
                 placeholder="챌린지 이름*"
               />
             </Form.Item>
             <Form.Item name="category" initialValue="" label="">
-              <Select style={{ width: '100%' }}>
-                <Option value="">공개여부*</Option>
-                <Option value="one">공개 챌린지</Option>
-                <Option value="two">비공개 챌린지</Option>
+              <Select style={{ width: '100%' }} >
+                <Option value="">공개 챌린지</Option>
+                <Option value="one">비공개 챌린지</Option>
               </Select>
             </Form.Item>
-            <Form.Item name="description" label="">
-              <Input.TextArea rows={4} placeholder="챌린지 소개*" />
+            <Form.Item label="">
+              <Input.TextArea rows={4} placeholder="챌린지 소개*"  />
             </Form.Item>
 
-            <Form.Item name="members" label="챌린지 인원수*">
+            <Form.Item name="personnel" label="챌린지 인원수*">
               <Input placeholder="최소2명에서 10명까지 설정가능합니다" />
             </Form.Item>
             <Row gutter={15}>
               <Col md={12} xs={24}>
-                <Form.Item name="start" label="챌린지 시작날짜*">
+                <Form.Item name="startDate" label="챌린지 시작날짜*">
                   <DatePicker placeholder="mm/dd/yyyy" format={dateFormat} />
                 </Form.Item>
               </Col>
               <Col md={12} xs={24}>
-                <Form.Item name="end" label="챌린지 모집 마감날짜*">
+                <Form.Item name="endDate" label="챌린지 모집 마감날짜*">
                   <DatePicker placeholder="mm/dd/yyyy" format={dateFormat} />
                 </Form.Item>
               </Col>
