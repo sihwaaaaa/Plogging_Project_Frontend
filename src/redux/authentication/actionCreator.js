@@ -9,12 +9,12 @@ const login = (values, callback) => {
     dispatch(loginBegin());
     try {
       const response = await DataService.post('/member/signin', values);
-      if (response.data.token) {
-        localStorage.setItem('ACCESS_TOKEN', response.token);
-      }
       if (response.data.errors) {
         dispatch(loginErr(response.data.errors));
       } else {
+        console.log("actionCreator 반환값 테스트!!!" + response)
+        console.log(response.data)
+        console.log(response.data.token)
         Cookies.set('ACCESS_TOKEN', response.data.token);
         Cookies.set('logedIn', true);
         Cookies.set('userId', response.data.userId)
