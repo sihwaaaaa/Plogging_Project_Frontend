@@ -1,5 +1,5 @@
 // import React, { useState } from 'react';
-import ploggingImage from '../../static/img/ploggingImage.png';
+import ploggingImage from '../../static/img/ploggingImage2.png';
 import '../../static/css/ChallengeStyle.scss';
 
 function ChallengeList(props) {

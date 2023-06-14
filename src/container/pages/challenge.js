@@ -21,7 +21,6 @@ function Challenge() {
     categoryActive: 'all',
   });
   const [challenges, setchallenges] = useState([]);
-  const [challengeCreate, setChallengeCreate] = useState();
 
   useEffect(() => {
     DataService.get('/challenge').then(function (response) {
