@@ -1,0 +1,24 @@
+
+Rjavascript:S1128"*Remove this unused import of 'PageHeader'.(½£¬ýÿÿÿÿ8§¸½í‹1
+Tjavascript:S1128",Remove this unused import of 'BoardListOne'.(ýÿøèÿÿÿÿÿ8§¸½í‹1
+?javascript:S3863"'antd' import is duplicated.(ŸòçÌ8§¸½í‹1
+bjavascript:S1481":Remove the declaration of the unused 'boardPage' variable.(êÈ½Äÿÿÿÿÿ8§¸½í‹1
+_javascript:S1854"7Remove this useless assignment to variable "boardPage".(êÈ½Äÿÿÿÿÿ8§¸½í‹1
+^javascript:S1481"6Remove the declaration of the unused 'state' variable.(©¸Ãýÿÿÿÿ8§¸½í‹1
+[javascript:S1854"3Remove this useless assignment to variable "state".(©¸Ãýÿÿÿÿ8§¸½í‹1
+ajavascript:S1481"9Remove the declaration of the unused 'setState' variable.(©¸Ãýÿÿÿÿ8§¸½í‹1
+^javascript:S1854"6Remove this useless assignment to variable "setState".(©¸Ãýÿÿÿÿ8§¸½í‹1
+Zjavascript:S1481"7Remove the declaration of the unused 'status' variable.(Ù™Ú„8§¸½í‹1
+Wjavascript:S1854"4Remove this useless assignment to variable "status".(Ù™Ú„8§¸½í‹1
+]javascript:S1481":Remove the declaration of the unused 'setStatus' variable.(Ù™Ú„8§¸½í‹1
+Zjavascript:S1854"7Remove this useless assignment to variable "setStatus".(Ù™Ú„8§¸½í‹1
+Yjavascript:S1481"7Remove the declaration of the unused 'userId' variable.(èŠs8§¸½í‹1
+Vjavascript:S1854"4Remove this useless assignment to variable "userId".(èŠs8§¸½í‹1
+\javascript:S1481 "9Remove the declaration of the unused 'memberNo' variable.(¨Òßî8§¸½í‹1
+Yjavascript:S1854 "6Remove this useless assignment to variable "memberNo".(¨Òßî8§¸½í‹1
+cjavascript:S1481"";Remove the declaration of the unused 'boardWrite' variable.(Úä­ýúÿÿÿÿ8§¸½í‹1
+`javascript:S1854""8Remove this useless assignment to variable "boardWrite".(Úä­ýúÿÿÿÿ8§¸½í‹1
+fjavascript:S1481"">Remove the declaration of the unused 'setBoardWrite' variable.(Úä­ýúÿÿÿÿ8§¸½í‹1
+cjavascript:S1854"";Remove this useless assignment to variable "setBoardWrite".(Úä­ýúÿÿÿÿ8¨¸½í‹1
+Rjavascript:S6477a"*Missing "key" prop for element in iterator(ÿ¸¨Ùÿÿÿÿÿ8¨¸½í‹1
+Fjavascript:S125p"Remove this commented out code.(ïÎÇŠûÿÿÿÿ8¨¸½í‹1
