@@ -22,7 +22,7 @@ function SocialLogin(props) {
     return (
       <Navigate
         to={{
-          pathname: '/admin',
+          pathname: '/',
           // eslint-disable-next-line react/destructuring-assignment, react/prop-types
           state: { from: props.location },
         }}

@@ -185,7 +185,7 @@ function SignIn() {
           </div>
           <div className="ninjadash-authentication-bottom">
             <p>
-              계정이 없으신가요?<Link to="/register">회원가입</Link>
+              계정이 없으신가요?<Link to="/member/signup">회원가입</Link>
             </p>
           </div>
         </AuthFormWrap>
