@@ -21,7 +21,7 @@ function PagesRoute() {
       <Route path="plogging" element={<Plogging />} />
       <Route path="board" element={<Board />} />
       <Route path="challenge" element={<Challenge />} />
-      <Route path="profile" element={<Profile />} />
+      <Route path="/member/profile" element={<Profile />} />
       <Route path="friend" element={<Friend />} />
       <Route path="reward" element={<Reward />} />
       <Route path="write" element={<WritePage />} />

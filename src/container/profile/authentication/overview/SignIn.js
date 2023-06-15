@@ -96,7 +96,7 @@ function SignIn() {
             <h2 className="ninjadash-authentication-top__title">로그인</h2>
           </div>
           <div className="ninjadash-authentication-content">
-            <Form name="login" form={form} onFinish={handleSubmit} layout="vertical">
+            <Form method='POST' name="login" form={form} onFinish={handleSubmit} layout="vertical">
               <Form.Item
                 name="userId"
                 rules={[
@@ -167,7 +167,17 @@ function SignIn() {
               <ul className="ninjadash-social-login">
                 <li>
                   <Link onClick={() => handleSocialLogin('google')} itemType="submit">
-                    <Image srcSet="../../../../static/img/btn_google_dark_normal_ios.png" alt="" />
+                    <img src="../../../../static/img/btn_google_dark_normal_ios.png" alt="" />
+                  </Link>
+                </li>
+                <li>
+                  <Link onClick={() => handleSocialLogin('naver')} itemType="submit">
+                    <img src="../../../../static/img/btnG_아이콘원형.png" alt="" />
+                  </Link>
+                </li>
+                <li>
+                  <Link onClick={() => handleSocialLogin('kakao')} itemType="submit">
+                    <img src="../../../../static/img/btn_google_dark_normal_ios.png" alt="" />
                   </Link>
                 </li>
               </ul>
@@ -175,7 +185,7 @@ function SignIn() {
           </div>
           <div className="ninjadash-authentication-bottom">
             <p>
-              계정이 없으신가요?<Link to="/register">회원가입</Link>
+              계정이 없으신가요?<Link to="/member/signup">회원가입</Link>
             </p>
           </div>
         </AuthFormWrap>
