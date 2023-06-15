@@ -1,16 +1,16 @@
 import React, { useState, useEffect } from 'react';
-import { Form, Input, Select, Col, Row, DatePicker, message } from 'antd';
+import { Form, Input, Select, Col, Row, DatePicker, message, Checkbox } from "antd";
 import propTypes from 'prop-types';
 import Dragger from 'antd/lib/upload/Dragger';
 import { Button } from '../../components/buttons/buttons';
 import { Modal } from '../../components/modals/antd-modals';
 import { BasicFormWrapper } from '../styled';
-import { Cards } from '../../components/cards/frame/cards-frame';
 import { DataService } from "../../config/dataService/dataService";
+import { Cards } from '../../components/cards/frame/cards-frame';
+import { getItem } from "../../utility/localStorageControl";
+
 
 const { Option } = Select;
-// const dateFormat = 'YYYY/MM/DD';
-
 function ChallengeCreate({ visible, onCancel }) {
   const [form] = Form.useForm();
 
@@ -19,16 +19,27 @@ function ChallengeCreate({ visible, onCancel }) {
     modalType: 'primary',
     checked: [],
   });
+  const [modalBlock, setModalBlock] = useState({
+    visible: false,
+  });
 
   const [startDate, setStartDate] = useState(new Date())
   const [endDate, setEndDate] = useState(new Date() )
+  const [blind, setBlind] = useState(true)
 
   const [challengeCreate, setChallengeCreate] =useState({
     title: "",
-    // blind:true,
     content:"",
     personnel:2,
   })
+  const blindCheck = () => {
+    if(blind === false){
+      setBlind(true)
+    }else {
+      setBlind(false)
+    }
+    console.log(blind)
+  }
   const changeValue = (e) => {
     console.log(e);
     setChallengeCreate({
@@ -38,7 +49,7 @@ function ChallengeCreate({ visible, onCancel }) {
     console.log(e.target.value)
   }
   const startDateValue = (e,dateString) => {
-    console.log(e)
+    console.log("Date e : " + e)
     console.log(dateString)
     setStartDate({
       ...startDate,
@@ -46,23 +57,23 @@ function ChallengeCreate({ visible, onCancel }) {
     })
   }
   const endDateValue = (e,dateString) => {
-    console.log(e)
+    console.log("Date e : " + e)
     console.log(dateString)
     setEndDate({
-      ...setEndDate,
-      startDate: dateString
+      ...endDate,
+      endDate: dateString
     })
   }
-
+  let obj = Object.assign(challengeCreate,blind,startDate,endDate)
   const submitChallenge = (e) => {
     e.preventDefault(); // submit이 action을 안타고 자기 할일을 그만함
     fetch("http://localhost:8080/challenge",{
       method:"POST",
       headers: {
-        "Content-type":"application/json; charset=utf-8"
+        "Content-type":"application/json; charset=utf-8",Authorization: `Bearer ${getItem('ACCESS_TOKEN')}`
       },
-      body: JSON.stringify(challengeCreate)
-    }).then((res) => {console.log(res)});
+      body: JSON.stringify(obj)
+    }).then((res) => modalBlock);
   }
 
   useEffect(() => {
@@ -98,6 +109,7 @@ function ChallengeCreate({ visible, onCancel }) {
     },
   };
   return (
+    <>
     <Modal
       type={state.modalType}
       title="챌린지 생성"
@@ -125,12 +137,11 @@ function ChallengeCreate({ visible, onCancel }) {
                 name="title"
               />
             </Form.Item>
-            {/*<Form.Item initialValue="" label="">*/}
-            {/*  <Select style={{ width: '100%' }} onChange={changeValue} name="blind">*/}
-            {/*    <Option >공개 챌린지</Option >*/}
-            {/*    <Option >비공개 챌린지</Option>*/}
-            {/*  </Select>*/}
-            {/*</Form.Item>*/}
+            <Form.Item initialValue="" label="">
+              {/*<Select style={{ width: '100%' }} onChange={blindCheck} name="blind">*/}
+                <Checkbox onClick={blindCheck} name="blind">비공개 챌린지</Checkbox>
+              {/*</Select>*/}
+            </Form.Item>
             <Form.Item label="챌린지소개"  >
               <Input.TextArea rows={4} placeholder="챌린지 소개*" onChange={changeValue} name="content" />
             </Form.Item>
@@ -140,13 +151,13 @@ function ChallengeCreate({ visible, onCancel }) {
             </Form.Item>
             <Row gutter={15}>
               <Col md={12} xs={24}>
-                <Form.Item label="챌린지 시작날짜*">
-                  <DatePicker  placeholder="yyyy/mm/dd/" selected={startDate} onChange={startDateValue} name="startDate" />
+                <Form.Item label="챌린지 시작날짜*" name="startDate">
+                  <DatePicker  placeholder="yyyy/mm/dd/" onChange={startDateValue} name="startDate" />
                 </Form.Item>
               </Col>
               <Col md={12} xs={24}>
-                <Form.Item label="챌린지 모집 마감날짜*">
-                  <DatePicker placeholder="yyyy/mm/dd/" selected={endDate} onChange={endDateValue} name="endDate" />
+                <Form.Item label="챌린지 모집 마감날짜*" name="endDate">
+                  <DatePicker placeholder="yyyy/mm/dd/" onChange={endDateValue} name="endDate" />
                 </Form.Item>
               </Col>
             </Row>
@@ -161,7 +172,9 @@ function ChallengeCreate({ visible, onCancel }) {
         </BasicFormWrapper>
       </div>
     </Modal>
+    </>
   );
+
 }
 
 ChallengeCreate.propTypes = {

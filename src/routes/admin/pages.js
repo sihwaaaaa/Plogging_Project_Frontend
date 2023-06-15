@@ -9,8 +9,7 @@ const Profile = lazy(() => import('../../container/pages/profile'));
 const Friend = lazy(() => import('../../container/pages/friends'));
 const Reward = lazy(() => import('../../container/pages/reward'));
 const Admin = lazy(() => import('../../container/pages/admin'));
-
-// const ChallengeCreate = lazy(() => import('../../container/pages/ChallengeCreate'));
+const ChallengeDetail =  lazy(() => import('../../container/pages/ChallengeDetail'));
 
 function PagesRoute() {
   return (
@@ -23,7 +22,7 @@ function PagesRoute() {
       <Route path="friend" element={<Friend />} />
       <Route path="reward" element={<Reward />} />
       <Route path="admin" element={<Admin />} />
-      {/* <Route path="callengeCreate" element={<ChallengeCreate />} /> */}
+      <Route path="challenge/chDetail" element={<ChallengeDetail />} />
     </Routes>
   );
 }
