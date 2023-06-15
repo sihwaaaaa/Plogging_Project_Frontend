@@ -4,7 +4,14 @@ import ploggingImage3 from '../../static/img/ploggingImage3.png';
 import '../../static/css/ChallengeDetail.css';
 import { AvatarWraperStyle } from "../ui-elements/ui-elements-styled";
 import { Avatar } from "antd";
-import { UilAngleLeftB, UilAngleRightB, UilCalender, UilFire, UilGrin } from "@iconscout/react-unicons";
+import {
+  UilAngleRight,
+  UilCalender, UilDumbbell,
+  UilFire,
+  UilGrin, UilListUiAlt, UilSick,
+  UilStar,
+  UilTrees
+} from "@iconscout/react-unicons";
 import UilUsersAlt from "@iconscout/react-unicons/icons/uil-users-alt";
 import UilArrowDown from "@iconscout/react-unicons/icons/uil-arrow-down";
 // import { DingtalkOutlined, DingtalkSquareFilled } from "@ant-design/icons";
@@ -15,7 +22,7 @@ const ChallengeDetail = () => {
       <div className="challengedetail">
         <div className="detail-top">
           <AvatarWraperStyle>
-            <span className="challenge-page">챌린지 상세페이지 <Avatar icon={< UilFire />} className="challenge-icon" /></span>
+              <span className="challenge-page"><Avatar icon={< UilListUiAlt />} className="challenge-icon" /> 챌린지 상세페이지 </span>
           </AvatarWraperStyle>
         </div>
         <div className="image-title">
@@ -31,6 +38,7 @@ const ChallengeDetail = () => {
           <AvatarWraperStyle>
             <span><Avatar icon={< UilGrin />} className="chHeader-icon" />[공식 챌린지]</span>
             <span> 상쾌한 아침 플로깅 챌린지 !</span>
+            <button type="submit" className="delete-bt"> 챌린지 삭제하기 </button>
           </AvatarWraperStyle>
         </div>
 
@@ -64,28 +72,56 @@ const ChallengeDetail = () => {
 
         <div className="chSchedule">
           <div className="scheduleHeader">
-            상쾌한 아침 플로깅 챌린지의 플로깅 일정
+            <AvatarWraperStyle>
+              <Avatar icon={< UilTrees />} className="scheduleHeader-icon" /> 상쾌한 아침 플로깅 챌린지의 플로깅 일정
+            </AvatarWraperStyle>
           </div>
           <div className="scheduleForm">
             <ul className="scheduleDay">
               <li>토요일</li>
               <li>10</li>
             </ul>
+              <div className="scheduleDetail">
+                <p>6월 10일(토) 오후6:00</p>
+                <p>서울시 구로구</p>
+              </div>
+              <div className="Participation">
+                <button type="submit" className="chParticipation"> + 일정참여 </button>
+              </div>
+          </div>
+          <div className="scheduleForm">
+            <ul className="scheduleDay">
+              <li>토요일</li>
+              <li>17</li>
+            </ul>
             <div className="scheduleDetail">
-              <p>6월 10일(토) 오후6:00</p>
-              <p>서울시 구로구</p>
+              <p>6월 17일(토) 오후6:00</p>
+              <p>경기도 부천시</p>
+            </div>
+            <div className="Participation">
+              <button type="submit" className="chParticipation"> + 일정참여 </button>
             </div>
           </div>
-          <button type="submit" className="scheduleButton"> 일정추가 </button>
+        </div>
+        <div className="scbutton">
+          <button type="submit" className="scheduleButton"> + 플로깅 일정추가 </button>
         </div>
 
         <div className="precautions">
           <span className="precautionsHeader">
-            <h2>  * 챌린지 진행시 주의사항 *</h2>
+            <AvatarWraperStyle>
+              {/*<Avatar icon={< UilStar />} className="precautionsHeader-icon" />*/}
+              <p>  챌린지 진행시 주의사항 </p>
+            </AvatarWraperStyle>
           </span>
           <div className="precautionsDetail">
-            <h3>레드카드 발급규정</h3>
-            <p>챌린지원간의 불쾌한 일들을 방지하기 위하여 챌린지와 무관한 행동을 하거나 상대방에게 불쾌감을 줄 수 있는 행동을 신고받고 있습니다 신고가 누적되면 정지 및 탈퇴 처리가 되실 수 있습니다</p>
+            <AvatarWraperStyle>
+              <p><Avatar icon={< UilSick />} className="precautionsDetail-icon" />레드카드 발급규정</p>
+            </AvatarWraperStyle>
+            <AvatarWraperStyle>
+              <p><Avatar icon={< UilAngleRight />} className="precautionsDetail-icon" /> 챌린지원간의 불쾌한 일들을 방지하기 위하여 챌린지와 무관한 행동을 하거나 상대방에게 불쾌감을 줄 수 있는 행동을 신고받고 있습니다</p>
+              <p><Avatar icon={< UilAngleRight />} className="precautionsDetail-icon" />  신고가 누적되면 정지 및 탈퇴 처리가 되실 수 있습니다 자세한 사항은 관리자에게 문의바랍니다.</p>
+            </AvatarWraperStyle>
           </div>
         </div>
 

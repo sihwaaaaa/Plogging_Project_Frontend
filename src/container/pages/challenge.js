@@ -31,7 +31,7 @@ function Challenge() {
       console.log(response.config.headers.Author);
     });
   }, []);
-  console.log("challenges : " + challenges[0].title)
+  // console.log("challenges : " + challenges[0].title);
 
   const { visible } = state;
   const showModal = () => {
