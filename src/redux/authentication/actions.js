@@ -6,6 +6,10 @@ const actions = {
   LOGOUT_BEGIN: 'LOGOUT_BEGIN',
   LOGOUT_SUCCESS: 'LOGOUT_SUCCESS',
   LOGOUT_ERR: 'LOGOUT_ERR',
+  
+  EMAILCONFIRM_BEGIN: 'EMAILCONFIRM_BEGIN',
+  EMAILCONFIRM_SUCCESS: 'EMAILCONFIRM_SUCCESS',
+  EMAILCONFIRM_ERR: 'EMAILCONFIRM_ERR',
 
   loginBegin: () => {
     return {
@@ -43,6 +47,26 @@ const actions = {
   logoutErr: (err) => {
     return {
       type: actions.LOGOUT_ERR,
+      err,
+    };
+  },
+
+  emailBegin: () => {
+    return {
+      type: actions.EMAILCONFIRM_BEGIN,
+    };
+  },
+
+  emailSuccess: (data) => {
+    return {
+      type: actions.EMAILCONFIRM_SUCCESS,
+      data,
+    };
+  },
+
+  emailErr: (err) => {
+    return {
+      type: actions.EMAILCONFIRM_ERR,
       err,
     };
   },

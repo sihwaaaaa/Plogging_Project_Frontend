@@ -21,24 +21,17 @@ function Challenge() {
     categoryActive: 'all',
   });
   const [challenges, setchallenges] = useState([]);
+  const [challengeCreate, setChallengeCreate] = useState();
 
   useEffect(() => {
     DataService.get('/challenge').then(function (response) {
       setchallenges(response.data.data);
       console.log(response.data.data);
       console.log(response.status);
-      console.log(response.config.headers.Author);
+      // console.log(response.config.headers.Author);
     });
   }, []);
 
-  useEffect(() => {
-    DataService.post('/challenge').then(function (response) {
-      setchallenges(response.data.data);
-      console.log(response.data.data);
-      console.log(response.status);
-      console.log(response.config.headers.Author);
-    });
-  }, []);
 
   const { visible } = state;
   const showModal = () => {

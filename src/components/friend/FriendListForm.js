@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+
 import badge from "../../static/img/logodemo.png";
 import { Button } from "../buttons/buttons";
 import { getItem } from "../../utility/localStorageControl";
@@ -8,22 +9,31 @@ const FriendListForm = (props) => {
   const userId = getItem('userId');
   const acceptFriend = props.acceptFriend;
   const removeFriend = props.removeFriend;
+  const cancelFriend = props.cancelFriend;
 
   const [friend, setFriend] = useState(props.friend);
 
   let [friendId, setFriendId] = useState(null);
-  let [friendNo, setFriendNo] = useState(null);
 
 
   const confirmModal = () => {
 
   }
 
+  // 받은 요청인지 보낸 요청인지에 따른 friend 동적 할당
+  if(userId === friend.fromMemberId) {
+    friendId = friend.toMemberId;
+  } else {
+    friendId = friend.fromMemberId;
+  }
+
+  // 받은 요청인지 보낸 요청인지 또는 플친인지에 따라 버튼 동적 배치
   const requestButton = () => {
     if(userId === props.friend.fromMemberId && props.friend.status === 'PENDING') {
       return (
         <>
-          <Button className="btn-transparent" size="small" transparented type="light">
+          <Button className="btn-transparent" size="small" transparented type="light"
+            onClick={cancelClick}>
             취소
           </Button>
         </>
@@ -50,33 +60,29 @@ const FriendListForm = (props) => {
             거절
           </Button>
         </>
-      )     
+      )
     }
   }
 
   const acceptClick = () => {
     console.log("수락")
-    console.log(friendId)
-    console.log(friendNo)
     console.log(friend)
     acceptFriend(friend)
   }
 
   const rejectClick = () => {
     console.log("거절")
-    console.log(friendId)
-    console.log(friendNo)
     console.log(friend)
     removeFriend(friend)
   }
 
-  if(userId === friend.fromMemberId) {
-    friendId = friend.toMemberId;
-    friendNo = friend.toMemberNo;
-  } else {
-    friendId = friend.fromMemberId;
-    friendNo = friend.fromMemberNo;
+  const cancelClick = (e) => {
+    console.log("취소")
+    console.log(e)
+    console.log(friend)
+    cancelFriend(friend)
   }
+
 
   return (
       <div style={{
@@ -96,7 +102,7 @@ const FriendListForm = (props) => {
                borderRadius: "50%",
                marginLeft: 5
              }}>
-          <img src={badge} style={{width:40, height:40}}/>
+          <img src={badge} style={{width:40, height:40}} alt={'뱃지'}/>
         </div>
         <div style={{marginLeft:10}}>
           {friendId}

@@ -1,3 +1,5 @@
+/* eslint-disable import/named */
+/* eslint-disable no-restricted-globals */
 /* eslint-disable prettier/prettier */
 import React, { useState } from 'react';
 import ReactDOM from 'react-dom';
@@ -8,23 +10,13 @@ import { useDispatch } from 'react-redux';
 import DaumPostcode from 'react-daum-postcode';
 import FormItemLabel from 'antd/es/form/FormItemLabel';
 import { AuthFormWrap } from './style';
-// import { Checkbox, CheckboxGroup } from '../../../../components/checkbox/checkbox';
-import { register } from '../../../../redux/authentication/actionCreator';
+import { register, emailAuth } from '../../../../redux/authentication/actionCreator';
 // import FormItemLabel from 'antd/es/form/FormItemLabel';
 
-
-/**
- *
- * @param {*} param0
- * @returns
- */
-const PopUpDom = ({children}) => {
-  const element1 = document.getElementById("popUpDom");
+const PopUpDom = ({ children }) => {
+  const element1 = document.getElementById('popUpDom');
   return ReactDOM.createPortal(children, element1);
 }
-
-
-
 
 
 function SignUp() {
@@ -35,13 +27,12 @@ function SignUp() {
   const [isPopUpOpen, setIsPopUpOpen] = useState(false);
   // const [text, setText] = useState('');
 
-  // const handleAuthEmail = () => {
-  //   const emailVal = document.getElementById()
-  //   let codeInput = document.getElementById('authCode');
-  //   console.log(codeInput.getAttribute);
-  //   email
-  //     dispatch(email (codeInput.value) => );
-  // }
+  const handleAuthEmail = () => {
+    const emailVal = document.getElementById('email').value;
+    document.getElementById('authCode').type = "text";
+    emailAuth(emailVal);
+    // console.log(codeInput.getAttribute);
+  }
 
   const handleComplete = (data) => {
     let fullAddress = data.address;
@@ -60,7 +51,7 @@ function SignUp() {
     addressDom.value = fullAddress;
     console.log(fullAddress); // e.g. '서울 성동구 왕십리로2길 20 (성수동1가)'
   };
-
+ 
   const popUpOpen = (e) => {
     console.log(e);
     setIsPopUpOpen(true);
@@ -133,7 +124,6 @@ function SignUp() {
       selectValue: e.target.value,
     });
   };
-
   // Submit 했을 시에 값 등록
   const handleSubmit = (e) => {
     const { userId, password, nickName, userName, email, address} = e
@@ -221,22 +211,22 @@ function SignUp() {
               <Form.Item label="성별" name="gender">
                 <FormItemLabel htmlFor="male">남자</FormItemLabel>
                 <Input
-                  type='radio'
-                  id="male"
-                  value="남자"
-                  checked={gender.selectValue === '남자'}
-                  onChange={handleGender}
+                    type='radio'
+                    id="male"
+                    value="남자"
+                    checked={gender.selectValue === '남자'}
+                    onChange={handleGender}
                 />
                 <FormItemLabel htmlFor='female'>여자</FormItemLabel>
-                <Input
-                  type='radio'
-                  id="female"
-                  value="여자"
-                  checked={gender.selectValue === '여자'}
-                  onChange={handleGender}
-                />
+                  <Input
+                    type='radio'
+                    id="female"
+                    value="여자"
+                    checked={gender.selectValue === '여자'}
+                    onChange={handleGender}
+                  />
               </Form.Item>
-
+              
               <Form.Item
                 label="생년월일"
                 className="birth-form"
@@ -288,10 +278,10 @@ function SignUp() {
                 <Button type='button' onClick={handlePopUp}></Button>
               </Form.Item> */}
               <Form.Item className='address-form' label="주소" name="address" rules={[{ required: true, message: '주소를 입력해주세요.' }]}>
-                <Input readOnly id='address' placeholder="주소를 입력해주세요." />
-                <Button onClick={popUpOpen}>버튼</Button>
-                <div id='popUpDom'>
-                  {isPopUpOpen &&
+                  <Input readOnly id='address' placeholder="주소를 입력해주세요." />
+                  <Button onClick={popUpOpen}>버튼</Button>
+                  <div id='popUpDom'>
+                  {isPopUpOpen && 
                     <PopUpDom onClose={popUpClose}>
                       <DaumPostcode className='modal-post' onComplete={handleComplete} />
                     </PopUpDom>
@@ -323,7 +313,7 @@ function SignUp() {
                   id='email'
                   name='email'
                   placeholder="이메일을 입력하세요." />
-                {/* <Button onClick={handleAuthEmail}>인증</Button> */}
+                <Button onClick={handleAuthEmail}>인증</Button>
                 <Input type='hidden' id='authCode' />
               </Form.Item>
               <Form.Item>
