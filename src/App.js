@@ -42,10 +42,9 @@ function ProviderConfig() {
       <ThemeProvider theme={{ ...themeColor, rtl, topMenu, mainContent }}>
         <>
           <Router basename={process.env.PUBLIC_URL}>
-              <Routes>
-                <Route path="/*" element={<Index />} Component={Admin} />{' '}
-                <Route path="/admin/*" element={<ProtectedRoute path="/*" Component={Admin} />} />
-                <Route path="*" element={<NotFound />} />
+                <Routes>
+                  <Route path="/*" element={<Index />} Component={Admin} />{' '}
+                  <Route path="*" element={<NotFound />} />
               </Routes>
           </Router>
         </>

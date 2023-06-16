@@ -25,8 +25,9 @@ function PagesRoute() {
       <Route path="board/:bno" element={<BoardDetail />} />
       <Route path="board" element={<Board />} />
       <Route path="challenge" element={<Challenge />} />
-      <Route path="/member/profile" element={<Profile />} />
-      <Route path="/member/*" element={<Auth />} />
+      <Route path="profile" element={<Profile />} />
+      {/* <Route path="/profile/" element={<Profile />} /> */}
+      <Route path="member/*" element={<Auth />} />
       <Route path="friend" element={<Friend />} />
       <Route path="reward" element={<Reward />} />
       <Route path=":username" element={<PostPage />} />

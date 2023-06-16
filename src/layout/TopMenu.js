@@ -73,7 +73,7 @@ function TopMenu() {
 
   const profileTab = (
     <>
-      <Link to="/member/profile">
+      <Link to="profile">
         <span>마이페이지</span>
       </Link>
       <Link to="friend">
