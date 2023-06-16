@@ -1,13 +1,20 @@
 import React, { useState } from 'react';
+import { getItem } from '../../utility/localStorageControl';
+import axios from 'axios';
 
-function RewardList() {
+const RewardList = () => {
+  const userId = getItem('userId');
+  const [name, setName] = useState('');
+  const [detail, setDetail] = useState('');
+  const [type, setType] = useState('');
+
   return (
-    <>
-      <div className="reward-title">
-        <h4>리워드 List Test</h4>
-      </div>
-    </>
+    <div className="rewardWrapper">
+      <span>{detail}</span>
+      <span>{name}</span>
+      <span>{type}</span>
+    </div>
   );
-}
+};
 
-export default React.memo(RewardList);
+export default RewardList;
