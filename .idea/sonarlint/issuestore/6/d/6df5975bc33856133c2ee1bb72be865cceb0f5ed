@@ -1,0 +1,25 @@
+
+Njavascript:S1128"+Remove this unused import of 'FontAwesome'.(¾Üèñ8Ï¹¹æ‹1
+Wjavascript:S1128"4Remove this unused import of 'KnowledgebaseTopWrap'.(¦»»±8Ï¹¹æ‹1
+Gjavascript:S1128"$Remove this unused import of 'Form'.(ŸòçÌ8Ğ¹¹æ‹1
+Hjavascript:S1128"%Remove this unused import of 'Input'.(ŸòçÌ8Ğ¹¹æ‹1
+Ijavascript:S1128"&Remove this unused import of 'Button'.(–™ïû8Ğ¹¹æ‹1
+^javascript:S1481"6Remove the declaration of the unused 'state' variable.(©¸Ãıÿÿÿÿ8±ğˆÉ‹1
+[javascript:S1854"3Remove this useless assignment to variable "state".(©¸Ãıÿÿÿÿ8±ğˆÉ‹1
+ajavascript:S1481"9Remove the declaration of the unused 'setState' variable.(©¸Ãıÿÿÿÿ8±ğˆÉ‹1
+^javascript:S1854"6Remove this useless assignment to variable "setState".(©¸Ãıÿÿÿÿ8±ğˆÉ‹1
+Zjavascript:S1481"7Remove the declaration of the unused 'status' variable.(Ù™Ú„8²ğˆÉ‹1
+Wjavascript:S1854"4Remove this useless assignment to variable "status".(Ù™Ú„8²ğˆÉ‹1
+]javascript:S1481":Remove the declaration of the unused 'setStatus' variable.(Ù™Ú„8²ğˆÉ‹1
+Zjavascript:S1854"7Remove this useless assignment to variable "setStatus".(Ù™Ú„8²ğˆÉ‹1
+Yjavascript:S1481"7Remove the declaration of the unused 'userId' variable.(èŠs8²ğˆÉ‹1
+Vjavascript:S1854"4Remove this useless assignment to variable "userId".(èŠs8²ğˆÉ‹1
+\javascript:S1481"9Remove the declaration of the unused 'memberNo' variable.(¨Òßî8²ğˆÉ‹1
+Yjavascript:S1854"6Remove this useless assignment to variable "memberNo".(¨Òßî8²ğˆÉ‹1
+cjavascript:S1481";Remove the declaration of the unused 'boardWrite' variable.(Úä­ıúÿÿÿÿ8²ğˆÉ‹1
+`javascript:S1854"8Remove this useless assignment to variable "boardWrite".(Úä­ıúÿÿÿÿ8²ğˆÉ‹1
+fjavascript:S1481">Remove the declaration of the unused 'setBoardWrite' variable.(Úä­ıúÿÿÿÿ8²ğˆÉ‹1
+cjavascript:S1854";Remove this useless assignment to variable "setBoardWrite".(Úä­ıúÿÿÿÿ8²ğˆÉ‹1
+Ajavascript:S125!"Remove this commented out code.(ĞÀú8²ğˆÉ‹1
+Mjavascript:S6477R"*Missing "key" prop for element in iterator(şÉù›8½ŒÀæ‹1
+Fjavascript:S125U"Remove this commented out code.(ïÎÇŠûÿÿÿÿ8¤’É‹1
