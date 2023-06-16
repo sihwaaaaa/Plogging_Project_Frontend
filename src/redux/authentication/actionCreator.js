@@ -9,7 +9,6 @@ import { setItem } from '../../utility/localStorageControl';
 import SignUp from '../../container/profile/authentication/overview/Signup';
 import { useCallback, useEffect, useState } from 'react';
 import { async } from 'q';
-import cookie, { useCookies } from 'react-cookie';
 
 const { loginBegin, loginSuccess, loginErr, logoutBegin, logoutSuccess, logoutErr } = actions;
 
