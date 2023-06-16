@@ -2,6 +2,7 @@ import React, { lazy } from 'react';
 import { Routes, Route } from 'react-router-dom';
 import WritePage from "../../container/pages/WritePage";
 import PostPage from "../../container/pages/PostPage";
+import Auth from '../auth';
 
 const Plogging = lazy(() => import('../../container/pages/plogging'));
 const Index = lazy(() => import('../../container/pages/index'));
@@ -22,6 +23,7 @@ function PagesRoute() {
       <Route path="board" element={<Board />} />
       <Route path="challenge" element={<Challenge />} />
       <Route path="/member/profile" element={<Profile />} />
+      <Route path="/member/*" element={<Auth />} />
       <Route path="friend" element={<Friend />} />
       <Route path="reward" element={<Reward />} />
       <Route path="write" element={<WritePage />} />
