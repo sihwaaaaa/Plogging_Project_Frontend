@@ -127,6 +127,14 @@ function SignUp() {
     setEmailCode(response.data);
   } 
 
+  const validateUserId = async (userId) => {
+    const response = await DataService.post('/member/signup/checkId', userId);
+    if (response.data === null) {
+      alert("중복되는 회원 아이디입니다.");
+      return false;
+    }
+  }
+
   // Submit 했을 시에 값 등록
   const handleSubmit = (e) => {
     const { userId, password, nickName, userName, email, address } = e
@@ -182,6 +190,7 @@ function SignUp() {
                 ]}
               >
                 <Input placeholder="아이디를 입력하세요" />
+                <Button type='button' onClick={validateUserId} ></Button>
               </Form.Item>
               <Form.Item
                 name="password"
