@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import { Tabs } from 'antd';
 import TabPane from 'antd/lib/tabs/TabPane';
 import { useState } from 'react';
+import TabComponent from './TabComponent';
 const CategoryComponent = () => {
 
   // const [category, setCategory] = useState({
@@ -43,7 +44,7 @@ const CategoryComponent = () => {
     // });
   }
   return (
-    <Tabs items={items} onClick={handleItem} />
+    <TabComponent />
   );
 };
 
