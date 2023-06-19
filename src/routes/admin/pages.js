@@ -1,9 +1,10 @@
 import React, { lazy } from 'react';
 import { Routes, Route } from 'react-router-dom';
-import WritePage from "../../container/pages/WritePage";
-import PostPage from "../../container/pages/PostPage";
+import WritePage from '../../container/pages/WritePage';
+import PostPage from '../../container/pages/PostPage';
 
 const Plogging = lazy(() => import('../../container/pages/plogging'));
+const StartPage = lazy(() => import('../../container/pages/StartPage'));
 const MapList = lazy(() => import('../../container/pages/mapList'));
 const Index = lazy(() => import('../../container/pages/index'));
 const Board = lazy(() => import('../../container/pages/board'));
@@ -20,6 +21,7 @@ function PagesRoute() {
     <Routes>
       <Route index element={<Index />} />
       <Route path="plogging" element={<Plogging />} />
+      <Route path="plogging/startPage" element={<StartPage />} />
       <Route path="plogging/mapList/:mapNo" element={<MapList />} />
       <Route path="board" element={<Board />} />
       <Route path="challenge" element={<Challenge />} />

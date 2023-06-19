@@ -15,6 +15,7 @@ import { CourseCardWrap } from '../../components/cards/Style';
 import { Route, Routes, useNavigate } from 'react-router-dom';
 import '../../static/css/ploggingPageStyle.scss';
 import { Modal } from '../../components/modals/antd-modals';
+import axios from 'axios';
 
 const { Tmapv2 } = window;
 
@@ -25,7 +26,7 @@ const geolocationOptions = {
 };
 const plogging = () => {
   const navigate = useNavigate();
-
+  const [nav, setNav] = useState('');
   const [mapList, setMapList] = useState(null);
   const [route, setRoute] = useState({});
   useEffect(() => {
@@ -39,7 +40,8 @@ const plogging = () => {
   }, []);
 
   const [state, setState] = useState({ visible: false, modalType: 'primary', colorModal: false });
-  const showModal = (type, param) => {
+  const showModal = (type, param, nav) => {
+    setNav(nav);
     setRoute(param);
     setState({
       visible: true,
@@ -91,7 +93,7 @@ const plogging = () => {
           <Col span={6} className="sidebar">
             <div className="searchWrapper">
               <div className="searchText">
-                <h3>추천경로</h3>
+                <h3 onClick={() => navigate('startPage/', { state: mapList })}>추천경로</h3>
                 <UilLocationPinAlt className="mapPin" />
               </div>
               <div className="searchInput">
@@ -121,7 +123,10 @@ const plogging = () => {
                       <div className="ninjadash-course-card-thumbnail">
                         <img src={''} alt="ninjaDash" />
                       </div>
-                      <div className="ninjadash-course-card-content" onClick={() => showModal('primary', maps)}>
+                      <div
+                        className="ninjadash-course-card-content"
+                        onClick={() => showModal('primary', maps, 'mapList/' + maps.mapNo)}
+                      >
                         <h4 className="ninjadash-course-card-title">
                           {/* <Link to={`/${mapList.mapNo}`}> */}
                           {maps.courseName}
@@ -158,7 +163,36 @@ const plogging = () => {
             visible={state.visible}
             footer={[
               <div>
-                <Button size="default" type="info" onClick={() => navigate('mapList/' + route.mapNo, { state: route })}>
+                <Button size="default" type="info" onClick={() => navigate(nav, { state: route })}>
+                  플로깅 시작하기
+                </Button>
+                <Button size="default" type="info" outlined onClick={handleCancel}>
+                  취소
+                </Button>
+              </div>,
+            ]}
+            onCancel={handleCancel}
+            width={600}
+          >
+            <div className="ploggingStart">
+              <div
+                style={{
+                  borderBottom: '1px solid rgb(227, 230, 239)',
+                  padding: '5px 0',
+                  marginBottom: '10px',
+                }}
+              >
+                <h2 className="modal-title"> 플로깅 참여 방법 </h2>
+              </div>
+            </div>
+          </Modal>
+          <Modal
+            type={state.modalType}
+            title={null}
+            visible={state.visible}
+            footer={[
+              <div>
+                <Button size="default" type="info" onClick={() => navigate(nav, { state: route })}>
                   플로깅 시작하기
                 </Button>
                 <Button size="default" type="info" outlined onClick={handleCancel}>
@@ -185,6 +219,11 @@ const plogging = () => {
           <Col span={18}>
             <div id="map_div"></div>
           </Col>
+          <Button type="info" onClick={() => showModal('primary', location, 'startPage/')}>
+            제자리 시작
+          </Button>
+          <Button type="info">목적지 검색</Button>
+          <Button type="info">챌린지에서 검색</Button>
         </Row>
       </Main>
     </>
