@@ -5,6 +5,7 @@ import BoardDetail from "../../container/pages/boardDetail";
 import BoardRegister from "../../container/pages/boardRegister";
 
 const Plogging = lazy(() => import('../../container/pages/plogging'));
+const MapList = lazy(() => import('../../container/pages/mapList'));
 const Index = lazy(() => import('../../container/pages/index'));
 const Board = lazy(() => import('../../container/pages/board'));
 const Challenge = lazy(() => import('../../container/pages/challenge'));
@@ -22,6 +23,7 @@ function PagesRoute() {
       <Route path="plogging" element={<Plogging />} />
       <Route path="board/register" element={<BoardRegister />} />
       <Route path="board/:bno" element={<BoardDetail />} />
+      <Route path="plogging/mapList/:mapNo" element={<MapList />} />
       <Route path="board" element={<Board />} />
       <Route path="challenge" element={<Challenge />} />
       <Route path="profile" element={<Profile />} />
