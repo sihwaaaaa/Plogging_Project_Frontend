@@ -43,11 +43,8 @@ function ProviderConfig() {
         <>
           <Router basename={process.env.PUBLIC_URL}>
               <Routes>
-                  <Route path="/jubging/*" element={<Index />} Component={Admin} />{' '}
+                  <Route path="/*" element={<Index />} Component={Admin} />{' '}
                   <Route path="*" element={<NotFound />} />
-              </Routes>
-              <Routes>
-                <Route path="/" element={<Navigate to="/jubging" />} />
               </Routes>
           </Router>
         </>

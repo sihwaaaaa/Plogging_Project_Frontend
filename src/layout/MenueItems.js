@@ -36,7 +36,7 @@ function MenuItems({ toggleCollapsed }) {
     };
   });
 
-  const path = '/jubging';
+  const path = '/';
 
   const pathName = window.location.pathname;
   const pathArray = pathName.split(path);

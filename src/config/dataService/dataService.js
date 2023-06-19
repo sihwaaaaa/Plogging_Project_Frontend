@@ -72,6 +72,9 @@ class DataService {
     });
   }
 }
+export default function socialLogin(provider) {
+  window.location.href = `${API_ENDPOINT}/oauth2/auth/${provider}?redirect_url=${window.location.protocol}//${window.location.host}`;
+}
 
 /**
  * axios interceptors runs before and after a request, letting the developer modify req,req more
@@ -87,8 +90,6 @@ client.interceptors.request.use((config) => {
     Authorization: `Bearer ${getItem('ACCESS_TOKEN')}`,
     userId: `${getItem('userId')}`,
   };
-  requestConfig.headers = { ...headers, Authorization: `Bearer ${getItem('ACCESS_TOKEN')}`
-    , userId: `${getItem('userId')}`};
   return requestConfig;
 });
 

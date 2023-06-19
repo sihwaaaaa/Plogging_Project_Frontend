@@ -152,7 +152,7 @@ const ThemeLayout = (WrappedComponent) => {
                   <div className="navbar-brand align-cener-v">
                     <Link
                       className={topMenu && window.innerWidth > 991 ? 'ninjadash-logo top-menu' : 'ninjadash-logo'}
-                      to="/jubging"
+                      to="/"
                       style={{ display: 'flex' }}
                     >
                       <img src={logodemo} alt="Logo" />
