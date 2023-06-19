@@ -4,7 +4,6 @@ import { DataService } from '../../config/dataService/dataService';
 import Col from 'antd/es/grid/col';
 import { Row } from 'antd';
 import routeList from './routeList';
-import { Main } from '../styled';
 
 const { Tmapv2 } = window;
 
@@ -40,7 +39,7 @@ const plogging = () => {
         {
           center: new Tmapv2.LatLng(latitude, longitude),
           width: '100%',
-          height: '700px',
+          height: '750px',
           zoom: 15,
         },
         [location],
@@ -48,7 +47,7 @@ const plogging = () => {
       const marker = new Tmapv2.Marker({
         position: new Tmapv2.LatLng(latitude, longitude),
         icon: 'http://tmapapi.sktelecom.com/resources/images/common/pin_car.png',
-        map,
+        map: map,
       });
 
       // const content = '<div>' + '    <button>' + '        시작하기';
@@ -64,16 +63,14 @@ const plogging = () => {
   });
 
   return (
-    <>
-      <Main style={{ padding: '0' }}>
-        <Row gutter={24}>
-          <Col span={6}>{mapList && mapList.map((item) => <routeList mapList={item} key={item.mapNo} />)}</Col>
-          <Col span={18}>
-            <div id="map_div"></div>
-          </Col>
-        </Row>
-      </Main>
-    </>
+    <Row>
+      <Col span={5}>
+        <routeList mapList={mapList} />
+      </Col>
+      <Col span={19}>
+        <div id="map_div"></div>
+      </Col>
+    </Row>
   );
 };
 
