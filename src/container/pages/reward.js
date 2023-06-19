@@ -1,33 +1,16 @@
-import React from 'react';
-import { Col, Row } from 'antd';
-import { PageHeader } from '../../components/page-headers/page-headers';
-import { Main } from '../styled';
-import { Cards } from '../../components/cards/frame/cards-frame';
+import React, { Suspense } from "react";
 import { useEffect, useState } from 'react';
 import { DataService } from '../../config/dataService/dataService';
-import rewardList from './rewardList';
-import PointHistory from './pointHistory';
+// import "../../components/cards/Style"
+import { KnowledgebaseTopWrap } from "./knowledgeBase/style";
+import { Form, Input } from "antd";
+import { Button } from "../../components/buttons/buttons";
+import FontAwesome from "react-fontawesome";
+import '../../static/css/rewardPageStyle.scss'
+import PointHistory from "./pointHistory";
 
 const Reward = () => {
   const [rewardList, setRewardList] = useState([]);
-  const rewardColumns = [
-    {
-      title: '상 품 명',
-      dataIndex: 'productName',
-      key: 'productName',
-    },
-    {
-      title: '상 품 내 용',
-      dataIndex: 'ProductDetail',
-      key: 'ProductDetail',
-    },
-  ];
-  const rewardPage = [
-    {
-      path: '',
-      breadcrumbName: '리워드',
-    },
-  ];
 
   useEffect(() => {
     DataService.get(`/reward/list`).then(function (response) {
@@ -38,25 +21,25 @@ const Reward = () => {
   }, []);
   return (
     <>
-      <PageHeader className="ninjadash-page-header-main" title="리워드" routes={rewardPage} />
-      <Main>
-        <Row gutter={25}>
-          <Col sm={24} xs={24}>
-            <Cards headless>
-              <h3>리워드 페이지</h3>
-              <PointHistory />
-              {rewardList.map((res) => (
-                <div>
-                  <span>{res.name}</span>
-                  <span>{res.detail}</span>
-                  <span>{res.type}</span>
-                </div>
-              ))}
-            </Cards>
-          </Col>
-        </Row>
-      </Main>
+      <div className="rewardContainer">
+        <div className="searchWrapper">
+          <div className="searchText">
+            <PointHistory />
+            <h3>함께할 플로거를</h3>
+            <h3>찾아보세요!</h3>
+          </div>
+        </div>
+      </div>
     </>
   );
 };
 export default Reward;
+
+{/*<PointHistory />*/}
+{/*{rewardList.map((res) => (*/}
+{/*  <div>*/}
+{/*    <span>{res.name}</span>*/}
+{/*    <span>{res.detail}</span>*/}
+{/*    <span>{res.type}</span>*/}
+{/*  </div>*/}
+{/*))}*/}
