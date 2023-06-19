@@ -12,6 +12,7 @@ import ChallengeOne from './ChallengeOne';
 import { DataService } from '../../config/dataService/dataService';
 import { PageHeader } from '../../components/page-headers/page-headers';
 import { Button } from '../../components/buttons/buttons';
+import { Link } from "react-router-dom";
 
 function Challenge() {
   const searchData = useSelector((state) => state.headerSearchData);
@@ -21,7 +22,6 @@ function Challenge() {
     categoryActive: 'all',
   });
   const [challenges, setchallenges] = useState([]);
-  const [challengeCreate, setChallengeCreate] = useState();
 
   useEffect(() => {
     DataService.get('/challenge').then(function (response) {
@@ -31,6 +31,7 @@ function Challenge() {
       // console.log(response.config.headers.Author);
     });
   }, []);
+  // console.log("challenges : " + challenges[0].title);
 
 
   const { visible } = state;
@@ -83,13 +84,32 @@ function Challenge() {
             ]}
           />
         </ProjectHeader>
+
+          <div className="challenge-slider-title">
+            <h4>진행전 (모집)</h4>
+          </div>
+        <Link to="chDetail" >
+          <div className="challengeList" style={{ display: 'flex', flexWrap: 'wrap', flexDirection: 'row' }}>
+            {challenges.map((data) => (
+              <ChallengeOne challenge={data} />
+            ))}
+          </div>
+        </Link>
         <div className="challenge-slider-title">
-          <h4>현재 진행중인 챌린지</h4>
+          <h4>진행중인 챌린지</h4>
         </div>
-        <div className="challengeList" style={{ display: 'flex', flexWrap: 'wrap', flexDirection: 'row' }}>
-          {challenges.map((data) => (
-            <ChallengeOne challenge={data} />
-          ))}
+        <Link to="chDetail" >
+          <div className="challengeList" style={{ display: 'flex', flexWrap: 'wrap', flexDirection: 'row' }}>
+            {challenges.map((data) => (
+              <ChallengeOne challenge={data} />
+            ))}
+          </div>
+        </Link>
+        <div className="challenge-slider-title">
+          <h4>인원마감</h4>
+        </div>
+        <div className="challenge-slider-title">
+          <h4>종료된 챌린지</h4>
         </div>
         <ChallengeCreate onCancel={onCancel} visible={visible} />
       </div>

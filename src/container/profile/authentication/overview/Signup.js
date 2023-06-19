@@ -53,7 +53,7 @@ function SignUp() {
     addressDom.value = address;
     // console.log(fullAddress); // e.g. '서울 성동구 왕십리로2길 20 (성수동1가)'
   };
- 
+
   const popUpOpen = (e) => {
     console.log(e);
     e.preventDefault();
@@ -119,13 +119,13 @@ function SignUp() {
     // console.log(codeInput.getAttribute);
   }
 
-  
+
 // const [data, setData] = useState(null);
   const emailAuth = async (value) => {
     const response = await DataService.post('/member/signup/emailConfirm', value);
     console.log(response.data);
     setEmailCode(response.data);
-  } 
+  }
 
   const validateUserId = async (userId) => {
     const response = await DataService.post('/member/signup/checkId', userId);
@@ -147,7 +147,7 @@ function SignUp() {
       alert("인증 코드가 올바르지 않습니다.");
       return false;
     }
-    
+
     dispatch(register({
       userId,
       password,
@@ -225,22 +225,22 @@ function SignUp() {
               <Form.Item label="성별" name="gender">
                 <FormItemLabel label="남자" htmlFor="male">남자</FormItemLabel>
                 <Input
-                    type='radio'
-                    id="male"
-                    value="남자"
-                    checked={gender.selectValue === '남자'}
-                    onClick={handleGender}
+                  type='radio'
+                  id="male"
+                  value="남자"
+                  checked={gender.selectValue === '남자'}
+                  onClick={handleGender}
                 />
                 <FormItemLabel label="여자" htmlFor='female'>여자</FormItemLabel>
-                  <Input
-                    type='radio'
-                    id="female"
-                    value="여자"
-                    checked={gender.selectValue === '여자'}
-                    onClick={handleGender}
-                  />
+                <Input
+                  type='radio'
+                  id="female"
+                  value="여자"
+                  checked={gender.selectValue === '여자'}
+                  onClick={handleGender}
+                />
               </Form.Item>
-              
+
               <Form.Item
                 label="생년월일"
                 className="birth-form"
@@ -292,10 +292,10 @@ function SignUp() {
                 <Button type='button' onClick={handlePopUp}></Button>
               </Form.Item> */}
               <Form.Item className='address-form' label="주소" name="address">
-                  <Input readOnly id='address' placeholder="주소를 입력해주세요." value={address} />
-                  <Button onClick={popUpOpen}>버튼</Button>
-                  <div id='popUpDom'>
-                  {isPopUpOpen && 
+                <Input readOnly id='address' placeholder="주소를 입력해주세요." value={address} />
+                <Button onClick={popUpOpen}>버튼</Button>
+                <div id='popUpDom'>
+                  {isPopUpOpen &&
                     <PopUpDom onClose={popUpClose}>
                       <DaumPostcode className='modal-post' onComplete={handleComplete} />
                     </PopUpDom>
@@ -303,10 +303,10 @@ function SignUp() {
                 </div>
               </Form.Item>
 
-              {/* <DaumPostcode 
+              {/* <DaumPostcode
                         onComplete={handlePostCode.selectAddress}  // 값을 선택할 경우 실행되는 이벤트
                         autoClose={false} // 값을 선택할 경우 사용되는 DOM을 제거하여 자동 닫힘 설정
-                        defaultQuery='판교역로' // 팝업을 열때 기본적으로 입력되는 검색어 
+                        defaultQuery='판교역로' // 팝업을 열때 기본적으로 입력되는 검색어
                       /> */}
               <Form.Item
                 label="이메일"
@@ -328,7 +328,7 @@ function SignUp() {
                   name='email'
                   placeholder="이메일을 입력하세요." />
               </Form.Item>
-                <Button onClick={handleAuthEmail}>인증</Button>
+              <Button onClick={handleAuthEmail}>인증</Button>
               <Form.Item>
                 <Input type='hidden' id='authCode' />
                 <Button className="btn-create" htmlType="submit" type="primary" size="large">

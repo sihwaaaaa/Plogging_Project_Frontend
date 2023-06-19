@@ -10,6 +10,7 @@ import {Main} from "../styled";
 import { VerticalForm } from "../forms/overview/VerticalForm";
 import '../../static/css/boardStyle.scss';
 
+
 function WritePage() {
   const boardPage = [
     {
@@ -24,7 +25,6 @@ function WritePage() {
       <Main className="writePage">
         <Responsive>
           <VerticalForm />
-
         </Responsive>
       </Main>
     </>

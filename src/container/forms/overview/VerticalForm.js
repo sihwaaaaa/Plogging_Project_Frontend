@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Form, Input,  message } from "antd";
+import { Form, Input, Button, message } from "antd";
 import { VerticalFormStyleWrap } from './Style';
 import { Cards } from '../../../components/cards/frame/cards-frame';
 import { BasicFormWrapper } from '../../styled';
@@ -7,16 +7,6 @@ import RichTextEditor from 'react-rte';
 import WriteActionButton from "../../../components/board/WriteActionButton";
 
 function VerticalForm({ onChange }) {
-  const PageRoutes = [
-    {
-      path: 'index',
-      breadcrumbName: 'Dashboard',
-    },
-    {
-      path: 'first',
-      breadcrumbName: 'Form Components',
-    },
-  ];
   const [state, setState] = useState({
     onChangeValue: null,
     value: RichTextEditor.createEmptyValue(),
@@ -72,10 +62,8 @@ function VerticalForm({ onChange }) {
               <WriteActionButton />
             </div>
           </Form>
-
         </Cards>
       </VerticalFormStyleWrap>
-
     </BasicFormWrapper>
   );
 }

@@ -59,13 +59,9 @@ class DataService {
       method: 'DELETE',
       url: path,
       data: JSON.stringify(data.data),
-      headers: { ...authHeader() },
+      headers: {...authHeader()},
     });
   }
-}
-
-export default function socialLogin(provider) {
-  window.location.href = `${API_ENDPOINT}/oauth2/auth/${provider}?redirect_url=${window.location.protocol}//${window.location.host}`;
 }
 
 /**
@@ -82,6 +78,8 @@ client.interceptors.request.use((config) => {
     Authorization: `Bearer ${getItem('ACCESS_TOKEN')}`,
     userId: `${getItem('userId')}`,
   };
+  requestConfig.headers = { ...headers, Authorization: `Bearer ${getItem('ACCESS_TOKEN')}`
+    , userId: `${getItem('userId')}`};
   return requestConfig;
 });
 

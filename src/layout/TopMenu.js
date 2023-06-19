@@ -54,7 +54,7 @@ function TopMenu() {
   // 멤버 아이디가 아닌 권한으로 설정 필요!
   // 백엔드에서 권한까지 같이 UserDetails에 저장 후 쿠키에 담는 것 필요
   const adminTab = () => {
-    if (userAuth === 'pkkj') {
+    if(userAuth === 'pkkj') {
       console.log('관리자 확인')
       return (
         <li>

@@ -2,14 +2,12 @@ import React, { useEffect, useState } from "react";
 import { getItem } from "../../utility/localStorageControl";
 import { DataService } from "../../config/dataService/dataService";
 import { useSelector } from "react-redux";
-import { PageHeader } from '../../components/page-headers/page-headers';
 import { Main } from '../styled';
-
 import BoardListOne from "../../components/board/BoardListOne";
 import { Link } from "react-router-dom";
 import "../../static/css/boardStyle.scss";
 import { Button, Typography } from "antd";
-import { KnowledgebaseTopWrap } from "../../container/pages/knowledgeBase/style";
+import { KnowledgebaseTopWrap } from "./knowledgeBase/style";
 import { Form, Input } from "antd";
 import FontAwesome from 'react-fontawesome';
 
@@ -24,6 +22,7 @@ function Board() {
   ];
 
   const searchData = useSelector((state) => state.headerSearchData);
+
   const [state, setState] = useState({
     notData: searchData,
     visible: false,
