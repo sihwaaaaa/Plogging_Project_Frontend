@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { PageHeader } from '../../components/page-headers/page-headers';
 import useGeolocation from '../../utility/plogging/useGeolocation';
-import axios from 'axios';
+import { DataService } from '../../config/dataService/dataService';
+import Col from 'antd/es/grid/col';
+import { Row } from 'antd';
+import routeList from './routeList';
 
 const { Tmapv2 } = window;
 
@@ -15,16 +17,13 @@ const plogging = () => {
   const [mapList, setMapList] = useState(null);
 
   function getMapList() {
-    axios
-      .get('http://localhost:8080/plogging')
+    DataService.get('/plogging')
       .then(function (response) {
         setMapList(response.data);
       })
       .catch(function (error) {
-        console.log('실패');
-        // 오류발생시 실행
-      })
-      .then(function () {});
+        console.log(error);
+      });
   }
 
   const { location, error } = useGeolocation(geolocationOptions);
@@ -40,7 +39,7 @@ const plogging = () => {
         {
           center: new Tmapv2.LatLng(latitude, longitude),
           width: '100%',
-          height: '500px',
+          height: '750px',
           zoom: 15,
         },
         [location],
@@ -50,31 +49,28 @@ const plogging = () => {
         icon: 'http://tmapapi.sktelecom.com/resources/images/common/pin_car.png',
         map,
       });
-      console.log(marker);
+
+      // const content = '<div>' + '    <button>' + '        시작하기';
+      // '    </button>' + '</div>';
+      // const infoWindow = new Tmapv2.InfoWindow({
+      //   position: new Tmapv2.LatLng(latitude, longitude), //Popup 이 표출될 맵 좌표
+      //   content: content, //Popup 표시될 text
+      //   type: 2, //Popup의 type 설정.
+      //   map: map, //Popup이 표시될 맵 객체
+      //   align: Tmapv2.InfoWindowOptions.ALIGN_LEFTBOTTOM,
+      // });
     }
   });
-  const ploggingPage = [
-    {
-      path: '',
-      breadcrumbName: '플로깅하기',
-    },
-  ];
+
   return (
-    <>
-      <PageHeader className="ninjadash-page-header-main" title="플로깅하기" routes={ploggingPage} />
-      <div id="map_div" />
-      <button onClick={getMapList}>불러오기</button>
-      <div>{mapList && mapList.map((item) => <li key={item.mapNo}>{item.courseName}</li>)}</div>
-      {/* <Main>
-        <Row gutter={25}>
-          <Col sm={24} xs={24}>
-            <Cards headless>
-              <h3>플로깅 페이지</h3>
-            </Cards>
-          </Col>
-        </Row>
-      </Main> */}
-    </>
+    <Row>
+      <Col span={5}>
+        <routeList mapList={mapList} />
+      </Col>
+      <Col span={19}>
+        <div id="map_div"></div>
+      </Col>
+    </Row>
   );
 };
 
