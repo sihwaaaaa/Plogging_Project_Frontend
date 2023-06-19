@@ -2,16 +2,13 @@ import React, { useEffect, useState } from "react";
 import { Form, Input } from "antd";
 import { DataService } from "../../config/dataService/dataService";
 import { getItem } from '../../utility/localStorageControl';
-import Friend from "../../components/friend/FriendListForm";
+import FriendListForm from "../../components/friend/FriendListForm";
 import "../../static/css/friendPageStyle.scss";
 import FontAwesome from "react-fontawesome";
 import { KnowledgebaseTopWrap } from "./knowledgeBase/style";
 import { Button } from "../../components/buttons/buttons";
 import { UilCommentEdit } from "@iconscout/react-unicons";
 import { Modal } from "../../components/modals/antd-modals";
-
-
-
 
 function Friends() {
 
@@ -28,9 +25,8 @@ function Friends() {
     DataService.get(`/friend/fromMe/${status}`)
       .then(function(response) {
         setFromMe(response.data.data)
+        console.log("/friend/fromMe/PENDING : ")
         console.log(response.data.data) // 데이터
-        console.log(response.status) // 200
-        console.log(response.config.headers.Authorization) // 토큰값
       })
   }, [])
 
@@ -39,32 +35,47 @@ function Friends() {
     DataService.get(`/friend/toMe/${status}`)
       .then(function(response) {
         setToMe(response.data.data)
+        console.log("/friend/toMe/PENDING : ")
         console.log(response.data.data) // 데이터
-        console.log(response.status) // 200
-        console.log(response.config.headers.Authorization) // 토큰값
       })
   }, [])
 
+  // 나의 플친 리스트
   useEffect(() => {
     DataService.get('/friend/fromMe/FRIEND')
       .then(function(response) {
         setMyFriend(response.data.data)
+        console.log("/friend/fromMe/FRIEND : ")
         console.log(response.data.data)
       })
   }, [toMe, fromMe])
 
+  // 플친 수락하기
   const acceptFriend = (data) => {
     DataService.put('/friend/accept', { data })
       .then((response) => {
         setToMe(response.data.data);
+        console.log("/friend/accept : ")
         console.log(response.data.data)
       })
   }
 
+  // 플친 요청 거절하기 및 플친 삭제하기
   const removeFriend = (data) => {
-    DataService.delete('friend/reject', {data})
+    DataService.delete('/friend/reject', {data})
       .then((response) => {
         setToMe(response.data.data);
+        console.log("/friend/reject : ")
+        console.log(response.data.data)
+      })
+  }
+
+  // 플친 요청 취소하기 및 플친 차단하기
+  const cancelFriend = (data) => {
+    DataService.delete('/friend/cancel', {data})
+      .then((response) => {
+        setFromMe(response.data.data);
+        console.log("/friend/cancel : ")
         console.log(response.data.data)
       })
   }
@@ -124,9 +135,11 @@ function Friends() {
               <h4>받은 요청</h4>
             </div>
             <div className="friendBox">
-              {toMe.map((data) => (
-                <Friend friend={data} acceptFriend={acceptFriend} removeFriend={removeFriend} />
-              ))}
+              {toMe.map((data) => {
+                return (
+                  <FriendListForm friend={data} acceptFriend={acceptFriend} removeFriend={removeFriend} />
+                );
+              })}
             </div>
           </div>
 
@@ -136,7 +149,7 @@ function Friends() {
             </div>
             <div className="friendBox">
               {fromMe.map((data) => (
-                <Friend friend={data}/>
+                <FriendListForm friend={data} cancelFriend={cancelFriend} />
               ))}
             </div>
           </div>
@@ -166,7 +179,7 @@ function Friends() {
                 <h4 style={{fontWeight:"bold"}}>내 플친 목록</h4>
               </div>
               {myFriends.map((data) => (
-                <Friend friend={data} />
+                <FriendListForm friend={data} />
               ))}
             </div>
           </Modal>
