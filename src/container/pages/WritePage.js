@@ -4,8 +4,6 @@
 * 생성일 : 23.6.13
 * */
 import React from "react";
-import Responsive from "../../components/board/Responsive";
-import Editor from "../../components/board/Editor";
 import {PageHeader} from "../../components/page-headers/page-headers";
 import {Main} from "../styled";
 import { VerticalForm } from "../forms/overview/VerticalForm";

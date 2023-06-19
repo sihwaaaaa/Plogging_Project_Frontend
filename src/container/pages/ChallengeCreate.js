@@ -8,9 +8,15 @@ import { BasicFormWrapper } from '../styled';
 import { DataService } from "../../config/dataService/dataService";
 import { Cards } from '../../components/cards/frame/cards-frame';
 import { getItem } from "../../utility/localStorageControl";
+import { Link } from "react-router-dom";
 
 
 const { Option } = Select;
+
+function Redirect() {
+  return null;
+}
+
 function ChallengeCreate({ visible, onCancel }) {
   const [form] = Form.useForm();
 
@@ -19,19 +25,18 @@ function ChallengeCreate({ visible, onCancel }) {
     modalType: 'primary',
     checked: [],
   });
-  const [modalBlock, setModalBlock] = useState({
-    visible: false,
-  });
 
   const [startDate, setStartDate] = useState(new Date())
   const [endDate, setEndDate] = useState(new Date() )
   const [blind, setBlind] = useState(true)
+  const [isSubmitted, setIsSubmitted] = useState(false)
 
   const [challengeCreate, setChallengeCreate] =useState({
     title: "",
     content:"",
     personnel:2,
   })
+
   const blindCheck = () => {
     if(blind === false){
       setBlind(true)
@@ -73,8 +78,9 @@ function ChallengeCreate({ visible, onCancel }) {
         "Content-type":"application/json; charset=utf-8",Authorization: `Bearer ${getItem('ACCESS_TOKEN')}`
       },
       body: JSON.stringify(obj)
-    }).then((res) => modalBlock);
+    }).then((res)=>window.location.replace("challenge"));
   }
+
 
   useEffect(() => {
     let unmounted = false;

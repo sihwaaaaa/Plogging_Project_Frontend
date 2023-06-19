@@ -22,7 +22,7 @@ function PagesRoute() {
       <Route path="friend" element={<Friend />} />
       <Route path="reward" element={<Reward />} />
       <Route path="admin" element={<Admin />} />
-      <Route path="challenge/chDetail" element={<ChallengeDetail />} />
+      <Route path="challenge/chDetail/:id" element={<ChallengeDetail />} />
     </Routes>
   );
 }

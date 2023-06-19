@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import ploggingImage from '../../static/img/ploggingImage2.png';
 import ploggingImage3 from '../../static/img/ploggingImage3.png';
 import '../../static/css/ChallengeDetail.css';
@@ -14,9 +14,38 @@ import {
 } from "@iconscout/react-unicons";
 import UilUsersAlt from "@iconscout/react-unicons/icons/uil-users-alt";
 import UilArrowDown from "@iconscout/react-unicons/icons/uil-arrow-down";
+import { useParams } from "react-router-dom";
+import { DataService } from "../../config/dataService/dataService";
 // import { DingtalkOutlined, DingtalkSquareFilled } from "@ant-design/icons";
 
 const ChallengeDetail = () => {
+  let params = useParams();
+  let chNo = params.id;
+  const [challenge, setChallenge] = useState({
+    memberNo:'',
+    title:'',
+    content:'',
+    startDate:'',
+    endDate:'',
+  });
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await DataService.get(`/challenge/chDetail/${chNo}`);
+        setChallenge(response.data);
+        console.log("response.data: " + response.data);
+        console.log(response.status);
+      } catch (error) {
+        // 에러 처리
+        console.log("fetchData error")
+      }
+    };
+    fetchData();
+  }, []);
+  console.log(challenge.memberNo)
+  let host = challenge.memberNo;
+  console.log("location" + location.pathname);
+
   return (
     <>
       <div className="challengedetail">
@@ -37,8 +66,9 @@ const ChallengeDetail = () => {
         <div className="chHeader">
           <AvatarWraperStyle>
             <span><Avatar icon={< UilGrin />} className="chHeader-icon" />[공식 챌린지]</span>
-            <span> 상쾌한 아침 플로깅 챌린지 !</span>
+            <span> {challenge && challenge.title && <span>{challenge.title}</span>} </span>
             <button type="submit" className="delete-bt"> 챌린지 삭제하기 </button>
+            <button type="submit" className="signup-bt"> 챌린지 가입하기 </button>
           </AvatarWraperStyle>
         </div>
 
@@ -51,7 +81,9 @@ const ChallengeDetail = () => {
         <div className="chPeriod">
           <AvatarWraperStyle>
             <div className="chPeriodDetail">
-              <Avatar icon={< UilCalender />} className="chPeriodDetail-icon" /> 지구닦기 2023-6-20 ~ 2023-7-20
+              <Avatar icon={< UilCalender />} className="chPeriodDetail-icon" />
+              지구닦기 {challenge && challenge.startDate && <span>{challenge.startDate}</span>}
+              ~ {challenge && challenge.endDate && <span>{challenge.endDate}</span>}
             </div>
           </AvatarWraperStyle>
         </div>
@@ -62,11 +94,12 @@ const ChallengeDetail = () => {
            우리 챌린지는 ? <Avatar icon={< UilArrowDown />} className="chIntroduction-icon" />
           </p>
           <div className="IntroductionDetail">
-            <span>" 아침운동 가야겠다고 생각만 하시죠? "</span>
-            <br />
-            * 이런분들께 추천합니다 *
-            <br />
-            <span>- 상쾌한 아침공기를 느껴보고 싶으신 분! <br/> - 건강하게! 아침형인간이 되고싶으신 분! <br/> - 목표를 정해서 이뤄내고 싶은 분! </span>
+            {challenge && challenge.content && <span>{challenge.content}</span>}
+            {/*<span>" 아침운동 가야겠다고 생각만 하시죠? "</span>*/}
+            {/*<br />*/}
+            {/** 이런분들께 추천합니다 **/}
+            {/*<br />*/}
+            {/*<span>- 상쾌한 아침공기를 느껴보고 싶으신 분! <br/> - 건강하게! 아침형인간이 되고싶으신 분! <br/> - 목표를 정해서 이뤄내고 싶은 분! </span>*/}
           </div>
         </div>
 
