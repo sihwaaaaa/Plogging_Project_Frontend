@@ -1,0 +1,78 @@
+import React, { useState } from "react";
+import badge from "../../../static/img/logodemo.png";
+import "../../../static/css/MemberSearchListStyle.scss"
+import { UilAngleRight, UilUserCheck } from "@iconscout/react-unicons";
+import UilUserPlus from "@iconscout/react-unicons/icons/uil-user-plus";
+
+const MemberSearchListForm = (props) => {
+
+  const searchId = props.result.userId;
+  const searchName = props.result.userName;
+  const searchIntro = props.result.intro;
+  const searchChallenges = props.result.challenges;
+  const searchStatus = props.result.friendStatus;
+
+  const requestFriend = props.requestFriend;
+  const friend = {toMemberNo : props.result.memberNo};
+
+  const requestClick = () => {
+    requestFriend(friend)
+  }
+
+  return (
+    <div className="searchFormWrapper">
+      <div className="memberForm">
+        <div className="badgeWrapper" >
+          <img src={badge} style={{width:40, height:40}} alt={'뱃지'}/>
+        </div>
+        <div className="idWrapper">
+          <div className="id">
+            <span style={{paddingRight:7}}>{searchId}</span>
+            <span>({searchName})</span>
+            {searchStatus === 'NOTHING' ? (
+              <div onClick={requestClick} className="friendAdd" style={{background: "#FFCB77"}}>
+                <UilUserPlus size={20} color="white" />
+                <span>플친신청</span>
+              </div>
+            ) : searchStatus === 'FRIEND' ? (
+              <div className="friendOn" style={{background: "#dddddd", cursor:"default"}}>
+                <UilUserCheck size={20} color="white" />
+                <span>플친</span>
+              </div>
+            ) : searchStatus === 'PENDING' ? (
+              <div className="friendOn" style={{background: "#dddddd", cursor:"default"}}>
+                <UilUserCheck size={20} color="white" />
+                <span>대기중</span>
+              </div>
+            ) : ''}
+          </div>
+          <div className="intro">
+            {searchIntro}소개글입니다
+          </div>
+        </div>
+        <div className="openChallenges">
+          <UilAngleRight size={30} />
+        </div>
+      </div>
+
+      <div className="challengesWrapper">
+        {searchChallenges.length === 0 ? (
+            <span style={{fontSize:"11px", color: "#666d9299", paddingLeft:20}}>아직 참여한 챌린지가 없어요!</span>
+          ) : (
+          <div className="challengeTitle">
+            <span>최근챌린지</span>
+          </div>
+        )}
+        <div className="challenges">
+          {!!searchChallenges && searchChallenges.map((challenge) => {
+            return (
+              <li key={challenge}>{challenge}</li>
+            )
+          })}
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default MemberSearchListForm;

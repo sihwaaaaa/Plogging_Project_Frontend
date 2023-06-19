@@ -1,18 +1,20 @@
 import React, { useState } from "react";
 
-import badge from "../../static/img/logodemo.png";
-import { Button } from "../buttons/buttons";
-import { getItem } from "../../utility/localStorageControl";
+import badge from "../../../static/img/logodemo.png";
+import { Button } from "../../../components/buttons/buttons";
+import { getItem } from "../../../utility/localStorageControl";
 
 const FriendListForm = (props) => {
 
   const userId = getItem('userId');
+  const memberNo = getItem('memberNo')
   const acceptFriend = props.acceptFriend;
   const removeFriend = props.removeFriend;
   const cancelFriend = props.cancelFriend;
 
   const [friend, setFriend] = useState(props.friend);
 
+  let [friendNo, setFriendNo] = useState(null);
   let [friendId, setFriendId] = useState(null);
 
 
@@ -21,15 +23,17 @@ const FriendListForm = (props) => {
   }
 
   // 받은 요청인지 보낸 요청인지에 따른 friend 동적 할당
-  if(userId === friend.fromMemberId) {
+  if(memberNo === friend.fromMemberNo) {
+    friendNo = friend.toMemberNo;
     friendId = friend.toMemberId;
   } else {
+    friendNo = friend.fromMemberNo;
     friendId = friend.fromMemberId;
   }
 
   // 받은 요청인지 보낸 요청인지 또는 플친인지에 따라 버튼 동적 배치
   const requestButton = () => {
-    if(userId === props.friend.fromMemberId && props.friend.status === 'PENDING') {
+    if(memberNo === props.friend.fromMemberNo && props.friend.status === 'PENDING') {
       return (
         <>
           <Button className="btn-transparent" size="small" transparented type="light"
@@ -39,7 +43,7 @@ const FriendListForm = (props) => {
         </>
       )
     }
-    else if (userId === props.friend.fromMemberId && props.friend.status === 'FRIEND') {
+    else if (memberNo === props.friend.fromMemberNo && props.friend.status === 'FRIEND') {
       return (
         <>
           <Button>
@@ -65,24 +69,16 @@ const FriendListForm = (props) => {
   }
 
   const acceptClick = () => {
-    console.log("수락")
-    console.log(friend)
     acceptFriend(friend)
   }
 
   const rejectClick = () => {
-    console.log("거절")
-    console.log(friend)
     removeFriend(friend)
   }
 
-  const cancelClick = (e) => {
-    console.log("취소")
-    console.log(e)
-    console.log(friend)
+  const cancelClick = () => {
     cancelFriend(friend)
   }
-
 
   return (
       <div style={{

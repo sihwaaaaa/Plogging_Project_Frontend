@@ -1,0 +1,72 @@
+.sidebar-wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: column;
+  height: 100%;
+  padding-bottom: 70px;
+  justify-content: space-between;
+  .myinfo-tab {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    padding-bottom: 10px;
+    .mypage-wrapper{
+      width: 50%;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: center;
+      padding-left: 10px;
+      position: relative;
+      .dzYYRg .anticon svg {
+        width : 40px !important;
+        height: 60px;
+      }
+      .mypage-text {
+        display: none;
+        position: absolute;
+        top: -15px;
+        left: -15px;
+        background: rgb(40 43 55 / 35%);
+        border-radius: 5px;
+        width: 80px;
+        height: 30px;
+        span {
+          padding: 12px 10px;
+          color : white;
+          font-size: 11px;
+        }
+      }
+      &:hover {
+        .mypage-text {
+          transition: .3s;
+          display: block;
+        }
+      }
+    }
+    .signout-wrapper{
+      width: 50%;
+      display: flex;
+      flex-wrap: wrap;
+      align-content: flex-end;
+      flex-direction: column;
+      justify-content: flex-end;
+    }
+    a {
+      text-decoration: none;
+      color : #282B37;
+      &:hover {
+        color : rgb(130, 49, 211);
+      }
+    }
+    a + a {
+      padding-top: 25px;
+    }
+  }
+  ul {
+    .ant-menu-item, .ant-menu-submenu-title {
+      height : 60px !important;
+    }
+  }
+}

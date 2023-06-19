@@ -1,12 +1,15 @@
 .friendContainer {
   width: 100%;
   background: white;
-  padding-top: 20px;
   display: flex;
   flex-wrap: wrap;
   flex-direction: row;
   justify-content: center;
   align-items: baseline;
+  @media only screen and (max-width: 620px) {
+    //flex-direction: column-reverse;
+    padding: 0;
+  }
 
   // 플로거 친구 검색창
   .searchWrapper {
@@ -40,10 +43,6 @@
           padding-left: 10px;
         }
       }
-      @media only screen and (max-width: 575px) {
-        padding-bottom: 0;
-      }
-
       h3 {
         font-weight: bold;
       }
@@ -75,8 +74,18 @@
         .ninjadash-knowledgetop__formInner {
           background: #FEF9EF;
           box-shadow: none;
+          flex-direction: column;
+          position: relative;
           @media only screen and (min-width : 1080px) {
             margin-left: 30px;
+          }
+          @media only screen and (max-width : 575px) {
+            padding: 0;
+          }
+          .ant-form-item-control {
+            @media only screen and (max-width : 575px) {
+              padding: 0;
+            }
           }
 
           .ant-form-item-control-input {
@@ -84,25 +93,87 @@
               border: 1px solid rgb(227, 230, 239);
               max-width: 700px;
               position: relative;
-              border-radius: 25px;
+              border-radius: 20px;
+            }
+            .btn-search {
+              border: none;
+              border-bottom-right-radius: 20px;
+              border-top-right-radius: 20px;
+              border-right: 1px solid rgb(227, 230, 239);
+              position: absolute;
+              right: 0;
+              top: 0;
+              color: #00AF89;
             }
           }
-
-          .btn-search {
-            border: none;
-            border-bottom-right-radius: 25px;
-            border-top-right-radius: 25px;
-            border-right: 1px solid rgb(227, 230, 239);
+          .searchKeyword {
+            display: none;
+            background :white;
+            width: 100%;
+            height: 200px;
             position: absolute;
-            right: 0;
-            top: 0;
-            color: #00AF89;
-            //background: #FEF9EF;
-
-            &:hover {
-              //background: white;
-            }
+            right:0;
+            top: 35px;
+            z-index: 555;
+            border-right: 1px solid rgb(227, 230, 239);
+            border-left: 1px solid rgb(227, 230, 239);
+            border-bottom: 1px solid rgb(227, 230, 239);
+            border-bottom-left-radius: 20px;
+            border-bottom-right-radius: 20px;
           }
+        }
+      }
+    }
+  }
+
+  .searchResults {
+    width: 100%;
+    min-height: 200px;
+    background: #FEF9EF;
+    margin-top: -100px;
+    display: none;
+    justify-content: center;
+    position: relative;
+    margin-bottom: 30px;
+
+    .resultBox {
+      border-top: 2px solid white;
+      margin-top: 20px;
+      padding-top: 20px;
+      padding-bottom: 50px;
+      width: 80%;
+      height: 90%;
+      @media only screen and (max-width: 576px) {
+        padding-top: 28px;
+      }
+      @media only screen and (min-width: 1280px) {
+        width: 70%;
+      }
+      .paginationWrapper {
+        padding: 20px 0 10px;
+        display: flex;
+        flex-direction: column;
+        flex-wrap: wrap;
+        align-items: center;
+      }
+    }
+    .searchClose {
+      position: absolute;
+      bottom: 20px;
+      right: 20px;
+      cursor: pointer;
+      display: flex;
+      flex-wrap: wrap;
+      flex-direction: row;
+      align-items: center;
+      div {
+        font-size: 13px;
+        font-weight: 600;
+      }
+      .ant-avatar {
+        background: #FEF9EF !important;
+        .anticon svg {
+          color : #282B37;
         }
       }
     }
@@ -148,6 +219,8 @@
         border: 1px solid rgb(227, 230, 239);
         padding: 10px;
         height: 250px;
+        box-shadow: rgba(0, 0, 0, 0.125) 0 0 1px;
+        border-radius: 5px;
       }
     }
   }
@@ -184,7 +257,6 @@
       flex-wrap: wrap;
       flex-direction: row;
       align-items: center;
-
       h4 {
         font-weight: bold;
       }
@@ -196,6 +268,7 @@
     }
 
     .chatBox {
+      box-shadow: rgba(0, 0, 0, 0.125) 0 0 1px;
       display: flex;
       flex-wrap: wrap;
       flex-direction: row;
@@ -250,6 +323,5 @@
         }
       }
     }
-
   }
 }

@@ -63,7 +63,7 @@ function SignIn() {
       // const data = new FormData(values.target);
       // const userId = data.get('userId');
       // const password = data.get('password');
-      dispatch(login(values, () => history('/')));
+      dispatch(login(values, () => history('/jubging')));
     },
     [history, dispatch],
   );

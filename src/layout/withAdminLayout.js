@@ -4,7 +4,7 @@
 /* eslint-disable react/no-unused-state */
 import { Button, Col, Layout, Row } from 'antd';
 import propTypes from 'prop-types';
-import { Component } from 'react';
+import React, { Component } from 'react';
 import { Scrollbars } from '@pezhmanparsaee/react-custom-scrollbars';
 import { connect } from 'react-redux';
 import { Link, NavLink } from 'react-router-dom';
@@ -15,10 +15,13 @@ import { FooterStyle, LayoutContainer, SmallScreenAuthInfo } from './Style';
 import TopMenu from './TopMenu';
 import AuthInfo from '../components/utilities/auth-info/info';
 import logodemo from '../static/img/logodemo.png';
+import { getItem } from "../utility/localStorageControl";
 
 const { theme } = require('../config/theme/themeVariables');
 
 const { Header, Sider, Content } = Layout;
+const userAuth = getItem('authList');
+
 
 const ThemeLayout = (WrappedComponent) => {
   class LayoutComponent extends Component {
@@ -105,6 +108,33 @@ const ThemeLayout = (WrappedComponent) => {
         return <div style={{ ...style, ...thumbStyle }} />;
       };
 
+      /**
+       * @Author 천은경
+       * @Date 23.06.14
+       * @returns {JSX.Element|null}
+       * @Brief 관리자 권한을 가진 회원에게만 관리자 탭 허용
+       */
+      const adminTab = () => {
+
+        if(userAuth && Array.isArray(userAuth) && userAuth.length > 0
+          && userAuth.filter(auth => auth === 'ROLE_ADMIN')) {
+          return (
+            <li className="admin_tab"
+                style={{
+                  listStyle: "none",
+                  marginRight : 50
+            }}>
+              <Link to="admin">
+                <span style={{color: "#F07167", fontWeight:"bold"}}>관리자</span>
+              </Link>
+            </li>
+          )
+        }
+        else {
+          return null;
+        }
+      }
+
       return (
         <LayoutContainer>
           <Layout className="layout">
@@ -117,11 +147,12 @@ const ThemeLayout = (WrappedComponent) => {
               }}
             >
               <div className="ninjadash-header-content d-flex">
+                {/* 헤더 로고 */}
                 <div className="ninjadash-header-content__left">
                   <div className="navbar-brand align-cener-v">
                     <Link
                       className={topMenu && window.innerWidth > 991 ? 'ninjadash-logo top-menu' : 'ninjadash-logo'}
-                      to="/admin"
+                      to="/jubging"
                       style={{ display: 'flex' }}
                     >
                       <img src={logodemo} alt="Logo" />
@@ -129,8 +160,10 @@ const ThemeLayout = (WrappedComponent) => {
                     </Link>
                   </div>
                 </div>
+                {/* 헤더 탑 메뉴 */}
                 <div className="ninjadash-header-content__right d-flex">
                   <div className="ninjadash-navbar-menu d-flex align-center-v">
+                    {adminTab()}
                     {topMenu && window.innerWidth > 991 ? <TopMenu /> : null}
                     {!topMenu || window.innerWidth <= 991 ? (
                       <Button type="link" onClick={toggleCollapsed}>
