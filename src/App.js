@@ -10,6 +10,7 @@ import './static/css/style.css';
 import config from './config/config';
 import ProtectedRoute from './components/utilities/protectedRoute';
 import 'antd/dist/antd.less';
+import Index from './container/pages';
 
 const NotFound = lazy(() => import('./container/pages/404'));
 
@@ -41,21 +42,10 @@ function ProviderConfig() {
       <ThemeProvider theme={{ ...themeColor, rtl, topMenu, mainContent }}>
         <>
           <Router basename={process.env.PUBLIC_URL}>
-            {!isLoggedIn ? (
-              <Routes>
-                <Route path="/*" element={<Auth />} />{' '}
+                <Routes>
+                  <Route path="/*" element={<Index />} Component={Admin} />{' '}
+                  <Route path="*" element={<NotFound />} />
               </Routes>
-            ) : (
-              <Routes>
-                <Route path="/admin/*" element={<ProtectedRoute path="/*" Component={Admin} />} />
-                <Route path="*" element={<NotFound />} />
-              </Routes>
-            )}
-            {isLoggedIn && (path === process.env.PUBLIC_URL || path === `${process.env.PUBLIC_URL}/`) && (
-              <Routes>
-                <Route path="/" element={<Navigate to="/admin" />} />
-              </Routes>
-            )}
           </Router>
         </>
       </ThemeProvider>

@@ -6,6 +6,9 @@ import Cookies from 'js-cookie';
 import actions from './actions';
 import { DataService } from '../../config/dataService/dataService';
 import { setItem } from '../../utility/localStorageControl';
+import SignUp from '../../container/profile/authentication/overview/Signup';
+import { useCallback, useEffect, useState } from 'react';
+import { async } from 'q';
 
 const { loginBegin, loginSuccess, loginErr, logoutBegin, logoutSuccess, logoutErr } = actions;
 
@@ -29,7 +32,7 @@ const login = (values, callback) => {
         Cookies.set('gender', response.data.gender);
         Cookies.set('birth', response.data.birth);
         Cookies.set('regDate', response.data.regDate);
-        
+
         dispatch(loginSuccess(true));
         callback();
       }
@@ -39,55 +42,51 @@ const login = (values, callback) => {
   };
 };
 
-const emailAuth = (value) => {
-  return async (dispatch) => {
-    try {
-      const response = await DataService.post('/member/signup/emailConfirm', value);
-      console.log(response.data);
-      // if (response.data.errors) {
-        
-      // } else {
-      // }
-    } catch (err) {
-      // dispatch(loginErr(err));
-    };
-  }
-}
 
 
-const register = (values) => {
-  return async (dispatch) => {
-    dispatch(loginBegin());
+const register = (values, callback) => {
+  return async () => {
     try {
       const response = await DataService.post('/member/signup', values);
-      if (response.data.errors) {
-        dispatch(loginErr('Registration failed!'));
+      if (response.errors) {
+        throw new Error("에러!")
       } else {
-        dispatch(loginSuccess(false));
+        callback();
       }
     } catch (err) {
-      dispatch(loginErr(err));
+      console.log(err);
     }
   };
 };
 
 const logOut = (callback) => {
-  return async (dispatch) => {
-    dispatch(logoutBegin());
-    try {
-      const response = await DataService.post('/member/logout', callback);
-      if (response == null) {
-        dispatch(logoutErr(true));
+    return async (dispatch) => {
+      dispatch(logoutBegin());
+      try {
+        const response = await DataService.get('/member/logout');
+      
+        if (response === null) {
+          dispatch(logoutErr(true));
+        }
+        
+        localStorage.removeItem("ACCESS_TOKEN");
+        Cookies.remove("ACCESS_TOKEN");
+        Cookies.remove('logedIn');
+        Cookies.remove('userId');
+        Cookies.remove('memberNo');
+        Cookies.remove('nickName');
+        Cookies.remove('userName');
+        Cookies.remove('gender');
+        Cookies.remove('birth');
+        Cookies.remove('regDate');
+      
+        dispatch(logoutSuccess(true));
+        callback();
+
+      } catch (err) {
+        dispatch(logoutErr(err));
       }
-      localStorage.removeItem("ACCESS_TOKEN", response.token);
-      Cookies.remove('logedIn');
-      Cookies.remove('ACCESS_TOKEN');
-      dispatch(logoutSuccess(true));
-      callback();
-    } catch (err) {
-      dispatch(logoutErr(err));
-    }
-  };
+    };
 };
 
-export { login, logOut, register, emailAuth };
+export { login, logOut, register };

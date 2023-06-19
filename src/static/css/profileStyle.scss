@@ -1,0 +1,30 @@
+.profile-component {
+  margin: 0 auto;
+  display: block;
+  width: 1024px;
+  min-height: 400px;
+}
+
+.card-image{
+  background-size: cover;
+  float:left;
+}
+
+.card__content{
+  float: left;
+  text-align: left;
+
+  div:nth-child(n) {
+    display: block;
+    padding: 5px 10px;
+    
+  }
+  
+}
+
+.card__actions{
+  float: right;
+  button{
+    
+  }
+}

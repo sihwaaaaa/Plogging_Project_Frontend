@@ -1,9 +1,9 @@
 /* eslint-disable import/named */
 /* eslint-disable no-restricted-globals */
 /* eslint-disable prettier/prettier */
-import React, { useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import ReactDOM from 'react-dom';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Row, Col, Form, Input, Button} from 'antd';
 import { useDispatch } from 'react-redux';
 // import { Option } from 'antd/lib/mentions';
@@ -11,6 +11,8 @@ import DaumPostcode from 'react-daum-postcode';
 import FormItemLabel from 'antd/es/form/FormItemLabel';
 import { AuthFormWrap } from './style';
 import { register, emailAuth } from '../../../../redux/authentication/actionCreator';
+import { resolve } from 'path';
+import { DataService } from '../../../../config/dataService/dataService';
 // import FormItemLabel from 'antd/es/form/FormItemLabel';
 
 const PopUpDom = ({ children }) => {
@@ -21,18 +23,14 @@ const PopUpDom = ({ children }) => {
 
 function SignUp() {
   const dispatch = useDispatch();
-
+  const history = useNavigate();
   // 주소 state
   // const [openPostCode, setOpenPostCode] = React.useState<boolean>(false);
   const [isPopUpOpen, setIsPopUpOpen] = useState(false);
-  // const [text, setText] = useState('');
+  const [address, setAddress] = useState('');
+  const [emailCode, setEmailCode] = useState('');
 
-  const handleAuthEmail = () => {
-    const emailVal = document.getElementById('email').value;
-    document.getElementById('authCode').type = "text";
-    emailAuth(emailVal);
-    // console.log(codeInput.getAttribute);
-  }
+
 
   const handleComplete = (data) => {
     let fullAddress = data.address;
@@ -47,34 +45,24 @@ function SignUp() {
       }
       fullAddress += extraAddress !== '' ? ` (${extraAddress})` : '';
     }
-    const addressDom = document.getElementById('address');
-    addressDom.value = fullAddress;
-    console.log(fullAddress); // e.g. '서울 성동구 왕십리로2길 20 (성수동1가)'
+    console.log(fullAddress);
+    setAddress(fullAddress);
+    // const changeAddress = () => setAddress(address => address + fullAddress);
+    const addressDom = document.getElementById('address');  // ''
+    console.log(address);
+    addressDom.value = address;
+    // console.log(fullAddress); // e.g. '서울 성동구 왕십리로2길 20 (성수동1가)'
   };
  
   const popUpOpen = (e) => {
     console.log(e);
+    e.preventDefault();
     setIsPopUpOpen(true);
   }
 
   const popUpClose = () => {
     setIsPopUpOpen(false);
   }
-
-  // 지금 있는 값 또는 체크를 한번에 관리하겠다는 의도
-  // 성별 관리
-  // const [isGender, setIsGender] = useState({
-  //   male: false,
-  //   female: false,
-  // });
-  // // 회원 아이디
-  // const [userId, setUserId] = useState('');
-  // // 비밀번호
-  // const [password, setPassword] = useState('');
-  // // 닉네임
-  // const [nickName, setNickName] = useState('');
-  // // 이름
-  // const [userName, setUserName] = useState('');
 
   // 생년월일
   const now = new Date();
@@ -119,17 +107,47 @@ function SignUp() {
   //   setIsPopUpOpen(true);
   // }
   const handleGender = (e) => {
-    console.log(e.target.value);
     setGender({
       selectValue: e.target.value,
     });
   };
+
+  const handleAuthEmail = () => {
+    const emailVal = document.getElementById('email').value;
+    document.getElementById('authCode').type = "text";
+    emailAuth(emailVal);
+    // console.log(codeInput.getAttribute);
+  }
+
+  
+// const [data, setData] = useState(null);
+  const emailAuth = async (value) => {
+    const response = await DataService.post('/member/signup/emailConfirm', value);
+    console.log(response.data);
+    setEmailCode(response.data);
+  } 
+
+  const validateUserId = async (userId) => {
+    const response = await DataService.post('/member/signup/checkId', userId);
+    if (response.data === null) {
+      alert("중복되는 회원 아이디입니다.");
+      return false;
+    }
+  }
+
   // Submit 했을 시에 값 등록
   const handleSubmit = (e) => {
-    const { userId, password, nickName, userName, email, address} = e
+    const { userId, password, nickName, userName, email, address } = e
     // const objValue = useState({
     //   userId, password, nickName, userName, email, gender, birth
     // });
+    console.log(emailCode);
+    const authCode = document.getElementById("authCode").value;
+    if (authCode !== emailCode) {
+      alert("인증 코드가 올바르지 않습니다.");
+      return false;
+    }
+    
     dispatch(register({
       userId,
       password,
@@ -139,13 +157,8 @@ function SignUp() {
       gender: gender.selectValue,
       birth: birth.year + birth.month + birth.day,
       address
-    }));
-  };
-
-  // const onChange = (checked) => {
-  //   setState({ ...state, checked });
-  // };
-
+    }, () => history('/member/signin')));
+  }
   return (
     <Row justify="center">
       <Col xxl={6} xl={8} md={12} sm={18} xs={24}>
@@ -177,6 +190,7 @@ function SignUp() {
                 ]}
               >
                 <Input placeholder="아이디를 입력하세요" />
+                <Button type='button' onClick={validateUserId} ></Button>
               </Form.Item>
               <Form.Item
                 name="password"
@@ -209,21 +223,21 @@ function SignUp() {
                 <Input placeholder="닉네임을 입력하세요" />
               </Form.Item>
               <Form.Item label="성별" name="gender">
-                <FormItemLabel htmlFor="male">남자</FormItemLabel>
+                <FormItemLabel label="남자" htmlFor="male">남자</FormItemLabel>
                 <Input
                     type='radio'
                     id="male"
                     value="남자"
                     checked={gender.selectValue === '남자'}
-                    onChange={handleGender}
+                    onClick={handleGender}
                 />
-                <FormItemLabel htmlFor='female'>여자</FormItemLabel>
+                <FormItemLabel label="여자" htmlFor='female'>여자</FormItemLabel>
                   <Input
                     type='radio'
                     id="female"
                     value="여자"
                     checked={gender.selectValue === '여자'}
-                    onChange={handleGender}
+                    onClick={handleGender}
                   />
               </Form.Item>
               
@@ -277,8 +291,8 @@ function SignUp() {
                 <Input placeholder="주소를 입력해주세요." />
                 <Button type='button' onClick={handlePopUp}></Button>
               </Form.Item> */}
-              <Form.Item className='address-form' label="주소" name="address" rules={[{ required: true, message: '주소를 입력해주세요.' }]}>
-                  <Input readOnly id='address' placeholder="주소를 입력해주세요." />
+              <Form.Item className='address-form' label="주소" name="address">
+                  <Input readOnly id='address' placeholder="주소를 입력해주세요." value={address} />
                   <Button onClick={popUpOpen}>버튼</Button>
                   <div id='popUpDom'>
                   {isPopUpOpen && 
@@ -313,10 +327,10 @@ function SignUp() {
                   id='email'
                   name='email'
                   placeholder="이메일을 입력하세요." />
-                <Button onClick={handleAuthEmail}>인증</Button>
-                <Input type='hidden' id='authCode' />
               </Form.Item>
+                <Button onClick={handleAuthEmail}>인증</Button>
               <Form.Item>
+                <Input type='hidden' id='authCode' />
                 <Button className="btn-create" htmlType="submit" type="primary" size="large">
                   회원 생성
                 </Button>

@@ -3,6 +3,7 @@ import { Routes, Route } from 'react-router-dom';
 
 import BoardDetail from "../../container/pages/boardDetail";
 import BoardRegister from "../../container/pages/boardRegister";
+import Auth from '../auth';
 
 const Plogging = lazy(() => import('../../container/pages/plogging'));
 const MapList = lazy(() => import('../../container/pages/mapList'));
@@ -27,6 +28,8 @@ function PagesRoute() {
       <Route path="board" element={<Board />} />
       <Route path="challenge" element={<Challenge />} />
       <Route path="profile" element={<Profile />} />
+      {/* <Route path="/profile/" element={<Profile />} /> */}
+      <Route path="member/*" element={<Auth />} />
       <Route path="friend" element={<Friend />} />
       <Route path="reward" element={<Reward />} />
       <Route path="admin" element={<Admin />} />

@@ -76,11 +76,12 @@ const AuthFormWrap = Styled.div`
     }
 
     select {
-      
       padding-left: 5px;
-      
     }
-
+    
+    .birth-form select {
+      flex: 0.7;
+    }
     .ant-form-item-label {
       > label{
         font-size: 14px;

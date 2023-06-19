@@ -16,10 +16,10 @@ const AuthRoot = () => {
 const FrontendRoutes = React.memo(() => {
   return (
     <Routes>
-      <Route index element={<Login />} />
+      <Route path='signin' element={<Login />} />
       <Route path="socialLogin" element={<SocialLogin />} />
       <Route path="forgotPassword" element={<ForgotPass />} />
-      <Route path="register" element={<SignUp />} />
+      <Route path="signup" element={<SignUp />} />
       <Route path="*" element={<AuthRoot />} />
     </Routes>
   );
