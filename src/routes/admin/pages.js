@@ -4,8 +4,11 @@ import { Routes, Route } from 'react-router-dom';
 import BoardDetail from "../../container/pages/boardDetail";
 import BoardRegister from "../../container/pages/boardRegister";
 import Auth from '../auth';
+// import WritePage from '../../container/pages/WritePage';
+// import PostPage from '../../container/pages/PostPage';
 
 const Plogging = lazy(() => import('../../container/pages/plogging'));
+const StartPage = lazy(() => import('../../container/pages/StartPage'));
 const MapList = lazy(() => import('../../container/pages/mapList'));
 const Index = lazy(() => import('../../container/pages/index'));
 const Board = lazy(() => import('../../container/pages/board'));
@@ -24,6 +27,7 @@ function PagesRoute() {
       <Route path="plogging" element={<Plogging />} />
       <Route path="board/register" element={<BoardRegister />} />
       <Route path="board/:bno" element={<BoardDetail />} />
+      <Route path="plogging/startPage" element={<StartPage />} />
       <Route path="plogging/mapList/:mapNo" element={<MapList />} />
       <Route path="board" element={<Board />} />
       <Route path="challenge" element={<Challenge />} />

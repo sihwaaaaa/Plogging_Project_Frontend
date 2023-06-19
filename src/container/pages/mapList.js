@@ -1,77 +1,122 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
+import useGeolocation from '../../utility/plogging/useGeolocation';
 
 const { Tmapv2 } = window;
 
+const geolocationOptions = {
+  enableHighAccuracy: true,
+  timeout: 1000 * 60 * 1, // 1 min (1000 ms * 60 sec * 1 minute = 60 000ms)
+  maximumAge: 1000 * 3600 * 24, // 24 hour
+};
 const mapList = () => {
-  const location = useLocation();
-  const route = location.state;
-  const [result, setResult] = useState({ lon: null, lat: null });
-  const [startX, setStartX] = useState(route.startX);
-  const [startY, setStartY] = useState(route.startY);
-  function coordConvert(lat, lon) {
-    axios
-      .get(
-        `https://apis.openapi.sk.com/tmap/geo/coordconvert?version=1&format=json&callback=result&fromCoord=GRS80TM&lon=${lon}&lat=${lat}&appKey=18T2zPpWnZ8XkMLMGjqNL9MMe7ieWWAxa29bWldO`,
-      )
-      .then(function (response) {
-        const resultCoordinate = response.data.coordinate;
-        const lon2 = resultCoordinate.lon;
-        const lat2 = resultCoordinate.lat;
-        const result = { lon: lon2, lat: lat2 };
-        setResult(result);
-        console.log(result);
-      })
-      .catch(function (error) {
-        console.error('code:', error.response.status);
-        console.error('message:', error.response.data);
-        console.error('error:', error.message);
-      });
-  }
+  let map;
+  let marker_s, marker_e;
+  const resultMarkerArr = [];
+  const loc = useLocation();
+  const route = loc.state;
+  console.log(route);
+  const { location, error } = useGeolocation(geolocationOptions);
+  const startX = route.startX;
+  const startY = route.startY;
+  const endX = route.endX;
+  const endY = route.endY;
+  const passList = JSON.stringify(route.stops);
+
+  console.log(passList);
+  const [date, setDate] = useState(() => new Date());
+
+  // useEffect(() => {
+  //   const timeId = setInterval(() => tick(), 1000);
+  //   console.log('setInteval');
+
+  //   return () => {
+  //     clearInterval(timeId);
+  //     console.log('clearInterval');
+  //   };
+  // }, []);
+
+  const tick = () => {
+    setDate(new Date());
+  };
 
   useEffect(() => {
-    axios
-      .get(
-        `https://apis.openapi.sk.com/tmap/geo/coordconvert?version=1&format=json&callback=result&fromCoord=GRS80TM&lon=${startY}&lat=${startY}&appKey=18T2zPpWnZ8XkMLMGjqNL9MMe7ieWWAxa29bWldO`,
-      )
-      .then(function (response) {
-        const resultCoordinate = response.data.coordinate;
-        const lon2 = resultCoordinate.lon;
-        const lat2 = resultCoordinate.lat;
-        const result = { lon: lon2, lat: lat2 };
-        console.log(result);
-      })
-      .catch(function (error) {
-        console.error('code:', error.response.status);
-        console.error('message:', error.response.data);
-        console.error('error:', error.message);
+    if (error) {
+      console.log(error);
+    }
+    if (location) {
+      // 1. 지도 띄우기
+      const { latitude, longitude } = location;
+      map = new Tmapv2.Map('map_div', {
+        center: new Tmapv2.LatLng(latitude, longitude),
+        width: '100%',
+        height: '700px',
+        zoom: 15,
       });
-    console.log(result.lon);
-    setStartX(result.lon);
-    setStartY(result.lat);
-    const map = new Tmapv2.Map('map_div', {
-      center: new Tmapv2.LatLng(startX, startY),
-      width: '100%',
-      height: '700px',
-      zoom: 15,
+    }
+    // // 2. 시작, 도착 심볼찍기
+    // // 시작
+    marker_s = new window.Tmapv2.Marker({
+      position: new window.Tmapv2.LatLng(startY, startX),
+      icon: 'http://tmapapi.sktelecom.com/upload/tmap/marker/pin_r_m_s.png',
+      iconSize: new window.Tmapv2.Size(24, 38),
+      map: map,
     });
-    const marker = new Tmapv2.Marker({
-      position: new Tmapv2.LatLng(startX, startY),
-      icon: 'http://tmapapi.sktelecom.com/resources/images/common/pin_car.png',
-      map,
+    resultMarkerArr.push(marker_s);
+    // // 도착
+    marker_e = new window.Tmapv2.Marker({
+      position: new window.Tmapv2.LatLng(endY, endX),
+      icon: 'http://tmapapi.sktelecom.com/upload/tmap/marker/pin_r_m_e.png',
+      iconSize: new window.Tmapv2.Size(24, 38),
+      map: map,
     });
-    // const content = '<div>' + '    <button>' + '        시작하기';
-    // '    </button>' + '</div>';
-    // const infoWindow = new Tmapv2.InfoWindow({
-    //   position: new Tmapv2.LatLng(latitude, longitude), //Popup 이 표출될 맵 좌표
-    //   content: content, //Popup 표시될 text
-    //   type: 2, //Popup의 type 설정.
-    //   map: map, //Popup이 표시될 맵 객체
-    //   align: Tmapv2.InfoWindowOptions.ALIGN_LEFTBOTTOM,
-    // });
-  }, [route]);
+    resultMarkerArr.push(marker_e);
+    // // 3. 경유지 심볼 찍기
+    const stopovers = route.stops;
 
+    stopovers.forEach((stopover) => {
+      const marker = new window.Tmapv2.Marker({
+        position: new window.Tmapv2.LatLng(parseFloat(stopover.viaY), parseFloat(stopover.viaX)),
+        icon: `http://tmapapi.sktelecom.com/upload/tmap/marker/pin_b_m_${stopover.stopoverIdx - 1}.png`,
+        iconSize: new window.Tmapv2.Size(24, 38),
+        map: map,
+      });
+      resultMarkerArr.push(marker);
+    });
+
+    // 4. 경로탐색 API 사용요청
+
+    // const headers = {
+    //   appKey: '18T2zPpWnZ8XkMLMGjqNL9MMe7ieWWAxa29bWldO',
+    // };
+    // axios
+    //   .post(
+    //     'https://apis.openapi.sk.com/tmap/routes/routeSequential30?version=1&format=json&callback=result',
+    //     {
+    //       startName: route.courseName,
+    //       startX: startX,
+    //       startY: JSON.stringify(startY),
+    //       endName: route.courseName,
+    //       endX: JSON.stringify(endX),
+    //       endY: JSON.stringify(endY),
+    //       viaPoints: passList,
+    //       startTime: '202306190442',
+    //       reqCoordType: 'WGS84GEO',
+    //       resCoordType: 'WGS84GEO',
+    //     },
+    //     { headers },
+    //   )
+    //   .then((response) => {
+    //     console.log(response);
+    //   })
+    //   .catch((error) => {
+    //     console.log(
+    //       error,
+    //       'code:' + error.response.status + '\n' + 'message:' + error.response.data + '\n' + 'error:' + error,
+    //     );
+    //   });
+  }, [route, location]);
   return (
     <div>
       <div id="map_div"></div>
