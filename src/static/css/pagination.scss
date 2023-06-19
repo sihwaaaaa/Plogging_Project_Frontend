@@ -1,0 +1,60 @@
+.pagination {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+  & :hover {
+    color: #227C9D;
+  }
+  & {
+    cursor : pointer;
+  }
+  @media only screen and (max-width: 767px) {
+    display: none;
+  }
+  .beforePages {
+
+  }
+  .beforePage {
+    padding-right: 15px;
+  }
+  .afterPage {
+    padding-left: 15px;
+  }
+  .afterPages {
+
+  }
+
+  li {
+    list-style: none;
+    width: auto;
+    height: auto;
+  }
+  li + li {
+    padding-left: 20px;
+  }
+}
+.InfiniteScroll {
+  display: none;
+  flex-wrap: wrap;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 10px;
+  @media only screen and (max-width: 767px) {
+    display: flex;
+  }
+  .btnWrapper {
+    cursor: pointer;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    span {
+      font-size: 13px;
+      font-weight: bold;
+    }
+    &:hover {
+      color: #227C9D;
+    }
+  }
+}

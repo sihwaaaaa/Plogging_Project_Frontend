@@ -13,7 +13,7 @@ const login = (values, callback) => {
   return async (dispatch) => {
     dispatch(loginBegin());
     try {
-      const response = await DataService.post('/member/signin', values);
+      const response = await DataService.login('/member/signin', values);
       if (response.data.errors) {
         dispatch(loginErr(response.data.errors));
       } else {
@@ -29,7 +29,8 @@ const login = (values, callback) => {
         Cookies.set('gender', response.data.gender);
         Cookies.set('birth', response.data.birth);
         Cookies.set('regDate', response.data.regDate);
-        
+        Cookies.set('authList', response.data.authList);
+
         dispatch(loginSuccess(true));
         callback();
       }

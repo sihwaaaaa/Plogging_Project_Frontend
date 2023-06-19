@@ -15,7 +15,7 @@ function VerticalForm({ onChange }) {
       path: 'first',
       breadcrumbName: 'Form Components',
     },
-  ];
+  ];              
   const [state, setState] = useState({
     onChangeValue: null,
     value: RichTextEditor.createEmptyValue(),

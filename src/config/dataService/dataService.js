@@ -27,11 +27,20 @@ class DataService {
     });
   }
 
-  static post(path = '', data = {}, optionalHeader = {}) {
+  static login(path = '', data = {}, optionalHeader = {}) {
     return client({
       method: 'POST',
       url: path,
       data,
+      headers: { ...authHeader(), ...optionalHeader },
+    });
+  }
+
+  static post(path = '', data = {}, optionalHeader = {}) {
+    return client({
+      method: 'POST',
+      url: path,
+      data : JSON.stringify(data.data),
       headers: { ...authHeader(), ...optionalHeader },
     });
   }
