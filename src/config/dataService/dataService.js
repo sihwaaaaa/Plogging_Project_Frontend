@@ -4,15 +4,18 @@ import { getItem } from '../../utility/localStorageControl';
 const API_ENDPOINT = `${process.env.REACT_APP_API_ENDPOINT}`;
 
 const authHeader = () => ({
-  Authorization: `Bearer ${getItem('ACCESS_TOKEN')}`,
+  Authorization: `Bearer ${getItem('access_token')}`,
 });
 
 const client = axios.create({
   baseURL: API_ENDPOINT,
   headers: {
-    Authorization: `Bearer ${getItem('ACCESS_TOKEN')}`,
+    Authorization: `Bearer ${getItem('access_token')}`,
     'Content-Type': 'application/json',
   },
+  responseType: 'json',
+  responseEncoding: 'utf-8',
+  withCredentials: true
 });
 
 class DataService {
@@ -37,12 +40,14 @@ class DataService {
     return client({
       method: 'PATCH',
       url: path,
-      data: JSON.stringify(data),
+      data: JSON.stringify(data.data),
       headers: { ...authHeader() },
     });
   }
 
   static put(path = '', data = {}) {
+    console.log(data)
+    console.log(JSON.stringify(data))
     return client({
       method: 'PUT',
       url: path,
@@ -50,10 +55,15 @@ class DataService {
       headers: { ...authHeader() },
     });
   }
-}
 
-export default function socialLogin(provider) {
-  window.location.href = `${API_ENDPOINT}/oauth2/auth/${provider}?redirect_url=${window.location.protocol}//${window.location.host}`;
+  static delete(path = '', data = {}) {
+    return client({
+      method: 'DELETE',
+      url: path,
+      data: JSON.stringify(data.data),
+      headers: {...authHeader()},
+    });
+  }
 }
 
 /**
@@ -65,7 +75,8 @@ client.interceptors.request.use((config) => {
   // For example tag along the bearer access token to request header or set a cookie
   const requestConfig = config;
   const { headers } = config;
-  requestConfig.headers = { ...headers, Authorization: `Bearer ${getItem('ACCESS_TOKEN')}` };
+  requestConfig.headers = { ...headers, Authorization: `Bearer ${getItem('access_token')}`
+    , userId: `${getItem('userId')}`};
 
   return requestConfig;
 });
