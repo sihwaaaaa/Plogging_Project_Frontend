@@ -31,7 +31,7 @@ function PagesRoute() {
       <Route path="plogging/mapList/:mapNo" element={<MapList />} />
       <Route path="board" element={<Board />} />
       <Route path="challenge" element={<Challenge />} />
-      <Route path="profile" element={<Profile />} />
+      <Route path="profile/*" element={<Profile />} />
       {/* <Route path="/profile/" element={<Profile />} /> */}
       <Route path="member/*" element={<Auth />} />
       <Route path="friend" element={<Friend />} />

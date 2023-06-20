@@ -1,4 +1,3 @@
-/* eslint-disable import/named */
 /* eslint-disable no-restricted-globals */
 /* eslint-disable prettier/prettier */
 import React, { useCallback, useEffect, useState } from 'react';
@@ -30,7 +29,11 @@ function SignUp() {
   const [address, setAddress] = useState('');
   const [emailCode, setEmailCode] = useState('');
 
-
+  const [userId, setUserId] = useState('');
+  const [password, setPassword] = useState('');
+  const [nickName, setNickName] = useState('');
+  const [userName, setUserName] = useState('');
+  const [email, setEmail] = useState('');
 
   const handleComplete = (data) => {
     let fullAddress = data.address;
@@ -120,19 +123,23 @@ function SignUp() {
   }
 
 
-// const [data, setData] = useState(null);
+  // const [data, setData] = useState(null);
   const emailAuth = async (value) => {
     const response = await DataService.post('/member/signup/emailConfirm', value);
     console.log(response.data);
     setEmailCode(response.data);
   }
 
-  const validateUserId = async (userId) => {
-    const response = await DataService.post('/member/signup/checkId', userId);
-    if (response.data === null) {
-      alert("중복되는 회원 아이디입니다.");
-      return false;
-    }
+  const validateUserId =async () => {
+    const id = document.getElementById("userId").value;
+    setUserId(id);
+    await DataService.post("/member/signup/checkId", userId)
+      .then((response) => {
+        if (response === userId) {
+          alert("아이디가 중복됩니다.");
+          return false;
+        }
+      })
   }
 
   // Submit 했을 시에 값 등록
@@ -189,8 +196,8 @@ function SignUp() {
                   },
                 ]}
               >
-                <Input placeholder="아이디를 입력하세요" />
-                <Button type='button' onClick={validateUserId} ></Button>
+                <Input id="userId" placeholder="아이디를 입력하세요" />
+                <Button type='button' onClick={validateUserId} >중복체크</Button>
               </Form.Item>
               <Form.Item
                 name="password"
