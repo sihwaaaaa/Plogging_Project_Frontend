@@ -57,7 +57,7 @@ SampleCardOne.defaultProps = {
     id: 1,
     title: 'Technology Change the World',
     content: 'Lorem Ipsum is simply dummy text of the printer took a galley of type and scrambled',
-    img: 'static/img/sampleCards/1.png',
+    img: 'static/img/sampleCards/ploggingMainImg_default.png',
   },
 };
 

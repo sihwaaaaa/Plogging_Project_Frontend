@@ -138,7 +138,11 @@ function MenuItems({ toggleCollapsed }) {
           <div className="mypage-wrapper">
             <NavLink className="mypage-tab" onClick={toggleCollapsed} to={`${path}/pages/profile`}>
               <AvatarWraperStyle>
-                <Avatar icon={<UserOutlined style={{width:"60px", height:"60px", fontSize:"40px"}} />} size={60} />
+                <Avatar icon={<UserOutlined style={{
+                  width: "60px",
+                  height: "60px",
+                  fontSize: "40px",
+                }} />} size={60} />
               </AvatarWraperStyle>
             </NavLink>
             <div className="mypage-text">

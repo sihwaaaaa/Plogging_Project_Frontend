@@ -46,7 +46,7 @@ ProfileCard.propTypes = {
 };
 
 ProfileCard.defaultProps = {
-  image: 'static/img/users/1.png',
+  image: 'static/img/users/ploggingMainImg_default.png',
   bgImage: 'static/img/banner/BG.png',
   title: 'Robert Clinton',
   tag: 'Best Seller of the last month',

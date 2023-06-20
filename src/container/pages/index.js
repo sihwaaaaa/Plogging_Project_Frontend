@@ -15,7 +15,8 @@ function Index() {
       <div className="index-page-ploggingInfo">
         <div className="container">
           {/* eslint-disable-next-line react/no-unescaped-entities */}
-          <h2>WHAT IS PLOGGING?</h2>
+          {/*<h2>WHAT IS PLOGGING?</h2>*/}
+          <h2>HOW TO PLOGGING</h2>
           <span>
             플로깅은 ‘이삭을 줍는다’ 는 뜻인 스웨덴어 plocka upp과 영어 단어 jogging(조깅)이 합쳐져 생긴 합성어로,
             {/* eslint-disable-next-line react/no-unescaped-entities */}
@@ -134,6 +135,43 @@ function Index() {
               </div>
             </div>
           </div>
+        </div>
+      </div>
+      <div className="index-page-rewardInfo">
+        <div className="container">
+          {/* eslint-disable-next-line react/no-unescaped-entities */}
+          {/*<h2>WHAT IS PLOGGING?</h2>*/}
+          <h2>REWARD</h2>
+          <span>
+            플로깅은 ‘이삭을 줍는다’ 는 뜻인 스웨덴어 plocka upp과 영어 단어 jogging(조깅)이 합쳐져 생긴 합성어로,
+            {/* eslint-disable-next-line react/no-unescaped-entities */}
+            산책을 하며 쓰레기를 줍는 환경운동입니다. 이를 국내에서는 '줍다'와 '조깅'을 결합한 '줍깅'으로 불리고
+            있습니다.
+          </span>
+          <Card className="card">
+            <Row gutter={16}>
+              <Col span={24}>
+                <h3>플로깅 준비</h3>
+                <span>집게와 봉투를 챙겨요</span>
+              </Col>
+            </Row>
+          </Card>
+          <Card className="card">
+            <Row gutter={16}>
+              <Col span={24}>
+                <h3>플로깅 인증</h3>
+                <span>집게와 봉투를 챙겨요</span>
+              </Col>
+            </Row>
+          </Card>
+          <Card className="card">
+            <Row gutter={16}>
+              <Col span={24}>
+                <h3>리워드</h3>
+                <span>집게와 봉투를 챙겨요</span>
+              </Col>
+            </Row>
+          </Card>
         </div>
       </div>
     </>

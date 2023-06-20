@@ -19,6 +19,9 @@ const LayoutContainer = Styled.div`
             padding: ${({ theme }) => (!theme.rtl ? '15px 5px 15px 0' : '15px 0 15px 5px')};
             height: 110px;
             padding: 15px 10px;
+            @media only screen and (max-width: 620px) {
+              height: 70px;
+            }
         }
     }
     .ant-layout.layout {
@@ -288,10 +291,12 @@ const LayoutContainer = Styled.div`
         @media (max-width: 991px){
             box-shadow: 0 0 10px #00000020;
         }
+        @media (max-width: 620px){
+            margin-top: 68px !important;
+        }
         @media print {
             display: none;
         }
-
         .custom-scrollbar{
             .ninjadash-track-vertical{
                 position: absolute;
@@ -665,6 +670,9 @@ const LayoutContainer = Styled.div`
   theme.topMenu ? 0 : '280px'};
         margin-top: 110px;
         transition: 0.3s ease;
+        @media only screen and (max-width: 620px) {
+          margin-top: 70px !important
+        }
         
         @media print {
             width: 100%;

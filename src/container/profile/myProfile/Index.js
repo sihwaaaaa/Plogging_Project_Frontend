@@ -39,7 +39,7 @@ function MyProfile() {
               }
             >
               <UserCards
-                user={{ name: 'Duran Clyton', designation: 'UI/UX Designer', img: 'static/img/users/1.png' }}
+                user={{ name: 'Duran Clyton', designation: 'UI/UX Designer', img: 'static/img/users/ploggingMainImg_default.png' }}
               />
             </Suspense>
             <Suspense

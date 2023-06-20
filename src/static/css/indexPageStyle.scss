@@ -1,5 +1,26 @@
 .index-page-plogging {
-  background: white;
+  background-image: url('../img/ploggingMainImg_default.png');
+  background-position: center;
+  background-attachment: fixed;
+  background-position: center 110px;
+  @media only screen and (max-width: 1400px) {
+    background-image: url('../img/ploggingMainImg_1400px.png');
+    background-position: left top;
+    background-size: cover;
+  }
+  @media only screen and (max-width: 1024px) {
+    background-image: url('../img/ploggingMainImg_1024px.png');
+    background-size: cover;
+  }
+  @media only screen and (max-width: 767px) {
+    background-image: url('../img/ploggingMainImg_767px.png');
+    background-size: cover;
+  }
+  @media only screen and (max-width: 540px) {
+    background-image: url('../img/ploggingMainImg_540px.png');
+    background-position: left -150px;
+    background-size: cover;
+  }
   height: 500px;
   width: 100%;
   display: flex;
@@ -7,6 +28,7 @@
   justify-content: center;
   flex-wrap: wrap;
   align-content: center;
+
   h2 {
     font-size: 40px;
     font-weight: 600;
@@ -20,14 +42,14 @@
   }
 }
 .index-page-ploggingInfo {
-  background: #227C9D;
+  background: #fef9ef;
   width: 100%;
-  min-height: 500px;
+  min-height: 600px;
   display: flex;
   align-items: center;
   justify-content: center;
   .container {
-    background: #227C9D;
+    background: #fef9ef;
     max-width: 800px;
     display: flex;
     justify-content: center;
@@ -37,9 +59,12 @@
     align-content: center;
     span {
       width: 90%;
+      color : #227C9D;
+      color : #666D92;
     }
     h2 {
-      color : #FFCB77;
+      color : #ffcb77;
+      text-shadow: 0 2px 0 rgba(0, 0, 0, 0.1);
       font-size: 27px;
       font-weight: bolder;
       padding-bottom: 10px;
@@ -75,8 +100,13 @@
   }
 }
 .index-page-challenge {
+  //background: #227C9D;
+  //background: #FFE8C2;
+  //background: #9BD4E9;
+  background: #fef9ef;
+  //background: #227C9D;
   padding: 20px 0 30px;
-  min-height: 600px;
+  min-height: 700px;
   width: 100%;
   display: flex;
   align-items: center;
@@ -97,8 +127,16 @@
     .challenge-search {
       width: 100%;
       .ninjadash-knowledgetop{
-        background: #f8f9fb;
+        //background: #f8f9fb;
+        //background: #227C9D;
+        //background: #ffcb77;
+        //background: #FFE8C2;
+        //background: #F6A8A2;
+        //background: #91F2CD;
+        //background: #9BD4E9;
+        background: #fef9ef;
         .ninjadash-knowledgetop__title{
+          text-shadow: 0 2px 0 rgba(0, 0, 0, 0.1);
           color: #227C9D;
           font-size: 27px;
         }
@@ -216,5 +254,63 @@
   }
   .challengeList{
     width: 100%;
+  }
+}
+.index-page-rewardInfo {
+  background: #9BD4E9;
+  width: 100%;
+  min-height: 600px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  .container {
+    background: #9BD4E9;
+    max-width: 800px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    color: white;
+    align-content: center;
+    span {
+      width: 90%;
+      color : #227C9D;
+      color : #666D92;
+    }
+    h2 {
+      color : #ffcb77;
+      text-shadow: 0 2px 0 rgba(0, 0, 0, 0.1);
+      font-size: 27px;
+      font-weight: bolder;
+      padding-bottom: 10px;
+    }
+    .card {
+      margin-top: 30px;
+      height: 200px;
+      justify-content: center;
+      h3 {
+        text-align: center;
+        color : #F07167;
+        font-weight: bold;
+      }
+    }
+    @media only screen and (max-width: 620px) {
+      padding: 20px 20px 50px;
+      flex-flow: column;
+      h2 {
+        padding-top: 30px;
+      }
+      span {
+        width: 100%;
+      }
+      .card {
+        width: 100%;
+      }
+    }
+    @media only screen and (min-width: 620px) {
+      .card + .card {
+        margin-left: 15px;
+      }
+    }
   }
 }
