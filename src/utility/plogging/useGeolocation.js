@@ -22,7 +22,7 @@ const useGeolocation = (options = {}) => {
       setError('Geolocation is not supported.');
       return;
     }
-    geolocation.getCurrentPosition(handleSuccess, handleError, options);
+    geolocation.watchPosition(handleSuccess, handleError, options);
   }, [options]);
   return { location, error };
 };
