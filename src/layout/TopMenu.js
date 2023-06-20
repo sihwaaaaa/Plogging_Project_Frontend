@@ -53,6 +53,11 @@ function TopMenu() {
   }
 
   const handleLogout = () => {
+    if(window.confirm("정말로 로그아웃을 하시겠습니까?")){
+      alert("로그아웃이 완료되었습니다.");
+    } else{
+      return false;
+    }
     dispatch(logOut(() => history('/')));
   };
 
