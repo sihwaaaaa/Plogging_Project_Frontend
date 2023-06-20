@@ -22,6 +22,7 @@ const mapList = () => {
   const startY = route.startY;
   const endX = route.endX;
   const endY = route.endY;
+  const courseName = route.courseName;
   const passList = JSON.stringify(route.stops);
 
   console.log(passList);
@@ -87,40 +88,113 @@ const mapList = () => {
 
     // 4. 경로탐색 API 사용요청
 
-    // const headers = {
-    //   appKey: '18T2zPpWnZ8XkMLMGjqNL9MMe7ieWWAxa29bWldO',
-    // };
-    // axios
-    //   .post(
-    //     'https://apis.openapi.sk.com/tmap/routes/routeSequential30?version=1&format=json&callback=result',
-    //     {
-    //       startName: route.courseName,
-    //       startX: startX,
-    //       startY: JSON.stringify(startY),
-    //       endName: route.courseName,
-    //       endX: JSON.stringify(endX),
-    //       endY: JSON.stringify(endY),
-    //       viaPoints: passList,
-    //       startTime: '202306190442',
-    //       reqCoordType: 'WGS84GEO',
-    //       resCoordType: 'WGS84GEO',
-    //     },
-    //     { headers },
-    //   )
-    //   .then((response) => {
-    //     console.log(response);
-    //   })
-    //   .catch((error) => {
-    //     console.log(
-    //       error,
-    //       'code:' + error.response.status + '\n' + 'message:' + error.response.data + '\n' + 'error:' + error,
-    //     );
-    //   });
+    const headers = {
+      appKey: '18T2zPpWnZ8XkMLMGjqNL9MMe7ieWWAxa29bWldO',
+    };
+    const viaPoints = route.stops.map((stop) => {
+      const point = {
+        viaPointId: JSON.stringify(stop.viaPointId),
+        viaPointName: courseName,
+        viaX: JSON.stringify(stop.viaX),
+        viaY: JSON.stringify(stop.viaX),
+      };
+      return point;
+    });
+    console.log(viaPoints);
+    axios
+      .post(
+        'https://apis.openapi.sk.com/tmap/routes/routeSequential30?version=1&format=json&callback=result',
+        {
+          startName: '출발지',
+          startX: JSON.stringify(startX),
+          startY: JSON.stringify(startY),
+          endName: '도착지',
+          endX: JSON.stringify(endX),
+          endY: JSON.stringify(endY),
+          viaPoints: viaPoints,
+          startTime: '202306190442',
+          reqCoordType: 'WGS84GEO',
+          resCoordType: 'WGS84GEO',
+        },
+        { headers },
+      )
+      .then((response) => {
+        console.log(response);
+        const resultData = response.properties;
+        const resultFeatures = response.features;
+        console.log(resultFeatures);
+        // for (const i in resultFeatures) {
+        //   const geometry = resultFeatures[i].geometry;
+        //   const properties = resultFeatures[i].properties;
+
+        //   const drawInfoArr = [];
+
+        //   if (geometry.type == 'LineString') {
+        //     for (const j in geometry.coordinates) {
+        //       // 경로들의 결과값(구간)들을 포인트 객체로 변환
+        //       const latlng = new Tmapv2.Point(geometry.coordinates[j][0], geometry.coordinates[j][1]);
+        //       // 포인트 객체를 받아 좌표값으로 변환
+        //       const convertPoint = new Tmapv2.Projection.convertEPSG3857ToWGS84GEO(latlng);
+        //       // 포인트객체의 정보로 좌표값 변환 객체로 저장
+        //       const convertChange = new Tmapv2.LatLng(convertPoint._lat, convertPoint._lng);
+
+        //       drawInfoArr.push(convertChange);
+        //     }
+
+        //     const polyline_ = new Tmapv2.Polyline({
+        //       path: drawInfoArr,
+        //       strokeColor: '#FF0000',
+        //       strokeWeight: 6,
+        //       map: map,
+        //     });
+        //     resultInfoArr.push(polyline_);
+        //   } else {
+        //     const markerImg = '';
+        //     const size = ''; //아이콘 크기 설정합니다.
+
+        //     if (properties.pointType == 'S') {
+        //       //출발지 마커
+        //       markerImg = 'http://tmapapi.sktelecom.com/upload/tmap/marker/pin_r_m_s.png';
+        //       size = new Tmapv2.Size(24, 38);
+        //     } else if (properties.pointType == 'E') {
+        //       //도착지 마커
+        //       markerImg = 'http://tmapapi.sktelecom.com/upload/tmap/marker/pin_r_m_e.png';
+        //       size = new Tmapv2.Size(24, 38);
+        //     } else {
+        //       //각 포인트 마커
+        //       markerImg = 'http://topopen.tmap.co.kr/imgs/point.png';
+        //       size = new Tmapv2.Size(8, 8);
+        //     }
+
+        //     // 경로들의 결과값들을 포인트 객체로 변환
+        //     const latlon = new Tmapv2.Point(geometry.coordinates[0], geometry.coordinates[1]);
+        //     // 포인트 객체를 받아 좌표값으로 다시 변환
+        //     const convertPoint = new Tmapv2.Projection.convertEPSG3857ToWGS84GEO(latlon);
+
+        //     const marker_p = new Tmapv2.Marker({
+        //       position: new Tmapv2.LatLng(convertPoint._lat, convertPoint._lng),
+        //       icon: markerImg,
+        //       iconSize: size,
+        //       map: map,
+        //     });
+
+        //     resultMarkerArr.push(marker_p);
+        //   }
+        // }
+      })
+      .catch((error) => {
+        console.log(
+          error,
+          'code:' + error.response.status + '\n' + 'message:' + error.response.data + '\n' + 'error:' + error,
+        );
+      });
   }, [route, location]);
   return (
-    <div>
-      <div id="map_div"></div>
-    </div>
+    <>
+      <div id="div_wrap" className="map_wrap">
+        <div id="map_div"></div>
+      </div>
+    </>
   );
 };
 
