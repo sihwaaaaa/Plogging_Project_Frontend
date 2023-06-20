@@ -1,0 +1,92 @@
+.sidebar {
+  margin: 5%, 5%;
+
+  //코스 카드
+  .ninjadash-course-card-single {
+    .ant-card {
+      margin-top: 25px;
+      margin-left: 25px;
+      height: 650px;
+      width: 95%;
+
+      .ninjadash-course-card-content {
+        padding: 15px;
+        .top-message {
+          display: flex;
+          justify-content: center;
+          .ninjadash-course-card-title {
+            justify-content: center;
+            text-align: center;
+            padding-top: 15px;
+            font-size: 25px;
+          }
+          .tree {
+            margin-top: 18px;
+            margin-left: 7px;
+            color: #17c382;
+            width: 30px;
+            height: 30px;
+          }
+        }
+        .ninjadash-course-card-author {
+          justify-content: center;
+          margin-top: 30px;
+          span {
+            font-size: 15px;
+            text-align: center;
+            color: #777;
+            font-weight: 300;
+          }
+        }
+        .ninjadash-course-card-meta {
+          display: unset;
+          .ninjadash-course-card-meta__right {
+            align-items: start;
+            flex-direction: column;
+            margin-top: 50px;
+            padding: 15px;
+            font-size: 20px;
+            .distance {
+              margin-top: 30px;
+              width: 350px;
+              .bg-secondary {
+                width: 140px;
+                border-radius: 30px;
+                margin-top: 25px;
+                height: 40px;
+                span {
+                  margin-left: 5px;
+                  font-size: 20px;
+                }
+                float: right;
+              }
+              .bg-primary {
+                width: 140px;
+                border-radius: 30px;
+                margin-top: 25px;
+                height: 40px;
+                span {
+                  margin-left: 5px;
+                  font-size: 20px;
+                }
+                float: right;
+              }
+            }
+          }
+        }
+      }
+    }
+    .ploggingStart {
+      .modal-title {
+        font-weight: 700;
+      }
+    }
+    .end-wrap {
+      text-align: center;
+      margin-top: 35px;
+      .plogging-end {
+        font-size: 18px;
+      }
+    }
+  }
+}
