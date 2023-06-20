@@ -16,24 +16,35 @@ import UilUsersAlt from "@iconscout/react-unicons/icons/uil-users-alt";
 import UilArrowDown from "@iconscout/react-unicons/icons/uil-arrow-down";
 import { useParams } from "react-router-dom";
 import { DataService } from "../../config/dataService/dataService";
+import { getItem } from "../../utility/localStorageControl";
 // import { DingtalkOutlined, DingtalkSquareFilled } from "@ant-design/icons";
 
 const ChallengeDetail = () => {
   let params = useParams();
   let chNo = params.id;
   const [challenge, setChallenge] = useState({
+    chNo:'',
     memberNo:'',
     title:'',
     content:'',
     startDate:'',
     endDate:'',
   });
+  const [chMember, setChMember] =useState({
+    chNo:'',
+    challenger:'',
+    regDate:new Date(),
+  })
+  let loginMemberNo = getItem('memberNo')
+
+
   useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await DataService.get(`/challenge/chDetail/${chNo}`);
         setChallenge(response.data);
         console.log("response.data: " + response.data);
+
         console.log(response.status);
       } catch (error) {
         // 에러 처리
@@ -42,16 +53,35 @@ const ChallengeDetail = () => {
     };
     fetchData();
   }, []);
-  console.log(challenge.memberNo)
-  let host = challenge.memberNo;
+
   console.log("location" + location.pathname);
+
+  // 챌린지 맴버의 chNo , memberNo
+  // 현재 로그인한 memberNo와 chNo
+
+
+  const challengeJoin = (e) => {
+    e.preventDefault(); // submit이 action을 안타고 자기 할일을 그만함
+    const confirmed = window.confirm("우리 지구를 깨끗하게 하는 플로깅! 해당 챌린지에 참여하시겠습니까?")
+    if(confirmed) {
+      fetch(`http://localhost:8080/challenge/chDetail/${chNo}`,{
+        method:"POST",
+        headers: {
+          "Content-type":"application/json; charset=utf-8",Authorization: `Bearer ${getItem('ACCESS_TOKEN')}`
+        },
+        body: JSON.stringify(chMember)
+      }).then((res)=>window.location.replace(""));
+    }
+  }
+
+  console.log("chMember : " + chMember)
 
   return (
     <>
       <div className="challengedetail">
         <div className="detail-top">
           <AvatarWraperStyle>
-              <span className="challenge-page"><Avatar icon={< UilListUiAlt />} className="challenge-icon" /> 챌린지 상세페이지 </span>
+            <span className="challenge-page"><Avatar icon={< UilListUiAlt />} className="challenge-icon" /> 챌린지 상세페이지 </span>
           </AvatarWraperStyle>
         </div>
         <div className="image-title">
@@ -67,8 +97,8 @@ const ChallengeDetail = () => {
           <AvatarWraperStyle>
             <span><Avatar icon={< UilGrin />} className="chHeader-icon" />[공식 챌린지]</span>
             <span> {challenge && challenge.title && <span>{challenge.title}</span>} </span>
-            <button type="submit" className="delete-bt"> 챌린지 삭제하기 </button>
-            <button type="submit" className="signup-bt"> 챌린지 가입하기 </button>
+            {challenge.memberNo === loginMemberNo && <button type="submit" className="delete-bt"> 챌린지 삭제하기 </button>}
+            {challenge.memberNo !== loginMemberNo && <button type="submit" className="signup-bt" onClick={challengeJoin}> 챌린지 가입하기 </button>}
           </AvatarWraperStyle>
         </div>
 
@@ -91,7 +121,7 @@ const ChallengeDetail = () => {
         <div className="chIntroduction">
           <img src={ploggingImage3} alt="Logo" className="challengeImage3" />
           <p className="Introduction">
-           우리 챌린지는 ? <Avatar icon={< UilArrowDown />} className="chIntroduction-icon" />
+            우리 챌린지는 ? <Avatar icon={< UilArrowDown />} className="chIntroduction-icon" />
           </p>
           <div className="IntroductionDetail">
             {challenge && challenge.content && <span>{challenge.content}</span>}
@@ -114,13 +144,13 @@ const ChallengeDetail = () => {
               <li>토요일</li>
               <li>10</li>
             </ul>
-              <div className="scheduleDetail">
-                <p>6월 10일(토) 오후6:00</p>
-                <p>서울시 구로구</p>
-              </div>
-              <div className="Participation">
-                <button type="submit" className="chParticipation"> + 일정참여 </button>
-              </div>
+            <div className="scheduleDetail">
+              <p>6월 10일(토) 오후6:00</p>
+              <p>서울시 구로구</p>
+            </div>
+            <div className="Participation">
+              <button type="submit" className="chParticipation"> + 일정참여 </button>
+            </div>
           </div>
           <div className="scheduleForm">
             <ul className="scheduleDay">
