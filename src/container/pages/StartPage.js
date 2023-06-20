@@ -1,10 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import { Main } from '../styled';
-import { Button, Modal } from 'antd';
+import { Card, Col, Drawer, Modal, Row } from 'antd';
 import useGeolocation from '../../utility/plogging/useGeolocation';
 import { useLocation } from 'react-router-dom';
 import { DataService } from '../../config/dataService/dataService';
-
+import { CourseCardWrap } from '../../components/cards/Style';
+import UilMapMarker from '@iconscout/react-unicons/icons/uil-map-marker';
+import UilClock from '@iconscout/react-unicons/icons/uil-clock';
+import UilTrees from '@iconscout/react-unicons/icons/uil-trees';
+import UilLocationArrowAlt from '@iconscout/react-unicons/icons/uil-location-arrow-alt';
+import '../../static/css/ploggingStartPageStyle.scss';
+import { Button } from '../../components/buttons/buttons';
 const { Tmapv2 } = window;
 
 const geolocationOptions = {
@@ -14,6 +20,8 @@ const geolocationOptions = {
 };
 
 const StartPage = () => {
+  const [distance, setDistance] = useState();
+  const [dateTime, setDateTime] = useState();
   const [state, setState] = useState({ visible: false, modalType: 'primary', colorModal: false });
   const showModal = (type) => {
     setState({
@@ -31,14 +39,8 @@ const StartPage = () => {
   const loc = useLocation();
   const { location, error } = useGeolocation(geolocationOptions);
   const [map, setMap] = useState({
-    mapNo: null,
-    courseName: null,
-    courseDetail: null,
-    addr: null,
-    distance: null,
-    time: null,
-    startX: loc.longitude,
-    startY: loc.latitude,
+    startX: loc.state.longitude,
+    startY: loc.state.latitude,
     endX: 0.0,
     endY: 0.0,
   });
@@ -48,18 +50,32 @@ const StartPage = () => {
     distance: new Date(),
     status: false,
   });
-  console.log(plogging);
+
+  const dtos = { map, plogging };
+  console.log(dtos);
+
   const ploggingEnd = () => {
+    // const { location, error } = useGeolocation(geolocationOptions);
+    setMap((map) => {
+      map.endX = location.longitude;
+      map.endY = location.latitude;
+      return map;
+    });
     setPlogging((plo) => {
-      plo.distance = 1;
+      console.log(map);
+
+      const next = new Tmapv2.LatLng(map.endY, map.endX);
+      const pre = new Tmapv2.LatLng(map.startY, map.startX);
+      plo.distance = pre.distanceTo(next) * 0.0001;
       return plo;
     });
     showModal('primary');
   };
   const createPlogging = (data) => {
     console.log(plogging);
-
-    DataService.post('/plogging/startPage', { data }).then(function (response) {});
+    DataService.put('/plogging/startPage', { data }).then(function (response) {
+      console.log(data);
+    });
   };
   useEffect(() => {
     if (error) {
@@ -78,53 +94,93 @@ const StartPage = () => {
         icon: 'http://tmapapi.sktelecom.com/resources/images/common/pin_car.png',
         map,
       });
-
-      // const content = '<div>' + '    <button>' + '        시작하기';
-      // '    </button>' + '</div>';
-      // const infoWindow = new Tmapv2.InfoWindow({
-      //   position: new Tmapv2.LatLng(latitude, longitude), //Popup 이 표출될 맵 좌표
-      //   content: content, //Popup 표시될 text
-      //   type: 2, //Popup의 type 설정.
-      //   map: map, //Popup이 표시될 맵 객체
-      //   align: Tmapv2.InfoWindowOptions.ALIGN_LEFTBOTTOM,
-      // });
     }
   }, [location]);
+
   return (
     <>
-      <div id="map_div"></div>
-      <Button type="info" onClick={() => ploggingEnd()}>
-        플로깅 끝내기
-      </Button>
-      <Modal
-        type={state.modalType}
-        title={null}
-        visible={state.visible}
-        footer={[
-          <div>
-            <Button size="default" type="info" onClick={() => createPlogging(plogging)}>
-              플로깅 끝내시겠습니까?
-            </Button>
-            <Button size="default" type="info" outlined onClick={handleCancel}>
-              취소
-            </Button>
-          </div>,
-        ]}
-        onCancel={handleCancel}
-        width={600}
-      >
-        <div className="ploggingStart">
-          <div
-            style={{
-              borderBottom: '1px solid rgb(227, 230, 239)',
-              padding: '5px 0',
-              marginBottom: '10px',
-            }}
+      <Row gutter={24}>
+        <Col span={6} className="sidebar">
+          <CourseCardWrap className="ninjadash-course-card-single">
+            <Card bordered={false}>
+              <div className="ninjadash-course-card-content">
+                <div className="top-message">
+                  <h1 className="ninjadash-course-card-title">오늘도 지구를 깨끗하게</h1>
+                  <UilTrees className="tree" />
+                </div>
+                <div className="ninjadash-course-card-author">
+                  <span className="ninjadash-course-card-author__name">
+                    지구도 자신도 건강하게 만드는 당신을 응원합니다!
+                  </span>
+                </div>
+                <div className="ninjadash-course-card-meta">
+                  <ul className="ninjadash-course-card-meta__right">
+                    <div className="distance">
+                      <h4>
+                        현재 내가 정화한 <span style={{ color: '#17C382', fontWeight: '700' }}>거리</span>
+                      </h4>
+                      <li className="bg-secondary" style={{ background: '#17C382' }}>
+                        <UilLocationArrowAlt style={{ color: 'white', width: '23px', height: '23px' }} />
+                        <span style={{ color: 'white' }}>
+                          567<span style={{ fontSize: '17px' }}>Km</span>
+                        </span>
+                      </li>
+                    </div>
+                    <div className="distance">
+                      <h4>
+                        현재 내가 정화한 <span style={{ color: '#227C9D', fontWeight: '700' }}>시간</span>
+                      </h4>
+                      <li className="bg-primary" style={{ background: '#227C9D' }}>
+                        <UilClock style={{ color: 'white', width: '23px', height: '23px' }} />
+                        <span style={{ color: 'white' }}>
+                          506<span style={{ fontSize: '15px' }}>시간</span>
+                        </span>
+                      </li>
+                    </div>
+                  </ul>
+                </div>
+              </div>
+              <div className="end-wrap">
+                <Button className="plogging-end" size="large" outlined type="info" onClick={() => ploggingEnd()}>
+                  플로깅 끝내기
+                </Button>
+              </div>
+            </Card>
+          </CourseCardWrap>
+          <Modal
+            type={state.modalType}
+            title={null}
+            visible={state.visible}
+            footer={[
+              <div>
+                <Button size="default" type="info" onClick={() => createPlogging(dtos)}>
+                  플로깅 끝내시겠습니까?
+                </Button>
+                <Button size="default" type="info" outlined onClick={handleCancel}>
+                  취소
+                </Button>
+              </div>,
+            ]}
+            onCancel={handleCancel}
+            width={600}
           >
-            <h2 className="modal-title"> 플로깅 참여 방법 </h2>
-          </div>
-        </div>
-      </Modal>
+            <div className="ploggingStart">
+              <div
+                style={{
+                  borderBottom: '1px solid rgb(227, 230, 239)',
+                  padding: '5px 0',
+                  marginBottom: '10px',
+                }}
+              >
+                <h2 className="modal-title"> 플로깅 참여 방법 </h2>
+              </div>
+            </div>
+          </Modal>
+        </Col>
+        <Col span={18}>
+          <div id="map_div"></div>
+        </Col>
+      </Row>
     </>
   );
 };
