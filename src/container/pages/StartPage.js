@@ -113,32 +113,9 @@ const StartPage = () => {
                     지구도 자신도 건강하게 만드는 당신을 응원합니다!
                   </span>
                 </div>
-                <div className="ninjadash-course-card-meta">
-                  <ul className="ninjadash-course-card-meta__right">
-                    <div className="distance">
-                      <h4>
-                        현재 내가 정화한 <span style={{ color: '#17C382', fontWeight: '700' }}>거리</span>
-                      </h4>
-                      <li className="bg-secondary" style={{ background: '#17C382' }}>
-                        <UilLocationArrowAlt style={{ color: 'white', width: '23px', height: '23px' }} />
-                        <span style={{ color: 'white' }}>
-                          567<span style={{ fontSize: '17px' }}>Km</span>
-                        </span>
-                      </li>
-                    </div>
-                    <div className="distance">
-                      <h4>
-                        현재 내가 정화한 <span style={{ color: '#227C9D', fontWeight: '700' }}>시간</span>
-                      </h4>
-                      <li className="bg-primary" style={{ background: '#227C9D' }}>
-                        <UilClock style={{ color: 'white', width: '23px', height: '23px' }} />
-                        <span style={{ color: 'white' }}>
-                          506<span style={{ fontSize: '15px' }}>시간</span>
-                        </span>
-                      </li>
-                    </div>
-                  </ul>
-                </div>
+                <h3>
+                  플로깅 시작한지 <span style={{ color: '#17C382', fontWeight: '700' }}>00:00:00</span> 째
+                </h3>
               </div>
               <div className="end-wrap">
                 <Button className="plogging-end" size="large" outlined type="info" onClick={() => ploggingEnd()}>
@@ -173,6 +150,32 @@ const StartPage = () => {
                 }}
               >
                 <h2 className="modal-title"> 플로깅 참여 방법 </h2>
+              </div>
+              <div className="ninjadash-course-card-meta">
+                <ul className="ninjadash-course-card-meta__right">
+                  <div className="distance">
+                    <h4>
+                      지금까지 내가 정화한 <span style={{ color: '#17C382', fontWeight: '700' }}>거리</span>
+                    </h4>
+                    <li className="bg-secondary" style={{ background: '#17C382' }}>
+                      <UilLocationArrowAlt style={{ color: 'white', width: '23px', height: '23px' }} />
+                      <span style={{ color: 'white' }}>
+                        567<span style={{ fontSize: '17px' }}>Km</span>
+                      </span>
+                    </li>
+                  </div>
+                  <div className="distance">
+                    <h4>
+                      지금까지 내가 정화한 <span style={{ color: '#227C9D', fontWeight: '700' }}>시간</span>
+                    </h4>
+                    <li className="bg-primary" style={{ background: '#227C9D' }}>
+                      <UilClock style={{ color: 'white', width: '23px', height: '23px' }} />
+                      <span style={{ color: 'white' }}>
+                        506<span style={{ fontSize: '15px' }}>시간</span>
+                      </span>
+                    </li>
+                  </div>
+                </ul>
               </div>
             </div>
           </Modal>
