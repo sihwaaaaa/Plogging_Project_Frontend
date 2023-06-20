@@ -38,47 +38,47 @@
             font-weight: 300;
           }
         }
-        .ninjadash-course-card-meta {
-          display: unset;
-          .ninjadash-course-card-meta__right {
-            align-items: start;
-            flex-direction: column;
-            margin-top: 50px;
-            padding: 15px;
-            font-size: 20px;
-            .distance {
-              margin-top: 30px;
-              width: 350px;
-              .bg-secondary {
-                width: 140px;
-                border-radius: 30px;
-                margin-top: 25px;
-                height: 40px;
-                span {
-                  margin-left: 5px;
-                  font-size: 20px;
-                }
-                float: right;
-              }
-              .bg-primary {
-                width: 140px;
-                border-radius: 30px;
-                margin-top: 25px;
-                height: 40px;
-                span {
-                  margin-left: 5px;
-                  font-size: 20px;
-                }
-                float: right;
-              }
-            }
-          }
-        }
       }
     }
     .ploggingStart {
       .modal-title {
         font-weight: 700;
+      }
+      .ninjadash-course-card-meta {
+        display: unset;
+        .ninjadash-course-card-meta__right {
+          align-items: start;
+          flex-direction: column;
+          margin-top: 50px;
+          padding: 15px;
+          font-size: 20px;
+          .distance {
+            margin-top: 30px;
+            width: 350px;
+            .bg-secondary {
+              width: 140px;
+              border-radius: 30px;
+              margin-top: 25px;
+              height: 40px;
+              span {
+                margin-left: 5px;
+                font-size: 20px;
+              }
+              float: right;
+            }
+            .bg-primary {
+              width: 140px;
+              border-radius: 30px;
+              margin-top: 25px;
+              height: 40px;
+              span {
+                margin-left: 5px;
+                font-size: 20px;
+              }
+              float: right;
+            }
+          }
+        }
       }
     }
     .end-wrap {
