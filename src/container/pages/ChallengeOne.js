@@ -32,21 +32,21 @@ function ChallengeList(props) {
 
   return (
     <>
+
       <div className="sliderWrapper">
         <div className="mapWrapper">
           <img src={ploggingImage} alt="Logo" className="ploImage" />
           <div className="mapHover">
-            <div className="challengeInfo">
-              <Link to={url}>
-              <h4>{challengeOne.challenge.title}</h4>
-              {/*<span>{challengeOne.challenge.content}</span>*/}
-              <span>{challengeOne.challenge.startDate}</span>
-              </Link>
-            </div>
+            <Link to={url}>
+              <div className="challengeInfo">
+                <h4>{challengeOne.challenge.title}</h4>
+                {/*<span>{challengeOne.challenge.content}</span>*/}
+                <span>{challengeOne.challenge.startDate}</span>
+              </div>
+            </Link>
           </div>
         </div>
       </div>
-
     </>
   );
 }

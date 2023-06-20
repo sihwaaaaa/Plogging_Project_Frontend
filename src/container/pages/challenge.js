@@ -22,16 +22,17 @@ function Challenge() {
     categoryActive: 'all',
   });
   const [challenges, setchallenges] = useState([]);
-
   useEffect(() => {
     DataService.get('/challenge').then(function (response) {
       setchallenges(response.data.data);
+      console.log("지금")
       console.log(response.data.data);
       console.log(response.status);
-      console.log(response.config.headers.Author);
+      // console.log(response.config.headers.Author);
     });
   }, []);
-  // console.log("challenges : " + challenges[0].title);
+
+  // console.log("challenges : " + challenges)
 
   const { visible } = state;
   const showModal = () => {
@@ -84,26 +85,24 @@ function Challenge() {
           />
         </ProjectHeader>
 
-          <div className="challenge-slider-title">
-            <h4>진행전 (모집)</h4>
-          </div>
-        <Link to="chDetail" >
-          <div className="challengeList" style={{ display: 'flex', flexWrap: 'wrap', flexDirection: 'row' }}>
-            {challenges.map((data) => (
-              <ChallengeOne challenge={data} />
-            ))}
-          </div>
-        </Link>
+        <div className="challenge-slider-title">
+          <h4>진행전 (모집)</h4>
+        </div>
+        {/*<Link to="chDetail" >*/}
+        <div className="challengeList" style={{ display: 'flex', flexWrap: 'wrap', flexDirection: 'row' }}>
+          {challenges.map((data) => (
+            <ChallengeOne challenge={data} />
+          ))}
+        </div>
+        {/*</Link>*/}
         <div className="challenge-slider-title">
           <h4>진행중인 챌린지</h4>
         </div>
-        <Link to="chDetail" >
-          <div className="challengeList" style={{ display: 'flex', flexWrap: 'wrap', flexDirection: 'row' }}>
-            {challenges.map((data) => (
-              <ChallengeOne challenge={data} />
-            ))}
-          </div>
-        </Link>
+        <div className="challengeList" style={{ display: 'flex', flexWrap: 'wrap', flexDirection: 'row' }}>
+          {challenges.map((data) => (
+            <ChallengeOne challenge={data} />
+          ))}
+        </div>
         <div className="challenge-slider-title">
           <h4>인원마감</h4>
         </div>
