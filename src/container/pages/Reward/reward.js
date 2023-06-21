@@ -1,19 +1,21 @@
 import React, { Suspense } from "react";
 import { useEffect, useState } from "react";
-import { DataService } from "../../config/dataService/dataService";
-import { KnowledgebaseTopWrap } from "./knowledgeBase/style";
+import { DataService } from "../../../config/dataService/dataService";
+import { KnowledgebaseTopWrap } from "../knowledgeBase/style";
 import { Form, Input } from "antd";
-import { Button } from "../../components/buttons/buttons";
+import { Button } from "../../../components/buttons/buttons";
 import FontAwesome from "react-fontawesome";
-import "../../static/css/rewardPageStyle.scss";
+import "../../../static/css/rewardPageStyle.scss";
 import PointHistory from "./pointHistory";
 import { Row, Col, Card } from "antd";
-import ex from "../../static/img/ex.jpg.jpg";
-import { rewardRankList } from "./rewardRankList";
+import ex from "../../../static/img/ex.jpg.jpg";
+import MyRankInfo from "./MyRankInfo";
 
 
 const Reward = () => {
   const [rewardList, setRewardList] = useState([]);
+  const [myRank, setMyRank] = useState([]);
+  const memberNo = 1;
 
   useEffect(() => {
     DataService.get(`/reward/list`).then(function(response) {
@@ -22,56 +24,69 @@ const Reward = () => {
       console.log(response.data);
     });
   }, []);
+
+  useEffect(() => {
+    DataService.get('/history/rank/badge/' + memberNo)
+      .then(function(response) {
+        console.log(response.data);
+        setMyRank(response.data);
+      })
+  },[])
   return (
     <>
       <div className="rewardpage-wrapper">
         <div className="rewardpage-info">
           <div className="container">
             <h2>포인트 적립 안내</h2>
-            <div className="container-body">
-          <span>
-            플로깅이나 챌린지를 통해 포인트를 적립하고 친환경 랜덤박스와 기부를 할 수 있습니다
-          </span>
+            <div className="container-body-header">
               <span>
-            산책도 하고 운동도 하고 환경도 지키고 기부도 하고! 친환경 제품도 구매 하고!
-          </span>
+              플로깅이나 챌린지를 통해 포인트를 적립하고 친환경 랜덤박스와 기부를 할 수 있습니다
+               </span>
+              <span>
+              산책도 하고 운동도 하고 환경도 지키고 기부도 하고! 친환경 제품도 구매도 해보세요!
+              </span>
             </div>
-            <Card className="card">
-              <Row gutter={16}>
-                <Col span={24}>
-                  <h3>플로깅, 챌린지 참여</h3>
-                  <span>아이콘</span>
-                </Col>
-              </Row>
-            </Card>
-            <FontAwesome className="smileIcon" name="smile-o" />
-            <Card className="card">
-              <Row gutter={16}>
-                <Col span={24}>
-                  <h3>인증샷 작성</h3>
-                  <span>아이콘</span>
-                </Col>
-              </Row>
-            </Card>
-            <FontAwesome className="smileIcon" name="smile-o" />
-            <Card className="card">
-              <Row gutter={16}>
-                <Col span={24}>
-                  <h3>포인트 획득</h3>
-                  <span>아이콘</span>
-                </Col>
-              </Row>
-            </Card>
-            <FontAwesome className="smileIcon" name="smile-o" />
-            <Card className="card">
-              <Row gutter={16}>
-                <Col span={24}>
-                  <h4>친환경 랜덤박스 신청</h4>
-                  <h3>포인트 기부</h3>
-                  <span>아이콘</span>
-                </Col>
-              </Row>
-            </Card>
+            <div className="container-info-header">
+                <MyRankInfo  myRank={myRank}/>
+            </div>
+            <div className="card-wrapper">
+              <Card className="card">
+                <Row gutter={16}>
+                  <Col span={24}>
+                    <h3>플로깅, 챌린지 참여</h3>
+                    <span>아이콘</span>
+                  </Col>
+                </Row>
+              </Card>
+              <FontAwesome className="smileIcon" name="smile-o" />
+              <Card className="card">
+                <Row gutter={16}>
+                  <Col span={24}>
+                    <h3>인증샷 작성</h3>
+                    <span>아이콘</span>
+                  </Col>
+                </Row>
+              </Card>
+              <FontAwesome className="smileIcon" name="smile-o" />
+              <Card className="card">
+                <Row gutter={16}>
+                  <Col span={24}>
+                    <h3>포인트 획득</h3>
+                    <span>아이콘</span>
+                  </Col>
+                </Row>
+              </Card>
+              <FontAwesome className="smileIcon" name="smile-o" />
+              <Card className="card">
+                <Row gutter={16}>
+                  <Col span={24}>
+                    <h4>친환경 랜덤박스 신청</h4>
+                    <h3>포인트 기부</h3>
+                    <span>아이콘</span>
+                  </Col>
+                </Row>
+              </Card>
+            </div>
           </div>
         </div>
         <div className="rewardpage-rank">

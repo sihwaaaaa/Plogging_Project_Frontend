@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { getItem } from '../../utility/localStorageControl';
+import { getItem } from '../../../utility/localStorageControl';
 import axios from 'axios';
 
 const RewardList = () => {

@@ -1,9 +1,10 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { DataService } from "../../config/dataService/dataService";
-import { Button } from "../../components/buttons/buttons";
+import { DataService } from "../../../config/dataService/dataService";
+import { Button } from "../../../components/buttons/buttons";
 import { Row } from "antd";
-import '../../static/css/rewardPageStyle.scss';
+import '../../../static/css/rewardPageStyle.scss'
+
 
 function pointHistory() {
   const createDonation = () => {
