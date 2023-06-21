@@ -42,6 +42,8 @@ function MenuItems({ toggleCollapsed }) {
   const pathArray = pathName.split(path);
   const mainPath = pathArray[1];
   const mainPathSplit = mainPath.split('/');
+  console.log(pathName)
+
 
   const [openKeys, setOpenKeys] = React.useState(
     !topMenu ? [`${mainPathSplit.length > 2 ? mainPathSplit[1] : 'dashboard'}`] : [],
@@ -62,12 +64,12 @@ function MenuItems({ toggleCollapsed }) {
 
   const items = [
     getItem(
-      <NavLink onClick={toggleCollapsed} to={`${path}/pages/plogging`}>
+      <NavLink onClick={toggleCollapsed} to={`pages/plogging`}>
         {t('플로깅하기')}
       </NavLink>,
       'plogging',
       !topMenu && (
-        <NavLink className="menuItem-icon" to={`${path}/pages/plgging`}>
+        <NavLink className="menuItem-icon" to={`pages/plgging`}>
           <UilCircle />
         </NavLink>
       ),
@@ -75,14 +77,14 @@ function MenuItems({ toggleCollapsed }) {
     getItem(
       '함께하기','together',null,[
         getItem(
-          <NavLink onClick={toggleCollapsed} to={`${path}/pages/board`}>
+          <NavLink onClick={toggleCollapsed} to={`pages/board`}>
             {t('커뮤니티')}
           </NavLink>,
           'board',
           null,
         ),
         getItem(
-          <NavLink onClick={toggleCollapsed} to={`${path}/pages/challenge`}>
+          <NavLink onClick={toggleCollapsed} to={`pages/challenge`}>
             {t('챌린지')}
           </NavLink>,
           'challenge',
@@ -91,14 +93,14 @@ function MenuItems({ toggleCollapsed }) {
       ]
     ),
     getItem(
-      <NavLink onClick={toggleCollapsed} to={`${path}/pages/reward`}>
+      <NavLink onClick={toggleCollapsed} to={`pages/reward`}>
         {t('리워드')}
       </NavLink>,
       'reward',
       null,
     ),
     userOn && getItem(
-      <NavLink className="mypage-friend" onClick={toggleCollapsed} to={`${path}/pages/friend`}>
+      <NavLink className="mypage-friend" onClick={toggleCollapsed} to={`pages/friend`}>
         {t('플친 / 채팅')}
       </NavLink>,
       'friend',
@@ -127,16 +129,12 @@ function MenuItems({ toggleCollapsed }) {
         openKeys={openKeys}
         items={items}
       />
-      {userOn && (
+      {userOn ? (
 
         <div className="myinfo-tab">
-          <div className="signout-wrapper">
-            <Link to="/" onClick={handleLogout}>
-              <span>로그아웃</span>
-            </Link>
-          </div>
           <div className="mypage-wrapper">
-            <NavLink className="mypage-tab" onClick={toggleCollapsed} to={`${path}/pages/profile`}>
+            <span>플로거 {Cookies.get('nickName')} 님</span>
+            <NavLink className="mypage-tab" onClick={toggleCollapsed} to={`pages/profile`}>
               <AvatarWraperStyle>
                 <Avatar icon={<UserOutlined style={{
                   width: "60px",
@@ -145,9 +143,20 @@ function MenuItems({ toggleCollapsed }) {
                 }} />} size={60} />
               </AvatarWraperStyle>
             </NavLink>
-            <div className="mypage-text">
-              <span>마이 페이지</span>
-            </div>
+          </div>
+          <div className="signout-wrapper">
+            <Link to="/" onClick={handleLogout}>
+              <span>로그아웃</span>
+            </Link>
+          </div>
+        </div>
+      ) : (
+        <div className="myinfo-tab" style={{justifyContent: "flex-end"}}>
+          <div className="signin-wrapper">
+            <Link to="/member/signin">
+              <span>로그인</span>< br />
+              <span>더 편리하게 줍깅을 이용하세요</span>
+            </Link>
           </div>
         </div>
       )}
