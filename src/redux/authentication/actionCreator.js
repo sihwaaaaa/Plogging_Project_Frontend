@@ -45,7 +45,7 @@ const login = (values, callback) => {
 const register = (values, callback) => {
   return async () => {
     try {
-      const response = await DataService.post('/member/signup', values);
+      const response = await DataService.register('/member/signup', values);
       if (response.errors) {
         throw new Error("에러!")
       } else {
