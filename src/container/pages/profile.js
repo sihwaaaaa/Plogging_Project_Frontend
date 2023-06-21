@@ -127,30 +127,30 @@ function Profile() {
         // console.log(challenge[0].chNo);
       })
   }, []);
-  // useEffect(() => {
-  //   DataService.get('/profile/plogging')
-  //     .then(function (response) {
-  //       setChallenge(response.data.data);
-  //       console.log(response.data.data);
-  //       console.log(response.status);
-  //     })
-  // }, []);
-  // useEffect(() => {
-  //   DataService.get('/profile/board')
-  //     .then(function (response) {
-  //       setChallenge(response.data.data);
-  //       console.log(response.data.data);
-  //       console.log(response.status);
-  //     })
-  // }, []);
-  // useEffect(() => {
-  //   DataService.get('/profile/point')
-  //     .then(function (response) {
-  //       setChallenge(response.data.data);
-  //       console.log(response.data.data);
-  //       console.log(response.status);
-  //     })
-  // }, []);
+  useEffect(() => {
+    DataService.get('/profile/plogging')
+      .then(function (response) {
+        console.log(response.data);
+        setPlogging(response.data);
+        console.log(response.status);
+      })
+  }, []);
+  useEffect(() => {
+    DataService.get('/profile/board')
+      .then(function (response) {
+        setChallenge(response.data.data);
+        console.log(response.data.data);
+        console.log(response.status);
+      })
+  }, []);
+  useEffect(() => {
+    DataService.get('/profile/point')
+      .then(function (response) {
+        setChallenge(response.data.data);
+        console.log(response.data.data);
+        console.log(response.status);
+      })
+  }, []);
   //   // 이 카테고리의 타입은 객체 타입
 
   const profilePage = [
@@ -164,7 +164,7 @@ function Profile() {
       <PageHeader className="ninjadash-page-header-main" title="" routes={profilePage} />
       <Main className='profile-component'>
         <UserCards />
-
+        {plogging}
         <TabComponent />
       </Main>
     </>

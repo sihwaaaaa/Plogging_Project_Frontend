@@ -12,6 +12,7 @@ import { AuthFormWrap } from './style';
 import { register, emailAuth } from '../../../../redux/authentication/actionCreator';
 import { resolve } from 'path';
 import { DataService } from '../../../../config/dataService/dataService';
+import axios from 'axios';
 // import FormItemLabel from 'antd/es/form/FormItemLabel';
 
 const PopUpDom = ({ children }) => {
@@ -23,17 +24,22 @@ const PopUpDom = ({ children }) => {
 function SignUp() {
   const dispatch = useDispatch();
   const history = useNavigate();
-  // 주소 state
-  // const [openPostCode, setOpenPostCode] = React.useState<boolean>(false);
+
   const [isPopUpOpen, setIsPopUpOpen] = useState(false);
   const [address, setAddress] = useState('');
+
+  const [email, setEmail] = useState('');
   const [emailCode, setEmailCode] = useState('');
+  const [authCode, setAuthCode] = useState('');
 
   const [userId, setUserId] = useState('');
-  const [password, setPassword] = useState('');
-  const [nickName, setNickName] = useState('');
-  const [userName, setUserName] = useState('');
-  const [email, setEmail] = useState('');
+  // const [password, setPassword] = useState('');
+  // const [nickName, setNickName] = useState('');
+  // const [userName, setUserName] = useState('');
+
+  const saveEmailCode = (e) => {
+    setEmailCode(e.target.value);
+  }
 
   const handleComplete = (data) => {
     let fullAddress = data.address;
@@ -115,41 +121,46 @@ function SignUp() {
     });
   };
 
-  const handleAuthEmail = () => {
-    const emailVal = document.getElementById('email').value;
-    document.getElementById('authCode').type = "text";
-    emailAuth(emailVal);
-    // console.log(codeInput.getAttribute);
+  const saveEmail = (e) => {
+    setEmail(e.target.value);
   }
 
-
-  // const [data, setData] = useState(null);
-  const emailAuth = async (value) => {
-    const response = await DataService.post('/member/signup/emailConfirm', value);
-    console.log(response.data);
-    setEmailCode(response.data);
-  }
-
-  const validateUserId =async () => {
-    const id = document.getElementById("userId").value;
-    setUserId(id);
-    await DataService.post("/member/signup/checkId", userId)
+  const handleAuthEmail = async () => {
+    alert("인증 번호가 발송되었습니다.");
+    document.getElementById("authCode").type = "text"
+    await DataService.emailAuth('/member/signup/emailConfirm', { email: email })
       .then((response) => {
-        if (response === userId) {
-          alert("아이디가 중복됩니다.");
-          return false;
-        }
-      })
+        setAuthCode(response.data);
+      });
+
   }
 
+  const saveUserId = (e) => {
+    setUserId(e.target.value);
+  }
+
+  const validateUserId = async () => {
+    await DataService.checkId("/member/signup/checkId",{userId: userId})
+    .then((response) => {
+      console.log(response.data);
+      console.log(`${userId}`);
+      if (response.data === "") {
+        alert("아이디가 중복됩니다.");
+        return false;
+      } else {
+        console.log(response);
+        alert("아이디 사용 가능합니다.");
+      }
+    })
+  }
   // Submit 했을 시에 값 등록
   const handleSubmit = (e) => {
+    console.log(e);
     const { userId, password, nickName, userName, email, address } = e
     // const objValue = useState({
     //   userId, password, nickName, userName, email, gender, birth
     // });
-    console.log(emailCode);
-    const authCode = document.getElementById("authCode").value;
+    console.log(authCode);
     if (authCode !== emailCode) {
       alert("인증 코드가 올바르지 않습니다.");
       return false;
@@ -196,7 +207,9 @@ function SignUp() {
                   },
                 ]}
               >
-                <Input id="userId" placeholder="아이디를 입력하세요" />
+                <Input id="userId" type='text' onChange={saveUserId} value={userId} placeholder="아이디를 입력하세요" />
+              </Form.Item>
+              <Form.Item>
                 <Button type='button' onClick={validateUserId} >중복체크</Button>
               </Form.Item>
               <Form.Item
@@ -302,10 +315,11 @@ function SignUp() {
                 <Input readOnly id='address' placeholder="주소를 입력해주세요." value={address} />
                 <Button onClick={popUpOpen}>버튼</Button>
                 <div id='popUpDom'>
-                  {isPopUpOpen &&
-                    <PopUpDom onClose={popUpClose}>
-                      <DaumPostcode className='modal-post' onComplete={handleComplete} />
-                    </PopUpDom>
+                  {isPopUpOpen && (
+                      <PopUpDom onClose={popUpClose}>
+                        <DaumPostcode className='modal-post' onComplete={handleComplete} />
+                      </PopUpDom>
+                    )
                   }
                 </div>
               </Form.Item>
@@ -333,11 +347,14 @@ function SignUp() {
                 <Input
                   id='email'
                   name='email'
+                  onChange={saveEmail}
                   placeholder="이메일을 입력하세요." />
               </Form.Item>
               <Button onClick={handleAuthEmail}>인증</Button>
               <Form.Item>
-                <Input type='hidden' id='authCode' />
+                <Input type="hidden" id='authCode' onChange={saveEmailCode} />
+              </Form.Item>
+              <Form.Item>
                 <Button className="btn-create" htmlType="submit" type="primary" size="large">
                   회원 생성
                 </Button>
@@ -346,12 +363,12 @@ function SignUp() {
           </div>
           <div className="ninjadash-authentication-bottom">
             <p>
-              이미 계정이 있습니까?<Link to="/">로그인</Link>
+              이미 계정이 있습니까?<Link to="/member/signin">로그인</Link>
             </p>
           </div>
         </AuthFormWrap>
       </Col>
-    </Row>
+      </Row>
   );
 }
 

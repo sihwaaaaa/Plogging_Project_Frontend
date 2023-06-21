@@ -35,7 +35,31 @@ class DataService {
       headers: { ...authHeader(), ...optionalHeader },
     });
   }
+  static checkId(path = '', data = {}, optionalHeader = {}) {
+    return client({
+      method: 'POST',
+      url: path,
+      data,
+      headers: { ...authHeader(), ...optionalHeader },
+    });
+  }
 
+  static emailAuth(path = '', data = {}, optionalHeader = {}) {
+    return client({
+      method: 'POST',
+      url: path,
+      data,
+      headers: { ...authHeader(), ...optionalHeader },
+    });
+  }
+  static register(path = '', data = {}, optionalHeader = {}) {
+    return client({
+      method: 'POST',
+      url: path,
+      data,
+      headers: { ...authHeader(), ...optionalHeader },
+    });
+  }
   static post(path = '', data = {}, optionalHeader = {}) {
     return client({
       method: 'POST',
