@@ -78,6 +78,7 @@ function Friends() {
       .then((response) => {
         setFromMe(response.data.data);
       })
+
   }
 
 

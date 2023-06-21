@@ -73,7 +73,38 @@
       }
     }
   }
-
+  .challengesWrapper-small {
+    background: white;
+    width: 100%;
+    display: none;
+    flex-wrap: wrap;
+    flex-direction: row;
+    align-items: center;
+    .challengeTitle {
+      display: flex;
+      flex-wrap: wrap;
+      flex-direction: row;
+      justify-content: center;
+      align-items: center;
+      border-right: 1px solid rgb(227, 230, 239);
+      background: #ffcb77;
+      color: white;
+      span {
+        padding: 0 5px;
+        font-size: 11px;
+        font-weight: bold;
+      }
+    }
+    .challenges {
+      width: 80%;
+      padding: 0 10px;
+      li {
+        font-size: 11px;
+        font-weight: bold;
+        //list-style: none;
+      }
+    }
+  }
   .challengesWrapper{
     width: 40%;
     max-width: 250px;

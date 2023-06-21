@@ -4,64 +4,72 @@
   flex-direction: column;
   height: 100%;
   padding-bottom: 70px;
+  @media only screen and (max-width: 620px) {
+    padding-bottom: 40px;
+  }
   justify-content: space-between;
   .myinfo-tab {
     width: 100%;
     display: flex;
     flex-wrap: wrap;
-    flex-direction: row;
+    flex-direction: column;
     padding-bottom: 10px;
+    align-items: center;
+    padding-right: 20px;
     .mypage-wrapper{
-      width: 50%;
+      & > span {
+        padding-right: 5px;
+      }
       display: flex;
       flex-wrap: wrap;
-      align-items: center;
       justify-content: center;
-      padding-left: 10px;
+      padding-bottom: 10px;
       position: relative;
+      align-items: flex-end;
+      margin-left: auto;
+      border-bottom: 1px solid gray;
       .dzYYRg .anticon svg {
         width : 40px !important;
         height: 60px;
       }
-      .mypage-text {
-        display: none;
-        position: absolute;
-        top: -15px;
-        left: -15px;
-        background: rgb(40 43 55 / 35%);
-        border-radius: 5px;
-        width: 80px;
-        height: 30px;
-        span {
-          padding: 12px 10px;
-          color : white;
-          font-size: 11px;
-        }
-      }
-      &:hover {
-        .mypage-text {
-          transition: .3s;
-          display: block;
-        }
-      }
     }
     .signout-wrapper{
-      width: 50%;
+      background: rgb(40 43 55 / 35%);
+      padding:5px 10px;
+      border-radius: 5px;
       display: flex;
       flex-wrap: wrap;
-      align-content: flex-end;
       flex-direction: column;
       justify-content: flex-end;
+      align-content: flex-start;
+      margin: 20px 0px 0 auto;
     }
     a {
       text-decoration: none;
-      color : #282B37;
+      color: white;
       &:hover {
         color : rgb(130, 49, 211);
+      }
+      .ewVEgJ .anticon svg {
+        margin-top: 10px;
+        width: 40px !important;
       }
     }
     a + a {
       padding-top: 25px;
+    }
+    .signin-wrapper {
+      width: 80%;
+      padding-right: 30px;
+      text-align: center;
+      span {
+        &:first-child{
+          font-size: 18px;
+        }
+        &:last-child{
+          font-size: 13px;
+        }
+      }
     }
   }
   ul {

@@ -1,19 +1,139 @@
-
-@font-face {
-  font-family: 'Pretendard-Regular';
-  src: url('https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff') format('woff');
-  font-weight: 400;
-  font-style: normal;
+.boardTitleWrapper{
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: column;
+  align-items: center;
+  padding: 30px;
+  h2 {
+    width: 80%;
+    font-weight: bold;
+    text-align: center;
+    padding: 30px 0;
+  }
+}
+.boardDetailWrapper {
+  width: 100%;
+  display: none;
+  flex-wrap: wrap;
+  flex-direction: column;
+  align-items: center;
+  padding: 30px;
+  .boardDetail {
+    width: 80%;
+    max-width: 800px;
+    @media only screen and (max-width: 620px) {
+      width: 90%;
+    }
+  }
 }
 
-.boardPage {
-  font-family: Pretendard-Regular;
-}
 
-.writePage {
-  font-family: Pretendard-Regular;
+.boardNoticeWrapper {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 50px;
+  .noticeContainer {
+    .noticeTitle {
+      h4{
+        font-weight: bold;
+      }
+    }
+    width: 80%;
+    max-width: 800px;
+    @media only screen and (max-width: 620px) {
+      width: 90%;
+    }
+    background: white;
+    border-radius: 10px;
+    border: 1px solid rgb(227, 230, 239);
+    padding: 10px 20px;
+  }
 }
-.board {
-  text-align: center;
+.boardCategoryWrapper {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  .categoryContainer {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    background: white;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    width: 80%;
+    @media only screen and (max-width: 620px) {
+      width: 90%;
+    }
+    .btn{
+      padding: 5px 15px;
+      cursor: pointer;
+      display: flex;
+      width: 100px;
+      flex-wrap: wrap;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      border-top-left-radius: 10px;
+      border-top-right-radius: 10px;
+    }
+    .all {
+      background: #a3a3a3;
+      color: white;
+    }
+  }
+  .boardContainer {
+    border-top: 1px solid rgb(227, 230, 239);
+    padding-top : 20px;
+    width: 80%;
+    @media only screen and (max-width: 620px) {
+      width: 90%;
+    }
+    .board {
+      cursor:pointer;
+    }
+    .ninjadash-blog__meta--item span svg {
+      width: 18px !important;
+      height: 18px !important;
+    }
+  }
+}
+.replyInputWrapper {
+  border-top: 1px solid rgb(227, 230, 239);
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  padding: 15px;
+  .replyInput {
+    width: 85%;
+    height: 50px;
+    resize: none;
+    border : 1px solid rgb(227, 230, 239);
+    padding: 5px 0px 5px 10px;
+  }
+  .replyBtn {
+    border: none;
+    margin-left: auto;
+    padding: 0;
+  }
+}
+.replysWrapper{
+  width: 100%;
+  img {
+    width: 30px;
+    margin-right: 10px;
+  }
+  span {
 
+  }
 }
