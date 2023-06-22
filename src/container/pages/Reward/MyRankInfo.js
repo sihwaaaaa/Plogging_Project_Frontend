@@ -15,20 +15,20 @@ const MyRankInfo = (props) => {
 
   return (
     <>
-      <Card className="card-header">
+      <Card className="card-header" style={{height:"90px", padding:"0"}}>
         <Row>
-          <Col span={12}>
-            <p>등  급</p>
+          <Col span={12} style={{height:"0"}}>
+            <p style={{margin:"0"}}>등  급</p>
           </Col>
           <Col span={12}>
-            <p>누 적 포 인 트</p>
+            <p style={{margin:"0"}}>누 적 포 인 트</p>
           </Col>
           <Col span={12}>
+            <p style={{paddingTop:"13px", margin:"0",fontSize:"25px"}}>{badgeName}</p>
             <img src={ex} className="ex-img" />
           </Col>
           <Col span={12}>
-            <p>{badgeName}</p>
-            <p>{point}</p>
+            <p style={{fontSize:"50px", margin:"0", marginTop:"66px"}}>{point} P</p>
           </Col>
         </Row>
       </Card>
