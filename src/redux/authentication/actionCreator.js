@@ -30,9 +30,11 @@ const login = (values, callback) => {
         Cookies.set('birth', response.data.birth);
         Cookies.set('regDate', response.data.regDate);
         Cookies.set('authList', response.data.authList);
-
         dispatch(loginSuccess(true));
         callback();
+        location.reload();
+
+
       }
     } catch (err) {
       dispatch(loginErr(err));
@@ -78,9 +80,12 @@ const logOut = (callback) => {
         Cookies.remove('birth');
         Cookies.remove('regDate');
         Cookies.remove('authList');
-
+        location.reload();
         dispatch(logoutSuccess(true));
         callback();
+
+
+
 
       } catch (err) {
         dispatch(logoutErr(err));

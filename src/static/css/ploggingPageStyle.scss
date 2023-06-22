@@ -1,29 +1,28 @@
-.ploggingContainer {
-  background-color: white;
+.ploggingPage {
   .sidebar {
     max-height: 700px;
     overflow-y: scroll;
     overflow-x: hidden;
     padding: 0;
     margin: 0, 5%;
-    //검색 헤더
-    .searchWrapper {
-      position: sticky;
-      width: 100%;
-      padding-top: 30px;
-      .searchText {
-        margin-left: 5px;
-        display: flex;
-        h3 {
-          font-weight: bold;
-          font-size: 20px;
-        }
-        .mapPin {
-          margin-left: 5px;
-          margin-top: 5px;
-          color: #00af89;
+    //버튼들
+    .buttons {
+      display: flex;
+      justify-content: center;
+      margin-top: 20px;
+      Button {
+        font-size: 16px;
+        margin: 7px;
+        &:hover {
+          font-size: 25px;
         }
       }
+    }
+
+    //검색 헤더
+    .searchWrapper {
+      width: 100%;
+      padding: 20px 10px;
 
       .searchInput {
         .ninjadash-knowledgetop {
@@ -31,6 +30,19 @@
           padding-right: 5%;
           padding-top: 15px;
           padding-bottom: 30px;
+          .searchText {
+            margin: 10px 20px;
+            display: flex;
+            h3 {
+              font-weight: bold;
+              font-size: 20px;
+            }
+            .mapPin {
+              margin-left: 5px;
+              margin-top: 5px;
+              color: #00af89;
+            }
+          }
         }
 
         .ninjadash-knowledgetop__search--form {
@@ -72,6 +84,7 @@
     //코스 카드
     .ninjadash-course-card-single {
       width: 100%;
+      padding: 0px 10px;
       .ninjadash-course-card-content {
         .ninjadash-course-card-title {
           font-size: 17px;
@@ -97,9 +110,76 @@
         }
       }
     }
-    .ploggingStart {
-      .modal-title {
-        font-weight: 700;
+    //모달
+  }
+}
+.ploggingStart {
+  padding: 20px;
+  h2 {
+    font-weight: 700;
+  }
+  h5 {
+    color: #227c9d;
+    font-weight: 400;
+    font-size: 15px;
+  }
+
+  .auth-top {
+    display: flex;
+    margin-top: 20px;
+
+    h3 {
+      font-size: 22px;
+      margin-right: 10px;
+      margin-bottom: 0;
+    }
+  }
+  h1 {
+    font-size: 15px;
+    color: #00af89;
+    margin-left: 5px;
+    margin-top: 30px;
+  }
+  h4 {
+    padding: 5px 20px;
+    font-size: 17px;
+  }
+  h6 {
+    font-size: 15px;
+    color: #f07167;
+    margin-bottom: 0;
+  }
+  .picture {
+    border-radius: 10px;
+    background-color: #fef9ef;
+    .img-wrap {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 15px;
+      .auth-wrap {
+        width: 300px;
+        height: 330px;
+        margin: 15px;
+        margin-top: 0;
+        text-align: center;
+        .trashP {
+          box-shadow: 5px 5px 10px #ccc;
+          margin: 10px auto;
+          width: 230px;
+          height: 250px;
+
+          background-size: cover;
+          background-image: url(../img/trashPicture.png);
+        }
+        .ploggingP {
+          box-shadow: 5px 5px 10px #ccc;
+          margin: 10px auto;
+          width: 230px;
+          height: 250px;
+
+          background-size: cover;
+          background-image: url(../img/ploggingPicture.jpg);
+        }
       }
     }
   }
