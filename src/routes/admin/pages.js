@@ -15,7 +15,7 @@ const Board = lazy(() => import('../../container/pages/board'));
 const Challenge = lazy(() => import('../../container/pages/challenge'));
 const Profile = lazy(() => import('../../container/pages/profile'));
 const Friend = lazy(() => import('../../container/pages/friends'));
-const Reward = lazy(() => import('../../container/pages/reward'));
+const Reward = lazy(() => import('../../container/pages/Reward/reward'));
 const Admin = lazy(() => import('../../container/pages/admin'));
 const Register = lazy(() => import('../../container/pages/boardRegister'));
 const ChallengeDetail =  lazy(() => import('../../container/pages/ChallengeDetail'));

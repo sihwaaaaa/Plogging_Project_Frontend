@@ -10,11 +10,13 @@ import PointHistory from "./pointHistory";
 import { Row, Col, Card } from "antd";
 import ex from "../../../static/img/ex.jpg.jpg";
 import MyRankInfo from "./MyRankInfo";
+import RankList from "./RankList";
 
 
 const Reward = () => {
   const [rewardList, setRewardList] = useState([]);
   const [myRank, setMyRank] = useState([]);
+  const [rankList, setRankList] = useState([]);
   const memberNo = 1;
 
   useEffect(() => {
@@ -24,6 +26,15 @@ const Reward = () => {
       console.log(response.data);
     });
   }, []);
+
+  useEffect(() => {
+    DataService.get('/history/list/rank').then(function(response) {
+      setRankList(response.data);
+      console.log("rankList Test : " + response.data);
+      console.log("data.data : " + response.data.data);
+      console.log(response);
+    })
+  }, [])
 
   useEffect(() => {
     DataService.get('/history/rank/badge/' + memberNo)
@@ -46,7 +57,7 @@ const Reward = () => {
               산책도 하고 운동도 하고 환경도 지키고 기부도 하고! 친환경 제품도 구매도 해보세요!
               </span>
             </div>
-            <div className="container-info-header">
+            <div className="container-info-header" style={{padding:"0"}}>
                 <MyRankInfo  myRank={myRank}/>
             </div>
             <div className="card-wrapper">
@@ -90,25 +101,26 @@ const Reward = () => {
           </div>
         </div>
         <div className="rewardpage-rank">
-          <div className="container-rank">
-            <h2>랭킹</h2>
-            <div className="container-body-rank">
-              <span>
-                회원님의 누적 포인트는 "n" 입니다. 사용하신 포인트는 누적포인트에 적용되지 않습니다
-              </span>
-              <span>
-                회원님의 랭킹을 확인해 보세요!
-              </span>
-            </div>
-            <div className="container-card-wrapper">
-              <img src={ex} className="ex-img" />
-              <div className="card-myRanking">
-                <div className="total-ranking">
-                  {/*<RewardRankList />*/}
-                </div>
-              </div>
-            </div>
-          </div>
+          <RankList rankList={rankList} />
+          {/*<div className="container-rank">*/}
+          {/*  <h2>랭킹</h2>*/}
+          {/*  <div className="container-body-rank">*/}
+          {/*    <span>*/}
+          {/*      회원님의 누적 포인트는 "n" 입니다. 사용하신 포인트는 누적포인트에 적용되지 않습니다*/}
+          {/*    </span>*/}
+          {/*    <span>*/}
+          {/*      회원님의 랭킹을 확인해 보세요!*/}
+          {/*    </span>*/}
+          {/*  </div>*/}
+          {/*  <div className="container-card-wrapper">*/}
+          {/*    <img src={ex} className="ex-img" />*/}
+          {/*    <div className="card-myRanking">*/}
+          {/*      <div className="total-ranking">*/}
+          {/*        /!*<RewardRankList />*!/*/}
+          {/*      </div>*/}
+          {/*    </div>*/}
+          {/*  </div>*/}
+          {/*</div>*/}
         </div>
         <div className="rewardpage-product">
           <div className="container-product">
