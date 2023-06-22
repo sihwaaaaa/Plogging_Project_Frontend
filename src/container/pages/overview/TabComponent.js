@@ -1,79 +1,115 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { ChallengeContent, DeclareContent, MyBoardContent, PloggingContent, PointContent } from '../profile';
+import { DataService } from '../../../config/dataService/dataService';
+import tabComponentStyle from '../../../static/css/tabComponentStyle.scss'
+import ChallengeContent from './ChallengeContent';
+import PloggingContent from './PloggingContent';
+import PointContent from './PointContent';
+import MyBoardContent from './MyBoardContent';
+// import { ChallengeContent, DeclareContent, MyBoardContent, PloggingContent, PointContent } from '../profile';
 
 const TabComponent = () => {
-  const[actvieIdx, setActiveIdx] = useState(0);
+  // const[actvieIdx, setActiveIdx] = useState(0);
 
   const TabMenu = styled.ul`
-  background-color: #dcdcdc;
-  color: rgb(232, 234, 237);
-  font-weight: bold;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  list-style: none;
-  margin-bottom: 7rem;
-  margin-top: 10px;
-  cursor: pointer;
-  .submenu {
+    background-color: #dcdcdc;
+    color: rgb(232, 234, 237);
+    font-weight: bold;
     display: flex;
-    /* justify-content: space-between;
-    width: 380px;
-    heigth: 30px; */
-    width: calc(100% /3);
-    padding: 10px;
-    font-size: 15px;
-    transition: 0.5s;
-    border-radius: 10px 10px 0px 0px;
-  }
+    flex-direction: row;
+    align-items: center;
+    list-style: none;
+    margin-bottom: 7rem;
+    margin-top: 10px;
+    cursor: pointer;
+    .submenu {
+      display: flex;
+      /* justify-content: space-between;
+      width: 380px;
+      heigth: 30px; */
+      width: calc(100% /3);
+      padding: 10px;
+      font-size: 15px;
+      transition: 0.5s;
+      border-radius: 10px 10px 0px 0px;
+    }
 
-  .focused {
-    background-color: rgb(255,255,255);
-    color: rgb(21,20,20);
-  }
+    .focused {
+      background-color: rgb(255,255,255);
+      color: rgb(21,20,20);
+    }
 
-  & div.desc {
-    text-align: center;
-  }
-`;
+    & div.desc {
+      text-align: center;
+    }
+  `;
 
 const Desc = styled.div`
   text-align: left;
 `;
-const [currentTab, clickTab] = useState(0);
+  const [currentTab, clickTab] = useState(0);
+  
+  const [challenge, setChallenge] = useState([]);
+  const [plogging, setPlogging] = useState([]);
+  const [board, setBoard] = useState([]);
+  const [point, setPoint] = useState([]);
+
+  useEffect(() => {
+    DataService.get('/profile/challenge')
+      .then(function (response) {
+        setChallenge(response.data.data.challenges);
+      })
+  }, []);
+  useEffect(() => {
+    DataService.get('/profile/plogging')
+      .then(function (response) {
+        setPlogging(response.data.data.ploggings);
+      })
+  }, []);
+  useEffect(() => {
+    DataService.get('/profile/point')
+      .then(function (response) {
+        setPoint(response.data.data.pointHistories);
+      })
+  }, []);
+  useEffect(() => {
+    DataService.get('/profile/board')
+      .then(function (response) {
+        setBoard(response.data.data.boards);
+      })
+  }, []);
 
 // 메뉴 객체를 리스트 형탱로 담음
 const menuArr = [
   { 
     name: '챌린지', 
     content: (
-        <ChallengeContent />
+      <ChallengeContent content={challenge} />
     )
   },
   { 
     name: '플로깅', 
     content: (
-      <PloggingContent />
+      <PloggingContent content={plogging} />
     ) 
   },
   { 
     name: '나의 글',
     content: (
-      <MyBoardContent />
+      <MyBoardContent content={board} />
     )  
   },
   { 
     name: '포인트 내역', 
     content: (
-      <PointContent />
-    )  
+      <PointContent content={point} />
+    )
   },
   { 
     name: '신고글', 
-    content: (
-      <DeclareContent />
-    )  
+    // content: (
+    //   <DeclareContent />
+    // )  
   },
 ];
 
@@ -87,9 +123,6 @@ const menuArr = [
     <>
       <div>
         <TabMenu>
-          {/* <li className="submenu">{menuArr[0].name}</li>
-          <li className="submenu">{menuArr[1].name}</li>
-          <li className="submenu">{menuArr[2].name}</li> */}
           {menuArr.map((el,index) => (
               <li className={index === currentTab ? "submenu focused" : "submenu" }
               onClick={() => selectMenuHandler(index)}>{el.name}</li>
@@ -102,63 +135,5 @@ const menuArr = [
     </>
   );
 };
-
-
-//   const tabActiveHandler = (index) =>{
-//     setActiveIdx(index);
-//   }
-
-//   const tabContArr=[
-//     {
-//         tabTitle:(
-//             <li onClick={() => tabActiveHandler(0)}> 탭1 </li>
-//         ),
-//         tabCont:(
-//             <div> 탭1 내용 </div>
-//         )
-//     },
-//     {
-//         tabTitle:(
-//             <li> 탭2 </li>
-//         ),
-//         tabCont:(
-//             <div> 탭2 내용 </div>
-//         )
-//     },
-//     {
-//         tabTitle:(
-//             <li> 탭3 </li>
-//         ),
-//         tabCont:(
-//             <div> 탭3 내용 </div>
-//         )
-//     },
-//     {
-//         tabTitle:(
-//             <li> 탭4 </li>
-//         ),
-//         tabCont:(
-//             <div> 탭4 내용 </div>
-//         )
-//     },
-//     {
-//         tabTitle:(
-//             <li> 탭5 </li>
-//         ),
-//         tabCont:(
-//             <div> 탭5 내용 </div>
-//         )
-//     }
-//   ];
-//   return (
-//     <TabMenu>
-//       <ul>
-//         {tabContArr.map((section, index)=>{
-//           return section.tabTitle
-//         })}
-//       </ul>
-//     </TabMenu>
-//   );
-// };
 
 export default TabComponent;

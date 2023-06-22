@@ -1,0 +1,40 @@
+
+
+/******* 챌린지 ********/
+
+// 참여했던 챌린지 리스트 스타일
+.challenge-endlist {
+  display: block;
+
+  ul:first-child {
+    border-top: 2px solid gray;
+    border-bottom: 2px solid gray;
+
+    li{
+      border-bottom: 1px solid gray;
+      display: flex;
+      span {
+        float: left;
+        padding: 0 45px;
+      }
+    }
+  }
+  ul{
+    display: block;
+    margin: 0 auto;
+    // padding: 0 px;
+    font-size: 1.2em;
+    // border-bottom: 2px solid gray;
+    li{
+      border-bottom: 1px solid gray;
+      display: flex;
+      span {
+        float: left;
+        padding: 0 20px;
+      }
+    }
+  }
+
+}
+
+//참여 중인 챌린지 리스트
