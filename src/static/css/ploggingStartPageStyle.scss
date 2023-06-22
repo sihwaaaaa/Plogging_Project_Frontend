@@ -51,66 +51,79 @@
       .end-wrap {
         text-align: center;
         margin-top: 150px;
-        .plogging-end {
+        .end-button {
           font-size: 18px;
+          &:hover {
+            background-color: #17c382;
+            span {
+              color: white;
+            }
+          }
         }
       }
     }
   }
-  .ploggingEnd {
-    padding: 20px;
+}
+.ploggingEnd {
+  padding: 20px;
+}
+.ninjadash-course-card-meta {
+  display: unset;
+  h2 {
+    margin-left: 10px;
+    font-size: 30px;
+    margin-top: 30px;
+    margin-bottom: 3px;
   }
-  .ninjadash-course-card-meta {
-    display: unset;
-    h2 {
-      margin-left: 10px;
-      font-size: 30px;
-      margin-top: 30px;
-      margin-bottom: 3px;
-    }
-    h5 {
-      margin-left: 10px;
-      font-size: 15px;
-      color: #f07167;
-      font-weight: 300;
-    }
-    .ninjadash-course-card-meta__right {
-      margin-top: 50px;
-      padding: 15px;
-      font-size: 20px;
-      .distance {
-        padding-top: 50px;
-        padding-bottom: 50px;
-        h4 {
-          font-size: 25px;
-        }
-        .bg-secondary {
-          float: right;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          width: 140px;
-          border-radius: 30px;
-          height: 40px;
-          span {
-            margin-left: 5px;
-            font-size: 20px;
-          }
-        }
-        .bg-primary {
-          float: right;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          width: 140px;
-          border-radius: 30px;
-          height: 40px;
-          span {
-            margin-left: 5px;
-            font-size: 20px;
-          }
+  h5 {
+    margin-left: 10px;
+    font-size: 15px;
+    color: #f07167;
+    font-weight: 300;
+  }
+  .ninjadash-course-card-meta__right {
+    margin-top: 50px;
+    padding: 15px;
+    font-size: 20px;
+    .distance {
+      padding-top: 50px;
+      padding-bottom: 50px;
+      h4 {
+        font-size: 25px;
+      }
+      .bg-secondary {
+        float: right;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 140px;
+        border-radius: 30px;
+        height: 40px;
+        span {
+          margin-left: 5px;
+          font-size: 20px;
         }
       }
+      .bg-primary {
+        float: right;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 140px;
+        border-radius: 30px;
+        height: 40px;
+        span {
+          margin-left: 5px;
+          font-size: 20px;
+        }
+      }
+    }
+  }
+}
+.footer-buttons {
+  Button {
+    &:hover {
+      opacity: 0.7;
     }
   }
 }
