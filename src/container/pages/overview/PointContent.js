@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Cards } from '../../../components/cards/frame/cards-frame';
 import { Tabs } from 'antd';
+import tapComponent from '../../../static/css/tabComponentStyle.scss';
 
 const PointContent = ({ content }) => {
   const [smallTab, setSmallTab] = useState(1);
@@ -24,26 +25,19 @@ const PointContent = ({ content }) => {
               {smallTab == 2 ? (
                 <ul>
                   <li>
-                    <span>챌린지명</span>
+                    <span>포인트 번호</span>
+                    <span>제목명</span>
                     <span>등록일자</span>
-                    <span>시작일자</span>
-                    <span>종료일자</span>
-                    <span>상태</span>
                   </li>
                 </ul>
               ) : false
               }
               <ul>
-                {content.map((data) => data.challenge.status == "CHALLENGEBEFORE" ? (
+                {content.map((data) => data.type == "Product" ? (
                   <li>
-                    <div>
-                      <img src={image} alt='챌린지 이미지' />
-                    </div>
-                    <span>{data.title}</span>
-                    <span>{data.challenge.regDate}</span>
-                    <span>{data.challenge.startDate}</span>
-                    <span>{data.challenge.status}</span>
-                    <span>진행 중</span>
+                    <span>{data.pointNo}</span>
+                    <span>{data.rewardNo.name}</span>
+                    <span>{data.regDate}</span>
                   </li>
                 ) : false
                 )}
@@ -53,20 +47,17 @@ const PointContent = ({ content }) => {
               <div className='challenge-endlist'>
                 <ul>
                   <li>
-                    <span>챌린지명</span>
+                    <span>포인트 번호</span>
+                    <span>제목명</span>
                     <span>등록일자</span>
-                    <span>시작일자</span>
-                    <span>종료일자</span>
-                    <span>상태</span>
                   </li>
                 </ul>
               <ul>
-                {content.map((data) => data.challenge.status != "CHALLENGEBEFORE" ? (
+                {content.map((data) => data.type != "Donation" ? (
                 <li>
-                    <span>{data.challenge.title}</span>
-                    <span>{data.challenge.regDate}</span>
-                    <span>{data.challenge.startDate}</span>
-                    <span>{data.challenge.endDate}</span>
+                    <span>{data.pointNo}</span>
+                    <span>{data.rewardNo.name}</span>
+                    <span>{data.regDate}</span>
                 </li>
                 ) : false
                 )}

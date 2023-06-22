@@ -4,6 +4,8 @@ import { Routes, Route } from 'react-router-dom';
 import BoardDetail from "../../container/pages/community/boardDetail";
 import BoardRegister from "../../container/pages/community/boardRegister";
 import Auth from '../auth';
+import MyProfile from '../../container/profile/myProfile/Index';
+import EditProfile from '../../container/profile/settings/overview/EditProfile';
 // import WritePage from '../../container/pages/WritePage';
 // import PostPage from '../../container/pages/PostPage';
 
@@ -32,6 +34,7 @@ function PagesRoute() {
       <Route path="board" element={<Board />} />
       <Route path="challenge" element={<Challenge />} />
       <Route path="profile/*" element={<Profile />} />
+      {/* <Route path="profile/edit" element={<EditProfile />} /> */}
       {/* <Route path="/profile/" element={<Profile />} /> */}
       <Route path="member/*" element={<Auth />} />
       <Route path="friend" element={<Friend />} />

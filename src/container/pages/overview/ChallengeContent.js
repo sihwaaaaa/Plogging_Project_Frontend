@@ -38,7 +38,7 @@ const ChallengeContent = ({ content }) => {
               ) : false
               }
               <ul>
-                {content.map((data) => data.challenge.status == "CHALLENGEBEFORE" ? (
+                {content.map((data) => data.challenge.endDate == null ? (
                   <li>
                     <div>
                       <img src={image} alt='챌린지 이미지' />
@@ -65,7 +65,7 @@ const ChallengeContent = ({ content }) => {
                   </li>
                 </ul>
               <ul>
-                {content.map((data) => data.challenge.status != "CHALLENGEBEFORE" ? (
+                {content.map((data) => data.challenge.endDate != null ? (
                 <li>
                     <span>{data.challenge.title}</span>
                     <span>{data.challenge.regDate}</span>

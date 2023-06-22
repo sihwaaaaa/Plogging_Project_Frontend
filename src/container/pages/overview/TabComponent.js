@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { Suspense, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { DataService } from '../../../config/dataService/dataService';
 import tabComponentStyle from '../../../static/css/tabComponentStyle.scss'
@@ -6,9 +6,16 @@ import ChallengeContent from './ChallengeContent';
 import PloggingContent from './PloggingContent';
 import PointContent from './PointContent';
 import MyBoardContent from './MyBoardContent';
+import { Link, NavLink, Route, Routes } from 'react-router-dom';
+import { SettingWrapper } from '../../profile/myProfile/overview/Style';
+import { Cards } from '../../../components/cards/frame/cards-frame';
+import { Skeleton, Timeline } from 'antd';
+import CoverSection from '../../profile/overview/CoverSection';
+import Overview from '../../profile/myProfile/overview/Overview';
+import Activity from '../../profile/myProfile/overview/Activity';
 // import { ChallengeContent, DeclareContent, MyBoardContent, PloggingContent, PointContent } from '../profile';
 
-const TabComponent = () => {
+const TabComponent = ({challenge, plogging, board, point}) => {
   // const[actvieIdx, setActiveIdx] = useState(0);
 
   const TabMenu = styled.ul`
@@ -48,59 +55,33 @@ const Desc = styled.div`
   text-align: left;
 `;
   const [currentTab, clickTab] = useState(0);
-  
-  const [challenge, setChallenge] = useState([]);
-  const [plogging, setPlogging] = useState([]);
-  const [board, setBoard] = useState([]);
-  const [point, setPoint] = useState([]);
-
-  useEffect(() => {
-    DataService.get('/profile/challenge')
-      .then(function (response) {
-        setChallenge(response.data.data.challenges);
-      })
-  }, []);
-  useEffect(() => {
-    DataService.get('/profile/plogging')
-      .then(function (response) {
-        setPlogging(response.data.data.ploggings);
-      })
-  }, []);
-  useEffect(() => {
-    DataService.get('/profile/point')
-      .then(function (response) {
-        setPoint(response.data.data.pointHistories);
-      })
-  }, []);
-  useEffect(() => {
-    DataService.get('/profile/board')
-      .then(function (response) {
-        setBoard(response.data.data.boards);
-      })
-  }, []);
 
 // 메뉴 객체를 리스트 형탱로 담음
 const menuArr = [
   { 
-    name: '챌린지', 
+    name: '챌린지',
+    path: "challenge",
     content: (
       <ChallengeContent content={challenge} />
     )
   },
   { 
-    name: '플로깅', 
+    name: '플로깅',
+    path: "plogging", 
     content: (
       <PloggingContent content={plogging} />
     ) 
   },
   { 
     name: '나의 글',
+    path: "board",
     content: (
       <MyBoardContent content={board} />
     )  
   },
   { 
     name: '포인트 내역', 
+    path: "point",
     content: (
       <PointContent content={point} />
     )
@@ -118,14 +99,14 @@ const menuArr = [
     // 해당 함수가 실행되면 현재 선택된 Tab Menu 가 갱신.
     clickTab(index);
   };
-
+  const path = '.';
   return (
     <>
       <div>
         <TabMenu>
           {menuArr.map((el,index) => (
-              <li className={index === currentTab ? "submenu focused" : "submenu" }
-              onClick={() => selectMenuHandler(index)}>{el.name}</li>
+              <Link to={menuArr[index].path} className={index === currentTab ? "submenu focused" : "submenu" }
+              onClick={() => selectMenuHandler(index)}>{el.name}</Link>
             ))}
         </TabMenu>
         <Desc>
