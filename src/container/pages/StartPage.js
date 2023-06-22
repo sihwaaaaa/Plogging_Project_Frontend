@@ -11,9 +11,7 @@ import UilTrees from '@iconscout/react-unicons/icons/uil-trees';
 import UilLocationArrowAlt from '@iconscout/react-unicons/icons/uil-location-arrow-alt';
 import '../../static/css/ploggingStartPageStyle.scss';
 import { Button } from '../../components/buttons/buttons';
-
-const deadline = Date.now() + 1000 * 60 * 60 * 24 * 2 + 1000 * 30;
-const { Countdown } = Statistic;
+import { getSeconds } from 'date-fns';
 
 const { Tmapv2 } = window;
 
@@ -24,36 +22,32 @@ const geolocationOptions = {
 };
 
 const StartPage = () => {
-  let mapIm;
-  let marker;
+  const [mapIm, setMapIm] = useState();
+  const [marker, setMarker] = useState();
 
   //시간
   const [startTime, setStartTime] = useState(new Date().getTime());
-  const [hours, setHours] = useState();
-  const [minutes, setMinutes] = useState();
-  const [seconds, setSeconds] = useState();
+  const [hours, setHours] = useState(0);
+  const [minutes, setMinutes] = useState(0);
+  const [seconds, setSeconds] = useState(0);
   const [resultTimeSet, setResultTimeSet] = useState();
-  const isoStartTime = new Date();
+  const isoStartTime = new Date().getTime();
   const [runningTime, setRunningTime] = useState(isoStartTime);
   useEffect(() => {
     const interval = setInterval(() => {
-      setRunningTime(isoStartTime);
-      const va = Math.floor((isoStartTime.getTime() - startTime) / 1000);
-      if (va > 60) {
-        setSeconds;
-      }
-      set;
+      setRunningTime(isoStartTime - startTime);
+      setSeconds(new Date(runningTime).getSeconds());
+      setMinutes(new Date(runningTime).getMinutes());
+      setHours(new Date(runningTime).getHours() - 9);
+      // set;
     }, 1000);
     return () => {
       clearInterval(interval);
     };
   }, [isoStartTime]);
   const dateSet = () => {
-    const resultTime = Math.floor((isoStartTime.getTime() - startTime) / 1000 / 60);
-    // setHours(resultTime.getHours());
-    // setMinutes(resultTime.getMinutes());
-    // setSeconds(resultTime.getSeconds());
-    console.log(resultTime);
+    setResultTimeSet(Math.floor(new Date(runningTime).getTime() / 1000 / 60));
+    console.log(resultTimeSet);
   };
   //모달
   const [state, setState] = useState({ visible: false, modalType: 'primary', colorModal: false });
@@ -104,6 +98,7 @@ const StartPage = () => {
       const next = new Tmapv2.LatLng(map.endY, map.endX);
       const pre = new Tmapv2.LatLng(map.startY, map.startX);
       plo.distance = (pre.distanceTo(next) * 0.0001).toFixed(1);
+      plo.ploggingTime = resultTimeSet;
       return plo;
     });
     showModal('primary');
@@ -119,18 +114,21 @@ const StartPage = () => {
   //맵처리 진행중
   function createMap() {
     return new Promise(function (resolve, reject) {
-      mapIm = new Tmapv2.Map('map_div', {
-        center: new Tmapv2.LatLng(loc.state.latitude, loc.state.longitude),
-        width: '100%',
-        height: '700px',
-        zoom: 15,
-      });
-      marker = new Tmapv2.Marker({
-        position: new Tmapv2.LatLng(loc.state.latitude, loc.state.longitude),
-        icon: 'http://tmapapi.sktelecom.com/resources/images/common/pin_car.png',
-        map: mapIm,
-      });
-      resolve(mapIm, marker);
+      setMapIm(
+        new Tmapv2.Map('map_div', {
+          center: new Tmapv2.LatLng(loc.state.latitude, loc.state.longitude),
+          width: '100%',
+          height: '700px',
+          zoom: 15,
+        }),
+      );
+      setMarker(
+        new Tmapv2.Marker({
+          position: new Tmapv2.LatLng(loc.state.latitude, loc.state.longitude),
+          icon: 'http://tmapapi.sktelecom.com/resources/images/common/pin_car.png',
+          map: mapIm,
+        }),
+      );
     });
   }
   function createMarker() {
@@ -143,15 +141,19 @@ const StartPage = () => {
         console.log(error);
       }
       if (location) {
+        console.log('통과');
         const { latitude, longitude } = location;
-
-        marker.setPosition(latitude, longitude);
-
+        console.log(latitude);
+        console.log(marker);
+        setMarker((mar) => {
+          // mar.setPosition(new Tmapv2.LatLng(longitude, latitude));
+        });
+        console.log(marker._marker_data.options.position._lat);
         console.log(marker.isLoaded());
       }
-      resolve(marker);
     });
   }
+
   useEffect(() => {
     async function mapload() {
       await createMap();
@@ -185,13 +187,20 @@ const StartPage = () => {
                   <div className="timeZone">
                     <h3>플로깅 시작한지</h3>
                     <UilClock style={{ color: 'black', width: '23px', height: '23px', marginRight: '10px' }} />
-                    <span style={{ color: '#227C9D', fontWeight: '700', fontSize: '25px' }}>
-                      {hours}:{minutes}:{seconds}
+                    <span style={{ color: '#ffcb77', fontWeight: '700', fontSize: '25px' }}>
+                      {hours < 10 ? '0' + hours : 0 + hours}:{minutes < 10 ? '0' + minutes : 0 + minutes}:
+                      {seconds < 10 ? '0' + seconds : 0 + seconds}
                     </span>
                   </div>
                 </div>
                 <div className="end-wrap">
-                  <Button className="plogging-end" size="large" outlined type="info" onClick={() => ploggingEnd()}>
+                  <Button
+                    className="end-button"
+                    type="default"
+                    size="large"
+                    style={{ border: '1px solid #17C382', color: '#17C382' }}
+                    onClick={() => ploggingEnd()}
+                  >
                     플로깅 끝내기
                   </Button>
                 </div>
@@ -202,11 +211,21 @@ const StartPage = () => {
               title={null}
               visible={state.visible}
               footer={[
-                <div>
-                  <Button size="default" type="info" onClick={() => createPlogging(dtos)}>
+                <div className="footer-buttons">
+                  <Button
+                    size="default"
+                    type="default"
+                    style={{ backgroundColor: '#ffcb77', color: 'white' }}
+                    onClick={() => createPlogging(dtos)}
+                  >
                     플로깅 끝내기
                   </Button>
-                  <Button size="default" type="info" outlined onClick={handleCancel}>
+                  <Button
+                    size="default"
+                    type="default"
+                    style={{ border: '1px solid #ffcb77', color: '#ffcb77' }}
+                    onClick={handleCancel}
+                  >
                     취소
                   </Button>
                 </div>,
@@ -246,7 +265,7 @@ const StartPage = () => {
                       </h4>
                       <li className="bg-primary" style={{ background: '#227C9D' }}>
                         <UilClock style={{ color: 'white', width: '23px', height: '23px' }} />
-                        <span style={{ color: 'white' }}>00:00:00</span>
+                        <span style={{ color: 'white' }}>{resultTimeSet} Min</span>
                       </li>
                     </div>
                   </ul>
