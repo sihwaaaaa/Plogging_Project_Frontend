@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Row, Col, Form, Input, Select } from 'antd';
 import { Cards } from '../../../../components/cards/frame/cards-frame';
 import { Button } from '../../../../components/buttons/buttons';
@@ -8,14 +8,17 @@ import { Tag } from '../../../../components/tags/tags';
 import FormItemLabel from 'antd/es/form/FormItemLabel';
 import img1 from '../../../../../src/static/img/profile/post/70.png';
 import editProfileStyle from '../../../../static/css/editProfileStyle.scss';
+import { DataService } from '../../../../config/dataService/dataService';
 
 const { Option } = Select;
 function EditProfile() {
   const [form] = Form.useForm();
 
   const [state, setState] = useState({
-    tags: ['UI/UX', 'Branding', 'Product Design', 'Web Design'],
-    values: null,
+    nickName: '',
+    userName: '',
+    intro: '',
+    addressDetail: ''
   });
 
   const handleSubmit = (values) => {
@@ -30,6 +33,8 @@ function EditProfile() {
   const checked = (checke) => {
     setState({ tags: checke });
   };
+
+
 
   // 생년월일
   const now = new Date();
@@ -74,6 +79,29 @@ function EditProfile() {
     });
   };
   
+
+  useEffect(() => {
+    DataService.get("/profile/edit")
+      .then((res) => {
+        console.log(res.data.data.birth);
+        
+        setState({
+          nickName: res.data.data.nickName,
+          userName: res.data.data.userName,
+          addressDetail: res.data.data.addressDetail,
+          intro: res.data.data.intro,
+        });
+        setGender({
+          selectValue: res.data.data.gender
+        });
+        setBirth({
+          year: arr[0],
+          month: arr[1],
+          day: arr[2]
+        })
+      })
+  }, []);
+
   return (
     <Cards
       title={
@@ -102,10 +130,15 @@ function EditProfile() {
               </div>
               <div className='essential-form'>
                 <Form.Item label="이름" name="userName" rules={[{ required: true, message: '이름을 입력해주세요.' }]}>
-                  <Input placeholder="본인 이름을 입력하세요" />
+                  <Input value={state.userName} placeholder="본인 이름을 입력하세요" />
                 </Form.Item>
                 <Form.Item label="닉네임" name="nickName" rules={[{ required: true, message: '닉네임을 입력해주세요.' }]}>
-                  <Input placeholder="닉네임을 입력하세요" />
+                  <Input value={state.nickName} placeholder="닉네임을 입력하세요" />
+                </Form.Item>
+              </div>
+              <div className='address-detail'>
+                <Form.Item label="상세주소" name="addressDetail"  htmlFor='male'>
+                  <Input value={state.addressDetail} name='addressDetail' id="addressDetail"/>
                 </Form.Item>
               </div>
               <div className='gender-selection'>
