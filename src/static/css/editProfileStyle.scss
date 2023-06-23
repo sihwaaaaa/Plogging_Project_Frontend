@@ -1,0 +1,59 @@
+.image-intro {
+  display: flex;
+  padding: 0 5px;
+  .card-image {
+
+    display: flex;
+  }
+
+  div {
+    display: flex;
+    textarea {
+      width: 400px;
+      height: 160px;
+      resize: none;
+    }
+    label {
+      padding-left: 10px;
+    }
+
+    &:last-child{
+      margin: 0 auto;
+      padding: 0 5px;
+    }
+  }
+}
+
+.essential-form {
+  padding: 15px 0;
+}
+
+
+.gender-selection{
+  display: flex;
+  div {
+    float: left;
+    margin-right: 10px;
+    
+  }
+}
+
+.birth-form{
+  padding: 15px 0;
+
+  select {
+    padding: 0 5px;
+  }
+
+  span {
+    padding: 0 5px;
+  }
+}
+
+.setting-form-actions {
+  display: flex;
+  div {
+    margin: 0 auto;
+  }
+  // align-content: center;
+}

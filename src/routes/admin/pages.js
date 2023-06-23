@@ -34,7 +34,7 @@ function PagesRoute() {
       <Route path="board" element={<Board />} />
       <Route path="challenge" element={<Challenge />} />
       <Route path="profile/*" element={<Profile />} />
-      {/* <Route path="profile/edit" element={<EditProfile />} /> */}
+      <Route path="profile/edit" element={<EditProfile />} />
       {/* <Route path="/profile/" element={<Profile />} /> */}
       <Route path="member/*" element={<Auth />} />
       <Route path="friend" element={<Friend />} />
