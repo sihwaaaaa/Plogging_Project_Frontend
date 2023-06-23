@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from "react";
 import { Form, Input, Select, Col, Row, DatePicker, Avatar, Card } from "antd";
 import propTypes from 'prop-types';
 import { Button } from '../../components/buttons/buttons';
@@ -22,16 +22,16 @@ const { Option } = Select;
 function Redirect() {
   return null;
 }
-function ChallengeSchedule({ visible, onCancel }) {
+function ChallengeSchedule({ visible, onCancel,mapList,setMapList }) {
   const [form] = Form.useForm();
   let params = useParams();
-
   const [secondModalVisible, setSecondModalVisible] = useState(false);
 
   const [state, setState] = useState({
     visible,
     checked: [],
   });
+
   const showSecondModal = () => {
     setSecondModalVisible(true);
   }
@@ -77,25 +77,33 @@ function ChallengeSchedule({ visible, onCancel }) {
     setStartDate(dateString)
     console.log(dateString)
   }
-  const [mapList, setMapList] = useState([{
-    addr:'',
-    courseDetail:'',
-    courseName:'',
-    mapNo:'',
 
-  }]);
-
+  // useEffect(() => {
+  //   DataService.get('/plogging')
+  //     .then(function (response) {
+  //       setMapList(response.data);
+  //       console.log(response.data)
+  //     })
+  //     .catch(function (error) {
+  //       console.log(error);
+  //     });
+  // }, []);
 
   useEffect(() => {
-    DataService.get('/plogging')
-      .then(function (response) {
+    const fetchData = async () => {
+      try {
+        const response = await DataService.get("/plogging")
         setMapList(response.data);
-        console.log(response.data)
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
+        // console.log(response.data);
+        // console.log(response.status);
+      } catch (error) {
+        // 에러 처리
+        console.log("fetchData error")
+      }
+    };
+    fetchData();
   }, []);
+
 
   const [selectedMapName, setSelectedMapName] = useState(null);
   const [selectedMapNo, setSelectedMapNo] = useState({
@@ -109,40 +117,39 @@ function ChallengeSchedule({ visible, onCancel }) {
     })
     closeModal();
   }
-  console.log("selectedMapName : " , selectedMapName)
-  console.log("selectedMapNo : " , selectedMapNo)
+  // console.log("selectedMapName : " , selectedMapName)
+  // console.log("selectedMapNo : " , selectedMapNo)
 
-  // const [ploggingPersonnel, setPloggingPersonnel] =useState({
-  //   personnel:2,
-  // })
-  //
-  // const changeValue = (e) => {
-  //   console.log(e);
-  //   setPloggingPersonnel({
-  //     ...ploggingPersonnel,
-  //     [e.target.name] : e.target.value
-  //   })
-  //   console.log(e.target.value)
-  // }
 
   // 플로깅 일정추가
   // let mapNoList = mapList.filter((e)=>e.mapNo).map((data)=> data.mapNo);
   let chNo = { chNo :  params.id };
   // let obj = Object.assign(chNo,ploggingPersonnel,startDate,selectedMapNo)
   let obj = {...chNo, startDate, ...selectedMapNo}
-  console.log("obj:", JSON.stringify(obj))
+  // console.log("obj:", JSON.stringify(obj))
   const submitPlogging = (e) => {
     e.preventDefault(); // submit이 action을 안타고 자기 할일을 그만함
+    const confirmed = window.confirm("일정을 생성하시겠습니까?")
+    if(selectedMapName === null  && selectedMapNo.mapNo === "" ){
+      window.alert("플로깅 경로를 선택해주세요")
+      return false;
+    }
     // console.log(JSON.stringify(obj))
-    fetch("http://localhost:8080/ploggingCreate",{
-      method:"POST",
-      headers: {
-        "Content-type":"application/json; charset=utf-8",Authorization: `Bearer ${getItem('ACCESS_TOKEN')}`
-      },
-      body: JSON.stringify(obj)
-    }).then((res)=>{
-      res.json()
-    });
+    if(confirmed) {
+      try {
+        fetch("http://localhost:8080/ploggingCreate", {
+          method: "POST",
+          headers: {
+            "Content-type": "application/json; charset=utf-8", Authorization: `Bearer ${getItem('ACCESS_TOKEN')}`
+          },
+          body: JSON.stringify(obj)
+        }).then((res) => {
+          window.location.reload();
+        });
+      }catch (error){
+        window.alert("플로깅 일정 추가에 실패하였습니다 선택하지 않은 값이 있는지 확인해주세요")
+      }
+    }
   }
 
 
@@ -241,8 +248,8 @@ function ChallengeSchedule({ visible, onCancel }) {
                               </div>
                               <div className="ninjadash-course-card-content">
                                 <h4 className="ninjadash-course-card-title" >
+                                  {maps.mapNo}번 코스 <hr/>
                                   {maps.courseName}
-                                  {maps.mapNo}
                                 </h4>
                                 <div className="ninjadash-course-card-author">
                                   <span className="ninjadash-course-card-author__name">{maps.courseDetail}</span>

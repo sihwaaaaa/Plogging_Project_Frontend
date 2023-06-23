@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import ploggingImage from '../../static/img/ploggingImage2.png';
 import ploggingImage3 from '../../static/img/ploggingImage3.png';
 import '../../static/css/ChallengeDetail.css';
@@ -21,11 +21,30 @@ import UilPlus from "@iconscout/react-unicons/icons/uil-plus";
 import { useSelector } from "react-redux";
 
 
+
 const ChallengeDetail = () => {
+
   let params = useParams();
   let chNo = params.id;
   let loginMemberNo = getItem('memberNo');
-  console.log("loginMemberNo", loginMemberNo)
+  // console.log("loginMemberNo", loginMemberNo)
+
+  // const getDayOfWeek = (dateString) => {
+  //   const daysOfWeek = ['일요일', '월요일', '화요일', '수요일', '목요일', '금요일', '토요일'];
+  //   const date = new Date(dateString);
+  //   const dayOfWeek = date.getDay();
+  //   return daysOfWeek[dayOfWeek];
+  // };
+  // const [scheduleList, setScheduleList] = useState([]);
+  // useEffect(() => {
+  //   const updatedScheduleList = challengeScheduleList.map((schedule) => ({
+  //     ...schedule,
+  //     dayOfWeek: getDayOfWeek(schedule.startDate)
+  //   }));
+  //   setScheduleList(updatedScheduleList);
+  //   console.log("setScheduleList : ")
+  // }, []);
+
   const [state, setState] = useState({
     visible: false,
   });
@@ -37,6 +56,8 @@ const ChallengeDetail = () => {
     });
 
   };
+
+
   // 챌린지단일조회
   const [challenge, setChallenge] = useState({
     chNo:'',
@@ -48,10 +69,9 @@ const ChallengeDetail = () => {
     challengers:[],
     challengeMemberCnt:'',
   });
+  // console.log("challenge : " ,  challenge);
 
-  console.log("challenge : " ,  challenge);
   // 챌린지 맴버리스트 조회
-
   const [chMemberList, setChMemberList] = useState({
     cmemberNo:'',
     chNo:'',
@@ -64,6 +84,8 @@ const ChallengeDetail = () => {
     challenger:'',
     regDate:new Date(),
   })
+
+  // 해당 챌린지의 일정리스트
   const [challengeScheduleList, setChallengeScheduleList] = useState([{
     scheduleNo:'',
     chNo:'',
@@ -71,13 +93,49 @@ const ChallengeDetail = () => {
     mapNo:'',
   }]);
 
+  let dayWeekTransForm = challengeScheduleList.map((c) => {
+    let startDate = new Date(c.startDate);
+    let dayOfWeek = startDate.toLocaleString('ko-KR', { weekday: 'long' });
+    return { startDate, dayOfWeek };
+  });
+  console.log("dayWeekTransForm : " , dayWeekTransForm)
+
+
+  const [mapList, setMapList] = useState([{
+    addr:'',
+    courseDetail:'',
+    courseName:'',
+    mapNo:'',
+  }]);
+
+  let dateTransform = challengeScheduleList.map((c) => {
+    let startDate = new Date(c.startDate);
+    let formattedDate = startDate.toLocaleString('ko-KR', {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
+      hour: 'numeric',
+      minute: 'numeric',
+    });
+    return formattedDate;
+  });
+  // console.log("a : " , dateTransform)
+
+  // const mapNoList = mapList.map((map) => (map.mapNo));
+  const challengeMapNo = challengeScheduleList.map((c) => (c.mapNo));
+  // console.log("mapNoList : ", mapNoList);
+  const mapInfo = mapList.filter((x) => {
+    return challengeMapNo.includes(x.mapNo)
+  })
+  // console.log("result : " , mapInfo)
+  // 해당챌린지의 일정리스트 불러오기
   useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await DataService.get(`/ploggingList/${chNo}`);
-        setChallengeScheduleList(response.data);
-        console.log("setChMemberList : " + response.data);
-        console.log(response.status);
+        setChallengeScheduleList(response.data.data);
+        // console.log("setChallengeScheduleList : " , response.data);
+        // console.log(response.status);
       } catch (error) {
         // 에러 처리
         console.log("fetchData error")
@@ -86,16 +144,17 @@ const ChallengeDetail = () => {
     fetchData();
   }, []);
 
-  console.log("challengeScheduleList : " , challengeScheduleList)
+  // let obj = [{mapInfo, challengeScheduleList}]
+  // console.log("objassign : " , obj)
 
-
+  // 해당챌린지의 맴버불러오기
   useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await DataService.get("challengeMember");
         setChMemberList(response.data);
-        console.log("setChMemberList : " + response.data);
-        console.log(response.status);
+        // console.log("setChMemberList : " , response.data);
+        // console.log(response.status);
       } catch (error) {
         // 에러 처리
         console.log("fetchData error")
@@ -103,15 +162,16 @@ const ChallengeDetail = () => {
     };
     fetchData();
   }, []);
-  console.log("chMemberList : " , chMemberList.data);
+  // console.log("chMemberList : " , chMemberList.data);
 
+  // 해당 챌린지 정보 불러오기
   useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await DataService.get(`/challenge/chDetail/${chNo}`);
         setChallenge(response.data);
-        console.log(response.data);
-        console.log(response.status);
+        // console.log(response.data);
+        // console.log(response.status);
       } catch (error) {
         // 에러 처리
         console.log("fetchData error")
@@ -120,18 +180,14 @@ const ChallengeDetail = () => {
     fetchData();
   }, []);
 
-  console.log("location" + location.pathname);
-
-  // 챌린지 맴버의 chNo , memberNo
-  // 현재 로그인한 memberNo와 chNo
 
 
+  // 플로깅가입
   const challengeJoin = (e) => {
     e.preventDefault(); // submit이 action을 안타고 자기 할일을 그만함
     const confirmed = window.confirm("우리 지구를 깨끗하게 하는 플로깅! 해당 챌린지에 참여하시겠습니까?")
     if(challenge.challengers && Array.isArray(challenge.challengers) && challenge.challengers.length > 0
       && challenge.challengers.filter(a => {return a === loginMemberNo}).length){
-
       window.alert("이미 가입한 챌린지입니다")
       return false;
     } else if(challenge.challengeMemberCnt === challenge.personnel){
@@ -148,7 +204,7 @@ const ChallengeDetail = () => {
           "Content-type":"application/json; charset=utf-8",Authorization: `Bearer ${getItem('ACCESS_TOKEN')}`
         },
         body: JSON.stringify(chMember)
-      }).then((res)=>window.location.replace(""));
+      }).then((res)=>window.location.reload());
     }
   }
 
@@ -229,43 +285,41 @@ const ChallengeDetail = () => {
             {/*<span>- 상쾌한 아침공기를 느껴보고 싶으신 분! <br/> - 건강하게! 아침형인간이 되고싶으신 분! <br/> - 목표를 정해서 이뤄내고 싶은 분! </span>*/}
           </div>
         </div>
-
-        {/*{challengeScheduleList &&*/}
-        {/*  challengeScheduleList.map((schList) => (*/}
-          <div className="chSchedule">
+        <div className="chSchedule">
           <div className="scheduleHeader">
             <AvatarWraperStyle>
               <Avatar icon={< UilTrees />} className="scheduleHeader-icon" /> 상쾌한 아침 플로깅 챌린지의 플로깅 일정
             </AvatarWraperStyle>
           </div>
-          <div className="scheduleForm">
-            <ul className="scheduleDay">
-              <li>토요일</li>
-              <li>10</li>
-            </ul>
-            <div className="scheduleDetail">
-              <p>6월 10일(토) 오후6:00</p>
-              <p>서울시 구로구</p>
-            </div>
-            <div className="Participation">
-              <button type="submit" className="chParticipation"> + 일정참여</button>
-            </div>
-          </div>
-          <div className="scheduleForm">
-            <ul className="scheduleDay">
-              <li>토요일</li>
-              <li>17</li>
-            </ul>
-            <div className="scheduleDetail">
-              <p>6월 17일(토) 오후6:00</p>
-              <p>경기도 부천시</p>
-            </div>
-            <div className="Participation">
-              <button type="submit" className="chParticipation"> + 일정참여</button>
-            </div>
-          </div>
+          {challengeScheduleList.length === 0 ? (
+              <p>아직 등록된 챌린지 일정이 없습니다.</p>
+            ) :(
+            challengeScheduleList.map((chinfo, scheduleIndex) => {
+            const maps = mapInfo[scheduleIndex];
+            const formattedDate = dateTransform[scheduleIndex];
+            const dayTransForm = dayWeekTransForm[scheduleIndex]
+
+            return (
+              <div className="scheduleForm" key={scheduleIndex}>
+                <ul className="scheduleDay">
+                  <li>{dayTransForm.dayOfWeek}</li>
+                  <li>10</li>
+                </ul>
+                <div className="scheduleDetail">
+                  <p>{formattedDate}</p>
+                  {maps && <p>{maps.courseName}</p>}
+                </div>
+                <div className="Participation" key={maps.mapNo} >
+                  <button type="submit" className="chParticipation"> + 일정참여</button>
+                  {challenge.memberNo === loginMemberNo && <button type="submit" className="chscDelete"> + 일정삭제</button>}
+                </div>
+              </div>
+            );
+           })
+          )}
         </div>
-        {/*))}*/}
+
+
         <div className="scbutton">
           {challenge.memberNo === loginMemberNo && <Button onClick={showModal} key="1" size="default" className="createPlogging">
             <span> + 플로깅 일정추가 </span>
@@ -290,7 +344,7 @@ const ChallengeDetail = () => {
             </AvatarWraperStyle>
           </div>
         </div>
-        <ChallengeSchedule onCancel={onCancel} visible={visible} />
+        <ChallengeSchedule onCancel={onCancel} visible={visible}  mapList={mapList} setMapList={setMapList}/>
       </div>
     </>
   );

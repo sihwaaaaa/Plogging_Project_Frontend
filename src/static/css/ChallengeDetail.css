@@ -86,6 +86,7 @@
     border-radius: 5px;
     background-color: #F07167;
     color: #FEF9EF;
+    cursor: pointer;
 }
 
 .chHeader .signup-bt{
@@ -97,6 +98,7 @@
     border-radius: 5px;
     background-color: #227C9D;
     color: #FEF9EF;
+    cursor: pointer;
 }
 
 .chPersonnel{
@@ -210,6 +212,19 @@
     background-color: #FFCB77;
     border-radius: 5px;
     color: #FEF9EF;
+    cursor: pointer;
+}
+
+.chSchedule .scheduleForm .chscDelete{
+    border: none;
+    margin-top: 15px;
+    position: absolute;
+    right: 10%;
+    padding: 10px;
+    background-color: #F07167;
+    border-radius: 5px;
+    color: #FEF9EF;
+    cursor: pointer;
 }
 .chSchedule {
     border-bottom: 2px solid #227C9D;
@@ -247,6 +262,9 @@
     background: none;
 }
 
+.ninjadash-course-card-title{
+    cursor:pointer;
+}
 
 /* 챌린지 주의사항 */
 .precautions{
@@ -268,7 +286,7 @@
 
 .precautions .precautionsDetail p{
     color: #F07167;
-    font-size: 10px;
+    font-size: 13px;
 }
 
 .precautions .precautionsDetail .precautionsDetail-icon{

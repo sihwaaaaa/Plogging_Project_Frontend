@@ -52,7 +52,7 @@ function ChallengeCreate({ visible, onCancel }) {
   const [challengeCreate, setChallengeCreate] =useState({
     title: "",
     content:"",
-    personnel:2,
+    personnel:"",
   })
 
   const blindCheck = () => {
@@ -82,20 +82,40 @@ function ChallengeCreate({ visible, onCancel }) {
       endDate: dateString
     })
   }
+
   let obj = Object.assign(challengeCreate, { blind },startDate,endDate)
   console.log("obj : ", obj)
   const submitChallenge = (e) => {
     e.preventDefault(); // submit이 action을 안타고 자기 할일을 그만함
-    console.log(JSON.stringify(obj))
-    fetch("http://localhost:8080/challenge",{
-      method:"POST",
-      headers: {
-        "Content-type":"application/json; charset=utf-8",Authorization: `Bearer ${getItem('ACCESS_TOKEN')}`
-      },
-      body: JSON.stringify(obj)
-    }).then((res)=>{
-      window.location.replace("challenge")
-    });
+    const confirmed = window.confirm("챌린지를 생성 하시겠습니까?")
+    if(challengeCreate.title === "") {
+      window.alert("챌린지 제목을 입력해주세요 ~")
+      return false
+    }else if(challengeCreate.personnel === "" && challengeCreate.personnel < 2 || challengeCreate.personnel > 10){
+      window.alert(" 챌린지 인원수를 기재해주시고 2명이상 10명이하로 입력해주세요 ~")
+      return false
+    }else if(challengeCreate.content === ""){
+      window.alert(" 챌린지 소개를 입력해주세요 ~")
+      return false
+    } else if(startDate === null){
+      window.alert(" 시작날짜를 입력해주세요 ")
+      return false
+    }else if(endDate === null){
+      window.alert(" 마감날짜를 입력해주세요 ")
+      return false
+    }
+    // console.log(JSON.stringify(obj))
+    if(confirmed) {
+      fetch("http://localhost:8080/challenge", {
+        method: "POST",
+        headers: {
+          "Content-type": "application/json; charset=utf-8", Authorization: `Bearer ${getItem('ACCESS_TOKEN')}`
+        },
+        body: JSON.stringify(obj)
+      }).then((res) => {
+        window.location.replace("challenge")
+      });
+    }
   }
 
 
