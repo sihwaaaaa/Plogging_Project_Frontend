@@ -49,20 +49,22 @@
         height: 300px;
         border: #1b1e2b 1px solid;
         margin-bottom: 30px;
+
         .ex-img {
           display: flex;
           width: 150px;
           margin: 0 auto;
         }
+
         .card-header {
           width: 100%;
           height: 150px;
+
           p {
             display: flex;
             font-size: 33px;
             font-weight: bold;
             justify-content: center;
-
           }
         }
       }
@@ -92,6 +94,7 @@
         font-weight: bold;
       }
     }
+
     .smileIcon {
       width: 90px;
       height: 40px;
@@ -166,16 +169,23 @@
       }
 
       .card-myRanking {
-        //width: 20%;
+        width: 80%;
         height: 100%;
         justify-content: center;
-        border: 1px solid black;
       }
 
       .total-ranking {
         width: 800px;
-        //height: 300px;
-        display: flex;
+
+        Table th {
+          text-align: center;
+          font-weight: bold;
+          font-size: 14px;
+        }
+
+        Table td {
+          text-align: center;
+        }
       }
     }
 
@@ -260,23 +270,23 @@
         display: flex;
         width: 100%;
         background: white;
-        justify-content: space-between;
-
-        .card {
-          display: flex;
-          width: 200px;
-          height: 300px;
+        border: black 1px solid;
+        .container-slide {
+          width: 100%;
+          color: black;
 
           .ex-img {
+            display: flex;
             width: 150px;
             height: 150px;
-            margin-bottom: 5px;
-          }
-
-          span {
-            display: flex;
-            font-size: 12px;
-            font-weight: bold;
+            margin: 15px 15px 5px;
+            span {
+              color: black;
+              display: flex;
+              font-size: 12px;
+              font-weight: bold;
+              margin: 15px 15px 5px;
+            }
           }
         }
       }
