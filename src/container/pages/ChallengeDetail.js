@@ -6,22 +6,38 @@ import { AvatarWraperStyle } from "../ui-elements/ui-elements-styled";
 import { Avatar } from "antd";
 import {
   UilAngleRight,
-  UilCalender, UilDumbbell,
-  UilFire,
+  UilCalender,
   UilGrin, UilListUiAlt, UilSick,
-  UilStar,
   UilTrees
 } from "@iconscout/react-unicons";
 import UilUsersAlt from "@iconscout/react-unicons/icons/uil-users-alt";
 import UilArrowDown from "@iconscout/react-unicons/icons/uil-arrow-down";
 import { useParams } from "react-router-dom";
+import ChallengeSchedule from './ChallengeSchedule';
 import { DataService } from "../../config/dataService/dataService";
 import { getItem } from "../../utility/localStorageControl";
-// import { DingtalkOutlined, DingtalkSquareFilled } from "@ant-design/icons";
+import { Button } from "../../components/buttons/buttons";
+import UilPlus from "@iconscout/react-unicons/icons/uil-plus";
+import { useSelector } from "react-redux";
+
 
 const ChallengeDetail = () => {
   let params = useParams();
   let chNo = params.id;
+  let loginMemberNo = getItem('memberNo');
+  console.log("loginMemberNo", loginMemberNo)
+  const [state, setState] = useState({
+    visible: false,
+  });
+  const { visible } = state;
+  const showModal = () => {
+    setState({
+      ...state,
+      visible: true,
+    });
+
+  };
+  // 챌린지단일조회
   const [challenge, setChallenge] = useState({
     chNo:'',
     memberNo:'',
@@ -29,22 +45,72 @@ const ChallengeDetail = () => {
     content:'',
     startDate:'',
     endDate:'',
+    challengers:[],
+    challengeMemberCnt:'',
   });
+
+  console.log("challenge : " ,  challenge);
+  // 챌린지 맴버리스트 조회
+
+  const [chMemberList, setChMemberList] = useState({
+    cmemberNo:'',
+    chNo:'',
+    challenger:'',
+    regDate:'',
+  })
+  // 챌린지 가입
   const [chMember, setChMember] =useState({
     chNo:'',
     challenger:'',
     regDate:new Date(),
   })
-  let loginMemberNo = getItem('memberNo')
+  const [challengeScheduleList, setChallengeScheduleList] = useState([{
+    scheduleNo:'',
+    chNo:'',
+    startDate:'',
+    mapNo:'',
+  }]);
 
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await DataService.get(`/ploggingList/${chNo}`);
+        setChallengeScheduleList(response.data);
+        console.log("setChMemberList : " + response.data);
+        console.log(response.status);
+      } catch (error) {
+        // 에러 처리
+        console.log("fetchData error")
+      }
+    };
+    fetchData();
+  }, []);
+
+  console.log("challengeScheduleList : " , challengeScheduleList)
+
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await DataService.get("challengeMember");
+        setChMemberList(response.data);
+        console.log("setChMemberList : " + response.data);
+        console.log(response.status);
+      } catch (error) {
+        // 에러 처리
+        console.log("fetchData error")
+      }
+    };
+    fetchData();
+  }, []);
+  console.log("chMemberList : " , chMemberList.data);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await DataService.get(`/challenge/chDetail/${chNo}`);
         setChallenge(response.data);
-        console.log("response.data: " + response.data);
-
+        console.log(response.data);
         console.log(response.status);
       } catch (error) {
         // 에러 처리
@@ -63,6 +129,18 @@ const ChallengeDetail = () => {
   const challengeJoin = (e) => {
     e.preventDefault(); // submit이 action을 안타고 자기 할일을 그만함
     const confirmed = window.confirm("우리 지구를 깨끗하게 하는 플로깅! 해당 챌린지에 참여하시겠습니까?")
+    if(challenge.challengers && Array.isArray(challenge.challengers) && challenge.challengers.length > 0
+      && challenge.challengers.filter(a => {return a === loginMemberNo}).length){
+
+      window.alert("이미 가입한 챌린지입니다")
+      return false;
+    } else if(challenge.challengeMemberCnt === challenge.personnel){
+      window.alert("인원이 마감된 챌린지 입니다")
+      return false;
+    }
+    else{
+      window.alert("챌린지 가입이 완료되었습니다")
+    }
     if(confirmed) {
       fetch(`http://localhost:8080/challenge/chDetail/${chNo}`,{
         method:"POST",
@@ -74,7 +152,24 @@ const ChallengeDetail = () => {
     }
   }
 
-  console.log("chMember : " + chMember)
+
+  useEffect(() => {
+    let unmounted = false;
+    if (!unmounted) {
+      setState({
+        visible,
+      });
+    }
+    return () => {
+      unmounted = true;
+    };
+  }, [visible]);
+  const onCancel = () => {
+    setState({
+      ...state,
+      visible: false,
+    });
+  };
 
   return (
     <>
@@ -96,7 +191,7 @@ const ChallengeDetail = () => {
         <div className="chHeader">
           <AvatarWraperStyle>
             <span><Avatar icon={< UilGrin />} className="chHeader-icon" />[공식 챌린지]</span>
-            <span> {challenge && challenge.title && <span>{challenge.title}</span>} </span>
+            <span> {challenge.title} </span>
             {challenge.memberNo === loginMemberNo && <button type="submit" className="delete-bt"> 챌린지 삭제하기 </button>}
             {challenge.memberNo !== loginMemberNo && <button type="submit" className="signup-bt" onClick={challengeJoin}> 챌린지 가입하기 </button>}
           </AvatarWraperStyle>
@@ -104,7 +199,9 @@ const ChallengeDetail = () => {
 
         <div className="chPersonnel">
           <AvatarWraperStyle>
-            <span><Avatar icon={< UilUsersAlt />} className="chPersonnel-icon" /> 현재 5/10명 </span>
+            <span><Avatar icon={< UilUsersAlt />} className="chPersonnel-icon" /> 현재 {challenge.challengeMemberCnt}/{challenge.personnel}명
+              {challenge.challengeMemberCnt === challenge.personnel && <span style={ {color:"red"} }> [ 해당 챌린지는 현재 인원마감 입니다 ]</span>}
+            </span>
           </AvatarWraperStyle>
         </div>
 
@@ -133,7 +230,9 @@ const ChallengeDetail = () => {
           </div>
         </div>
 
-        <div className="chSchedule">
+        {/*{challengeScheduleList &&*/}
+        {/*  challengeScheduleList.map((schList) => (*/}
+          <div className="chSchedule">
           <div className="scheduleHeader">
             <AvatarWraperStyle>
               <Avatar icon={< UilTrees />} className="scheduleHeader-icon" /> 상쾌한 아침 플로깅 챌린지의 플로깅 일정
@@ -149,7 +248,7 @@ const ChallengeDetail = () => {
               <p>서울시 구로구</p>
             </div>
             <div className="Participation">
-              <button type="submit" className="chParticipation"> + 일정참여 </button>
+              <button type="submit" className="chParticipation"> + 일정참여</button>
             </div>
           </div>
           <div className="scheduleForm">
@@ -162,12 +261,16 @@ const ChallengeDetail = () => {
               <p>경기도 부천시</p>
             </div>
             <div className="Participation">
-              <button type="submit" className="chParticipation"> + 일정참여 </button>
+              <button type="submit" className="chParticipation"> + 일정참여</button>
             </div>
           </div>
         </div>
+        {/*))}*/}
         <div className="scbutton">
-          <button type="submit" className="scheduleButton"> + 플로깅 일정추가 </button>
+          {challenge.memberNo === loginMemberNo && <Button onClick={showModal} key="1" size="default" className="createPlogging">
+            <span> + 플로깅 일정추가 </span>
+          </Button>}
+          {/*<button type="submit" className="scheduleButton"> + 플로깅 일정추가 </button>*/}
         </div>
 
         <div className="precautions">
@@ -187,7 +290,7 @@ const ChallengeDetail = () => {
             </AvatarWraperStyle>
           </div>
         </div>
-
+        <ChallengeSchedule onCancel={onCancel} visible={visible} />
       </div>
     </>
   );

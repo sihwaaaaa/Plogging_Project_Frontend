@@ -1,15 +1,15 @@
 import React, { useState, useEffect } from 'react';
-import { Form, Input, Select, Col, Row, DatePicker, message, Checkbox } from "antd";
+import { Form, Input, Select, Col, Row, DatePicker, message, Checkbox, Space } from "antd";
 import propTypes from 'prop-types';
 import Dragger from 'antd/lib/upload/Dragger';
 import { Button } from '../../components/buttons/buttons';
 import { Modal } from '../../components/modals/antd-modals';
 import { BasicFormWrapper } from '../styled';
-import { DataService } from "../../config/dataService/dataService";
 import { Cards } from '../../components/cards/frame/cards-frame';
 import { getItem } from "../../utility/localStorageControl";
-import { Link } from "react-router-dom";
+import dayjs from "dayjs";
 
+"dayjs";
 
 const { Option } = Select;
 
@@ -25,11 +25,29 @@ function ChallengeCreate({ visible, onCancel }) {
     modalType: 'primary',
     checked: [],
   });
+  // const disabledDate: RangePickerProps['disabledDate'] = (current) => {
+  //   // Can not select days before today and today
+  //   return current && current < dayjs().endOf('day');
+  // };
+
+  const dateFormat = "YYYY-MM-DD";
+  let today = new Date()
+  function formatDate(date,format){
+    const map = {
+      mm: date.getMonth() + 1,
+      dd: date.getDate(),
+      yyyy: date.getFullYear().toString()
+      // yyyy: date.getFullYear()
+    }
+
+    return format.replace(/mm|dd|yyyy/gi, matched => map[matched])
+  }
+  let nowDate = formatDate(today,'yyyy-mm-dd');
 
   const [startDate, setStartDate] = useState(new Date())
   const [endDate, setEndDate] = useState(new Date() )
-  const [blind, setBlind] = useState(true)
-  const [isSubmitted, setIsSubmitted] = useState(false)
+  const [blind, setBlind] = useState(false)
+  const [isSubmitted, setIsSubmitted] = useState()
 
   const [challengeCreate, setChallengeCreate] =useState({
     title: "",
@@ -38,11 +56,7 @@ function ChallengeCreate({ visible, onCancel }) {
   })
 
   const blindCheck = () => {
-    if(blind === false){
-      setBlind(true)
-    }else {
-      setBlind(false)
-    }
+    setBlind(!blind);
     console.log(blind)
   }
   const changeValue = (e) => {
@@ -53,13 +67,12 @@ function ChallengeCreate({ visible, onCancel }) {
     })
     console.log(e.target.value)
   }
+
   const startDateValue = (e,dateString) => {
     console.log("Date e : " + e)
     console.log(dateString)
-    setStartDate({
-      ...startDate,
-      startDate: dateString
-    })
+    setStartDate(dateString)
+    console.log(dateString)
   }
   const endDateValue = (e,dateString) => {
     console.log("Date e : " + e)
@@ -69,16 +82,20 @@ function ChallengeCreate({ visible, onCancel }) {
       endDate: dateString
     })
   }
-  let obj = Object.assign(challengeCreate,blind,startDate,endDate)
+  let obj = Object.assign(challengeCreate, { blind },startDate,endDate)
+  console.log("obj : ", obj)
   const submitChallenge = (e) => {
     e.preventDefault(); // submit이 action을 안타고 자기 할일을 그만함
+    console.log(JSON.stringify(obj))
     fetch("http://localhost:8080/challenge",{
       method:"POST",
       headers: {
         "Content-type":"application/json; charset=utf-8",Authorization: `Bearer ${getItem('ACCESS_TOKEN')}`
       },
       body: JSON.stringify(obj)
-    }).then((res)=>window.location.replace("challenge"));
+    }).then((res)=>{
+      window.location.replace("challenge")
+    });
   }
 
 
@@ -135,7 +152,7 @@ function ChallengeCreate({ visible, onCancel }) {
       <div className="project-modal">
         <BasicFormWrapper>
           <Form form={form} name="createProject" onFinish={handleOk}>
-            <Form.Item name="title" label="">
+            <Form.Item label="챌린지 이름">
               <Input
                 rules={[{ max: 20, min: 5, message: '20자 이내로 적어주세요' }]}
                 placeholder="챌린지 이름*"
@@ -158,12 +175,14 @@ function ChallengeCreate({ visible, onCancel }) {
             <Row gutter={15}>
               <Col md={12} xs={24}>
                 <Form.Item label="챌린지 시작날짜*" name="startDate">
-                  <DatePicker  placeholder="yyyy/mm/dd/" onChange={startDateValue} name="startDate" />
+                    <DatePicker placeholder="yyyy-mm-dd" onChange={startDateValue} name="startDate"
+                                disabledDate={(d) => d && d < dayjs().add(0, "day").endOf("day")}/>
                 </Form.Item>
               </Col>
               <Col md={12} xs={24}>
                 <Form.Item label="챌린지 모집 마감날짜*" name="endDate">
-                  <DatePicker placeholder="yyyy/mm/dd/" onChange={endDateValue} name="endDate" />
+                  <DatePicker placeholder="yyyy-mm-dd" onChange={endDateValue} name="endDate"
+                              disabledDate={(d) => d && d < dayjs(startDate, dateFormat).add(-1, "day").endOf("day")}/>
                 </Form.Item>
               </Col>
             </Row>

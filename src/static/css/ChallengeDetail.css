@@ -219,17 +219,34 @@
 .scbutton{
     /*border-bottom: 2px solid #227C9D;*/
     /*padding-bottom: 20px;*/
-    margin-top: 30px;
-}
-.scheduleButton{
-    color: white;
-    display: block;
+    width: 80%;
     margin: 0 auto;
-    border: none;
-    padding: 10px;
-    background-color: #227C9D;
-    border-radius: 5px;
 }
+/* 플로깅 생성 */
+.scbutton .createPlogging{
+    margin-top: 30px;
+    background-color: #227C9D;
+    /*border: 1px solid black;*/
+}
+
+.createPlogging span{
+    color: white;
+}
+
+.challengeAddButton{
+    background-color: #227C9D;
+    color: white;
+}
+
+.ploggingBtn{
+    background-color: #17C382;
+    color:white;
+}
+
+.ploggingBtn .ploggingBtn-icon{
+    background: none;
+}
+
 
 /* 챌린지 주의사항 */
 .precautions{
@@ -257,4 +274,9 @@
 .precautions .precautionsDetail .precautionsDetail-icon{
     background: none;
     color: #F07167;
+}
+
+/* 플로깅 추천경로 css */
+.ninjadash-course-card-single{
+    width: 550px;
 }

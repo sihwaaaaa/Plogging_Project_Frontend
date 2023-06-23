@@ -21,10 +21,34 @@ function Challenge() {
     visible: false,
     categoryActive: 'all',
   });
-  const [challenges, setchallenges] = useState([]);
+
+  let today = new Date()
+  function formatDate(date,format){
+    const map = {
+      mm: date.getMonth() + 1,
+      dd: date.getDate(),
+      yyyy: date.getFullYear().toString(),
+      // yyyy: date.getFullYear()
+    }
+
+    return format.replace(/mm|dd|yyyy/gi, matched => map[matched])
+  }
+  let nowDate = formatDate(today,'yyyy-mm-dd');
+
+  console.log(nowDate)
+  const [challenges, setChallenges] = useState([{
+    chNo:'',
+    memberNo:'',
+    title:'',
+    content:'',
+    startDate:'',
+    endDate:'',
+    challengers:[],
+    challengeMemberCnt:'',
+  }],);
   useEffect(() => {
     DataService.get('/challenge').then(function (response) {
-      setchallenges(response.data.data);
+      setChallenges(response.data.data);
       console.log("지금")
       console.log(response.data.data);
       console.log(response.status);
@@ -32,7 +56,21 @@ function Challenge() {
     });
   }, []);
 
-  // console.log("challenges : " + challenges)
+  // let start = challenges.filter(()=>c.startDate).map((data)=> data.startDate)
+  let end = challenges.filter(c=> new Date(c.endDate) < new Date())
+  // console.log("start : " ,start)
+  console.log("end : " , end)
+
+  // const startDateObj = new Date(start);
+  const endDateObj = new Date(end);
+  const currentTime = new Date();
+ challenges.forEach(obj=>{
+   if(endDateObj < currentTime){
+     console.log(`${obj.title}은 챌린지가 종료되었습니다`)
+   }else{
+     console.log(`${obj.title}은 챌린지가 종료되지 않았습니다`)
+   }
+ })
 
 
   const { visible } = state;
@@ -87,28 +125,28 @@ function Challenge() {
         </ProjectHeader>
 
         <div className="challenge-slider-title">
-          <h4>진행전 (모집)</h4>
-        </div>
-        {/*<Link to="chDetail" >*/}
-        <div className="challengeList" style={{ display: 'flex', flexWrap: 'wrap', flexDirection: 'row' }}>
-          {challenges.map((data) => (
-            <ChallengeOne challenge={data} />
-          ))}
-        </div>
-        {/*</Link>*/}
-        <div className="challenge-slider-title">
-          <h4>진행중인 챌린지</h4>
+          <h4>진행전 / 진행중인 챌린지</h4>
         </div>
         <div className="challengeList" style={{ display: 'flex', flexWrap: 'wrap', flexDirection: 'row' }}>
-          {challenges.map((data) => (
+          {challenges.filter(c => c.personnel !== c.challengeMemberCnt).map((data) => (
             <ChallengeOne challenge={data} />
           ))}
         </div>
         <div className="challenge-slider-title">
-          <h4>인원마감</h4>
+          <h4>인원마감된 챌린지</h4>
         </div>
+          <div className="challengeList" style={{ display: "flex", flexWrap: "wrap", flexDirection: "row" }}>
+            {challenges.filter(c => c.personnel === c.challengeMemberCnt).map((data) => (
+              <ChallengeOne challenge={data} />
+            ))}
+          </div>
         <div className="challenge-slider-title">
           <h4>종료된 챌린지</h4>
+        </div>
+        <div className="challengeList" style={{ display: "flex", flexWrap: "wrap", flexDirection: "row" }}>
+          {challenges.filter(() => endDateObj < currentTime ).map((data) => (
+            <ChallengeOne challenge={data} />
+          ))}
         </div>
         <ChallengeCreate onCancel={onCancel} visible={visible} />
       </div>
