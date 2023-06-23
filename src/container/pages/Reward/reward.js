@@ -10,14 +10,14 @@ import MyRankInfo from "./MyRankInfo";
 import RankList from "./RankList";
 import RewardProductList from "./rewardProductList";
 import { getItem } from "../../../utility/localStorageControl";
-import rewardDonationList from "./rewardDonationList";
 import RewardDonationList from "./rewardDonationList";
 
 const Reward = () => {
   const [rewardList, setRewardList] = useState([]);
   const [myRank, setMyRank] = useState([]);
   const [rankingList, setRankingList] = useState([]);
-  const memberNo = 1;
+  const memberNo = getItem('memberNo');
+  // const [memberNo, setMemberNo] = useState([])
   const [donation, setDonation] = useState({
     memberNo : getItem('memberNo'),
     type : 'Donation',
@@ -31,8 +31,8 @@ const Reward = () => {
   })
 
   useEffect(() => {
-    DataService.get(`/reward/list`).then(function(response) {
-      setRewardList(response.data);
+    DataService.get(`/reward/list/`).then(function(response) {
+      setRewardList(response.data.data);
       console.log("reward List Test : ");
       console.log(response.data);
     });
@@ -66,6 +66,8 @@ const Reward = () => {
     }).then(() => console.log(e));
   }
 
+
+
   const createProductTest = (e) => {
     e.preventDefault();
     console.log("e : " + e)
@@ -79,27 +81,6 @@ const Reward = () => {
       body: JSON.stringify(obj)
     }).then(() => console.log(e));
   }
-
-  // const createDonation = (data) => {
-  //   const cleanedData = {
-  //     type : data.type,
-  //     point : data.point,
-  //   };
-  //   DataService.post('/history/Donation', JSON.stringify(cleanedData))
-  //     .then((response) => {
-  //       setDonation(response.data);
-  //       console.log(response.data);
-  //     });
-  // };
-
-  // const createProduct = (data) => {
-  //   DataService.post("/history/Product", {data},'')
-  //     .then((response) => {
-  //       setProduct(response.data);
-  //       console.log("Product Test : " + response.data);
-  //       console.log("Product Test : " + response)
-  //   })
-  // };
 
   useEffect(() => {
     DataService.get('/history/rank/badge/' + memberNo)
@@ -213,7 +194,7 @@ const Reward = () => {
               </Button>
             </div>
             <div className="container-donation-wrap">
-              <h2>기부처</h2>
+              <h2 >기부처</h2>
               <div className="donation-company">
                 <RewardDonationList />
               </div>
@@ -242,3 +223,24 @@ export default Reward;
 }
 {/*))}*/
 }
+
+// const createDonation = (data) => {
+//   const cleanedData = {
+//     type : data.type,
+//     point : data.point,
+//   };
+//   DataService.post('/history/Donation', JSON.stringify(cleanedData))
+//     .then((response) => {
+//       setDonation(response.data);
+//       console.log(response.data);
+//     });
+// };
+
+// const createProduct = (data) => {
+//   DataService.post("/history/Product", {data},'')
+//     .then((response) => {
+//       setProduct(response.data);
+//       console.log("Product Test : " + response.data);
+//       console.log("Product Test : " + response)
+//   })
+// };
