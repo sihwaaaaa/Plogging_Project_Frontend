@@ -1,8 +1,6 @@
 import React, { lazy } from 'react';
 import { Routes, Route } from 'react-router-dom';
 
-import BoardDetail from "../../container/pages/community/boardDetail";
-import BoardRegister from "../../container/pages/community/boardRegister";
 import Auth from '../auth';
 // import WritePage from '../../container/pages/WritePage';
 // import PostPage from '../../container/pages/PostPage';
@@ -12,12 +10,13 @@ const StartPage = lazy(() => import('../../container/pages/StartPage'));
 const MapList = lazy(() => import('../../container/pages/mapList'));
 const Index = lazy(() => import('../../container/pages/index'));
 const Board = lazy(() => import('../../container/pages/community/board'));
+const BoardRegister = lazy(() => import('../../container/pages/community/boardRegister'));
+const BoardDetail = lazy(() => import('../../container/pages/community/boardDetail'));
 const Challenge = lazy(() => import('../../container/pages/challenge'));
 const Profile = lazy(() => import('../../container/pages/profile'));
 const Friend = lazy(() => import('../../container/pages/friends'));
 const Reward = lazy(() => import('../../container/pages/Reward/reward'));
 const Admin = lazy(() => import('../../container/pages/admin'));
-const Register = lazy(() => import('../../container/pages/community/boardRegister'));
 const ChallengeDetail =  lazy(() => import('../../container/pages/ChallengeDetail'));
 
 function PagesRoute() {

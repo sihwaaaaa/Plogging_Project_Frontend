@@ -58,13 +58,21 @@
     a + a {
       padding-top: 25px;
     }
+  }
+  .signin-tab{
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    padding-bottom: 10px;
+    align-items: center;
     .signin-wrapper {
       width: 80%;
-      padding-right: 30px;
       text-align: center;
       span {
         &:first-child{
           font-size: 18px;
+          font-weight: bold;
         }
         &:last-child{
           font-size: 13px;

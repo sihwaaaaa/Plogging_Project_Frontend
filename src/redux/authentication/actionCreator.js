@@ -68,7 +68,6 @@ const logOut = (callback) => {
         if (response === null) {
           dispatch(logoutErr(true));
         }
-        
         localStorage.removeItem("ACCESS_TOKEN");
         Cookies.remove("ACCESS_TOKEN");
         Cookies.remove('logedIn');

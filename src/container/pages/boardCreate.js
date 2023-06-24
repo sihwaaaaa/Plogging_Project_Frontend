@@ -2,11 +2,11 @@ import React, { useState, useEffect } from 'react';
 import { Form, Input, Select, Col, Row, DatePicker, message } from 'antd';
 import propTypes from 'prop-types';
 import Dragger from 'antd/lib/upload/Dragger';
-import { Button } from '../../../components/buttons/buttons';
-import { Modal } from '../../../components/modals/antd-modals';
-import { BasicFormWrapper } from '../../styled';
-import { Cards } from '../../../components/cards/frame/cards-frame';
-import { DataService } from "../../../config/dataService/dataService";
+import { Button } from '../../components/buttons/buttons';
+import { Modal } from '../../components/modals/antd-modals';
+import { BasicFormWrapper } from '../styled';
+import { Cards } from '../../components/cards/frame/cards-frame';
+import { DataService } from "../../config/dataService/dataService";
 
 const { Option } = Select;
 const dateFormat = 'MM/DD/YYYY';

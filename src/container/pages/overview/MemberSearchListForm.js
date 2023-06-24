@@ -4,6 +4,7 @@ import "../../../static/css/MemberSearchListStyle.scss"
 import { UilAngleRight, UilUserCheck } from "@iconscout/react-unicons";
 import UilUserPlus from "@iconscout/react-unicons/icons/uil-user-plus";
 import UilAngleDown from "@iconscout/react-unicons/icons/uil-angle-down";
+import { getItem } from "../../../utility/localStorageControl";
 
 const MemberSearchListForm = (props) => {
 
@@ -48,7 +49,7 @@ const MemberSearchListForm = (props) => {
           <div className="id">
             <span style={{paddingRight:7}}>{searchId}</span>
             <span>({searchName})</span>
-            {searchStatus === 'NOTHING' ? (
+            {searchStatus === 'NOTHING' && searchNo !== getItem('memberNo') ? (
               <div onClick={requestClick} className="friendAdd" style={{background: "#FFCB77"}}>
                 <UilUserPlus size={20} color="white" />
                 <span>플친신청</span>
@@ -110,4 +111,4 @@ const MemberSearchListForm = (props) => {
   );
 };
 
-export default MemberSearchListForm;
+export default React.memo(MemberSearchListForm);
