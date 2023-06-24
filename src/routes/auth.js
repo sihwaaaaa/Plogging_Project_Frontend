@@ -3,6 +3,7 @@ import { Route, Routes, useNavigate } from 'react-router-dom';
 import AuthLayout from '../container/profile/authentication/Index';
 import SocialLogin from '../container/profile/authentication/overview/SocialLogin';
 import ForgotPassword from '../container/profile/authentication/overview/ForgotPassword';
+import SignupComplete from '../container/profile/authentication/overview/SignupComplete';
 
 const Login = lazy(() => import('../container/profile/authentication/overview/SignIn'));
 const SignUp = lazy(() => import('../container/profile/authentication/overview/Signup'));
@@ -20,6 +21,7 @@ const FrontendRoutes = React.memo(() => {
       <Route path='signin' element={<Login />} />
       <Route path="socialLogin" element={<SocialLogin />} />
       <Route path="forgotPassword" element={<ForgotPassword />} />
+      <Route path="complete" element={<SignupComplete />} />
       <Route path="signup" element={<SignUp />} />
       <Route path="*" element={<AuthRoot />} />
     </Routes>
