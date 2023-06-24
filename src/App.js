@@ -46,6 +46,9 @@ function ProviderConfig() {
                   <Route path="/*" element={<Index />} Component={Admin} />{' '}
                   <Route path="*" element={<NotFound />} />
               </Routes>
+              {/*<Routes>*/}
+              {/*  <Route path="/" element={<Navigate to="/jubging" />} />*/}
+              {/*</Routes>*/}
           </Router>
         </>
       </ThemeProvider>

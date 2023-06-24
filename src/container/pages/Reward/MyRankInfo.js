@@ -7,15 +7,13 @@ import FontAwesome from "react-fontawesome";
 import "../../../static/css/rewardPageStyle.scss";
 
 const MyRankInfo = (props) => {
-  console.log(props);
-  const memberNo = getItem('memberNo');
   const badgeName = props.myRank.badgeName;
   const point = props.myRank.point;
 
 
   return (
     <>
-      <Card className="card-header" style={{height:"90px", padding:"0"}}>
+      <Card className="card-header">
         <Row>
           <Col span={12} style={{height:"0"}}>
             <p style={{margin:"0"}}>등  급</p>

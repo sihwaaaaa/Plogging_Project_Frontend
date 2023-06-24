@@ -7,21 +7,7 @@ import '../../../static/css/rewardPageStyle.scss'
 
 
 function pointHistory() {
-  const createDonation = () => {
-    DataService.post("/history/donation", {
-      type: "donation",
-      point: -1000,
-      rewardNo: 1
-    }).then((response) => console.log("test", response));
-  };
 
-  const createProduct = () => {
-    DataService.post("/history/product", {
-      type: "product",
-      point: -8000,
-      rewardNo: 9
-    }).then((response) => console.log(response));
-  };
   return (
     <div className = "pointhistoryContainer">
       <Row gutter={24}>

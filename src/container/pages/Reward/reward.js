@@ -1,40 +1,86 @@
 import React, { Suspense } from "react";
 import { useEffect, useState } from "react";
 import { DataService } from "../../../config/dataService/dataService";
-import { KnowledgebaseTopWrap } from "../knowledgeBase/style";
-import { Form, Input } from "antd";
 import { Button } from "../../../components/buttons/buttons";
 import FontAwesome from "react-fontawesome";
 import "../../../static/css/rewardPageStyle.scss";
-import PointHistory from "./pointHistory";
 import { Row, Col, Card } from "antd";
 import ex from "../../../static/img/ex.jpg.jpg";
 import MyRankInfo from "./MyRankInfo";
 import RankList from "./RankList";
-
+import RewardProductList from "./rewardProductList";
+import { getItem } from "../../../utility/localStorageControl";
+import RewardDonationList from "./rewardDonationList";
 
 const Reward = () => {
   const [rewardList, setRewardList] = useState([]);
   const [myRank, setMyRank] = useState([]);
-  const [rankList, setRankList] = useState([]);
-  const memberNo = 1;
+  const [rankingList, setRankingList] = useState([]);
+  const memberNo = getItem('memberNo');
+  // const [memberNo, setMemberNo] = useState([])
+  const [donation, setDonation] = useState({
+    memberNo : getItem('memberNo'),
+    type : 'Donation',
+    point : '-1000',
+    rewardNo : '30',
+  });
+  const [product, setProduct] = useState({
+    memberNo : getItem('memberNo'),
+    type : 'Product',
+    point : '-8000',
+  })
 
   useEffect(() => {
-    DataService.get(`/reward/list`).then(function(response) {
-      setRewardList(response.data);
+    DataService.get(`/reward/list/`).then(function(response) {
+      setRewardList(response.data.data);
       console.log("reward List Test : ");
       console.log(response.data);
     });
   }, []);
 
-  useEffect(() => {
-    DataService.get('/history/list/rank').then(function(response) {
-      setRankList(response.data);
-      console.log("rankList Test : " + response.data);
-      console.log("data.data : " + response.data.data);
-      console.log(response);
+  const donationTest = (e) => {
+    console.log(e)
+    setDonation({
+      ...donation,
     })
-  }, [])
+  }
+  const ProductTest = (e) => {
+    console.log(" Product Test e : " + e)
+    setProduct( {
+      ...product,
+    })
+  }
+
+  let obj = Object.assign(donation, donationTest, product, ProductTest)
+  const createDonationTest = (e) => {
+    e.preventDefault();
+    console.log("e : " + e)
+    console.log("test"+obj)
+    console.log("e.data : "+e.data)
+    fetch("http://localhost:8080/history/Donation",{
+      method:"POST",
+      headers: {
+        "Content-type":"application/json; charset=utf-8",Authorization: `Bearer ${getItem('ACCESS_TOKEN')}`
+      },
+      body: JSON.stringify(obj)
+    }).then(() => console.log(e));
+  }
+
+
+
+  const createProductTest = (e) => {
+    e.preventDefault();
+    console.log("e : " + e)
+    console.log("test"+obj)
+    console.log("e.data : "+e.data)
+    fetch("http://localhost:8080/history/Product",{
+      method:"POST",
+      headers: {
+        "Content-type":"application/json; charset=utf-8",Authorization: `Bearer ${getItem('ACCESS_TOKEN')}`
+      },
+      body: JSON.stringify(obj)
+    }).then(() => console.log(e));
+  }
 
   useEffect(() => {
     DataService.get('/history/rank/badge/' + memberNo)
@@ -101,26 +147,11 @@ const Reward = () => {
           </div>
         </div>
         <div className="rewardpage-rank">
-          <RankList rankList={rankList} />
-          {/*<div className="container-rank">*/}
-          {/*  <h2>랭킹</h2>*/}
-          {/*  <div className="container-body-rank">*/}
-          {/*    <span>*/}
-          {/*      회원님의 누적 포인트는 "n" 입니다. 사용하신 포인트는 누적포인트에 적용되지 않습니다*/}
-          {/*    </span>*/}
-          {/*    <span>*/}
-          {/*      회원님의 랭킹을 확인해 보세요!*/}
-          {/*    </span>*/}
-          {/*  </div>*/}
-          {/*  <div className="container-card-wrapper">*/}
-          {/*    <img src={ex} className="ex-img" />*/}
-          {/*    <div className="card-myRanking">*/}
-          {/*      <div className="total-ranking">*/}
-          {/*        /!*<RewardRankList />*!/*/}
-          {/*      </div>*/}
-          {/*    </div>*/}
-          {/*  </div>*/}
-          {/*</div>*/}
+          <Row justify="center" align="top" >
+            <Col xxl={17} xs={24} style={{marginTop:20}}  >
+            <RankList />
+            </Col>
+          </Row>
         </div>
         <div className="rewardpage-product">
           <div className="container-product">
@@ -134,55 +165,9 @@ const Reward = () => {
               <div className="container-product-wrapper">
                 <h3>랜덤박스 구성품</h3>
               </div>
-              <div className="container-productList">
-                <Card className="card">
-                  <Row gutter={16}>
-                    <Col span={24}>
-                      <img src={ex} className="ex-img" />
-                      <span>제조사 제조사 명</span>
-                      <span>내용</span>
-                    </Col>
-                  </Row>
-                </Card>
-                <Card className="card">
-                  <Row gutter={16}>
-                    <Col span={24}>
-                      <img src={ex} className="ex-img" />
-                      <span>제조사 제조사 명</span>
-                      <span>내용</span>
-                    </Col>
-                  </Row>
-                </Card>
-                <Card className="card">
-                  <Row gutter={16}>
-                    <Col span={24}>
-                      <img src={ex} className="ex-img" />
-                      <span>제조사 제조사 명</span>
-                      <span>내용</span>
-                    </Col>
-                  </Row>
-                </Card>
-                <Card className="card">
-                  <Row gutter={16}>
-                    <Col span={24}>
-                      <img src={ex} className="ex-img" />
-                      <span>제조사 제조사 명</span>
-                      <span>내용</span>
-                    </Col>
-                  </Row>
-                </Card>
-                <Card className="card">
-                  <Row gutter={16}>
-                    <Col span={24}>
-                      <img src={ex} className="ex-img" />
-                      <span>제조사 제조사 명</span>
-                      <span>내용</span>
-                    </Col>
-                  </Row>
-                </Card>
-              </div>
+                <RewardProductList />
             </div>
-            <Button key="1" type="primary" size="default" className="productButton">
+            <Button key="submit" type="primary" size="default" className="productButton" onClick={createProductTest} >
               랜덤박스 신청하기
               <p>-8000P</p>
             </Button>
@@ -203,15 +188,15 @@ const Reward = () => {
             </div>
             <div className="container-card-wrapper">
               <img src={ex} className="ex-img" />
-              <Button key="2" type="primary" size="default" className="donationButton">
+              <Button className="donationButton" size="default" type="primary" key="submit" onClick={createDonationTest}>
                 기부하기
                 <p>-1000P</p>
               </Button>
             </div>
             <div className="container-donation-wrap">
-              <h2>기부처</h2>
+              <h2 >기부처</h2>
               <div className="donation-company">
-
+                <RewardDonationList />
               </div>
             </div>
           </div>
@@ -238,3 +223,24 @@ export default Reward;
 }
 {/*))}*/
 }
+
+// const createDonation = (data) => {
+//   const cleanedData = {
+//     type : data.type,
+//     point : data.point,
+//   };
+//   DataService.post('/history/Donation', JSON.stringify(cleanedData))
+//     .then((response) => {
+//       setDonation(response.data);
+//       console.log(response.data);
+//     });
+// };
+
+// const createProduct = (data) => {
+//   DataService.post("/history/Product", {data},'')
+//     .then((response) => {
+//       setProduct(response.data);
+//       console.log("Product Test : " + response.data);
+//       console.log("Product Test : " + response)
+//   })
+// };

@@ -3,7 +3,6 @@ import { getItem } from '../../../utility/localStorageControl';
 import axios from 'axios';
 
 const RewardList = () => {
-  const userId = getItem('userId');
   const [name, setName] = useState('');
   const [detail, setDetail] = useState('');
   const [type, setType] = useState('');
