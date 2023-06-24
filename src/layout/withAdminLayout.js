@@ -4,7 +4,7 @@
 /* eslint-disable react/no-unused-state */
 import { Button, Col, Layout, Row } from 'antd';
 import propTypes from 'prop-types';
-import React, { Component } from 'react';
+import React, { Component, useEffect, useState } from "react";
 import { Scrollbars } from '@pezhmanparsaee/react-custom-scrollbars';
 import { connect } from 'react-redux';
 import { Link, NavLink } from 'react-router-dom';
@@ -21,7 +21,6 @@ const { theme } = require('../config/theme/themeVariables');
 
 const { Header, Sider, Content } = Layout;
 const userAuth = getItem('authList');
-
 
 const ThemeLayout = (WrappedComponent) => {
   class LayoutComponent extends Component {
@@ -115,27 +114,20 @@ const ThemeLayout = (WrappedComponent) => {
        * @Brief 관리자 권한을 가진 회원에게만 관리자 탭 허용
        */
       const adminTab = () => {
-
-        if(userAuth && Array.isArray(userAuth) && userAuth.length > 0
-          && userAuth.filter(auth => auth === 'ROLE_ADMIN')) {
+        if(userAuth.indexOf('ROLE_ADMIN') !== -1){
           return (
             <li className="admin_tab"
                 style={{
                   listStyle: "none",
-                  marginRight : 50
-            }}>
+                  marginRight: 50
+                }}>
               <Link to="admin">
-                <span style={{color: "#F07167", fontWeight:"bold"}}>관리자</span>
+                <span style={{ color: "#F07167", fontWeight: "bold" }}>관리자</span>
               </Link>
             </li>
           )
         }
-        else {
-          return null;
-        }
       }
-
-
 
       return (
         <LayoutContainer>
@@ -165,7 +157,9 @@ const ThemeLayout = (WrappedComponent) => {
                 {/* 헤더 탑 메뉴 */}
                 <div className="ninjadash-header-content__right d-flex">
                   <div className="ninjadash-navbar-menu d-flex align-center-v">
-                    {adminTab()}
+
+                    {userAuth && Array.isArray(userAuth) ? adminTab() : ''}
+
                     {topMenu && window.innerWidth > 991 ? <TopMenu /> : null}
                     {!topMenu || window.innerWidth <= 991 ? (
                       <Button type="link" onClick={toggleCollapsed}>

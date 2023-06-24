@@ -36,6 +36,7 @@ const CustomPagination = (props) => {
                              id={currentPage}
                              onClick={pageClick}>{currentPage + 1}</li>)
         }
+        console.log(currentPage)
         return pageNum
     }
 
@@ -43,6 +44,8 @@ const CustomPagination = (props) => {
     const pageClick = e => {
         setPage(e.target.id)
         setActive(e.target.id)
+        console.log("id", e.target.id)
+        console.log("page", page)
     }
 
     const scrollClick = () => {
@@ -104,4 +107,4 @@ const CustomPagination = (props) => {
   );
 };
 
-export default CustomPagination;
+export default React.memo(CustomPagination);

@@ -4,47 +4,50 @@ import "../../../static/css/boardStyle.scss";
 import { Button, Col, Row } from "antd";
 import BoardLayout from "./boardLayout";
 import { DataService } from "../../../config/dataService/dataService";
-import { Modal } from "../../../components/modals/antd-modals";
 import { getItem } from "../../../utility/localStorageControl";
-import BoardDetailLayout from "./BoardDetailLayout";
+import { useLocation, useNavigate } from "react-router-dom";
+import CustomPagination from "../overview/CustomPagination";
 
 const Board = () => {
 
   const currentUserId = getItem('userId');
   const [boardList, setBoardList ] = useState([]);
-  const [boardDetail, setBoardDetail] = useState([]);
   const [category, setCategory] = useState('');
-  const [bno, setBno] = useState('');
-  const [replyList, setReplyList] = useState([]);
+
+
+  const [page, setPage] = useState('');
+  const [pageable, setPageable] = useState([]);
+  const [scroll, setScroll] = useState(false);
+
+  const changePage = useNavigate();
+  const location = useLocation();
+
 
   useEffect(() => {
-    DataService.get(`/boards/${category}`)
+    DataService.get(`community/boards/${category}?page=${page}`)
       .then((response) => {
         setBoardList(response.data.data.content)
+        setPageable(response.data.data)
+        console.log(response.data.data)
       })
-  }, [category])
+  }, [category, page])
 
-  const getBoardDetail = () => {
-    DataService.get(`/board/${bno}`)
-      .then((response) => {
-        setBoardDetail(response.data)
-      })
-  }
-
-  const getReplyList = () => {
-    DataService.get(`/reply/${bno}`)
-      .then((response) => {
-        setReplyList(response.data)
-      })
+  function detailClick(bno) {
+    changePage(`/board/${bno}`, {
+      state : {
+        bno : `${bno}`
+      }
+    })
   }
 
   useEffect(() => {
-    getBoardDetail()
-    getReplyList()
-  }, [bno])
+    if(location.state) {
+      categoryChange(location.state.category)
+    }
+  }, [])
 
-  function detailClick(bno) {
-    setBno(bno)
+  function registerClick() {
+    changePage('/board/register')
   }
 
   const scrollToTab = (elementRef:React.MutableRefObject<HTMLButtonElement|null>) => {
@@ -52,7 +55,7 @@ const Board = () => {
       const selectBoard = elementRef.current.offsetTop - 110;
       window.scrollTo({
         top: selectBoard,
-        behavior: 'smooth'
+        behavior: 'smooth',
       })
     }
   }
@@ -60,7 +63,6 @@ const Board = () => {
   let allRef = useRef(null);
   let communityRef = useRef(null);
   let ploggingRef = useRef(null);
-  let boardDetailRef = useRef(null);
 
   const categoryChange = (category) => {
     if(category === 'COMMUNITY') {
@@ -90,12 +92,6 @@ const Board = () => {
     }
   }
 
-  /**
-   * @Author 천은경
-   * @Date 23.06.13
-   * @Brief 모달 기능
-   */
-
   return (
     <>
       <Main>
@@ -103,15 +99,6 @@ const Board = () => {
         <div className="boardTitleWrapper">
           <h2>갬성이느껴지는 커뮤니티 제목 뭐가있지</h2>
         </div>
-        {/*{*/}
-        {/*  !!boardDetail ? (*/}
-        {/*    <div className="boardDetailWrapper" ref={boardDetailRef}>*/}
-        {/*      <div className="boardDetail" >*/}
-        {/*        <BoardDetailLayout board={boardDetail.data} reply={replyList.data} />*/}
-        {/*      </div>*/}
-        {/*    </div>*/}
-        {/*  ) : ''*/}
-        {/*}*/}
         <div className="boardNoticeWrapper">
           <div className="noticeContainer">
             <div className="noticeTitle">
@@ -119,6 +106,11 @@ const Board = () => {
             </div>
             <li>무분별한 중복글, 광고글은 작성하지 말아주세요</li>
             <li>작성시 사진을 함께 업로드 해주세요</li>
+          </div>
+        </div>
+        <div className="board-register-btn-wrapper">
+          <div className="board-register-btn">
+            <Button onClick={registerClick} >글 작성하기</Button>
           </div>
         </div>
         <div className="boardCategoryWrapper">
@@ -144,6 +136,9 @@ const Board = () => {
                   )
                 })}
               </Row>
+              <div className="board-pagination">
+                <CustomPagination page={page} setScroll={setScroll} setPage={setPage} result={pageable} />
+              </div>
             </div>
           </div>
         </div>
@@ -152,4 +147,4 @@ const Board = () => {
   );
 }
 
-export default Board;
+export default React.memo(Board);

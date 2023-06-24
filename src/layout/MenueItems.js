@@ -42,7 +42,6 @@ function MenuItems({ toggleCollapsed }) {
   const pathArray = pathName.split(path);
   const mainPath = pathArray[1];
   const mainPathSplit = mainPath.split('/');
-  console.log(pathName)
 
 
   const [openKeys, setOpenKeys] = React.useState(
@@ -129,11 +128,11 @@ function MenuItems({ toggleCollapsed }) {
         openKeys={openKeys}
         items={items}
       />
-      {userOn ? (
+      {userOn && !!Cookies.get('userId') ? (
 
         <div className="myinfo-tab">
           <div className="mypage-wrapper">
-            <span>플로거 {Cookies.get('nickName')} 님</span>
+            <span style={{maxWidth:150}}>플로거 {Cookies.get('nickName')} 님</span>
             <NavLink className="mypage-tab" onClick={toggleCollapsed} to={`pages/profile`}>
               <AvatarWraperStyle>
                 <Avatar icon={<UserOutlined style={{
@@ -151,7 +150,7 @@ function MenuItems({ toggleCollapsed }) {
           </div>
         </div>
       ) : (
-        <div className="myinfo-tab" style={{justifyContent: "flex-end"}}>
+        <div className="signin-tab" style={{justifyContent: "flex-end"}}>
           <div className="signin-wrapper">
             <Link to="/member/signin">
               <span>로그인</span>< br />

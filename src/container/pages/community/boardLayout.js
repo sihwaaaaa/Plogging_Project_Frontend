@@ -29,9 +29,9 @@ const BoardLayout = (data) => {
           <div className="ninjadash-blog-meta ninjadash-blog-meta-theme-2">
             <span className="ninjadash-blog-meta__single ninjadash-category-meta">
               {category === 'PLOGGING' ? (
-                <span style={{color : "#FFCB77"}}>{category}</span>
+                <span style={{color : "#FFCB77"}}>플로깅</span>
               ) : category === 'COMMUNITY' ? (
-                <span style={{color : "#47B0D7"}}>{category}</span>
+                <span style={{color : "#47B0D7"}}>일상</span>
               ) : ''
               }
             </span>
@@ -40,7 +40,8 @@ const BoardLayout = (data) => {
           <h2 className="ninjadash-blog__title">
             <Link to="#">{title}</Link>
           </h2>
-          <p className="ninjadash-blog__text">{content}</p>
+          <p className="ninjadash-blog__text"
+             style={{height:40, overflow:"hidden", whiteSpace: "nowrap", textOverflow:"ellipsis"}}>{content}</p>
           <div className="ninjadash-blog__bottom">
             <div className="ninjadash-blog__author">
               <img className="ninjadash-blog__author-img" src={badge} alt="뱃지" />
