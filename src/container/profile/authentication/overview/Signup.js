@@ -18,6 +18,7 @@ import axios from 'axios';
 import { Calendar } from 'react-date-range';
 import { useMemo } from 'react';
 import SignIn from './SignIn';
+import Cookies from 'js-cookie';
 // import FormItemLabel from 'antd/es/form/FormItemLabel';
 
 const PopUpDom = ({ children }) => {
@@ -224,30 +225,31 @@ function SignUp() {
       birth: birth.year + "-" + birth.month + "-" + birth.day,
       // address
     }));
-    
-    dispatch(async () => {
-      await DataService.login('/member/signin', values)
-      .then((res) => {
-        if (res.data.error !== null) {
-          setIsError(true);
-          return false;
-        } else {
-          Cookies.set('ACCESS_TOKEN', res.data.data.token);
-          Cookies.set('logedIn', true);
-          Cookies.set('userId', res.data.data.userId);
-          Cookies.set('memberNo', res.data.data.memberNo);
-          Cookies.set('nickName', res.data.data.nickName);
-          Cookies.set('userName', res.data.data.userName);
-          Cookies.set('gender', res.data.data.gender);
-          Cookies.set('birth', res.data.data.birth);
-          Cookies.set('regDate', res.data.data.regDate);
-          callback();
-          location.reload();
-        }
-      })
-    }, () => history("/member/signup/complete"))
-
+    dispatch(login({userId, password}, () => history('/member/complete')));
   }
+
+  const login = (values, callback) => {
+    return async () => {
+        await DataService.login('/member/signin', values)
+          .then((res) => {
+            if (res.data.error !== null) {
+              return false;
+            } else {
+              Cookies.set('ACCESS_TOKEN', res.data.data.token);
+              Cookies.set('logedIn', true);
+              Cookies.set('userId', res.data.data.userId);
+              Cookies.set('memberNo', res.data.data.memberNo);
+              Cookies.set('nickName', res.data.data.nickName);
+              Cookies.set('userName', res.data.data.userName);
+              Cookies.set('gender', res.data.data.gender);
+              Cookies.set('birth', res.data.data.birth);
+              Cookies.set('regDate', res.data.data.regDate);
+              callback();
+              location.reload();
+            }
+          })
+    };
+  };
   return (
     <Row justify="center">
       <Col xxl={8} xl={12} md={12} sm={18} xs={24}>
