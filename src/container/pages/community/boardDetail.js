@@ -4,6 +4,7 @@ import "../../../static/css/boardStyle.scss";
 import { DataService } from "../../../config/dataService/dataService";
 import BoardDetailLayout from "./BoardDetailLayout";
 import { UilHome } from "@iconscout/react-unicons";
+import { Main } from "../../styled";
 
 const BoardDetail = () => {
 
@@ -13,10 +14,12 @@ const BoardDetail = () => {
   const [replyList, setReplyList] = useState([]);
   const [replyContent, setReplyContent] = useState('');
 
+  const [currentReplys, setCurrentReplys] = useState([]);
+
   const changePage = useNavigate();
   
   useEffect(() => {
-    console.log("댓글 변경")
+    // currentReplys.push(...replyList)
   }, [replyList])
   
 
@@ -24,6 +27,7 @@ const BoardDetail = () => {
     DataService.get(`/reply/${bno}`)
       .then((response) => {
         setReplyList(response.data.data)
+        currentReplys.unshift(...response.data.data.content)
       })
   }, [replyContent])
 
@@ -59,7 +63,6 @@ const BoardDetail = () => {
    * 글 삭제
    */
   const clickDeleteBoard = () => {
-    console.log('삭제')
     toMainPage()
     deleteBoard()
   }
@@ -84,32 +87,33 @@ const BoardDetail = () => {
     changePage('/board/register', {
       state : {
         isUpdate : true,
-        boardDetail : boardDetail
+        boardDetail : boardDetail,
       }
     })
   }
 
 
   return (
-    <>
+    <Main style={{background: "white"}}>
       <div className="boardDetailTitle">
         <div className="homeBtnWrapper">
           <Link to={"/board"} className="homeBtn">
             <UilHome size={20} />
-            <span>커뮤니티</span>
+            <span>커뮤니티홈</span>
           </Link>
         </div>
       </div>
       <div className="boardDetailWrapper" >
         <div className="boardDetail detailPage" >
           <BoardDetailLayout board={boardDetail} reply={replyList}
+                             currentReplys={currentReplys} setCurrentReplys={setCurrentReplys}
                              changePage={changePage}
                              replyContent={replyContent} setReplyContent={setReplyContent}
                              updateBoard={() => toEditPage()} deleteBoard={clickDeleteBoard}
           />
         </div>
       </div>
-    </>
+    </Main>
   )
 }
 

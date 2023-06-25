@@ -193,11 +193,14 @@ const axiosFileUploder = (imageAsFile) => {
 
   return async (dispatch) => {
     try {
+      console.log(data)
       await dispatch(axiosUploadBegin());
-      const query = await DataService.post('/data/image/upload', data, { 'Content-Type': 'multipart/form-data' });
+      const query = await DataService.post('/file/upload', data, { 'Content-Type': 'multipart/form-data' });
+      console.log(query)
 
       dispatch(axiosUploadSuccess(`${query.data}`));
     } catch (err) {
+      console.log(err)
       await dispatch(axiosUploadErr(err));
     }
   };

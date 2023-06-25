@@ -21,7 +21,7 @@ const BoardLayout = (data) => {
 
   return (
     <BlogCardStyleWrap>
-      <figure className={`ninjadash-blog ninjadash-blog-style-2`}>
+      <figure style={{boxShadow:"1px 1px 3px rgb(227 230 239 / 60%)"}} className={`ninjadash-blog ninjadash-blog-style-2`}>
         <div className="ninjadash-blog-thumb">
           <img className="ninjadash-blog__image" src={image} alt="plogging" />
         </div>
@@ -37,8 +37,8 @@ const BoardLayout = (data) => {
             </span>
             <span className="ninjadash-blog-meta__single ninjadash-date-meta">{regDate}</span>
           </div>
-          <h2 className="ninjadash-blog__title">
-            <Link to="#">{title}</Link>
+          <h2 className="ninjadash-blog__title" style={{overflow: "hidden", whiteSpace: "nowrap", textOverflow:"ellipsis"}}>
+            <span style={{height:30}}>{title}</span>
           </h2>
           <p className="ninjadash-blog__text"
              style={{height:40, overflow:"hidden", whiteSpace: "nowrap", textOverflow:"ellipsis"}}>{content}</p>

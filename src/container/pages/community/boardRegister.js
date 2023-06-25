@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import BoardRegisterOrEdit from "./boardRegisterOrEdit";
 import { DataService } from "../../../config/dataService/dataService";
 import { useLocation, useNavigate } from "react-router-dom";
+import { Main } from "../../styled";
 
 
 const BoardRegister = () => {
@@ -63,7 +64,8 @@ const BoardRegister = () => {
       changePage(`/board/${bno}`, {
         state : {
           bno : bno
-        }
+        },
+        replace : true
       })
     }
   }, [article])
@@ -99,22 +101,19 @@ const BoardRegister = () => {
   const updateBoard = (data) => {
     DataService.put(`community/update`, {data})
       .then((response) => {
-        console.log("1", response)
-        if(response.data){
-          console.log("두번", response.data)
-        }
+        console.log(response)
       })
   }
 
 
   return (
-    <div>
+    <Main style={{background:"#FEF9EF"}}>
       <BoardRegisterOrEdit article={article} setToDetail={setToDetail}
                            title={title} setTitle={setTitle}
                            setContent={setContent} content={content}
                            isUpdate={isUpdate} setIsUpdate={setIsUpdate}
                            toMainPage={toMainPage} />
-    </div>
+    </Main>
   );
 };
 
