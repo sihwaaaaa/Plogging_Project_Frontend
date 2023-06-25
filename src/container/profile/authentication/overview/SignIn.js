@@ -8,9 +8,9 @@ import { Checkbox } from '../../../../components/checkbox/checkbox';
 import socialLogin, { DataService } from '../../../../config/dataService/dataService';
 import Cookies from 'js-cookie';
 import logodemo from '../../../../static/img/logodemo.png'
-import { useEffect } from 'react';
-import { FcGoogle } from 'react-icons/fc';
-import { SiNaver } from 'react-icons/si';
+// import { useEffect } from 'react';
+// import { FcGoogle } from 'react-icons/fc';
+// import { SiNaver } from 'react-icons/si';
 import { ReactComponent as CircleShape } from "../../../../static/img/kakao-svgrepo-com.svg";
 import naverImg from "../../../../static/img/btnG_아이콘원형.png";
 import { ReactComponent as GoogleShape } from "../../../../static/img/Google__G__Logo.svg";

@@ -17,6 +17,7 @@ const BoardRegister = () => {
 
   const [isUpdate, setIsUpdate] = useState(false); // 해당 글 생성인지 수정인지
   const [toDetail, setToDetail] = useState(false);
+  const [isPlogging, setIsPlogging] = useState(false);
 
   const article = {title : title, content : content, ploggingNo : ploggingNo};
   const updateArticle = {bno : bno, title : title, content : content};
@@ -29,7 +30,14 @@ const BoardRegister = () => {
    */
   useEffect(() => {
     if(!!location.state) {
-      setIsUpdate(true)
+      if(location.state.isUpdate && location.state.boardDetail.ploggingNo === null) {
+        setIsUpdate(true)
+      } else if (location.state.isUpdate && location.state.boardDetail.ploggingNo !== null) {
+        setIsUpdate(true)
+        setIsPlogging(true)
+      } else if (!location.state.isUpdate && location.state.boardDetail.ploggingNo !== null) {
+        setIsPlogging(true);
+      }
     }
   },[])
 
@@ -45,28 +53,34 @@ const BoardRegister = () => {
       setBno(location.state.boardDetail.bno)
       setTitle(location.state.boardDetail.title)
       setContent(location.state.boardDetail.content)
+    } else if (isPlogging) {
+      setPloggingNo(location.state.boardDetail.ploggingNo)
     }
-  }, [isUpdate])
+  }, [isUpdate, isPlogging])
 
   /**
    * @Author 천은경
    * @Date 23.06.23
    * 최초시, article 변경시 실행
-   * location 값이 존재하는 경우: 글작성, 메인페이지로
-   * location 값이 부재하는 경우: 글수정, 상세페이지로
+   * location 값 x : 일상 글작성, 메인페이지로
+   * location 값 o & 플로깅값 o & 업데이트값 x : 플로깅 글작성, 메인페이지로
+   * location 값 o & 플로깅값 x & 없데이트값 o : 일상 글수정, 상세페이지로
+   * location 값 o & 플로깅값 o & 업데이트값 x : 플로깅 글수정, 상세페이지로
    */
   useEffect(() => {
-    if(title && title.length > 0 && !location.state) {
-      submitBoard(article)
-      toMainPage()
-    } else if(title.length > 0 && toDetail && !!location.state) {
-      updateBoard(updateArticle)
-      changePage(`/board/${bno}`, {
-        state : {
-          bno : bno
-        },
-        replace : true
-      })
+    if(title && title.length > 0) {
+      if(!location.state || (location.state.boardDetail.ploggingNo !== null && !location.state.isUpdate)) {
+        submitBoard(article)
+        toMainPage()
+      } else if (toDetail) {
+        updateBoard(updateArticle)
+        changePage(`/board/${bno}`, {
+          state : {
+            bno : bno
+          },
+          replace : true
+        })
+      }
     }
   }, [article])
 

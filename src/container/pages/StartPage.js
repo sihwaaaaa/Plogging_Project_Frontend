@@ -105,7 +105,12 @@ const StartPage = () => {
   //스프링 데이터 전송
   const createPlogging = (data) => {
     DataService.put('/plogging/startPage', { data }).then(function (response) {
-      navigate('/board/register', { state: response.data.data.ploggingNo });
+      navigate('/board/register', {
+        state: {
+          isUpdate : false,
+          boardDetail : {ploggingNo : response.data.data.ploggingNo}
+        }
+      });
     });
   };
   useEffect(() => {

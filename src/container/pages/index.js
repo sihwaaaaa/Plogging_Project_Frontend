@@ -50,7 +50,7 @@ function Index() {
           </Card>
         </div>
       </div>
-      <div className="index-page-challenge">
+      <div className="index-page-challenge-wrapper">
         <div className="container">
           <div className="challenge-search">
             <KnowledgebaseTopWrap>
