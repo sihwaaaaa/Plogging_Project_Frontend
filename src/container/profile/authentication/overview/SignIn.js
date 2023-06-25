@@ -2,54 +2,23 @@ import React, { useState, useCallback } from 'react';
 import { Link, NavLink, useNavigate } from 'react-router-dom';
 import { Form, Input, Button, Row, Col, Image } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
-// eslint-disable-next-line import/no-extraneous-dependencies
-import { Auth0Lock } from 'auth0-lock';
 import { AuthFormWrap } from './style';
-import { login } from '../../../../redux/authentication/actionCreator';
+import memberStyle from "../../../../static/css/memberPageStyle.scss";
 import { Checkbox } from '../../../../components/checkbox/checkbox';
-import { auth0options } from '../../../../config/auth0';
-import socialLogin from '../../../../config/dataService/dataService';
-
+import socialLogin, { DataService } from '../../../../config/dataService/dataService';
+import Cookies from 'js-cookie';
+import logodemo from '../../../../static/img/logodemo.png'
+import { useEffect } from 'react';
+import { FcGoogle } from 'react-icons/fc';
+import { SiNaver } from 'react-icons/si';
+import { ReactComponent as CircleShape } from "../../../../static/img/kakao-svgrepo-com.svg";
+import naverImg from "../../../../static/img/btnG_아이콘원형.png";
+import { ReactComponent as GoogleShape } from "../../../../static/img/Google__G__Logo.svg";
 const domain = process.env.REACT_APP_AUTH0_DOMAIN;
 const clientId = process.env.REACT_APP_AUTH0_CLIENT_ID;
 
 function SignIn() {
   // // 아이디, 비밀번호
-  // const [userId, setUserId] = useState('');
-  // const [password, setPassword] = useState('');
-
-  // 아이디, 비밀번호 오류 메세지
-  // const [userIdMessage, setUserIdMessage] = useState('');
-  // const [passwordMessage, setPasswordMessage] = useState('');
-  // const [isUserId, setIsUserId] = useState(false);
-  // const [isPassword, setIsPassword] = useState(false);
-  // const onChangeUserId = useCallback((e) => {
-  //   const userIdExp = /^[a-zA-Z0-9]*$/;
-  //   if (e.target.value.length < 4 || e.target.value.length > 12) {
-  //     setUserIdMessage('4자리 이상 12자리 이하로 입력해주세요');
-  //     setIsUserId(false);
-  //   }
-
-  //   if (userIdExp.test(e.target.value)) {
-  //     setUserIdMessage('반드시 영소문자 및 숫자로만 사용되어야 합니다.');
-  //     setIsUserId(false);
-  //   }
-  //   setIsUserId(true);
-  // }, []);
-  // const onChangePassword = useCallback((e) => {
-  //   const passwordExp = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{8,}$/;
-
-  //   if (e.target.value.length < 8 || e.target.value.length > 20) {
-  //     setPasswordMessage('8자리 이상 20자리 이하여야 합니다.');
-  //     setIsPassword(false);
-  //   }
-
-  //   if (passwordExp.test(e.target.value)) {
-  //     setPasswordMessage('대소문자, 특수문자 및 숫자를 포함하여야 합니다.');
-  //     setIsPassword(false);
-  //   }
-  //   setIsPassword(true);
-  // }, []);
   const history = useNavigate();
   const dispatch = useDispatch();
   const isLoading = useSelector((state) => state.auth.loading);
@@ -57,7 +26,12 @@ function SignIn() {
   const [state, setState] = useState({
     checked: null,
   });
-  const lock = new Auth0Lock(clientId, domain, auth0options);
+  
+  // const [userId, setUserId] = useState('');
+  // const [password, setPassword] = useState('');
+  const [isError, setIsError] = useState(false);
+  
+  // const lock = new Auth0Lock(clientId, domain, auth0options);
   const handleSubmit = useCallback(
     (values) => {
       // const data = new FormData(values.target);
@@ -68,21 +42,35 @@ function SignIn() {
     [history, dispatch],
   );
 
+  const login = (values, callback) => {
+    return async () => {
+        await DataService.login('/member/signin', values)
+          .then((res) => {
+            if (res.data.error !== null) {
+              setIsError(true);
+              return false;
+            } else {
+              Cookies.set('ACCESS_TOKEN', res.data.data.token);
+              Cookies.set('logedIn', true);
+              Cookies.set('userId', res.data.data.userId);
+              Cookies.set('memberNo', res.data.data.memberNo);
+              Cookies.set('nickName', res.data.data.nickName);
+              Cookies.set('userName', res.data.data.userName);
+              Cookies.set('gender', res.data.data.gender);
+              Cookies.set('birth', res.data.data.birth);
+              Cookies.set('regDate', res.data.data.regDate);
+              callback();
+              location.reload();
+            }
+          })
+    };
+  };
+
   const onChange = (checked) => {
     setState({ ...state, checked });
   };
 
-  lock.on('authenticated', (authResult) => {
-    lock.getUserInfo(authResult.accessToken, (error) => {
-      if (error) {
-        return;
-      }
-
-      handleSubmit();
-      socialLogin();
-      lock.hide();
-    });
-  });
+  const [alertClassName, setAlertClassName] = useState('alert-view')
 
   const handleSocialLogin = (provider) => {
     socialLogin(provider);
@@ -93,7 +81,7 @@ function SignIn() {
       <Col xxl={6} xl={8} md={12} sm={18} xs={24}>
         <AuthFormWrap>
           <div className="ninjadash-authentication-top">
-            <h2 className="ninjadash-authentication-top__title">로그인</h2>
+          <Link><img src={logodemo} alt="Logo" /></Link>
           </div>
           <div className="ninjadash-authentication-content">
             <Form method='POST' name="login" form={form} onFinish={handleSubmit} layout="vertical">
@@ -156,37 +144,53 @@ function SignIn() {
                   아이디/비밀번호 찾기
                 </NavLink>
               </div>
+              <div className={isError ? 'alert-view' : 'alert-hidden'}>
+                <h5>아이디 및 비밀번호가 일치하지 않습니다.</h5>
+              </div>
               <Form.Item>
-                <Button className="btn-signin" htmlType="submit" type="primary" size="large">
+                <Button className="btn-signin" htmlType="submit" type="primary" size="large" onSubmit>
                   {isLoading ? '확인 중...' : '로그인'}
                 </Button>
               </Form.Item>
-              <p className="ninjadash-form-divider">
-                <span>Or</span>
-              </p>
-              <ul className="ninjadash-social-login">
+              <div className='btn-social-login'>
+              <ul>
                 <li>
-                  <Link onClick={() => handleSocialLogin('google')} itemType="submit">
-                    <img src="../../../../static/img/btn_google_dark_normal_ios.png" alt="" />
-                  </Link>
+                  <div className='kakao-login'>
+                    <Link onClick={() => handleSocialLogin('kakao')} itemType="submit">
+                      {/* <div id='svgCircle'> */}
+                          <svg className='kakao-circle'>
+                              <circle cx={20} cy={20} r={20} fill='yellow'/>
+                              <CircleShape width="60" height="60" fill="black" />
+                          </svg>
+                      {/* </div> */}
+                    </Link>
+                  </div>
                 </li>
                 <li>
-                  <Link onClick={() => handleSocialLogin('naver')} itemType="submit">
-                    <img src="../../../../static/img/btnG_아이콘원형.png" alt="" />
-                  </Link>
+                  <div className='naver-login'>
+                    <Link onClick={() => handleSocialLogin('naver')} itemType="submit">
+                      <img src={naverImg} alt='네이버 로그인 아이콘'/>
+                    </Link>
+                  </div>
                 </li>
                 <li>
-                  <Link onClick={() => handleSocialLogin('kakao')} itemType="submit">
-                    <img src="../../../../static/img/btn_google_dark_normal_ios.png" alt="" />
-                  </Link>
+                  <div className='google-login'>
+                    <Link onClick={() => handleSocialLogin('google')} itemType="submit">
+                      <svg className='google-circle'>
+                        <circle cx={20} cy={20} r={20} fill='yellow'/>
+                        <GoogleShape width="60" height="60" />
+                      </svg>
+                    </Link>
+                  </div>
                 </li>
               </ul>
+              </div>
+              <div className="ninjadash-authentication-bottom">
+                <p>
+                  계정이 없으신가요?<Link to="/member/signup">회원가입</Link>
+                </p>
+              </div>
             </Form>
-          </div>
-          <div className="ninjadash-authentication-bottom">
-            <p>
-              계정이 없으신가요?<Link to="/member/signup">회원가입</Link>
-            </p>
           </div>
         </AuthFormWrap>
       </Col>

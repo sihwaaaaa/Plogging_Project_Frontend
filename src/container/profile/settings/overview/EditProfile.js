@@ -9,30 +9,18 @@ import FormItemLabel from 'antd/es/form/FormItemLabel';
 import img1 from '../../../../../src/static/img/profile/post/70.png';
 import editProfileStyle from '../../../../static/css/editProfileStyle.scss';
 import { DataService } from '../../../../config/dataService/dataService';
+import Cookies from 'js-cookie';
 
 const { Option } = Select;
 function EditProfile() {
   const [form] = Form.useForm();
 
-  const [state, setState] = useState({
-    nickName: '',
-    userName: '',
-    intro: '',
-    addressDetail: ''
-  });
 
-  const handleSubmit = (values) => {
-    setState({ ...state, values: { ...values, tags: state.tags } });
-  };
 
-  const handleCancel = (e) => {
-    e.preventDefault();
-    form.resetFields();
-  };
 
-  const checked = (checke) => {
-    setState({ tags: checke });
-  };
+  // const checked = (checke) => {
+  //   setState({ tags: checke });
+  // };
 
 
 
@@ -78,30 +66,104 @@ function EditProfile() {
       selectValue: e.target.value,
     });
   };
-  
+
+  const [state, setState] = useState({
+    memberNo: 0,
+    userId: '',
+    nickName: '',
+    userName: '',
+    intro: '',
+    addressDetail: '',
+    gender: '',
+    birth: '',
+  });
+
 
   useEffect(() => {
     DataService.get("/profile/edit")
       .then((res) => {
-        console.log(res.data.data.birth);
-        
-        setState({
-          nickName: res.data.data.nickName,
-          userName: res.data.data.userName,
-          addressDetail: res.data.data.addressDetail,
-          intro: res.data.data.intro,
-        });
+        console.log(res.data.data.nickName);
+        const dateArr = res.data.data.birth.split("-");
         setGender({
           selectValue: res.data.data.gender
         });
         setBirth({
-          year: arr[0],
-          month: arr[1],
-          day: arr[2]
+          year: dateArr[0],
+          month: dateArr[1],
+          day: dateArr[2]
         })
+        setState({
+          memberNo: res.data.data.memberNo,
+          userId: res.data.data.nickName,
+          nickName: res.data.data.nickName,
+          userName: res.data.data.userName,
+          intro: res.data.data.intro,
+          addressDetail: res.data.data.addressDetail,
+          birth: birth.year + '-' + birth.month + '-' + birth.day,
+          gender: gender.selectValue
+        });
+        
+        console.log(state);
       })
   }, []);
 
+  const handleSubmit = async (values) => {
+    // setGender({...gender, values: { ...values,
+    //   year: values.birth.year,
+    //   month: values.birth.month,
+    //   day: values.birth.day
+    // }});
+    // setBirth({...birth, values: { ...values,
+    //   year: values.birth.year,
+    //   month: values.birth.month,
+    //   day: values.birth.day
+    // }});
+    // setState({ ...state, values: { ...values, 
+    //   nickName: values.nickName,
+    //   userName: values.userName,
+    //   password: values.password,
+    //   addressDetail: values.addressDetail,
+    //   intro: values.intro,
+    //   birth: birth.year + "-" + birth.month + "-" + birth.day ,
+    //   gender: values.gender.selectValue
+    // } });
+    // console.log(state);
+    // console.log(birth);
+    // console.log(gender);
+    Cookies.set('nickName', values.nickName);
+    Cookies.set('userName', values.userName);
+    Cookies.set('gender', values.gender);
+    Cookies.set('birth', values.birth);
+
+
+      await DataService.put("/profile/edit", values)
+      .then(() => {
+        location.reload();
+        // console.log(res.data);
+      })
+      
+    }
+
+
+
+
+
+  const handleCancel = (e) => {
+    e.preventDefault();
+    form.resetFields();
+  };
+
+  const fields = [
+    {name: ['memberNo'], value: state.memberNo},
+    {name: ['password'], value: state.password},
+    {name: ['userId'], value: state.userId},
+    {name: ['userName'], value: state.userName},
+    {name: ['nickName'], value: state.nickName},
+    {name: ['gender'], value: gender.selectValue},
+    {name: ['addressDetail'], value: state.addressDetail},
+    {name: ['intro'], value: state.intro},
+    {name: ['birth'], value: birth.year + "-" + birth.month + "-" + birth.day}
+  ]
   return (
     <Cards
       title={
@@ -114,23 +176,36 @@ function EditProfile() {
       <Row justify="center">
         <Col xl={12} lg={16} xs={24}>
           <BasicFormWrapper>
-            <Form name="editProfile" onFinish={handleSubmit}>
+            <Form fields={fields} name="editProfile" onFinish={handleSubmit}>
+              <Form.Item
+                    name="memberNo"
+                    initialValue={state.memberNo} >
+                <Input type='hidden' />
+              </Form.Item>
+              <Form.Item
+                    name="userId"
+                    initialValue={state.userId} >
+                <Input type='hidden' />
+              </Form.Item>
               <div className='image-intro'>
                 <div className="card-image">
                   <img src={img1} alt='뱃지 이미지'/>
                 </div>
                 <div>
+                  
                   <Form.Item
                     name="intro"
-                    initialValue="Nam malesuada dolor tellus pretium amet was hendrerit facilisi id vitae enim sed ornare there suspendisse sed orci neque ac sed aliquet risus faucibus in pretium molestee."
-                  >
-                    <Input.TextArea rows={3} placeholder='자기소개를 입력하세요' />
+                    initialValue={state.intro} >
+                    <Input.TextArea onChange={() => state.intro} rows={3}  placeholder='자기소개를 입력하세요' />
                   </Form.Item>
                 </div>
               </div>
               <div className='essential-form'>
-                <Form.Item label="이름" name="userName" rules={[{ required: true, message: '이름을 입력해주세요.' }]}>
+                <Form.Item initialValue={state.userName}  label="이름" name="userName" rules={[{ required: true, message: '이름을 입력해주세요.' }]}>
                   <Input value={state.userName} placeholder="본인 이름을 입력하세요" />
+                </Form.Item>
+                <Form.Item label="패스워드" name="password" rules={[{ required: true, message: '새로운 비밀번호를 입력해주세요' }]}>
+                  <Input.Password placeholder="새로운 비밀번호를 입력해주세요" />
                 </Form.Item>
                 <Form.Item label="닉네임" name="nickName" rules={[{ required: true, message: '닉네임을 입력해주세요.' }]}>
                   <Input value={state.nickName} placeholder="닉네임을 입력하세요" />
