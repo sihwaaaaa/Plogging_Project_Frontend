@@ -109,7 +109,8 @@ const StartPage = () => {
         state: {
           isUpdate : false,
           boardDetail : {ploggingNo : response.data.data.ploggingNo}
-        }
+        },
+        replace : true
       });
     });
   };

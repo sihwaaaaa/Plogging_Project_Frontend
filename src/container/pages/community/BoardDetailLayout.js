@@ -6,6 +6,7 @@ import { getItem } from "../../../utility/localStorageControl";
 import { UilComment, UilMultiply } from "@iconscout/react-unicons";
 import { DataService } from "../../../config/dataService/dataService";
 import { Button } from "../../../components/buttons/buttons";
+import { alertModal } from "../../../components/modals/antd-modals";
 
 const BoardDetailLayout = (data) => {
 
@@ -116,8 +117,28 @@ const BoardDetailLayout = (data) => {
   }
 
   const toProfile = (memberNo) => {
-    data.changePage(`/profile/${memberNo}`)
+    data.changePage(`/profile/${memberNo}`, {
+      state : {
+        memberNo : memberNo
+      }
+    })
   }
+
+  const showConfirm = (type) => {
+    alertModal.confirm({
+      title: type === "update" ? '수정하시겠습니까?' : '삭제하시겠습니까?',
+      content: type === "update" ? '' : '삭제된 글은 복구될 수 없습니다.',
+      onOk() {
+        return new Promise((resolve, reject) => {
+          setTimeout(Math.random() > 0.5 ? resolve : reject, 300);
+        }).then(
+          type === "update" ? updateBoard() : deleteBoard()
+        ).catch(() => {});
+      },
+      onCancel() {},
+    });
+  };
+
 
 
   return (
@@ -156,21 +177,17 @@ const BoardDetailLayout = (data) => {
                 </div>
                 <div className="writer-wrapper" onClick={() => toProfile(writerNo)}>
                   <div className="writer-name">
-                    <span className="ninjadash-blog__author-name">{writerId}</span> ( 은경 )
+                    <span className="ninjadash-blog__author-name">{writerId}</span>
                   </div>
                   <div className="writer-info">게시물 5개 / 플로깅 2회</div>
                 </div>
               </div>
-              {writerId === currentUserId ? (
+              {currentUserId && writerId === currentUserId ? (
                 <div className="btn-by-status">
-                  <Button size="extra-small" transparented type="warning" onClick={updateBoard}>수정</Button>
-                  <Button size="extra-small" transparented type="danger" onClick={deleteBoard}>삭제</Button>
+                  <Button size="extra-small" transparented type="warning" onClick={() => showConfirm("update")} >수정</Button>
+                  <Button size="extra-small" transparented type="danger" onClick={() => showConfirm("delete")}>삭제</Button>
                 </div>
-                ) : (
-                <div className="btn-by-status">
-                  <Button>플친 신청</Button>
-                </div>
-              )}
+                ) : ''}
             </div>
           </figcaption>
         </figure>
@@ -179,10 +196,13 @@ const BoardDetailLayout = (data) => {
         <div className="replyTitle">
           <h4>댓글</h4>
         </div>
-        <form className="replyInputWrapper" onSubmit={(data) => submitReply(data)}>
-          <input className="replyInput" placeholder="댓글을 작성해 보세요"></input>
-          <Button className="replyBtn" onClick={() => clickSubmitReply(document.getElementsByClassName('replyInput'))}>작성하기</Button>
-        </form>
+        {currentUserId ? (
+          <form className="replyInputWrapper" onSubmit={(data) => submitReply(data)}>
+            <input className="replyInput" placeholder="댓글을 작성해 보세요"></input>
+            <Button className="replyBtn" onClick={() => clickSubmitReply(document.getElementsByClassName('replyInput'))}>작성하기</Button>
+          </form>
+        ) : ''
+        }
         <div className="replyList">
           {!!currentReplys && currentReplys.length > 0 ? currentReplys.map(reply => {
             return (

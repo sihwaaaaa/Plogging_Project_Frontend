@@ -8,6 +8,7 @@ import { getItem } from "../../../utility/localStorageControl";
 import { useLocation, useNavigate } from "react-router-dom";
 import CustomPagination from "../overview/CustomPagination";
 import { Button } from '../../../components/buttons/buttons';
+import { alertModal } from "../../../components/modals/antd-modals";
 
 const Board = () => {
 
@@ -38,7 +39,7 @@ const Board = () => {
         setPageable(response.data.data)
         console.log(response.data.data)
       })
-  }, [category, page])
+  }, [category, page, location])
 
   function detailClick(bno) {
     changePage(`/board/${bno}`, {
@@ -55,8 +56,25 @@ const Board = () => {
   }, [])
 
   function registerClick() {
-    changePage('/board/register')
+    if(currentUserId) {
+      changePage('/board/register')
+    } else {
+      selfDestroyed();
+    }
   }
+
+  const selfDestroyed = () => {
+    let secondsToGo = 1.2;
+    const modal = alertModal.success({
+      title: '로그인 후 이용해 주세요',
+      content: '',
+    });
+
+    setTimeout(() => {
+      modal.destroy();
+      changePage('/member/signin')
+    }, secondsToGo * 1000);
+  };
 
   const scrollToTab = (elementRef:React.MutableRefObject<HTMLButtonElement|null>) => {
     if (elementRef.current !== null) {
@@ -100,6 +118,7 @@ const Board = () => {
       scrollToTab(allRef)
     }
   }
+
 
   return (
     <Main style={{background: "white", padding: 0}}>

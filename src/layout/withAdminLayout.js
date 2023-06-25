@@ -21,6 +21,9 @@ const { theme } = require('../config/theme/themeVariables');
 
 const { Header, Sider, Content } = Layout;
 const userAuth = getItem('authList');
+console.log(userAuth)
+console.log(getItem('authList'))
+console.log(getItem('userId'))
 
 const ThemeLayout = (WrappedComponent) => {
   class LayoutComponent extends Component {

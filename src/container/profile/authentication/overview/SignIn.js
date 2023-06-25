@@ -59,6 +59,7 @@ function SignIn() {
               Cookies.set('gender', res.data.data.gender);
               Cookies.set('birth', res.data.data.birth);
               Cookies.set('regDate', res.data.data.regDate);
+              Cookies.set('authList', res.data.data.authList);
               callback();
               location.reload();
             }

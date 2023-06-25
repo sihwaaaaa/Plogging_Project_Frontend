@@ -1,22 +1,12 @@
 import React, { Suspense, useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { DataService } from '../../../config/dataService/dataService';
-import tabComponentStyle from '../../../static/css/tabComponentStyle.scss'
 import ChallengeContent from './ChallengeContent';
 import PloggingContent from './PloggingContent';
 import PointContent from './PointContent';
 import MyBoardContent from './MyBoardContent';
 import { Link, NavLink, Route, Routes } from 'react-router-dom';
-import { SettingWrapper } from '../../profile/myProfile/overview/Style';
-import { Cards } from '../../../components/cards/frame/cards-frame';
-import { Skeleton, Timeline } from 'antd';
-import CoverSection from '../../profile/overview/CoverSection';
-import Overview from '../../profile/myProfile/overview/Overview';
-import Activity from '../../profile/myProfile/overview/Activity';
-// import { ChallengeContent, DeclareContent, MyBoardContent, PloggingContent, PointContent } from '../profile';
 
 const TabComponent = ({challenge, plogging, board, point}) => {
-  // const[actvieIdx, setActiveIdx] = useState(0);
 
   const TabMenu = styled.ul`
     background-color: #dcdcdc;
@@ -86,12 +76,6 @@ const menuArr = [
       <PointContent content={point} />
     )
   },
-  { 
-    name: '신고글', 
-    // content: (
-    //   <DeclareContent />
-    // )  
-  },
 ];
 
   const selectMenuHandler = (index) => {
@@ -102,7 +86,7 @@ const menuArr = [
   const path = '.';
   return (
     <>
-      <div>
+      <div className="tab-component-wrapper">
         <TabMenu>
           {menuArr.map((el,index) => (
               <Link to={menuArr[index].path} className={index === currentTab ? "submenu focused" : "submenu" }
