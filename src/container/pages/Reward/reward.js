@@ -4,33 +4,42 @@ import { DataService } from "../../../config/dataService/dataService";
 import { Button } from "../../../components/buttons/buttons";
 import FontAwesome from "react-fontawesome";
 import "../../../static/css/rewardPageStyle.scss";
-import { Row, Col, Card } from "antd";
+import { Row, Col, Card, Image } from "antd";
 import ex from "../../../static/img/ex.jpg.jpg";
 import MyRankInfo from "./MyRankInfo";
 import RankList from "./RankList";
 import RewardProductList from "./rewardProductList";
 import { getItem } from "../../../utility/localStorageControl";
-import rewardDonationList from "./rewardDonationList";
-import RewardDonationList from "./rewardDonationList";
-
+import BlogCard from "../../../components/cards/BlogCard";
+import { Main } from "../../styled";
+import ploggingImg from "../../../static/img/pages/rewardImg/plogging.jpg"
+import pointImg from "../../../static/img/pages/rewardImg/point.png"
+import uploadImg from "../../../static/img/pages/rewardImg/Camera.jpg"
+import randumBoxImg from "../../../static/img/pages/rewardImg/randumbox.png"
+import donationImg from "../../../static/img/pages/rewardImg/donation.png"
+import donationHeaderImg from "../../../static/img/pages/rewardImg/donation-header.jpg"
+import arrowRightImg from "../../../static/img/pages/rewardImg/arrow-right.png"
+import uilAlignCenterJustify from "@iconscout/react-unicons/icons/uil-align-center-justify";
 const Reward = () => {
   const [rewardList, setRewardList] = useState([]);
-  const [myRank, setMyRank] = useState([]);
+  // const [myRank, setMyRank] = useState([]);
   const [rankingList, setRankingList] = useState([]);
-  const memberNo = getItem('memberNo');
+  const memberNo = getItem("memberNo");
   // const [memberNo, setMemberNo] = useState([])
   const [donation, setDonation] = useState({
-    memberNo : getItem('memberNo'),
-    type : 'Donation',
-    point : '-1000',
-    rewardNo : '30',
+    memberNo: getItem("memberNo"),
+    type: "Donation",
+    point: "-1000",
+    rewardNo: "30"
   });
-  const [product, setProduct] = useState({
-    memberNo : getItem('memberNo'),
-    type : 'Product',
-    point : '-8000',
-  })
 
+  const [product, setProduct] = useState({
+    memberNo: getItem("memberNo"),
+    type: "Product",
+    point: "-8000"
+  });
+  const [myRank, setMyRank] = useState([]);
+  const [donationList, setDonationList] = useState([]);
   useEffect(() => {
     DataService.get(`/reward/list/`).then(function(response) {
       setRewardList(response.data.data);
@@ -40,56 +49,55 @@ const Reward = () => {
   }, []);
 
   const donationTest = (e) => {
-    console.log(e)
+    console.log(e);
     setDonation({
-      ...donation,
-    })
-  }
+      ...donation
+    });
+  };
   const ProductTest = (e) => {
-    console.log(" Product Test e : " + e)
-    setProduct( {
-      ...product,
-    })
-  }
+    console.log(" Product Test e : " + e);
+    setProduct({
+      ...product
+    });
+  };
 
-  let obj = Object.assign(donation, donationTest, product, ProductTest)
+  let obj = Object.assign(donation, donationTest, product, ProductTest);
   const createDonationTest = (e) => {
     e.preventDefault();
-    console.log("e : " + e)
-    console.log("test"+obj)
-    console.log("e.data : "+e.data)
-    fetch("http://localhost:8080/history/Donation",{
-      method:"POST",
+    console.log("e : " + e);
+    console.log("test" + obj);
+    console.log("e.data : " + e.data);
+    fetch("http://localhost:8080/history/Donation", {
+      method: "POST",
       headers: {
-        "Content-type":"application/json; charset=utf-8",Authorization: `Bearer ${getItem('ACCESS_TOKEN')}`
+        "Content-type": "application/json; charset=utf-8", Authorization: `Bearer ${getItem("ACCESS_TOKEN")}`
       },
       body: JSON.stringify(obj)
     }).then(() => console.log(e));
-  }
-
+  };
 
 
   const createProductTest = (e) => {
     e.preventDefault();
-    console.log("e : " + e)
-    console.log("test"+obj)
-    console.log("e.data : "+e.data)
-    fetch("http://localhost:8080/history/Product",{
-      method:"POST",
+    console.log("e : " + e);
+    console.log("test" + obj);
+    console.log("e.data : " + e.data);
+    fetch("http://localhost:8080/history/Product", {
+      method: "POST",
       headers: {
-        "Content-type":"application/json; charset=utf-8",Authorization: `Bearer ${getItem('ACCESS_TOKEN')}`
+        "Content-type": "application/json; charset=utf-8", Authorization: `Bearer ${getItem("ACCESS_TOKEN")}`
       },
       body: JSON.stringify(obj)
     }).then(() => console.log(e));
-  }
+  };
 
   useEffect(() => {
-    DataService.get('/history/rank/badge/' + memberNo)
+    DataService.get("/history/rank/badge/" + memberNo)
       .then(function(response) {
-        console.log(response.data);
         setMyRank(response.data);
-      })
-  },[])
+        console.log(response.data);
+      });
+  }, []);
   return (
     <>
       <div className="rewardpage-wrapper">
@@ -104,43 +112,44 @@ const Reward = () => {
               산책도 하고 운동도 하고 환경도 지키고 기부도 하고! 친환경 제품도 구매도 해보세요!
               </span>
             </div>
-            <div className="container-info-header" style={{padding:"0"}}>
-                <MyRankInfo  myRank={myRank}/>
+            <div className="container-info-header" style={{ padding: "0" }}>
+              <MyRankInfo myRank={myRank} />
             </div>
             <div className="card-wrapper">
               <Card className="card">
                 <Row gutter={16}>
                   <Col span={24}>
                     <h3>플로깅, 챌린지 참여</h3>
-                    <span>아이콘</span>
+                    <Image src={ploggingImg} alt={ploggingImg}/>
                   </Col>
                 </Row>
               </Card>
-              <FontAwesome className="smileIcon" name="smile-o" />
+              <Image className="arrowimage" src={arrowRightImg} alt={arrowRightImg}/>
               <Card className="card">
                 <Row gutter={16}>
                   <Col span={24}>
                     <h3>인증샷 작성</h3>
-                    <span>아이콘</span>
+                    <Image src={uploadImg} alt={uploadImg}/>
                   </Col>
                 </Row>
               </Card>
-              <FontAwesome className="smileIcon" name="smile-o" />
+              <Image className="arrowimage" src={arrowRightImg} alt={arrowRightImg}/>
               <Card className="card">
                 <Row gutter={16}>
                   <Col span={24}>
                     <h3>포인트 획득</h3>
-                    <span>아이콘</span>
+                    <Image src={pointImg} alt={pointImg}/>
                   </Col>
                 </Row>
               </Card>
-              <FontAwesome className="smileIcon" name="smile-o" />
+              <Image src={arrowRightImg} alt={arrowRightImg} />
               <Card className="card">
-                <Row gutter={16}>
+                <Row gutter={24}>
                   <Col span={24}>
                     <h4>친환경 랜덤박스 신청</h4>
-                    <h3>포인트 기부</h3>
-                    <span>아이콘</span>
+                    <h3 style={{marginBottom:"45px"}}>포인트 기부</h3>
+                    <Image src={randumBoxImg} alt={randumBoxImg} style={{height:"99px"}}/>
+                    <Image src={donationImg} alt={donationImg} style={{height:"99px"}}/>
                   </Col>
                 </Row>
               </Card>
@@ -148,9 +157,9 @@ const Reward = () => {
           </div>
         </div>
         <div className="rewardpage-rank">
-          <Row justify="center" align="top" >
-            <Col xxl={17} xs={24} style={{marginTop:20}}  >
-            <RankList />
+          <Row justify="center" align="top">
+            <Col xxl={17} xs={24} style={{ marginTop: 20 }}>
+              <RankList />
             </Col>
           </Row>
         </div>
@@ -166,9 +175,9 @@ const Reward = () => {
               <div className="container-product-wrapper">
                 <h3>랜덤박스 구성품</h3>
               </div>
-                <RewardProductList />
+              <RewardProductList />
             </div>
-            <Button key="submit" type="primary" size="default" className="productButton" onClick={createProductTest} >
+            <Button key="submit" type="primary" size="default" className="productButton" onClick={createProductTest}>
               랜덤박스 신청하기
               <p>-8000P</p>
             </Button>
@@ -188,16 +197,23 @@ const Reward = () => {
               </div>
             </div>
             <div className="container-card-wrapper">
-              <img src={ex} className="ex-img" />
-              <Button className="donationButton" size="default" type="primary" key="submit" onClick={createDonationTest}>
+              <Image src={donationHeaderImg} alt={donationHeaderImg}/>
+              <Button className="donationButton" size="default" type="primary" key="submit"
+                      onClick={createDonationTest}>
                 기부하기
                 <p>-1000P</p>
               </Button>
             </div>
             <div className="container-donation-wrap">
-              <h2 >기부처</h2>
+              <h2>기부처</h2>
               <div className="donation-company">
-                <RewardDonationList/>
+                <Main>
+                  <Row gutter={25} className="mt-sm-10">
+                    <Col xl={6} sm={12} xs={24}>
+                      <BlogCard item={{img: "사랑의열매.png" }} />
+                    </Col>
+                  </Row>
+                </Main>
               </div>
             </div>
           </div>

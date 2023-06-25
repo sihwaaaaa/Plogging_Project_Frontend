@@ -22,8 +22,8 @@
       align-content: center;
 
       h2 {
-        color: #f07167;
-        font-size: 30px;
+        color: #17c382;
+        font-size: 35px;
         font-weight: bolder;
         padding-bottom: 10px;
         margin-bottom: 20px;
@@ -36,7 +36,8 @@
 
         span {
           display: inline-block;
-          font-size: 19px;
+          font-size: 22px;
+          font-weight: bold;
           width: 100%;
           color: #1b1e2b;
           margin-bottom: 10px;
@@ -50,22 +51,32 @@
         border: #1b1e2b 1px solid;
         margin-bottom: 30px;
 
-        .ex-img {
+        .ex-img { // 등급에 따른 이미지 삽입
           display: flex;
           width: 150px;
           margin: 0 auto;
         }
 
         .card-header {
+          flex-direction: row;
+          align-items: center;
           width: 100%;
           height: 90px;
           padding: 0;
 
-          p {
+          span {
             display: flex;
-            font-size: 33px;
+            font-size: 32px;
             font-weight: bold;
             justify-content: center;
+            color: black;
+          }
+          p {
+            display: flex;
+            font-size: 32px;
+            font-weight: bold;
+            justify-content: center;
+            color: #17c382;
           }
         }
       }
@@ -76,30 +87,25 @@
     width: 100%;
     display: flex;
     justify-content: space-around;
-
+    align-items: center;
     .card {
       width: 250px;
       height: 300px;
-      justify-content: center;
+      border-radius: 23px;
 
       h3 {
-        font-size: medium;
+        font-size: 22px;
         text-align: center;
         color: #1b1e2b;
         font-weight: bold;
       }
 
       h4 {
+        font-size: 20px;
         text-align: center;
         color: #1b1e2b;
         font-weight: bold;
       }
-    }
-
-    .smileIcon {
-      width: 90px;
-      height: 40px;
-      border: #1b1e2b 1px solid;
     }
   }
 
@@ -124,7 +130,7 @@
 }
 
 .rewardpage-rank {
-  background: #17C382;
+  background: #FEF9EF;
   width: 100%;
   min-height: 910px;
   display: flex;
@@ -132,7 +138,7 @@
   justify-content: center;
 
   .container-rank {
-    background: #17C382;
+    background: #FEF9EF;
     max-width: 75%;
     display: flex;
     justify-content: left;
@@ -151,12 +157,14 @@
       width: 100%;
       color: #1b1e2b;
       margin-bottom: 10px;
+      font-size: 22px;
+      font-weight: bold;
     }
 
     h2 {
       padding-top: 15px;
-      color: #f07167;
-      font-size: 27px;
+      color: #17C382;
+      font-size: 35px;
       font-weight: bolder;
       padding-bottom: 10px;
     }
@@ -165,26 +173,29 @@
       width: 100%;
       display: flex;
 
-      .ex-img {
+      .rank-trophy {
         width: 300px;
+        padding-top: 20px;
+        margin-right: 15px;
       }
 
       .card-myRanking {
-        width: 80%;
+        width: 90%;
         height: 100%;
         justify-content: center;
       }
 
       .total-ranking {
-        width: 800px;
+        width: 900px;
 
         Table th {
           text-align: center;
           font-weight: bold;
-          font-size: 14px;
+          font-size: 17px;
         }
 
         Table td {
+          font-weight: bold;
           text-align: center;
         }
       }
@@ -212,7 +223,7 @@
 }
 
 .rewardpage-product {
-  background: #227C9D;
+  background: #FEF9EF;
   width: 100%;
   min-height: 910px;
   display: flex;
@@ -220,19 +231,20 @@
   justify-content: center;
 
   .container-product {
-    background: #227C9D;
+    background: #FEF9EF;
     max-width: 75%;
     display: flex;
     justify-content: left;
     align-items: center;
     flex-wrap: wrap;
-    color: white;
+    font-size: 22px;
+    font-weight: bold;
     align-content: center;
 
     h2 {
       padding-top: 15px;
-      color: #f07167;
-      font-size: 27px;
+      color: #17C382;
+      font-size: 35px;
       font-weight: bolder;
       padding-bottom: 10px;
     }
@@ -248,7 +260,7 @@
       width: 100%;
 
       .container-product-wrapper {
-        background: #227C9D;
+        background: #FEF9EF;
         max-width: 90%;
         display: flex;
         justify-content: left;
@@ -260,7 +272,7 @@
         h3 {
           display: flex;
           padding-top: 15px;
-          color: #f07167;
+          color: #17C382;
           font-size: 20px;
           font-weight: bolder;
           padding-bottom: 1px;
@@ -270,12 +282,12 @@
       .container-productList {
         display: flex;
         width: 100%;
-        background: white;
+        background: #FEF9EF;
         border: black 1px solid;
         .container-slide {
           width: 100%;
           color: black;
-
+          background-color: #FEF9EF;
           .ex-img {
             display: flex;
             width: 150px;
@@ -295,9 +307,10 @@
 
     .productButton {
       display: inline-block;
-      width: 350px;
-      height: 43px;
+      width: 470px;
+      height: 60px;
       margin: 15px auto auto;
+      padding: 10px;
       background: #F07167;
     }
 
@@ -345,24 +358,24 @@
     }
 
     .useDonation {
-      width: 100%;
-      height: 30px;
-      border: black 1px solid;
-      font-weight: bold;
       text-align: center;
+      width: 100%;
+      height: 40px;
+      font-weight: bold;
+      padding: 20px;
     }
 
     span {
       width: 100%;
       color: #1b1e2b;
-      //margin-bottom: 10px;
+      font-size: 22px;
       padding: 10px;
     }
     h2 {
       margin-left: 25px;
       padding-top: 15px;
       color: #17C382;
-      font-size: 27px;
+      font-size: 35px;
       font-weight: bolder;
     }
 
