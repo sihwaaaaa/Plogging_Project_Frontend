@@ -10,6 +10,7 @@ import MyRankInfo from "./MyRankInfo";
 import RankList from "./RankList";
 import RewardProductList from "./rewardProductList";
 import { getItem } from "../../../utility/localStorageControl";
+import rewardDonationList from "./rewardDonationList";
 import RewardDonationList from "./rewardDonationList";
 
 const Reward = () => {
@@ -196,7 +197,7 @@ const Reward = () => {
             <div className="container-donation-wrap">
               <h2 >기부처</h2>
               <div className="donation-company">
-                <RewardDonationList />
+                <RewardDonationList/>
               </div>
             </div>
           </div>
