@@ -2,11 +2,10 @@ import React, { useEffect } from "react";
 import { BlogCardStyleWrap } from "../../../components/cards/Style";
 import image from "../../../static/img/boardEx.jpg";
 import badge from "../../../static/img/logodemo.png";
-import { Button } from "antd";
 import { getItem } from "../../../utility/localStorageControl";
-import { UilComment, UilMultiply, UilUserCheck } from "@iconscout/react-unicons";
-import UilUserPlus from "@iconscout/react-unicons/icons/uil-user-plus";
+import { UilComment, UilMultiply } from "@iconscout/react-unicons";
 import { DataService } from "../../../config/dataService/dataService";
+import { Button } from "../../../components/buttons/buttons";
 
 const BoardDetailLayout = (data) => {
 
@@ -22,8 +21,10 @@ const BoardDetailLayout = (data) => {
   const plogging = data.board.ploggingNo;
   const replyCnt = data.board.replyCount;
 
-  const replys = data.reply.content;
-  const setReplyList = data.setReplyList;
+  const replys = data.reply;
+  const currentReplys = data.currentReplys;
+  const setCurrentReplys = data.setCurrentReplys;
+
   const replyContent = data.replyContent;
   const setReplyContent = data.setReplyContent;
 
@@ -31,6 +32,10 @@ const BoardDetailLayout = (data) => {
 
   const deleteBoard = data.deleteBoard;
   const updateBoard = data.updateBoard;
+
+  console.log(replys)
+  console.log("재할당", currentReplys)
+
 
   /**
    * @Author 천은경
@@ -74,18 +79,45 @@ const BoardDetailLayout = (data) => {
 
   /**
    * @Author 천은경
+   * @Date 23.06.24
+   * 댓글 삭제
+   */
+  const clickRemoveReply = (rno) => {
+    console.log(rno)
+    removeReply(rno)
+  }
+
+  /**
+   * @Author 천은경
+   * @Date 23.06.24
+   * backend 댓글 삭제 delete 메서드 호출
+   */
+  const removeReply = (rno) => {
+    DataService.delete(`/reply/delete/${rno}`)
+      .then((response) => {
+        console.log(response.data)
+        currentReplys.filter(r => r.rno !== response.data)
+      })
+  }
+
+
+  /**
+   * @Author 천은경
    * @Date 23.06.23
    * @param category
    * 상세페이지에서 카테고리 태그 클릭시, 카테고리별 전체조회 페이지로 이동
    */
   const toCategory = (category) => {
-    data.changePage('/board', {
+    data.changePage(`/board`, {
       state : {
         category : category
       }
     })
   }
 
+  const toProfile = (memberNo) => {
+    data.changePage(`/profile/${memberNo}`)
+  }
 
 
   return (
@@ -95,7 +127,8 @@ const BoardDetailLayout = (data) => {
       }}>
         <figure className={`ninjadash-blog ninjadash-blog-style-2`}
                 style={{
-                  marginBottom: 0
+                  marginBottom: 0,
+                  boxShadow: "1px 1px 3px #ededed"
                 }}>
           <div className="ninjadash-blog-thumb">
             <img className="ninjadash-blog__image" src={image} alt="plogging" />
@@ -121,18 +154,23 @@ const BoardDetailLayout = (data) => {
                 <div className="badge-wrapper">
                   <img className="ninjadash-blog__author-img" src={badge} alt="뱃지" />
                 </div>
-                <div className="writer-wrapper">
+                <div className="writer-wrapper" onClick={() => toProfile(writerNo)}>
                   <div className="writer-name">
                     <span className="ninjadash-blog__author-name">{writerId}</span> ( 은경 )
                   </div>
                   <div className="writer-info">게시물 5개 / 플로깅 2회</div>
                 </div>
               </div>
-              <div className="btn-by-status">
+              {writerId === currentUserId ? (
+                <div className="btn-by-status">
+                  <Button size="extra-small" transparented type="warning" onClick={updateBoard}>수정</Button>
+                  <Button size="extra-small" transparented type="danger" onClick={deleteBoard}>삭제</Button>
+                </div>
+                ) : (
+                <div className="btn-by-status">
                   <Button>플친 신청</Button>
-                  <Button onClick={updateBoard}>수정</Button>
-                  <Button onClick={deleteBoard}>삭제</Button>
-              </div>
+                </div>
+              )}
             </div>
           </figcaption>
         </figure>
@@ -146,7 +184,7 @@ const BoardDetailLayout = (data) => {
           <Button className="replyBtn" onClick={() => clickSubmitReply(document.getElementsByClassName('replyInput'))}>작성하기</Button>
         </form>
         <div className="replyList">
-          {!!replys && replys.length > 0 ? replys.map(reply => {
+          {!!currentReplys && currentReplys.length > 0 ? currentReplys.map(reply => {
             return (
               <div className="replyContainer">
                 <div className="WriterContainer">
@@ -161,12 +199,17 @@ const BoardDetailLayout = (data) => {
                     {reply.reply}
                   </div>
                 </div>
-                <div className="removeBtn">
-                  <UilMultiply size={15} />
-                </div>
+                {reply.replyerId === currentUserId ? (
+                  <div className="removeBtn" onClick={() => clickRemoveReply(reply.rno)}>
+                    <UilMultiply size={15} />
+                  </div>
+                ) : ''
+                }
               </div>
             )
-          }) : ''}
+          }) : (
+            <div style={{padding: "30px 0"}}>아직 댓글이 없어요</div>
+          )}
         </div>
       </div>
     </>

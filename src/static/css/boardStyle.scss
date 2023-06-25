@@ -1,15 +1,88 @@
 .boardTitleWrapper{
   width: 100%;
+  height: 400px;
   display: flex;
   flex-wrap: wrap;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
   padding: 30px;
-  h2 {
+  background-image: url('../img/plogging_people.png');
+  background-position: 90% bottom;
+  background-repeat: no-repeat;
+  background-size: 250px;
+
+  @media only screen and (max-width: 620px) {
+    flex-direction: row;
+  }
+  .board-title-container {
+    padding: 20px 50px 8px;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    //border: 5px solid #def5f0;
+    //border-radius: 20px;
+    //background: #def5f0;
+    h2 {
+      font-weight: bold;
+      text-align: center;
+      color : rgb(97 78 78 / 85%);
+      span {
+        font-size: 35px;
+        padding-left: 15px;
+        color: #FFCB77;
+      }
+      @media only screen and (max-width: 620px){
+        display: flex;
+        flex-direction: column;
+        flex-wrap: wrap;
+        font-size: 30px;
+        span {
+          font-size: 40px;
+        }
+      }
+    }
+    button {
+      margin: 20px 0;
+      color : white;
+      background: rgb(150, 200, 189);
+      border: none;
+      &:hover {
+        border: 1px solid rgb(150, 200, 189);
+        color: rgb(107 148 139);
+        background: white;
+      }
+    }
+  }
+}
+
+.boardNoticeWrapper {
+  background: #00af8921;
+  height: 250px;
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 50px;
+  .noticeContainer {
+    .noticeTitle {
+      h4{
+        font-weight: bold;
+      }
+    }
     width: 80%;
-    font-weight: bold;
-    text-align: center;
-    padding: 30px 0;
+    max-width: 800px;
+    @media only screen and (max-width: 620px) {
+      width: 90%;
+    }
+    background: white;
+    border-radius: 10px;
+    border: 1px solid rgb(227, 230, 239);
+    padding: 10px 20px;
   }
 }
 
@@ -28,7 +101,7 @@
       width: 100%;
     }
     .homeBtn {
-      color: #227C9D;
+      color: rgb(107 148 139);
       display: flex;
       flex-wrap: wrap;
       flex-direction: row;
@@ -48,6 +121,9 @@
   flex-direction: column;
   align-items: center;
   padding: 30px;
+  @media only screen and (max-width: 767px) {
+    padding: 30px 0;
+  }
   .boardDetail {
     width: 80%;
     max-width: 600px;
@@ -79,6 +155,7 @@
           align-items: center;
         }
         .writer-wrapper {
+          cursor: pointer;
           padding-left: 5px;
           width: 150px;
           .ninjadash-blog__author-name {
@@ -104,31 +181,7 @@
 }
 
 
-.boardNoticeWrapper {
-  width: 100%;
-  display: flex;
-  flex-wrap: wrap;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  margin-bottom: 50px;
-  .noticeContainer {
-    .noticeTitle {
-      h4{
-        font-weight: bold;
-      }
-    }
-    width: 80%;
-    max-width: 800px;
-    @media only screen and (max-width: 620px) {
-      width: 90%;
-    }
-    background: white;
-    border-radius: 10px;
-    border: 1px solid rgb(227, 230, 239);
-    padding: 10px 20px;
-  }
-}
+
 
 .board-register-btn-wrapper{
   width: 100%;
@@ -136,20 +189,10 @@
   flex-wrap: wrap;
   flex-direction: column;
   justify-content: center;
-  align-items: center;
-  .board-register-btn {
-    display: flex;
-    flex-wrap: wrap;
-    flex-direction: column;
-    justify-content: center;
-    align-items: flex-end;
-    width: 80%;
-    max-width: 800px;
-    padding-bottom: 10px;
-    @media only screen and (max-width: 620px) {
-      width: 90%;
-    }
-  }
+  align-items: flex-end;
+  padding-right: 10%;
+  background: rgba(0, 175, 137, 0.1294117647);
+  height: 150px;
 }
 
 .boardCategoryWrapper {
@@ -159,6 +202,7 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
+
   .categoryContainer {
     display: flex;
     flex-wrap: wrap;
@@ -166,11 +210,15 @@
     background: white;
     border-top-left-radius: 10px;
     border-top-right-radius: 10px;
-    width: 80%;
-    @media only screen and (max-width: 620px) {
+    width: 70%;
+    @media only screen and (max-width: 1024px) {
+      width: 80%;
+    }
+    @media only screen and (max-width: 767px) {
       width: 90%;
     }
-    .btn{
+
+    .btn {
       padding: 5px 15px;
       cursor: pointer;
       display: flex;
@@ -182,25 +230,33 @@
       border-top-left-radius: 10px;
       border-top-right-radius: 10px;
     }
+
     .all {
-      background: #a3a3a3;
+      background: rgb(150 200 189);
       color: white;
     }
   }
+
   .boardContainer {
     border-top: 1px solid rgb(227, 230, 239);
-    padding-top : 20px;
-    width: 80%;
-    @media only screen and (max-width: 620px) {
+    padding-top: 20px;
+    width: 70%;
+    @media only screen and (max-width: 1024px) {
+      width: 80%;
+    }
+    @media only screen and (max-width: 767px) {
       width: 90%;
     }
+
     .board {
-      cursor:pointer;
+      cursor: pointer;
     }
+
     .ninjadash-blog__meta--item span svg {
       width: 18px !important;
       height: 18px !important;
     }
+
     .board-pagination {
       display: flex;
       flex-wrap: wrap;
@@ -208,10 +264,11 @@
       justify-content: center;
       align-items: center;
       padding: 20px;
-      margin-bottom: 20px;
+
       li {
         font-size: 17px;
       }
+
       .beforePages, .beforePage .afterPages, .afterPage {
         font-size: 22px;
       }
@@ -221,8 +278,9 @@
 
 .replyWrapper{
   width: 100%;
-  background: white;
+  background: #96c8bd1a;
   border-radius: 10px;
+  box-shadow: 1px 1px 3px #ededed;
   .replyTitle {
     width: 100%;
     h4 {
@@ -246,7 +304,7 @@
       padding: 5px 0px 5px 10px;
     }
     .replyBtn {
-      background: #227C9D;
+      background: rgb(150, 200, 189);
       color: white;
       border-radius: 0;
       border : 1px solid rgb(227, 230, 239);
@@ -258,8 +316,8 @@
       justify-content: center;
       align-items: center;
       &:hover {
-        background: rgb(227, 230, 239);
-        color : #227C9D;
+        background: #96c8bd1a;
+        color : rgb(107 148 139);
         font-weight: bold;
       }
     }
@@ -277,8 +335,7 @@
       display: flex;
       flex-wrap: wrap;
       flex-direction: row;
-      align-items: center;
-      justify-content: center;
+      justify-content: flex-start;
       .WriterContainer {
         img {
           width: 30px;
@@ -289,6 +346,16 @@
         display: flex;
         flex-wrap: wrap;
         flex-direction: column;
+        max-width: 450px;
+        @media only screen and (max-width: 670px) {
+          max-width: 400px;
+        }
+        @media only screen and (max-width: 620px) {
+          max-width: 300px;
+        }
+        @media only screen and (max-width: 500px) {
+          max-width: 250px;
+        }
         .reply-info{
           display: flex;
           flex-wrap: wrap;
@@ -306,6 +373,10 @@
       }
       .removeBtn {
         margin-left: auto;
+        cursor: pointer;
+        &:hover {
+          color : #F07167;
+        }
       }
     }
     .replyContainer + .replyContainer {
