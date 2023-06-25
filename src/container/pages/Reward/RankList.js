@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from "react";
 import ex from "../../../static/img/ex.jpg.jpg";
-import { Table } from "antd";
+import trophyIcon from "../../../static/img/pages/rewardImg/trophy.png";
+import { Image, Table } from "antd";
 import { TableDefaultStyle } from "../../styled";
 import { DataService } from "../../../config/dataService/dataService";
+import FontAwesome from "react-fontawesome";
 
 const RankList = (props) => {
 
@@ -60,7 +62,8 @@ const RankList = (props) => {
           </span>
         </div>
         <div className="container-card-wrapper">
-          <img src={ex} className="ex-img" />
+          <Image src={trophyIcon} className="rank-trophy" />
+          {/*<img src={ex} className="ex-img" />*/}
           <div className="card-myRanking">
             <div className="total-ranking">
                 <div  className="full-width-table" >
