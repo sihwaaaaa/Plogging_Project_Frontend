@@ -1,20 +1,57 @@
 .ploggingPage {
+  display: flex;
+  width: 100%;
+  flex-wrap: wrap;
+  align-content: center;
+  align-items: center;
+
+  @media only screen and (max-width: 1080px) {
+    flex-direction: column-reverse;
+  }
+
+  .map {
+    width: 75%;
+
+    @media only screen and (max-width: 1400px) {
+      width: 70%;
+    }
+    @media only screen and (max-width: 1080px) {
+      width: 100%;
+    }
+  }
   .sidebar {
+    width: 25%;
     max-height: 700px;
     overflow-y: scroll;
     overflow-x: hidden;
-    padding: 0;
+    padding: 20px;
     margin: 0, 5%;
+    @media only screen and (max-width: 1400px) {
+      width: 30%;
+    }
+    @media only screen and (max-width: 1080px) {
+      overflow-y: unset;
+      width: 100%;
+      max-height: unset;
+    }
     //버튼들
     .buttons {
       display: flex;
       justify-content: center;
+
       margin-top: 20px;
       Button {
-        font-size: 16px;
+        @media only screen and (max-width: 1700px) {
+          font-size: 15px;
+        }
+        font-size: 20px;
+        width: 375px;
         margin: 7px;
         &:hover {
           font-size: 25px;
+          @media only screen and (max-width: 1700px) {
+            font-size: 20px;
+          }
         }
       }
     }
@@ -30,9 +67,13 @@
           padding-right: 5%;
           padding-top: 15px;
           padding-bottom: 30px;
+
           .searchText {
             margin: 10px 20px;
             display: flex;
+            @media only screen and (max-width: 1700px) {
+              justify-content: center;
+            }
             h3 {
               font-weight: bold;
               font-size: 20px;
@@ -88,6 +129,9 @@
       .ninjadash-course-card-content {
         .ninjadash-course-card-title {
           font-size: 17px;
+          @media only screen and (max-width: 1700px) {
+            font-size: 14px;
+          }
           h4 {
             &:hover {
               color: #00af89;
@@ -96,14 +140,23 @@
         }
         .ninjadash-course-card-author {
           span {
+            @media only screen and (max-width: 1700px) {
+              font-size: 13px;
+            }
             font-size: 14px;
             color: #777;
             font-weight: 300;
           }
         }
         .ninjadash-course-card-meta {
+          @media only screen and (max-width: 1700px) {
+            flex-wrap: wrap;
+          }
           .ninjadash-course-card-meta__pricing {
             font-size: 17px;
+            @media only screen and (max-width: 1700px) {
+              font-size: 13px;
+            }
             color: #ffcb77;
             padding-bottom: 5px;
           }
@@ -114,6 +167,9 @@
   }
 }
 .ploggingStart {
+  @media only screen and (max-width: 767px) {
+    text-align: center;
+  }
   padding: 20px;
   h2 {
     font-weight: 700;
@@ -123,62 +179,88 @@
     font-weight: 400;
     font-size: 15px;
   }
+  .ploggingModalBody {
+    @media only screen and (max-width: 767px) {
+      text-align: center;
+    }
+    .auth-top {
+      display: flex;
+      margin-top: 20px;
 
-  .auth-top {
-    display: flex;
-    margin-top: 20px;
+      @media only screen and (max-width: 767px) {
+        justify-content: center;
+      }
 
-    h3 {
-      font-size: 22px;
-      margin-right: 10px;
+      h3 {
+        @media only screen and (max-width: 767px) {
+          font-size: 18px;
+        }
+        font-size: 22px;
+        margin-right: 10px;
+        margin-bottom: 0;
+      }
+    }
+    h1 {
+      @media only screen and (max-width: 767px) {
+        font-size: 14px;
+      }
+      font-size: 15px;
+      color: #00af89;
+      margin-left: 5px;
+      margin-top: 30px;
+    }
+    h4 {
+      @media only screen and (max-width: 767px) {
+        font-size: 15px;
+      }
+
+      padding: 5px 20px;
+      font-size: 17px;
+    }
+    h6 {
+      @media only screen and (max-width: 767px) {
+        font-size: 13px;
+      }
+
+      font-size: 15px;
+      color: #f07167;
       margin-bottom: 0;
     }
-  }
-  h1 {
-    font-size: 15px;
-    color: #00af89;
-    margin-left: 5px;
-    margin-top: 30px;
-  }
-  h4 {
-    padding: 5px 20px;
-    font-size: 17px;
-  }
-  h6 {
-    font-size: 15px;
-    color: #f07167;
-    margin-bottom: 0;
-  }
-  .picture {
-    border-radius: 10px;
-    background-color: #fef9ef;
-    .img-wrap {
-      display: flex;
-      justify-content: center;
-      margin-bottom: 15px;
-      .auth-wrap {
-        width: 300px;
-        height: 330px;
-        margin: 15px;
-        margin-top: 0;
-        text-align: center;
-        .trashP {
-          box-shadow: 5px 5px 10px #ccc;
-          margin: 10px auto;
-          width: 230px;
-          height: 250px;
-
-          background-size: cover;
-          background-image: url(../img/trashPicture.png);
+    .picture {
+      border-radius: 10px;
+      background-color: #fef9ef;
+      .img-wrap {
+        @media only screen and (max-width: 767px) {
+          display: unset;
         }
-        .ploggingP {
-          box-shadow: 5px 5px 10px #ccc;
-          margin: 10px auto;
-          width: 230px;
-          height: 250px;
+        display: flex;
+        justify-content: center;
+        margin-bottom: 15px;
+        .auth-wrap {
+          width: 300px;
+          height: 330px;
+          margin: 15px auto;
+          margin-top: 0;
+          text-align: center;
 
-          background-size: cover;
-          background-image: url(../img/ploggingPicture.jpg);
+          .trashP {
+            box-shadow: 5px 5px 10px #ccc;
+            margin: 10px auto;
+            width: 230px;
+            height: 250px;
+
+            background-size: cover;
+            background-image: url(../img/trashPicture.png);
+          }
+          .ploggingP {
+            box-shadow: 5px 5px 10px #ccc;
+            margin: 10px auto;
+            width: 230px;
+            height: 250px;
+
+            background-size: cover;
+            background-image: url(../img/ploggingPicture.jpg);
+          }
         }
       }
     }
