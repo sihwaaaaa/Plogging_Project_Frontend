@@ -12,8 +12,12 @@ import {
   pointTableColumns,
   rewardTableColumns
 } from "./AdminTableField";
+import { getItem } from "../../../utility/localStorageControl";
 
 const MemberTableForm = React.memo((props) => {
+
+  const memberNo = getItem('memberNo');
+  const userAuth = getItem('authList');
 
   const [members, setMembers] = useState([]);
   const [rewards, setRewards] = useState([]);
@@ -24,89 +28,104 @@ const MemberTableForm = React.memo((props) => {
   const [maps, setMaps] = useState([]);
   let memberData = [];
 
+
+  useEffect(() => {
+    if(memberNo && userAuth.indexOf('ROLE_ADMIN') !== -1){
+      allMember()
+      allPoint()
+      allBoard()
+      allReward()
+      allMap()
+      allChallenge()
+      allPlogging()
+    }
+  },[])
+
   /**
    * @Author 천은경
    * @Date 23.06.14
    * @Brief 모든 회원 정보 확인
    */
-  useEffect(() => {
+  const allMember = () => {
     DataService.get('/admin/member')
       .then(function(response) {
         setMembers(response.data.data);
       })
-  }, [])
+
+  }
 
   /**
    * @Author 천은경
    * @Date 23.06.14
    * @Brief 모든 리워드 업체 정보 확인
    */
-  useEffect(() => {
+  const allReward = () => {
     DataService.get('/admin/reward')
       .then(function(response) {
         setRewards(response.data.data);
-    })
-  }, [])
+      })
+  }
 
   /**
    * @Author 천은경
    * @Date 23.06.14
    * @Brief 모든 플로깅 히스토리 정보 확인
    */
-  useEffect(() => {
+  const allPlogging = () => {
     DataService.get('/admin/plogging')
       .then(function(response) {
         setPloggings(response.data.data);
       })
-  }, [])
+  }
 
   /**
    * @Author 천은경
    * @Date 23.06.14
    * @Brief 모든 챌린지 정보 확인
    */
-  useEffect(() => {
+  const allChallenge = () => {
     DataService.get('/admin/challenge')
       .then(function(response) {
         setChallenges(response.data.data);
-    })
-  }, [])
+      })
+  }
 
   /**
    * @Author 천은경
    * @Date 23.06.14
    * @Brief 모든 포인트히스토리 정보 확인
    */
-  useEffect(() => {
+  const allPoint = () => {
     DataService.get('/admin/point')
       .then(function(response){
+        console.log(response.data.data)
         setPoints(response.data.data);
-    })
-  }, [])
+      })
+  }
 
   /**
    * @Author 천은경
    * @Date 23.06.14
    * @Brief 모든 게시글 정보 확인
    */
-  useEffect(() => {
+  const allBoard = () => {
     DataService.get('/admin/board')
       .then(function(response) {
         setBoards(response.data.data);
       })
-  }, [])
+  }
 
   /**
    * @Author 천은경
    * @Date 23.06.15
    * @Brief 모든 추천경로 정보 확인
    */
-  useEffect(() => {
+  const allMap = () => {
     DataService.get('/admin/map')
       .then(function(response) {
         setMaps(response.data.data);
       })
-  } ,[]);
+  }
 
 
   if(members !== null){

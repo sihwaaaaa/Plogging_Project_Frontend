@@ -1,8 +1,8 @@
 export const memberTableColumns = [
   {
     title: 'no',
-    dataIndex: 'key',
-    key: 'key',
+    dataIndex: 'memberNo',
+    key: 'memberNo',
   },
   {
     title: '아이디',
@@ -38,11 +38,6 @@ export const memberTableColumns = [
 
 export const rewardTableColumns = [
   {
-    title: 'no',
-    dataIndex: 'key',
-    key: 'key',
-  },
-  {
     title: '리워드번호',
     dataIndex: 'rewardNo',
     key: 'rewardNo',
@@ -66,8 +61,8 @@ export const rewardTableColumns = [
 export const boardTableColumns = [
   {
     title: 'no',
-    dataIndex: 'key',
-    key: 'key',
+    dataIndex: 'bno',
+    key: 'bno',
   },
   {
     title: '유형',
@@ -94,8 +89,13 @@ export const boardTableColumns = [
 export const pointTableColumns = [
   {
     title: 'no',
-    dataIndex: 'key',
-    key: 'key',
+    dataIndex: 'pointNo',
+    key: 'pointNo',
+  },
+  {
+    title: '회원번호',
+    dataIndex: 'memberNo',
+    key: 'memberNo',
   },
   {
     title: '유형',
@@ -112,13 +112,23 @@ export const pointTableColumns = [
     dataIndex: 'rewardNo',
     key: 'rewardNo',
   },
+  {
+    title: '등록일',
+    dataIndex: 'regDate',
+    key: 'regDate',
+  },
+  {
+    title: '상태',
+    dataIndex: 'status',
+    key: 'status',
+  },
 ];
 
 export const ploggingTableColumns = [
   {
     title: 'no',
-    dataIndex: 'key',
-    key: 'key',
+    dataIndex: 'ploggingNo',
+    key: 'ploggingNo',
   },
   {
     title: '유형',
@@ -183,8 +193,8 @@ export const mapTableColumns = [
 export const challengeTableColumns = [
   {
     title: 'no',
-    dataIndex: 'key',
-    key: 'key',
+    dataIndex: 'chNo',
+    key: 'chNo',
   },
   {
     title: '챌린지이름',

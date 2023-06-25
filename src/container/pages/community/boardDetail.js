@@ -5,6 +5,8 @@ import { DataService } from "../../../config/dataService/dataService";
 import BoardDetailLayout from "./BoardDetailLayout";
 import { UilHome } from "@iconscout/react-unicons";
 import { Main } from "../../styled";
+import { Button } from "../../../components/buttons/buttons";
+import { alertModal } from "../../../components/modals/antd-modals";
 
 const BoardDetail = () => {
 
@@ -91,7 +93,6 @@ const BoardDetail = () => {
       }
     })
   }
-
 
   return (
     <Main style={{background: "white"}}>

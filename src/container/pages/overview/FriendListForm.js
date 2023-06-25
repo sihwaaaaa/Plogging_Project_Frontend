@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import badge from "../../../static/img/logodemo.png";
 import { Button } from "../../../components/buttons/buttons";
 import { getItem } from "../../../utility/localStorageControl";
+import { alertModal } from "../../../components/modals/antd-modals";
 
 const FriendListForm = (props) => {
 
@@ -37,7 +38,7 @@ const FriendListForm = (props) => {
       return (
         <>
           <Button className="btn-transparent" size="small" transparented type="light"
-            onClick={cancelClick}>
+            onClick={() => showConfirm("cancel")}>
             취소
           </Button>
         </>
@@ -56,11 +57,11 @@ const FriendListForm = (props) => {
       return (
         <>
           <Button className="btn-transparent" size="small" transparented type="success"
-            onClick={acceptClick}>
+            onClick={() => showConfirm("accept")}>
             수락
           </Button>
           <Button className="btn-transparent" size="small" transparented type="light"
-                  style={{marginLeft:7}} onClick={rejectClick}>
+                  style={{marginLeft:7}} onClick={() => showConfirm("reject")}>
             거절
           </Button>
         </>
@@ -68,17 +69,21 @@ const FriendListForm = (props) => {
     }
   }
 
-  const acceptClick = () => {
-    acceptFriend(friend)
-  }
+  const showConfirm = (type) => {
+    alertModal.confirm({
+      title: type === "cancel" ? '요청을 취소하시겠습니까?' : type === "reject" ? '요청을 거절하시겠습니까?' : '요청을 수락하시겠습니까?',
+      content: type === "accept" ? '나의 플친목록에서 확인하실 수 있습니다' : '',
+      onOk() {
+        return new Promise((resolve, reject) => {
+          setTimeout(Math.random() > 0.5 ? resolve : reject, 300);
+        }).then(
+          type === "cancel" ? cancelFriend(friend) : type === "reject" ? removeFriend(friend) : acceptFriend(friend)
+        ).catch(() => {});
+      },
+      onCancel() {},
+    });
+  };
 
-  const rejectClick = () => {
-    removeFriend(friend)
-  }
-
-  const cancelClick = () => {
-    cancelFriend(friend)
-  }
 
   return (
       <div style={{
