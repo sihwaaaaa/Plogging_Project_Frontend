@@ -2,13 +2,31 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Form, Input, Button, Row, Col } from 'antd';
 import { AuthFormWrap } from './style';
+import { DataService } from '../../../../config/dataService/dataService';
+import FindId from './FindId';
 
 function ForgotUserId() {
   const [state, setState] = useState({
     values: null,
   });
-  const handleSubmit = (values) => {
+
+  const [userId, setUserId] = useState('');
+  const [condition, setCondition] =useState(false);
+
+  const handleSubmit = async (values) => {
     setState({ ...state, values });
+    console.log(values);
+    await DataService.post("/member/findId", values)
+      .then((res) => {
+        if (res.data.data !== null) {
+          setCondition(true);
+          setUserId(res.data.data);
+          alert("이메일로 발송되었습니다");
+        } else {
+          setCondition(false);
+        }
+      });
+
   };
 
   return (
@@ -21,18 +39,35 @@ function ForgotUserId() {
             </div>
             <div className="ninjadash-authentication-content">
               <p className="forgot-text">
-                Enter the email address you used when you joined and we’ll send you instructions to reset your password.
+                아이디 찾기
               </p>
               <Form.Item
-                label="Email Address"
+                label="이름"
+                name="userName"
+                rules={[
+                  {
+                    required: true,
+                    message: '이름을 입력해주세요',
+                    type: 'text'
+                  }]}
+              >
+                <Input placeholder="root1234" />
+              </Form.Item>
+              <Form.Item
+                label="이메일"
                 name="email"
-                rules={[{ required: true, message: 'Please input your email!', type: 'email' }]}
+                rules={[
+                {
+                    required: true,
+                    message: '이메일을 입력해주세요',
+                    type: 'email'
+                }]}
               >
                 <Input placeholder="name@example.com" />
               </Form.Item>
               <Form.Item>
                 <Button className="btn-reset" htmlType="submit" type="primary" size="large">
-                  Send Reset Instructions
+                  본인 명의로 이메일 발송
                 </Button>
               </Form.Item>
             </div>

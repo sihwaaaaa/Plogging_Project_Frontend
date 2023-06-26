@@ -141,7 +141,7 @@ function SignIn() {
                 <Checkbox onChange={onChange} checked={state.checked}>
                   자동 로그인
                 </Checkbox>
-                <NavLink className="forgot-pass-link" to="/forgotPassword">
+                <NavLink className="forgot-pass-link" to="/member/forgotUserId">
                   아이디/비밀번호 찾기
                 </NavLink>
               </div>

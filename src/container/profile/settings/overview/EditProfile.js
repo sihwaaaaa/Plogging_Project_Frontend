@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Row, Col, Form, Input, Select } from 'antd';
+import { Row, Col, Form, Input, Select, Modal } from 'antd';
 import { Cards } from '../../../../components/cards/frame/cards-frame';
 import { Button } from '../../../../components/buttons/buttons';
 import { BasicFormWrapper, TagInput } from '../../../styled';
@@ -7,9 +7,11 @@ import Heading from '../../../../components/heading/heading';
 import { Tag } from '../../../../components/tags/tags';
 import FormItemLabel from 'antd/es/form/FormItemLabel';
 import img1 from '../../../../../src/static/img/profile/post/70.png';
+import DaumPostcode from 'react-daum-postcode';
 import editProfileStyle from '../../../../static/css/editProfileStyle.scss';
 import { DataService } from '../../../../config/dataService/dataService';
 import Cookies from 'js-cookie';
+import { useNavigate } from 'react-router';
 
 const { Option } = Select;
 function EditProfile() {
@@ -21,7 +23,38 @@ function EditProfile() {
   // const checked = (checke) => {
   //   setState({ tags: checke });
   // };
+  const handleComplete = (data) => {
+    let fullAddress = data.address;
+    let extraAddress = '';
 
+    if (data.addressType === 'R') {
+      if (data.bname !== '') {
+        extraAddress += data.bname;
+      }
+      if (data.buildingName !== '') {
+        extraAddress += extraAddress !== '' ? `, ${data.buildingName}` : data.buildingName;
+      }
+      fullAddress += extraAddress !== '' ? ` (${extraAddress})` : '';
+    }
+    console.log(fullAddress);
+    setAddress(fullAddress);
+    // const changeAddress = () => setAddress(address => address + fullAddress);
+    const addressDom = document.getElementById('address');  // ''
+    console.log(address);
+    addressDom.value = address;
+    setIsPopUpOpen(false);
+    // console.log(fullAddress); // e.g. '서울 성동구 왕십리로2길 20 (성수동1가)'
+  };
+
+  const popUpOpen = (e) => {
+    console.log(e);
+    e.preventDefault();
+    setIsPopUpOpen(true);
+  }
+
+  const popUpClose = () => {
+    setIsPopUpOpen(false);
+  }
 
 
   // 생년월일
@@ -60,13 +93,47 @@ function EditProfile() {
     selectList: ['남자', '여자'],
     selectValue: '남자',
   });
-
   const handleGender = (e) => {
     setGender({
-      selectValue: e.target.value,
+     ...gender, selectValue: e.target.value,
     });
   };
 
+  const onIntroChange = (e) => {
+    setState({
+     ...state, intro: e.target.value
+    })
+  }
+  const onUserNameChange = (e) => {
+    setState({
+     ...state, userName: e.target.value
+    })
+  }
+  const onAddressChange = (e) => {
+    setAddress(...address, e.target.value);
+  }
+  const onAddressDetailChange = (e) => {
+    setState({
+     ...state, addressDetail: e.target.value
+    })
+  }
+  const onNickNameChange = (e) => {
+    setState({
+     ...state, nickName: e.target.value
+    })
+  }
+
+  const [memberNo, setMemberNo] = useState(0);
+  const [userId, setUserId] = useState('');
+  const [nickName, setNickName] = useState('');
+  const [userName, setUserName] = useState('');
+  const [intro, setIntro] = useState('');
+  const [address, setAddress] = useState('');
+  const [addressDetail, setAddressDetail] = useState('');
+  const [genderStr, setGenderStr] = useState(false);
+  const [birthStr, setBirthStr] = useState('');
+
+  
   const [state, setState] = useState({
     memberNo: 0,
     userId: '',
@@ -78,10 +145,14 @@ function EditProfile() {
     birth: '',
   });
 
+  // 주소 팝업창 제어
+  const [isPopUpOpen, setIsPopUpOpen] = useState(false);
 
   useEffect(() => {
-    DataService.get("/profile/edit")
+    const no = location.pathname.split("/")[2];
+    DataService.get(`/profile/${no}/edit`)
       .then((res) => {
+        console.log(res.data.data.address);
         console.log(res.data.data.nickName);
         const dateArr = res.data.data.birth.split("-");
         setGender({
@@ -91,10 +162,12 @@ function EditProfile() {
           year: dateArr[0],
           month: dateArr[1],
           day: dateArr[2]
-        })
+        });
+
+        setAddress(res.data.data.address);
         setState({
           memberNo: res.data.data.memberNo,
-          userId: res.data.data.nickName,
+          userId: res.data.data.userId,
           nickName: res.data.data.nickName,
           userName: res.data.data.userName,
           intro: res.data.data.intro,
@@ -103,54 +176,36 @@ function EditProfile() {
           gender: gender.selectValue
         });
         
-        console.log(state);
+        
       })
   }, []);
 
   const handleSubmit = async (values) => {
-    // setGender({...gender, values: { ...values,
-    //   year: values.birth.year,
-    //   month: values.birth.month,
-    //   day: values.birth.day
-    // }});
-    // setBirth({...birth, values: { ...values,
-    //   year: values.birth.year,
-    //   month: values.birth.month,
-    //   day: values.birth.day
-    // }});
-    // setState({ ...state, values: { ...values, 
-    //   nickName: values.nickName,
-    //   userName: values.userName,
-    //   password: values.password,
-    //   addressDetail: values.addressDetail,
-    //   intro: values.intro,
-    //   birth: birth.year + "-" + birth.month + "-" + birth.day ,
-    //   gender: values.gender.selectValue
-    // } });
-    // console.log(state);
-    // console.log(birth);
-    // console.log(gender);
+    console.log(values);
     Cookies.set('nickName', values.nickName);
     Cookies.set('userName', values.userName);
+    Cookies.set('address', values.address);
+    Cookies.set('addressDetail', values.addressDetail);
     Cookies.set('gender', values.gender);
     Cookies.set('birth', values.birth);
 
-
-      await DataService.put("/profile/edit", values)
+    await DataService.put("/profile/edit", values)
       .then(() => {
+        alert("프로필 수정이 완료되었습니다.");
         location.reload();
-        // console.log(res.data);
-      })
-      
-    }
+    })      
+
+    
+  }
 
 
 
-
+  const history = useNavigate();
 
   const handleCancel = (e) => {
     e.preventDefault();
     form.resetFields();
+    history(`/profile/${state.memberNo}`)
   };
 
   const fields = [
@@ -160,19 +215,20 @@ function EditProfile() {
     {name: ['userName'], value: state.userName},
     {name: ['nickName'], value: state.nickName},
     {name: ['gender'], value: gender.selectValue},
+    {name: ['address'], value: address},
     {name: ['addressDetail'], value: state.addressDetail},
     {name: ['intro'], value: state.intro},
     {name: ['birth'], value: birth.year + "-" + birth.month + "-" + birth.day}
   ]
   return (
     <Cards
-      title={
-        <div className="setting-card-title">
+    title={
+      <div className="setting-card-title">
           <Heading as="h4">프로필 편집</Heading>
           {/* <span>Set Up Your Personal Information</span> */}
         </div>
       }
-    >
+      >
       <Row justify="center">
         <Col xl={12} lg={16} xs={24}>
           <BasicFormWrapper>
@@ -195,29 +251,46 @@ function EditProfile() {
                   
                   <Form.Item
                     name="intro"
-                    initialValue={state.intro} >
-                    <Input.TextArea onChange={() => state.intro} rows={3}  placeholder='자기소개를 입력하세요' />
+                     >
+                    <Input.TextArea onChange={onIntroChange} rows={3} defaultValue={state.intro}  placeholder='자기소개를 입력하세요' />
                   </Form.Item>
                 </div>
               </div>
               <div className='essential-form'>
-                <Form.Item initialValue={state.userName}  label="이름" name="userName" rules={[{ required: true, message: '이름을 입력해주세요.' }]}>
-                  <Input value={state.userName} placeholder="본인 이름을 입력하세요" />
-                </Form.Item>
-                <Form.Item label="패스워드" name="password" rules={[{ required: true, message: '새로운 비밀번호를 입력해주세요' }]}>
-                  <Input.Password placeholder="새로운 비밀번호를 입력해주세요" />
+                <Form.Item label="이름" name="userName" rules={[{ required: true, message: '이름을 입력해주세요.' }]}>
+                  <Input onChange={onUserNameChange} defaultValue={state.userName}  placeholder="본인 이름을 입력하세요" />
                 </Form.Item>
                 <Form.Item label="닉네임" name="nickName" rules={[{ required: true, message: '닉네임을 입력해주세요.' }]}>
-                  <Input value={state.nickName} placeholder="닉네임을 입력하세요" />
+                  <Input onChange={onNickNameChange} defaultChecked={state.nickName}  placeholder="닉네임을 입력하세요" />
                 </Form.Item>
               </div>
+              <Form.Item className='address-form' label="주소"  name="address">
+                <div>
+                  <Input readOnly id='address' value={address} placeholder="주소를 입력해주세요."/>
+                </div>
+              </Form.Item>
+              <div>
+                  <Button onClick={popUpOpen}>탐색</Button>
+              </div>
+              <div>
+                  {isPopUpOpen && (
+                    <Modal 
+                      id='popUpDom' 
+                      open={isPopUpOpen} 
+                      onCancel={popUpClose}
+                      footer={[]}>
+                          <DaumPostcode className='modal-post' onComplete={handleComplete}/>
+                    </Modal>
+                    )
+                  }
+              </div>
               <div className='address-detail'>
-                <Form.Item label="상세주소" name="addressDetail"  htmlFor='male'>
-                  <Input value={state.addressDetail} name='addressDetail' id="addressDetail"/>
+                <Form.Item initialValue={state.addressDetail} label="상세주소" name="addressDetail"  htmlFor='male'>
+                  <Input onChange={onAddressDetailChange}  name='addressDetail' id="addressDetail"/>
                 </Form.Item>
               </div>
               <div className='gender-selection'>
-                <Form.Item label="성별" name="gender" className='' htmlFor='male'>
+                <Form.Item initialValue={state.gender} label="성별" name="gender" className='' htmlFor='male'>
                   <div>
                     <div>
                       <FormItemLabel label="남자" htmlFor="male">남자</FormItemLabel>
@@ -315,4 +388,4 @@ function EditProfile() {
   );
 }
 
-export default EditProfile;
+export default React.memo(EditProfile);
