@@ -167,7 +167,7 @@ function SignUp() {
     document.getElementById("authCode").type = "text"
     await DataService.emailAuth('/member/signup/emailConfirm', { email: email })
       .then((response) => {
-        setAuthCode(response.data);
+        setAuthCode(response.data.data);
       });
 
   }

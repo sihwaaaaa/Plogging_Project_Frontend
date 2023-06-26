@@ -50,28 +50,24 @@ const Desc = styled.div`
 const menuArr = [
   { 
     name: '챌린지',
-    path: "challenge",
     content: (
       <ChallengeContent content={challenge} />
     )
   },
   { 
     name: '플로깅',
-    path: "plogging", 
     content: (
       <PloggingContent content={plogging} />
     ) 
   },
   { 
     name: '나의 글',
-    path: "board",
     content: (
       <MyBoardContent content={board} />
     )  
   },
   { 
     name: '포인트 내역', 
-    path: "point",
     content: (
       <PointContent content={point} />
     )

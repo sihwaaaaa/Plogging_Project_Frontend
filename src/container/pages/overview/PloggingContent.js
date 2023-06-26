@@ -25,9 +25,9 @@ const PloggingContent = ({content}) => {
                 <ul>
                   <li>
                     <span>플로깅명</span>
-                    <span>등록일자</span>
                     <span>시작일자</span>
                     <span>종료일자</span>
+                    <span>등록일자</span>
                     <span>상태</span>
                   </li>
                 </ul>
@@ -36,24 +36,25 @@ const PloggingContent = ({content}) => {
               )
               }
               <ul>
-                {content.map((data) => data.challenge.status == "CHALLENGEBEFORE" ? (
+                {content.map((data) => id == "1" ? (
                   <li>
                     <div>
-                      <img src={image} alt='챌린지 이미지' />
+                      {/* 즐겨찾기 */}
+                      {/* <img src={image} alt='챌린지 이미지' /> */}
                     </div>
-                    <span>{data.title}</span>
+                    {/* <span>{data.title}</span>
                     <span>{data.regDate}</span>
                     <span>{data.startDate}</span>
-                    <span>{data.status}</span>
-                    <span>진행 중</span>
+                    <span>{data.type}</span>
+                    <span>진행 중</span> */}
                   </li>
                 ) : (
                   <li>
-                    <span>{data.challenge.title}</span>
-                    <span>{data.challenge.regDate}</span>
-                    <span>{data.challenge.startDate}</span>
-                    <span>{data.challenge.endDate}</span>
-                    <span>이미 끝남</span>
+                    {/* <span>{data.title}</span>
+                    <span>{data.regDate}</span>
+                    <span>{data.startDate}</span>
+                    <span>{data.endDate}</span>
+                    <span>이미 끝남</span> */}
                   </li>
                  )
                 )}
@@ -63,34 +64,38 @@ const PloggingContent = ({content}) => {
               <div className='challenge-endlist'>
                 <ul>
                   <li>
-                    <span>플로깅명</span>
-                    <span>등록일자</span>
-                    <span>시작일자</span>
-                    <span>종료일자</span>
-                    <span>상태</span>
+                    <li><span>플로깅명</span></li>
+                    <li><span>시작일자</span></li>
+                    <li><span>시작지점</span></li>
+                    <li><span>종료지점</span></li>
+                    <li><span>상태</span></li>
                   </li>
                 </ul>
               <ul>
-                {content.map((data) => data.challenge.status != "CHALLENGEBEFORE" ? (
+                {content.map((data) => data && (
                   <li>
                     <div>
-                      <img src={image} alt='플로깅 이미지' />
+                      {/* <img src={image} alt='플로깅 이미지' /> */}
                     </div>
-                    <span>{data.title}</span>
-                    <span>{data.regDate}</span>
-                    <span>{data.startDate}</span>
-                    <span>{data.status}</span>
-                    <span>진행 중</span>
+                    <li>
+                      <span>{data.map.courseName}</span>
+                    </li>
+                    <li>
+                      <span>{data.regDate}</span>
+                    </li>
+                    <li>
+                      <span>x: {data.map.startX} <br />
+                        y: {data.map.startY}</span>
+                    </li> 
+                    <li>
+                      <span>x: {data.map.endX} <br />
+                          y: {data.map.endY}</span>
+                    </li>
+                    <li>
+                      <span>{data.status == 0 ? "실패" : "성공"}</span>
+                    </li>
                   </li>
-                ) : (
-                  <li>
-                    <span>{data.challenge.title}</span>
-                    <span>{data.challenge.regDate}</span>
-                    <span>{data.challenge.startDate}</span>
-                    <span>{data.challenge.endDate}</span>
-                    <span>이미 끝남</span>
-                  </li>
-                 )
+                  ) 
                 )}
               </ul>
             </div>

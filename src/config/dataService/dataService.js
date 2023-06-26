@@ -64,7 +64,7 @@ class DataService {
     return client({
       method: 'POST',
       url: path,
-      data : JSON.stringify(data.data),
+      data : JSON.stringify(data),
       headers: { ...authHeader(), ...optionalHeader },
     });
   }
@@ -82,7 +82,7 @@ class DataService {
     return client({
       method: 'PUT',
       url: path,
-      data: JSON.stringify(data.data),
+      data: JSON.stringify(data),
       headers: { ...authHeader() },
     });
   }

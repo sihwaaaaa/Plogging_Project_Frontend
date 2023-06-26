@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import UilUserPlus from '@iconscout/react-unicons/icons/uil-user-plus';
-import { Await, useNavigate } from "react-router-dom";
+import { Await, BrowserRouter, Route, Routes, useNavigate } from "react-router-dom";
 import PropTypes from 'prop-types';
 import { Card } from 'antd';
 import { UserCard } from '../style';
@@ -20,12 +20,14 @@ const UserCards = (props) => {
   const history = useNavigate();
   const navigate = useNavigate();
 
+
   const memberInfo = props.memberInfo;
   const challenges = props.memberInfo.challenges;
   const pointHistories = props.memberInfo.pointHistories;
   const ploggings = props.memberInfo.ploggings;
   const boards = props.memberInfo.boards;
   const memberNo = getItem('memberNo') ? getItem('memberNo') : navigate('/member/signin');
+  // const memberNo = location.pathname.split("/")[2] ? getItem('memberNo') : navigate('/member/signin');
 
   const friendFromMe = {toMemberNo : props.memberInfo.memberNo};
   const friendToMe = {fromMemberNo : props.memberInfo.memberNo};
@@ -53,7 +55,7 @@ const UserCards = (props) => {
   }
 
   const handleEditProfile = () => {
-    dispatch(() => history("/profile/edit"));
+    dispatch(() => history(`/profile/${memberNo}/edit`));
   }
 
 
@@ -115,6 +117,12 @@ const UserCards = (props) => {
     });
   };
 
+  const handleEditPassword = () => {
+    dispatch(() => history(`/profile/${memberNo}/passwordEdit`))
+  }
+  const handleMemberExit = () => {
+    dispatch(() => history("passwordEdit"))
+  }
 
 
   return (
@@ -152,10 +160,20 @@ const UserCards = (props) => {
             </div>
             <div className="card__actions">
               {memberInfo.memberNo === memberNo ? (
-                  <Button size="default" type="white" onClick={handleEditProfile}>
-                    <UilEdit />
-                    프로필 편집
+                  <div>
+                    <Button size="default" type="white" onClick={handleMemberExit}>
+                      <UilEdit />
+                      회원 탈퇴
+                    </Button>
+                    <Button size="default" type="white" onClick={handleEditProfile}>
+                      <UilEdit />
+                      프로필 편집
+                    </Button>
+                    <Button size="default" type="white" onClick={handleEditPassword}>
+                      <UilEdit />
+                      비밀번호 재설정
                   </Button>
+                  </div>
                 ) : (
                   <>
                     {friendObj === null || friendObj === '' ?

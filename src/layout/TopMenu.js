@@ -38,6 +38,8 @@ function TopMenu() {
   const userName = Cookies.get("userName");
   const nickName = Cookies.get("nickName");
 
+  const memberNo = location.state ? location.state.memberNo : getItem('memberNo');
+  const profilePath = `profile/${memberNo}`;
 
   const listStyle = {
     display : "flex",
@@ -84,7 +86,7 @@ function TopMenu() {
       }}>
         플로거 <span style={{padding: "0 2px 0 5px", fontWeight: "bold"}}>{nickName}</span>님
       </div>
-      <Link to="profile" style={listStyle}>
+      <Link to={profilePath} style={listStyle}>
         <span>마이페이지</span>
       </Link>
       <Link to="friend" style={listStyle}>

@@ -4,6 +4,7 @@ import { AuthFormWrap } from './style';
 import { Link, NavLink } from 'react-router-dom';
 import { useState } from 'react';
 import memberPageStyle from '../../../../static/css/memberPageStyle.scss';
+import Cookies from 'js-cookie';
 
 const SignupComplete = () => {
     const [state, setState] = useState({
@@ -12,8 +13,7 @@ const SignupComplete = () => {
     const handleSubmit = (values) => {
       setState({ ...state, values });
     };
-  
-
+ 
 
     return (
       <Row justify="center">
@@ -35,7 +35,7 @@ const SignupComplete = () => {
                 </li>
                 <li>
                   <Button size='large'>
-                    <NavLink to="/profile">
+                    <NavLink to={`/profile/${Cookies.get('memberNo')}`}>
                       <h1>마이페이지</h1>
                     </NavLink>
                   </Button>
