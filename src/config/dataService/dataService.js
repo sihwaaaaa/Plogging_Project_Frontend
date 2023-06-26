@@ -7,6 +7,18 @@ const authHeader = () => ({
   Authorization: `Bearer ${getItem('ACCESS_TOKEN')}`,
 });
 
+// const fileUpload = axios.create({
+//   baseURL: API_ENDPOINT,
+//   headers: {
+//     Authorization: `Bearer ${getItem('ACCESS_TOKEN')}`,
+//     'Content-Type': "multipart/form-data"
+//   },
+//   responseType: 'json',
+//   responseEncoding: 'utf-8',
+//   withCredentials: true,
+// });
+
+
 const client = axios.create({
   baseURL: API_ENDPOINT,
   headers: {
@@ -26,6 +38,15 @@ class DataService {
       headers: { ...authHeader() },
     });
   }
+
+  // static filepost(path = '', data = {}, optionalHeader = {}) {
+  //   return fileUpload({
+  //     method: 'POST',
+  //     url: path,
+  //     data : JSON.stringify(data.data),
+  //     headers: { ...authHeader(), ...optionalHeader },
+  //   });
+  // }
 
   static login(path = '', data = {}, optionalHeader = {}) {
     return client({
