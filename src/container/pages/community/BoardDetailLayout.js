@@ -127,7 +127,7 @@ const BoardDetailLayout = (data) => {
   const showConfirm = (type) => {
     alertModal.confirm({
       title: type === "update" ? '수정하시겠습니까?' : '삭제하시겠습니까?',
-      content: type === "update" ? '' : '삭제된 글은 복구될 수 없습니다.',
+      content: type === "update" ? '' : (<p>삭제시 댓글도 함께 삭제되며, <br />삭제된 글은 복구될 수 없습니다.</p>),
       onOk() {
         return new Promise((resolve, reject) => {
           setTimeout(Math.random() > 0.5 ? resolve : reject, 300);

@@ -23,7 +23,7 @@ const BoardRegister = () => {
   const [isPlogging, setIsPlogging] = useState(false);
 
   const article = {title , content , ploggingNo , attach};
-  const updateArticle = {bno : bno, title : title, content : content};
+  const updateArticle = {bno, title, content, attach};
 
 
   useEffect(() => {
@@ -78,6 +78,7 @@ const BoardRegister = () => {
       setBno(location.state.boardDetail.bno)
       setTitle(location.state.boardDetail.title)
       setContent(location.state.boardDetail.content)
+      setAttach(null)
     } else if (isPlogging) {
       setPloggingNo(location.state.boardDetail.ploggingNo)
     }
@@ -90,12 +91,13 @@ const BoardRegister = () => {
    * location 값 x : 일상 글작성, 메인페이지로
    * location 값 o & 플로깅값 o & 업데이트값 x : 플로깅 글작성, 메인페이지로
    * location 값 o & 플로깅값 x & 없데이트값 o : 일상 글수정, 상세페이지로
-   * location 값 o & 플로깅값 o & 업데이트값 x : 플로깅 글수정, 상세페이지로
+   * location 값 o & 플로깅값 o & 업데이트값 o : 플로깅 글수정, 상세페이지로
    */
   useEffect(() => {
     if(title && title.length > 0) {
       if(!location.state || (location.state.boardDetail.ploggingNo !== null && !location.state.isUpdate)) {
         submitBoard(article)
+        console.log(article)
         toMainPage()
       } else if (toDetail) {
         updateBoard(updateArticle)
@@ -125,7 +127,7 @@ const BoardRegister = () => {
    * 글 작성 메서드
    */
   const submitBoard = (data) => {
-    DataService.post('/community/register', { data }, '')
+    DataService.post('/community/register', data , '')
       .then((response) => {
         console.log(response)
       })
@@ -138,7 +140,7 @@ const BoardRegister = () => {
    * 글 수정 메서드
    */
   const updateBoard = (data) => {
-    DataService.put(`community/update`, {data})
+    DataService.put(`community/update`,  data )
       .then((response) => {
         console.log(response)
       })

@@ -1,8 +1,6 @@
 import React, { useState } from "react";
-import { Card, Col, Form, Input, Row } from "antd";
+import { Card, Col, Row } from "antd";
 import '../../static/css/indexPageStyle.scss';
-import Swiper from "react-id-swiper";
-import SwiperCore, { Navigation, Pagination } from 'swiper';
 import { useNavigate } from "react-router-dom";
 import index_plogging1 from "../../static/img/index_plogging1.png";
 import index_plogging2 from "../../static/img/index_plogging2.png";

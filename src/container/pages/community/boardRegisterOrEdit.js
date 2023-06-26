@@ -28,7 +28,9 @@ const BoardRegisterOrEdit = (props) => {
     event.preventDefault();
     if(document.getElementsByClassName('form-title-input').title.value === null
       || document.getElementsByClassName('form-title-input').title.value === ''){
-      warning();
+      warning("title");
+    } else if (fileInputRef.current.files.length === 0){
+      warning("file");
     } else {
       selfDestroyed();
       setTitle(document.getElementsByClassName('form-title-input').title.value)
@@ -38,13 +40,6 @@ const BoardRegisterOrEdit = (props) => {
       }
     }
   }
-
-  // const updateSubmit = () => {
-  //   event.preventDefault();
-  //   setTitle(document.getElementsByClassName('form-title-input').title.value)
-  //   setContent(document.getElementsByClassName('form-content').content.value)
-  //   setToDetail(true);
-  // }
 
   const selectFile = async () => {
     event.preventDefault();
@@ -70,15 +65,6 @@ const BoardRegisterOrEdit = (props) => {
       setAttach(response.data)
     })
 
-    // submitFile(fileData)
-  }
-
-  const submitFile = (data) => {
-    event.preventDefault();
-    DataService.post(`/attach/test`, {data}, {"Content-Type" : "multipart/form-data"})
-      .then((response) => {
-        console.log("response", response)
-      })
   }
 
   const showCancelConfirm = () => {
@@ -94,9 +80,9 @@ const BoardRegisterOrEdit = (props) => {
     });
   };
 
-  const warning = () => {
+  const warning = (text) => {
     alertModal.warning({
-      title: '제목을 입력해 주세요',
+      title: text === "title" ? '제목을 입력해 주세요' : '사진을 첨부해 주세요',
       content: '',
     });
   };
