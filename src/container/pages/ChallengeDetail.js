@@ -26,7 +26,7 @@ const ChallengeDetail = () => {
 
   let params = useParams();
   let chNo = params.id;
-  let loginMemberNo = getItem('memberNo');
+  let memberNo = getItem('memberNo');
   // console.log("loginMemberNo", loginMemberNo)
 
   // const getDayOfWeek = (dateString) => {
@@ -123,6 +123,7 @@ const ChallengeDetail = () => {
 
   // const mapNoList = mapList.map((map) => (map.mapNo));
   const challengeMapNo = challengeScheduleList.map((c) => (c.mapNo));
+  const scheduleNo = challengeScheduleList.map((c) => (c.scheduleNo));
   // console.log("mapNoList : ", mapNoList);
   const mapInfo = mapList.filter((x) => {
     return challengeMapNo.includes(x.mapNo)
@@ -152,8 +153,8 @@ const ChallengeDetail = () => {
     const fetchData = async () => {
       try {
         const response = await DataService.get("challengeMember");
-        setChMemberList(response.data);
-        // console.log("setChMemberList : " , response.data);
+        setChMemberList(response.data.data);
+        console.log("setChMemberList : " , response.data.data);
         // console.log(response.status);
       } catch (error) {
         // 에러 처리
@@ -208,6 +209,44 @@ const ChallengeDetail = () => {
     }
   }
 
+  // 일정참여
+  // 챌린지 번호 , 해당 챌린지에 가입한 챌린지원번호들 , 일정번호, 로그인한번호
+  // challenge(챌린지 단일조회).chNo
+  // loginMemberNo 현재 로그인한 맴버번호
+  // 전체 챌린지의 맴버들 리스트 조회
+  // 해당 챌린지의 스케쥴번호들 challengeScheduleList
+  // 맵정보 mapInfo
+  console.log("challenge : ", challenge.challengers);
+  // console.log("loginNo : ", loginMemberNo); // 현재 로그인한 회원번호
+  console.log("chMemberList : ", chMemberList)
+  // console.log("challengeSchNo : ", challengeSchNo); // 스케쥴번호 필요
+  console.log("mapInfo : ", mapInfo)
+
+  // let schObj = {challengeSchNo, loginMemberNo, chNo};
+  // console.log("schObj : " , schObj);
+  const scheduleJoin = (e,scheduleNo) => {
+    e.preventDefault(); // submit이 action을 안타고 자기 할일을 그만함
+    const confirmed = window.confirm("일정에 참여하시겠습니까 ?")
+    if(confirmed) {
+      const schObj = {
+        scheduleNo: scheduleNo, // scheduleNo를 schObj에 할당
+        memberNo,
+        chNo
+      };
+      console.log(schObj);
+      fetch("http://localhost:8080/scheduleJoin",{
+        method:"POST",
+        headers: {
+          "Content-type":"application/json; charset=utf-8",Authorization: `Bearer ${getItem('ACCESS_TOKEN')}`
+        },
+        body: JSON.stringify(schObj)
+      }).then((res)=>
+        // window.location.reload()
+        res.json()
+      );
+    }
+  }
+
 
   useEffect(() => {
     let unmounted = false;
@@ -248,8 +287,8 @@ const ChallengeDetail = () => {
           <AvatarWraperStyle>
             <span><Avatar icon={< UilGrin />} className="chHeader-icon" />[공식 챌린지]</span>
             <span> {challenge.title} </span>
-            {challenge.memberNo === loginMemberNo && <button type="submit" className="delete-bt"> 챌린지 삭제하기 </button>}
-            {challenge.memberNo !== loginMemberNo && <button type="submit" className="signup-bt" onClick={challengeJoin}> 챌린지 가입하기 </button>}
+            {challenge.memberNo === memberNo && <button type="submit" className="delete-bt"> 챌린지 삭제하기 </button>}
+            {challenge.memberNo !== memberNo && <button type="submit" className="signup-bt" onClick={challengeJoin}> 챌린지 가입하기 </button>}
           </AvatarWraperStyle>
         </div>
 
@@ -309,9 +348,9 @@ const ChallengeDetail = () => {
                   <p>{formattedDate}</p>
                   {maps && <p>{maps.courseName}</p>}
                 </div>
-                <div className="Participation" key={maps.mapNo} >
-                  <button type="submit" className="chParticipation"> + 일정참여</button>
-                  {challenge.memberNo === loginMemberNo && <button type="submit" className="chscDelete"> + 일정삭제</button>}
+                <div className="Participation" >
+                  <button type="submit" className="chParticipation" key={chinfo.scheduleNo} onClick={(e) => scheduleJoin(e, chinfo.scheduleNo)}>  + 일정참여</button>
+                  {challenge.memberNo === memberNo && <button type="submit" className="chscDelete"> + 일정삭제</button>}
                 </div>
               </div>
             );
@@ -321,7 +360,7 @@ const ChallengeDetail = () => {
 
 
         <div className="scbutton">
-          {challenge.memberNo === loginMemberNo && <Button onClick={showModal} key="1" size="default" className="createPlogging">
+          {challenge.memberNo === memberNo && <Button onClick={showModal} key="1" size="default" className="createPlogging">
             <span> + 플로깅 일정추가 </span>
           </Button>}
           {/*<button type="submit" className="scheduleButton"> + 플로깅 일정추가 </button>*/}
