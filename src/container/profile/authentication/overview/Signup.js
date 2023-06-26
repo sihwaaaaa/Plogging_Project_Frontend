@@ -48,11 +48,12 @@ function SignUp() {
 
   const [isUniqueId, setIsUniqueId] = useState(0); // 아이디 중복 여부
 
-  const register = (values, callback) => {
+  const register = (values,callback) => {
     return async () => {
       try {
         const response = await DataService.register('/member/signup', values);
         if (response.data.data !== null) {
+          console.log(response.data.data);
           callback();
         } else {
           alert("다시 확인해주세요");
@@ -112,7 +113,7 @@ function SignUp() {
   // 생년월일
   const now = new Date();
   const [birth, setBirth] = useState({
-    year: new Date().getFullYear(),
+    year: '2023',
     month: '01',
     day: '01',
   });
@@ -200,9 +201,11 @@ function SignUp() {
   // Submit 했을 시에 값 등록
   const handleSubmit = (e) => {
     console.log(e);
-    const { userId, password, nickName, userName, email } = e
+    const { userId, password, passwordConfirm, nickName, userName, email } = e
 
-
+    console.log(address);
+    console.log(birth);
+    const birthStr = birth.year + "-" + birth.month + "-" + birth.day;
     if (isUniqueId == 0) {
       alert("아이디 중복 체크를 하셔야 합니다.");
       return false;
@@ -214,18 +217,16 @@ function SignUp() {
     }
 
 
-
     dispatch(register({
       userId,
       password,
       nickName,
       userName,
       email,
+      address: address,
       gender: gender.selectValue,
-      birth: birth.year + "-" + birth.month + "-" + birth.day,
-      // address
-    }));
-    dispatch(login({userId, password}, () => history('/member/complete')));
+      birth: birthStr,
+    },login({userId, password}, () => history('/member/complete'))));
   }
 
   const login = (values, callback) => {
