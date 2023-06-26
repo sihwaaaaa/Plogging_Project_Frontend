@@ -3,6 +3,8 @@ import BoardRegisterOrEdit from "./boardRegisterOrEdit";
 import { DataService } from "../../../config/dataService/dataService";
 import { useLocation, useNavigate } from "react-router-dom";
 import { Main } from "../../styled";
+import { alertModal } from "../../../components/modals/antd-modals";
+import { getItem } from "../../../utility/localStorageControl";
 
 
 const BoardRegister = () => {
@@ -14,13 +16,36 @@ const BoardRegister = () => {
   const [content, setContent] = useState(''); // 내용
   const [ploggingNo, setPloggingNo] = useState(null); // 플로깅 번호
   const [bno, setBno] = useState('') // 보드pk
+  const [attach, setAttach] = useState({});
 
   const [isUpdate, setIsUpdate] = useState(false); // 해당 글 생성인지 수정인지
   const [toDetail, setToDetail] = useState(false);
   const [isPlogging, setIsPlogging] = useState(false);
 
-  const article = {title : title, content : content, ploggingNo : ploggingNo};
+  const article = {title , content , ploggingNo , attach};
   const updateArticle = {bno : bno, title : title, content : content};
+
+
+  useEffect(() => {
+    if(!getItem('memberNo')){
+      selfDestroyed()
+    }
+  },[])
+
+  const selfDestroyed = () => {
+    let secondsToGo = 1.5;
+    const modal = alertModal.success({
+      title: '이용권한이 없습니다',
+      content: '',
+    });
+
+    setTimeout(() => {
+      modal.destroy();
+      changePage('/')
+    }, secondsToGo * 1000);
+  };
+
+
 
   /**
    * @Author 천은경
@@ -123,6 +148,7 @@ const BoardRegister = () => {
   return (
     <Main style={{background:"#FEF9EF"}}>
       <BoardRegisterOrEdit article={article} setToDetail={setToDetail}
+                           setAttach={setAttach}
                            title={title} setTitle={setTitle}
                            setContent={setContent} content={content}
                            isUpdate={isUpdate} setIsUpdate={setIsUpdate}

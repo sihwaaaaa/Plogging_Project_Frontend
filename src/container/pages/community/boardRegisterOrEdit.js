@@ -5,6 +5,7 @@ import { Button } from "../../../components/buttons/buttons";
 import { DataService } from "../../../config/dataService/dataService";
 import { UilScenery } from "@iconscout/react-unicons";
 import { alertModal } from "../../../components/modals/antd-modals";
+import axios from "axios";
 
 
 const BoardRegisterOrEdit = (props) => {
@@ -15,10 +16,9 @@ const BoardRegisterOrEdit = (props) => {
   const setContent = props.setContent;
   const isUpdate = props.isUpdate;
   const setToDetail = props.setToDetail;
+  const setAttach = props.setAttach;
   const [ploggingNo, setPloggingNo] = useState('');
 
-  // const fileData = new FormData();
-  // const [fileData, setFileData] = useState([]);
   const data = new FormData();
   const fileInputRef = useRef();
   const priviewImg = useRef();
@@ -46,28 +46,36 @@ const BoardRegisterOrEdit = (props) => {
   //   setToDetail(true);
   // }
 
-  const selectFile = () => {
+  const selectFile = async () => {
     event.preventDefault();
     const selectedFile = fileInputRef.current.files[0];
     const fileData = new FormData();
     fileData.append("files", fileInputRef.current.files[0])
-    data.append("files", fileInputRef.current.files[0])
 
     inputFilebtn.current.style.display = "none"
     priviewImg.current.style.display = "flex"
 
     const fileReader = new FileReader();
     fileReader.readAsDataURL(selectedFile);
-
     fileReader.onload = function () {
       priviewImg.current.src = fileReader.result;
     }
+
+    await axios.post('http://localhost:8080/attach/upload', fileData, {
+      headers : {
+        "Content-Type" : "multipart/form-data",
+      }
+    }).then((response) => {
+      console.log(response)
+      setAttach(response.data)
+    })
+
     // submitFile(fileData)
   }
 
   const submitFile = (data) => {
     event.preventDefault();
-    DataService.post(`/file/upload3`, {data}, {"Content-Type" : "multipart/form-data"})
+    DataService.post(`/attach/test`, {data}, {"Content-Type" : "multipart/form-data"})
       .then((response) => {
         console.log("response", response)
       })
