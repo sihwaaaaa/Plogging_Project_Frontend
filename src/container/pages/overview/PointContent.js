@@ -36,7 +36,7 @@ const PointContent = ({ content }) => {
                 {content.map((data) => data.type == "Product" ? (
                   <li>
                     <span>{data.pointNo}</span>
-                    <span>{data.rewardNo.name}</span>
+                    <span>{data.rewardNo}</span>
                     <span>{data.regDate}</span>
                   </li>
                 ) : false
@@ -56,7 +56,7 @@ const PointContent = ({ content }) => {
                 {content.map((data) => data.type != "Donation" ? (
                 <li>
                     <span>{data.pointNo}</span>
-                    <span>{data.rewardNo.name}</span>
+                    <span>{data.rewardNo}</span>
                     <span>{data.regDate}</span>
                 </li>
                 ) : false
