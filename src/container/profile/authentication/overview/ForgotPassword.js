@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Form, Input, Button, Row, Col } from 'antd';
 import { AuthFormWrap } from './style';
+import { DataService } from '../../../../config/dataService/dataService';
 
 function ForgotPassword() {
   const [state, setState] = useState({
@@ -9,7 +10,18 @@ function ForgotPassword() {
   });
   const handleSubmit = (values) => {
     setState({ ...state, values });
+    checkId()
   };
+
+  checkPassword(path = '', data = {}, optionalHeader = {}) {
+    return client({
+      method: 'POST',
+      url: path,
+      data,
+      headers: { ...authHeader(), ...optionalHeader },
+    });
+  }
+
 
   return (
     <Row justify="center">
@@ -20,13 +32,24 @@ function ForgotPassword() {
               <h2 className="ninjadash-authentication-top__title">Forgot Password?</h2>
             </div>
             <div className="ninjadash-authentication-content">
-              <p className="forgot-text">
-                Enter the email address you used when you joined and we’ll send you instructions to reset your password.
-              </p>
               <Form.Item
-                label="Email Address"
+                label="이름"
+                name="userName"
+                rules={[{ required: true, message: '이름을 입력해주세요', type: 'text' }]}
+              >
+                <Input placeholder="예) 홍길동" />
+              </Form.Item>
+              <Form.Item
+                label="아이디"
+                name="userId"
+                rules={[{ required: true, message: '아이디를 입력해주세요', type: 'text' }]}
+              >
+                <Input placeholder="name@example.com" />
+              </Form.Item>
+              <Form.Item
+                label="이메일"
                 name="email"
-                rules={[{ required: true, message: 'Please input your email!', type: 'email' }]}
+                rules={[{ required: true, message: '이메일을 입력해주세요', type: 'email' }]}
               >
                 <Input placeholder="name@example.com" />
               </Form.Item>
@@ -38,7 +61,7 @@ function ForgotPassword() {
             </div>
             <div className="ninjadash-authentication-bottom">
               <p className="return-text">
-                Return to <Link to="/">Sign In</Link>
+                로그인 하러 가기 <Link to="/">로그인</Link>
               </p>
             </div>
           </Form>
