@@ -3,7 +3,7 @@ import { Link, NavLink, useNavigate } from 'react-router-dom';
 import { Form, Input, Button, Row, Col, Image } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
 import { AuthFormWrap } from './style';
-import memberStyle from "../../../../static/css/memberPageStyle.scss";
+import "../../../../static/css/memberPageStyle.scss";
 import { Checkbox } from '../../../../components/checkbox/checkbox';
 import socialLogin, { DataService } from '../../../../config/dataService/dataService';
 import Cookies from 'js-cookie';

@@ -3,7 +3,8 @@ import { Link } from 'react-router-dom';
 import { Form, Input, Button, Row, Col } from 'antd';
 import { AuthFormWrap } from './style';
 import { DataService } from '../../../../config/dataService/dataService';
-import FindId from './FindId';
+import logo from '../../../../static/img/logodemo.png';
+import '../../../../static/css/memberPageStyle.scss';
 
 function ForgotUserId() {
   const [state, setState] = useState({
@@ -35,12 +36,10 @@ function ForgotUserId() {
         <AuthFormWrap>
           <Form name="forgotPass" onFinish={handleSubmit} layout="vertical">
             <div className="ninjadash-authentication-top">
-              <h2 className="ninjadash-authentication-top__title">Forgot Password?</h2>
+              <img src={logo} alt='메인 로고' />
+              <h2>아이디 찾기</h2>
             </div>
             <div className="ninjadash-authentication-content">
-              <p className="forgot-text">
-                아이디 찾기
-              </p>
               <Form.Item
                 label="이름"
                 name="userName"
@@ -66,14 +65,17 @@ function ForgotUserId() {
                 <Input placeholder="name@example.com" />
               </Form.Item>
               <Form.Item>
-                <Button className="btn-reset" htmlType="submit" type="primary" size="large">
+                <Button className="btn-reset" htmlType="submit" type="primary"  size="large">
                   본인 명의로 이메일 발송
                 </Button>
               </Form.Item>
+              <p className="return-text" style={{ flex: 1, textAlign: 'center', padding: '5px 0'}}>
+                비밀번호를 잊으셨나요? <Link to="/member/forgotPassword">비밀번호 찾기</Link>
+              </p>
             </div>
             <div className="ninjadash-authentication-bottom">
               <p className="return-text">
-                Return to <Link to="/">Sign In</Link>
+                로그인 하러가기 <Link to="/">로그인</Link>
               </p>
             </div>
           </Form>

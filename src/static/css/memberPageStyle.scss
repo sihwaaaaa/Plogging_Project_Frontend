@@ -1,12 +1,9 @@
 .sc-aXZVg{
   padding-top: 30px;
 }
-
-
 .alert-hidden {
   visibility: hidden;
 }
-
 .alert-view {
   visibility: visible;
   h5 {
@@ -14,7 +11,6 @@
     color : #f07167;
   }
 }
-
 .btn-signin {
   background-color: #17c382;
 
@@ -118,45 +114,6 @@
       }
     }
   }
-
-  // 아이디 배치 스타일
-  // .ant-form-item-row{
-  //   display: flex;
-    
-  //   .ant-form-item-control-input-content {
-  //     display: flex;
-  //     justify-content: end;
-  //     div {
-  //       &:first-child {
-  //         flex: 100%;
-  //       }
-  //       &:last-child {
-  //         margin: 0 0 0 5px;
-  //         button{
-  //           margin: 0;
-            
-  //           span {
-
-  //             padding: 0;
-  //           }
-  //         }
-  //       }
-
-
-  //       input {
-  //         flex: 1;
-  //       }
-
-  //     }
-  //     button {
-  //       flex: 100%;
-  //     }
-
-
-      
-  //   }
-  // }
-
   // 성별 폼 배치
   .gender-form{
     flex: 20%;
@@ -204,8 +161,6 @@
      
 }
 
-
-
 // 회원가입 완료 후 페이지 스타일
 .home-mypage {
   display: flex;
@@ -246,3 +201,27 @@
     }
   }
 }
+
+
+// 각 버튼 항목의 공통 스타일
+.ant-form-item{
+  button{
+      background-color: #17c382;
+      &:hover {
+          background-color: #00AF89;
+        }
+  }
+}
+    
+
+
+
+
+
+
+
+
+
+
+
+
