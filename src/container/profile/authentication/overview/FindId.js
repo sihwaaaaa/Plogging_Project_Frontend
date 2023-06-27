@@ -29,7 +29,6 @@ function FindId() {
           <Form name="forgotPass" layout="vertical">
             <div className="ninjadash-authentication-top">
               <div>
-                <h2 className="ninjadash-authentication-top__title">Forgot Password?</h2>
                 <img src={logo} alt='메인 로고' />
               </div>
             </div>
