@@ -6,6 +6,7 @@ import { DataService } from "../../../config/dataService/dataService";
 import { UilScenery } from "@iconscout/react-unicons";
 import { alertModal } from "../../../components/modals/antd-modals";
 import axios from "axios";
+import image from "../../../static/img/preview3.png";
 
 
 const BoardRegisterOrEdit = (props) => {
@@ -17,6 +18,7 @@ const BoardRegisterOrEdit = (props) => {
   const isUpdate = props.isUpdate;
   const setToDetail = props.setToDetail;
   const setAttach = props.setAttach;
+  const attach = props.attach;
   const [ploggingNo, setPloggingNo] = useState('');
 
   const data = new FormData();
@@ -24,17 +26,29 @@ const BoardRegisterOrEdit = (props) => {
   const priviewImg = useRef();
   const inputFilebtn = useRef();
 
+  console.log(attach)
+
+  useEffect(() => {
+    if(attach) {
+      fileInputRef.current.src = `http://localhost:8080/attach/display?uuid=${attach.uuid}&path=${attach.path}&ext=${attach.ext}&filename=${attach.filename}`;
+      inputFilebtn.current.style.display = "none"
+      priviewImg.current.style.display = "flex"
+    }
+  }, [attach])
+
   const formSubmit = (submit) => {
     event.preventDefault();
     if(document.getElementsByClassName('form-title-input').title.value === null
       || document.getElementsByClassName('form-title-input').title.value === ''){
       warning("title");
-    } else if (fileInputRef.current.files.length === 0){
+    } else if (fileInputRef.current.files.length === 0 && !attach){
+      console.log("attach가 있다고?", attach)
       warning("file");
     } else {
       selfDestroyed();
       setTitle(document.getElementsByClassName('form-title-input').title.value)
       setContent(document.getElementsByClassName('form-content').content.value)
+      setAttach(attach)
       if(submit === "update") {
         setToDetail(true);
       }
@@ -52,10 +66,11 @@ const BoardRegisterOrEdit = (props) => {
 
     const fileReader = new FileReader();
     fileReader.readAsDataURL(selectedFile);
+    console.log("selectedFile", selectedFile)
     fileReader.onload = function () {
       priviewImg.current.src = fileReader.result;
     }
-
+    console.log(fileData)
     await axios.post('http://localhost:8080/attach/upload', fileData, {
       headers : {
         "Content-Type" : "multipart/form-data",
@@ -64,8 +79,8 @@ const BoardRegisterOrEdit = (props) => {
       console.log(response)
       setAttach(response.data)
     })
-
   }
+
 
   const showCancelConfirm = () => {
     alertModal.confirm({
@@ -105,6 +120,20 @@ const BoardRegisterOrEdit = (props) => {
       <Cards className="board-register-container" headless>
         <form action={'/board'} encType="multipart/form-data" >
           <div className="form-wrapper">
+            <div className="attach-wrapper">
+              <label htmlFor="fileInput" className="display-file-input">
+                <div ref={inputFilebtn}>
+                  <UilScenery size={50} />
+                  <span>사진을 첨부해 주세요</span>
+                </div>
+                {attach ? (
+                  <img className="attach-preview" ref={priviewImg} src={`http://localhost:8080/attach/display?uuid=${attach.uuid}&path=${attach.path}&ext=${attach.ext}&filename=${attach.filename}`} alt="plogging" />
+                ) :(
+                  <img className="attach-preview" ref={priviewImg} src={image} alt="미리보기" />
+                )}
+              </label>
+              <input type="file" id="fileInput" accept="image/*" ref={fileInputRef} onChange={selectFile} />
+            </div>
             <div className="form-title-wrapper">
               <div className="form-title">
               </div>
@@ -112,17 +141,6 @@ const BoardRegisterOrEdit = (props) => {
             </div>
             <div className="form-content-wrapper">
               <textarea className="form-content" name="content" defaultValue={content}  placeholder="내용을 입력해 주세요" />
-            </div>
-            <div className="attach-wrapper">
-              <label htmlFor="fileInput" className="display-file-input">
-                <div ref={inputFilebtn}>
-                  <UilScenery size={30} />
-                  <span>파일 첨부</span>
-                </div>
-                <img ref={priviewImg} alt="미리보기"></img>
-              </label>
-              <input type="file" id="fileInput" accept="image/*" ref={fileInputRef} onChange={selectFile} />
-              {/*<button onClick={submitFile}>클릭</button>*/}
             </div>
             <div className="form-btn">
               {isUpdate ? (
@@ -140,4 +158,4 @@ const BoardRegisterOrEdit = (props) => {
   );
 };
 
-export default BoardRegisterOrEdit;
+export default React.memo(BoardRegisterOrEdit);

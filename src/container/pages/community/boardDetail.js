@@ -5,13 +5,12 @@ import { DataService } from "../../../config/dataService/dataService";
 import BoardDetailLayout from "./BoardDetailLayout";
 import { UilHome } from "@iconscout/react-unicons";
 import { Main } from "../../styled";
-import { Button } from "../../../components/buttons/buttons";
 import { alertModal } from "../../../components/modals/antd-modals";
 
 const BoardDetail = () => {
 
   const location = useLocation();
-  const bno = location.state.bno;
+  const bno = location.state ? location.state.bno : '';
   const [boardDetail, setBoardDetail] = useState([]);
   const [replyList, setReplyList] = useState([]);
   const [replyContent, setReplyContent] = useState('');
@@ -19,33 +18,48 @@ const BoardDetail = () => {
   const [currentReplys, setCurrentReplys] = useState([]);
 
   const changePage = useNavigate();
-  
-  useEffect(() => {
-    // currentReplys.push(...replyList)
-  }, [replyList])
-  
 
   useEffect(() => {
+    if(!location.state) {
+      selfDestroyed()
+    } else {
+      getBoard()
+      getReply()
+    }
+  }, [])
+
+  const selfDestroyed = () => {
+    let secondsToGo = 1.2;
+    const modal = alertModal.success({
+      title: '잘못된 접근입니다',
+      content: '',
+    });
+    setTimeout(() => {
+      modal.destroy();
+      changePage('/')
+    }, secondsToGo * 1000);
+  };
+
+
+  const getReply = () => {
     DataService.get(`/reply/${bno}`)
       .then((response) => {
         setReplyList(response.data.data)
-        currentReplys.unshift(...response.data.data.content)
+        // currentReplys.unshift(...response.data.data.content)
       })
-  }, [replyContent])
-
+  }
 
   /**
    * @Athor 천은경
    * @Date 23.06.24
-   * backend 댓글 단일 조회 get 메서드
-   * (location 변경시마다)
+   * backend 글 단일 조회 get 메서드
    */
-  useEffect(() => {
+  const getBoard = () => {
     DataService.get(`community/board/${bno}`)
       .then((response) => {
         setBoardDetail(response.data.data)
       })
-  }, [location])
+  }
 
   /**
    * @Athor 천은경

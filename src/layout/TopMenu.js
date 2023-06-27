@@ -86,7 +86,7 @@ function TopMenu() {
       }}>
         플로거 <span style={{padding: "0 2px 0 5px", fontWeight: "bold"}}>{nickName}</span>님
       </div>
-      <Link to={profilePath} style={listStyle}>
+      <Link to={profilePath} state={{memberNo : memberNo}} style={listStyle}>
         <span>마이페이지</span>
       </Link>
       <Link to="friend" style={listStyle}>
@@ -116,11 +116,11 @@ function TopMenu() {
           {logedIn ? (
             <li style={{display:"flex", flexWrap:"wrap", flexDirection:"row"}}>
               <Dropdown content={profileTab} placement="bottomLeft">
-                <Link to="#">
+                <div>
                   <AvatarWraperStyle>
                     <Avatar icon={<UserOutlined />} />
                   </AvatarWraperStyle>
-                </Link>
+                </div>
               </Dropdown>
             </li>
           ) : (

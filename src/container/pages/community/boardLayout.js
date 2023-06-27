@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { BlogCardStyleWrap } from "../../../components/cards/Style";
 import { Link } from "react-router-dom";
 import { UilComment } from "@iconscout/react-unicons";
-import image from "../../../static/img/boardEx.jpg";
+import image from "../../../static/img/preview3.png";
 import badge from "../../../static/img/logodemo.png";
 
 
@@ -17,13 +17,21 @@ const BoardLayout = (data) => {
   const updateDate = data.board.updateDate;
   const plogging = data.board.ploggingNo;
   const replyCnt = data.board.replyCount;
+  const attach = data.board.attach;
+
+  console.log(attach)
 
 
   return (
     <BlogCardStyleWrap>
       <figure style={{boxShadow:"1px 1px 3px rgb(227 230 239 / 60%)"}} className={`ninjadash-blog ninjadash-blog-style-2`}>
         <div className="ninjadash-blog-thumb">
-          <img className="ninjadash-blog__image" src={image} alt="plogging" />
+          {attach ? (
+            <img className="ninjadash-blog__image" src={`http://localhost:8080/attach/display?uuid=${attach.uuid}&path=${attach.path}&ext=${attach.ext}&filename=${attach.filename}`} alt="plogging" />
+          ) :(
+            <img className="ninjadash-blog__image" src={image} alt="테스트용" />
+            )
+          }
         </div>
         <figcaption>
           <div className="ninjadash-blog-meta ninjadash-blog-meta-theme-2">
@@ -65,4 +73,4 @@ const BoardLayout = (data) => {
 
 };
 
-export default BoardLayout;
+export default React.memo(BoardLayout);

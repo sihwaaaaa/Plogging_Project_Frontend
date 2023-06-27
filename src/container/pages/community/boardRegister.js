@@ -5,6 +5,8 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { Main } from "../../styled";
 import { alertModal } from "../../../components/modals/antd-modals";
 import { getItem } from "../../../utility/localStorageControl";
+import axios from "axios";
+import boardDetail from "./boardDetail";
 
 
 const BoardRegister = () => {
@@ -16,7 +18,7 @@ const BoardRegister = () => {
   const [content, setContent] = useState(''); // 내용
   const [ploggingNo, setPloggingNo] = useState(null); // 플로깅 번호
   const [bno, setBno] = useState('') // 보드pk
-  const [attach, setAttach] = useState({});
+  const [attach, setAttach] = useState(null);
 
   const [isUpdate, setIsUpdate] = useState(false); // 해당 글 생성인지 수정인지
   const [toDetail, setToDetail] = useState(false);
@@ -25,6 +27,7 @@ const BoardRegister = () => {
   const article = {title , content , ploggingNo , attach};
   const updateArticle = {bno, title, content, attach};
 
+  const boardDetail = location.state ? location.state.boardDetail : null;
 
   useEffect(() => {
     if(!getItem('memberNo')){
@@ -54,13 +57,13 @@ const BoardRegister = () => {
    * location 값의 유무를 통해 확인한 후 isUpdate 설정
    */
   useEffect(() => {
-    if(!!location.state) {
-      if(location.state.isUpdate && location.state.boardDetail.ploggingNo === null) {
+    if(location.state) {
+      if(location.state.isUpdate && boardDetail.ploggingNo === null) {
         setIsUpdate(true)
-      } else if (location.state.isUpdate && location.state.boardDetail.ploggingNo !== null) {
+      } else if (location.state.isUpdate && boardDetail.ploggingNo !== null) {
         setIsUpdate(true)
         setIsPlogging(true)
-      } else if (!location.state.isUpdate && location.state.boardDetail.ploggingNo !== null) {
+      } else if (!location.state.isUpdate && boardDetail.ploggingNo !== null) {
         setIsPlogging(true);
       }
     }
@@ -75,12 +78,12 @@ const BoardRegister = () => {
    */
   useEffect(() => {
     if(isUpdate) {
-      setBno(location.state.boardDetail.bno)
-      setTitle(location.state.boardDetail.title)
-      setContent(location.state.boardDetail.content)
-      setAttach(null)
+      setBno(boardDetail.bno)
+      setTitle(boardDetail.title)
+      setContent(boardDetail.content)
+      setAttach(boardDetail.attach)
     } else if (isPlogging) {
-      setPloggingNo(location.state.boardDetail.ploggingNo)
+      setPloggingNo(boardDetail.ploggingNo)
     }
   }, [isUpdate, isPlogging])
 
@@ -95,9 +98,13 @@ const BoardRegister = () => {
    */
   useEffect(() => {
     if(title && title.length > 0) {
-      if(!location.state || (location.state.boardDetail.ploggingNo !== null && !location.state.isUpdate)) {
+      if(!location.state || (boardDetail.ploggingNo !== null && !location.state.isUpdate)) {
         submitBoard(article)
         console.log(article)
+        // axios.get(`http://localhost:8080/attach/display?uuid=${attach.uuid}&path=${attach.path}&ext=${attach.ext}&filename=${attach.filename}` )
+        //   .then((response) => {
+        //   console.log(response)
+        // })
         toMainPage()
       } else if (toDetail) {
         updateBoard(updateArticle)
@@ -127,8 +134,9 @@ const BoardRegister = () => {
    * 글 작성 메서드
    */
   const submitBoard = (data) => {
-    DataService.post('/community/register', data , '')
+    DataService.post('/community/register', { data } , '')
       .then((response) => {
+        console.log("작성시 attach", attach)
         console.log(response)
       })
   }
@@ -140,8 +148,9 @@ const BoardRegister = () => {
    * 글 수정 메서드
    */
   const updateBoard = (data) => {
-    DataService.put(`community/update`,  data )
+    DataService.put(`community/update`,  { data } )
       .then((response) => {
+        console.log("수정시 attach", attach)
         console.log(response)
       })
   }
@@ -150,7 +159,7 @@ const BoardRegister = () => {
   return (
     <Main style={{background:"#FEF9EF"}}>
       <BoardRegisterOrEdit article={article} setToDetail={setToDetail}
-                           setAttach={setAttach}
+                           setAttach={setAttach} attach={attach}
                            title={title} setTitle={setTitle}
                            setContent={setContent} content={content}
                            isUpdate={isUpdate} setIsUpdate={setIsUpdate}
@@ -159,4 +168,4 @@ const BoardRegister = () => {
   );
 };
 
-export default BoardRegister;
+export default React.memo(BoardRegister);

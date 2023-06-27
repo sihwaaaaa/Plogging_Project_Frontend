@@ -13,12 +13,14 @@ import Cookies from "js-cookie";
 import { UserOutlined } from "@ant-design/icons";
 import { AvatarWraperStyle } from "../container/ui-elements/ui-elements-styled";
 import { logOut } from "../redux/authentication/actionCreator";
+import { getItem } from "../utility/localStorageControl";
 
 
 function MenuItems({ toggleCollapsed }) {
   const { t } = useTranslation();
 
   const userOn = Cookies.get('logedIn');
+  const memberNo = location.state ? location.state.memberNo : Cookies.get('memberNo');
 
   function getItem(label, key, icon, children, type) {
     return {
@@ -107,6 +109,7 @@ function MenuItems({ toggleCollapsed }) {
     ),
   ];
 
+
   return (
     <div className="sidebar-wrapper">
       <Menu
@@ -133,15 +136,15 @@ function MenuItems({ toggleCollapsed }) {
         <div className="myinfo-tab">
           <div className="mypage-wrapper">
             <span style={{maxWidth:150}}>플로거 {Cookies.get('nickName')} 님</span>
-            <NavLink className="mypage-tab" onClick={toggleCollapsed} to={`pages/profile`}>
-              <AvatarWraperStyle>
+            <Link className="mypage-tab" to={`/profile/${memberNo}`} state={{memberNo : memberNo}}>
+            <AvatarWraperStyle>
                 <Avatar icon={<UserOutlined style={{
                   width: "60px",
                   height: "60px",
                   fontSize: "40px",
                 }} />} size={60} />
               </AvatarWraperStyle>
-            </NavLink>
+            </Link>
           </div>
           <div className="signout-wrapper">
             <Link to="/" onClick={handleLogout}>

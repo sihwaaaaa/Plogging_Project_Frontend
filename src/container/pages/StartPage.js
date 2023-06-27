@@ -105,6 +105,7 @@ const StartPage = () => {
   //스프링 데이터 전송
   const createPlogging = (data) => {
     DataService.put('/plogging/startPage', { data }).then(function (response) {
+      console.log(response.data.data)
       navigate('/board/register', {
         state: {
           isUpdate : false,

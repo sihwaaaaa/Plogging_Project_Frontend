@@ -126,7 +126,7 @@
   }
   .boardDetail {
     width: 80%;
-    max-width: 600px;
+    max-width: 550px;
     @media only screen and (max-width: 767px) {
       width: 100%;
     }
@@ -135,6 +135,23 @@
   .detailPage {
     .ukait .ninjadash-blog .ninjadash-blog-thumb::after {
       background: none !important;
+    }
+    .ninjadash-blog-thumb{
+      background: #f4f9f8;
+      border-radius: 10px 10px 0 0;
+      width: 100%;
+      padding-top: 100%;
+      overflow: hidden;
+      position: relative;
+      .ninjadash-blog__image {
+        border-radius: 10px 10px 0 0;
+        height: 100%;
+        width: auto;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+      }
     }
     .ninjadash-blog__bottom {
       padding-top: 15px;
@@ -250,6 +267,32 @@
 
     .board {
       cursor: pointer;
+      @media only screen and (min-width: 1200px) {
+        padding-left: 10px;
+      }
+
+      .ninjadash-blog.ninjadash-blog-style-2 {
+        @media only screen and (min-width: 1200px) {
+          max-width: 320px;
+        }
+      }
+      .ninjadash-blog-thumb{
+        background: #f4f9f8;
+        border-radius: 10px 10px 0 0;
+        width: 100%;
+        padding-top: 100%;
+        overflow: hidden;
+        position: relative;
+        .ninjadash-blog__image {
+          border-radius: 10px 10px 0 0;
+          height: 100%;
+          width: auto;
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+        }
+      }
     }
 
     .ninjadash-blog__meta--item span svg {
