@@ -1,11 +1,12 @@
-import React, { Component, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Carousel, Image } from "antd";
-import ex from "../../../static/img/ex.jpg.jpg";
 import { DataService } from "../../../config/dataService/dataService";
+import { getItem } from "../../../utility/localStorageControl";
 
-const rewardProductList = () => {
+// const rewardProductList = () => {
+function rewardProductList() {
   const [productList, setProductList] = useState([]);
-
+  const rewardNo = getItem('rewardNo')
   useEffect(() => {
     DataService.get("/reward/list/Product")
       .then((response) => {
@@ -33,12 +34,19 @@ const rewardProductList = () => {
   };
 
   return (
-    <Carousel afterChange={onChange} autoplay={true} autoplaySpeed={4000} slidesToScroll={4} slidesToShow="4" effect="scrollx">
+    <Carousel afterChange={onChange}
+              infinite={true}
+              autoplay={true}
+              autoplaySpeed={4000}
+              slidesToScroll={4}
+              slidesToShow={4}
+              effect="scrollx"
+    >
       {productList.map((response) => (
-        <div key={response.id}>
+        <div key={response.rewardNo}>
           <h3 style={contentStyle}>
             <div>
-              <Image src={ex} className="ex-img" style={imageStyle} />
+              <Image src={(require(`../../../static/img/pages/rewardImg/${response.rewardNo}.jpg`))} style={imageStyle}/>
               <p style={{fontWeight:"bold"}}>{response.name}</p>
               <p>{response.detail}</p>
             </div>

@@ -344,13 +344,29 @@
 
   .container-donation {
     background: #FEF9EF;
-    max-width: 75%;
+    max-width: 85%;
     display: flex;
     justify-content: left;
     align-items: center;
     flex-wrap: wrap;
     color: white;
     align-content: center;
+
+    h2 {
+      margin-left: 25px;
+      padding-top: 15px;
+      color: #17C382;
+      font-size: 35px;
+      font-weight: bolder;
+    }
+    span {
+      width: 100%;
+      display: flex;
+      color: #1b1e2b;
+      font-size: 22px;
+      text-align: center;
+      justify-content: center;
+    }
 
     .container-body-donation {
       width: 100%;
@@ -365,28 +381,7 @@
       padding: 20px;
     }
 
-    span {
-      width: 100%;
-      color: #1b1e2b;
-      font-size: 22px;
-      padding: 10px;
-    }
-    h2 {
-      margin-left: 25px;
-      padding-top: 15px;
-      color: #17C382;
-      font-size: 35px;
-      font-weight: bolder;
-    }
 
-    .container-card-wrapper {
-      margin: auto;
-      .ex-img {
-        justify-content: center;
-        width: 550px;
-        height: 450px;
-      }
-    }
 
     .donationButton {
       display: block;
@@ -396,36 +391,38 @@
       background: #F07167;
       font-weight: bold;
       font-size: 23px;
-      p {
-
-      }
     }
 
     .container-donation-wrap {
-      width: 100%;
+      width: 90%;
       min-height: 900px;
       .donation-company {
         background-color: #FEF9EF;
+        display: flex;
+        align-items: flex-start;
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: space-evenly;
       }
     }
 
-    @media only screen and (max-width: 620px) {
-      padding: 20px 20px 50px;
-      flex-flow: column;
-      h2 {
-        padding-top: 30px;
-      }
-      span {
-        width: 100%;
-      }
-      .card {
-        width: 100%;
-      }
-    }
-    @media only screen and (min-width: 620px) {
-      .card + .card {
-        margin-left: 15px;
-      }
-    }
+    //@media only screen and (max-width: 620px) {
+    //  padding: 20px 20px 50px;
+    //  flex-flow: column;
+    //  h2 {
+    //    padding-top: 30px;
+    //  }
+    //  span {
+    //    width: 100%;
+    //  }
+    //  .card {
+    //    width: 100%;
+    //  }
+    //}
+    //@media only screen and (min-width: 620px) {
+    //  .card + .card {
+    //    margin-left: 15px;
+    //  }
+    //}
   }
 }

@@ -35,9 +35,6 @@ const RankList = (props) => {
   useEffect(() => {
     DataService.get("/history/list/rank").then(function(response) {
       setRankingList(response.data);
-      console.log("rankList Test : " + response.data); // [object Object]
-      console.log("data.data : " + response.data.data); //undefined
-      console.log(response);
     });
   }, []);
 
@@ -46,8 +43,6 @@ const RankList = (props) => {
   contentData = rankingList;
 
   // contentData = rankingList;
-  console.log("contentData : " + [contentData]);
-  console.log(rankingList);
 
   return (
     <>
@@ -67,8 +62,8 @@ const RankList = (props) => {
           <div className="card-myRanking">
             <div className="total-ranking">
                 <div  className="full-width-table" >
-                  <Table columns={columnData}
-                         dataSource={contentData}
+                  <Table columns={columnData} rowKey="rank"
+                         dataSource={rankingList}
                          pagination={false}
                   />
                 </div>
