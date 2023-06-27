@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { BlogCardStyleWrap } from "../../../components/cards/Style";
-import image from "../../../static/img/boardEx.jpg";
+import image from "../../../static/img/preview3.png";
 import badge from "../../../static/img/logodemo.png";
 import { getItem } from "../../../utility/localStorageControl";
 import { UilComment, UilMultiply } from "@iconscout/react-unicons";
@@ -21,6 +21,7 @@ const BoardDetailLayout = (data) => {
   const updateDate = data.board.updateDate;
   const plogging = data.board.ploggingNo;
   const replyCnt = data.board.replyCount;
+  const attach = data.board.attach;
 
   const replys = data.reply;
   const currentReplys = data.currentReplys;
@@ -152,7 +153,12 @@ const BoardDetailLayout = (data) => {
                   boxShadow: "1px 1px 3px #ededed"
                 }}>
           <div className="ninjadash-blog-thumb">
-            <img className="ninjadash-blog__image" src={image} alt="plogging" />
+            {attach ? (
+              <img className="ninjadash-blog__image" src={`http://localhost:8080/attach/display?uuid=${attach.uuid}&path=${attach.path}&ext=${attach.ext}&filename=${attach.filename}`} alt="plogging" />
+            ) :(
+              <img className="ninjadash-blog__image" src={image} alt="테스트용" />
+            )
+            }
           </div>
           <figcaption>
             <div className="ninjadash-blog-meta ninjadash-blog-meta-theme-2">

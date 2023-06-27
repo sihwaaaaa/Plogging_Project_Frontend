@@ -126,7 +126,10 @@ const mapList = () => {
   //스프링 데이터 전송
   const createPlogging = (data) => {
     DataService.put('/plogging/startPage', { data }).then(function (response) {
-      navigate('/board/register', { state: response.data.data.ploggingNo });
+      navigate('/board/register', {
+        state: {
+          boardDetail : {ploggingNo : response.data.data.ploggingNo}
+        }});
     });
   };
 

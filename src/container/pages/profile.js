@@ -1,27 +1,22 @@
 import React, { useEffect } from 'react';
-import { Col, Row, Tabs } from 'antd';
 import { PageHeader } from '../../components/page-headers/page-headers';
-import { Cards } from '../../components/cards/frame/cards-frame';
-import profileStyle from '../../../src/static/css/profileStyle.scss';
 import UserCards from './overview/UserCard';
-// import CategoryComponent from './overview/CategoryComponent';
 import { useState } from 'react';
-import CategoryComponent from './overview/CategoryComponent';
 import TabComponent from './overview/TabComponent';
-import image from '../../static/img/bar-dark.png'
 import { DataService } from '../../config/dataService/dataService';
 import { useLocation, useNavigate } from "react-router-dom";
 import { getItem } from "../../utility/localStorageControl";
-import "../../static/css/profilePageStyle.scss";
 import { alertModal } from "../../components/modals/antd-modals";
 import { Main } from '../styled';
+import "../../static/css/profilePageStyle.scss";
+
 
 function Profile() {
 
   const location = useLocation();
   const navigate = useNavigate();
-  const memberNo = location.pathname.split("/")[2] == getItem('memberNo')
-    ? getItem('memberNo') : location.pathname.split("/")[2];
+
+  const memberNo = location.state ? location.state.memberNo : getItem('memberNo');
 
   const [memberInfo, setMemberInfo] = useState({})
 
@@ -31,26 +26,38 @@ function Profile() {
   const [point, setPoint] = useState([]);
   const [friendObj, setFriendObj] = useState('');
   const [type, setType] = useState('');
+
+  // 1 로그인 상태 무관, url로 접근 -> 메인화면 이동
+  // 2 로그인 상태 o, 버튼으로 접근 -> location.state.memberNo로 값 넘기기
+  // 3 로그인 상태 x, 버튼으로 접근 -> 로그인화면 이동
+  // 4 그 외 전부 -> 메인화면 이동
   useEffect(() => {
-    if(getItem('memberNo')){
+    if(!location.state) {
+      selfDestroyed("toMain");
+    } else if(location.state && getItem('memberNo')) {
       getFrofileUser()
       getFriend()
+    } else if(location.state && !getItem('memberNo')) {
+      selfDestroyed("toLogin")
     } else {
-      selfDestroyed();
+      selfDestroyed("toMain");
     }
   }, [memberNo, type]);
 
-  const selfDestroyed = () => {
+  const selfDestroyed = (text) => {
     let secondsToGo = 1.2;
     const modal = alertModal.success({
-      title: '로그인 후 이용해 주세요',
+      title: text === "toLogin" ? '로그인 후 이용해 주세요' : '잘못된 접근입니다',
       content: '',
     });
-
-    setTimeout(() => {
-      modal.destroy();
-      navigate('/member/signin')
-    }, secondsToGo * 1000);
+      setTimeout(() => {
+        modal.destroy();
+        if(text === "toLogin") {
+          navigate('/member/signin')
+        } else {
+          navigate('/')
+        }
+      }, secondsToGo * 1000);
   };
 
   const getFrofileUser = () => {
