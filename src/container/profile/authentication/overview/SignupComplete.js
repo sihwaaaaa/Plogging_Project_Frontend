@@ -5,6 +5,7 @@ import { Link, NavLink } from 'react-router-dom';
 import { useState } from 'react';
 import memberPageStyle from '../../../../static/css/memberPageStyle.scss';
 import Cookies from 'js-cookie';
+import { getItem } from "../../../../utility/localStorageControl";
 
 const SignupComplete = () => {
     const [state, setState] = useState({
@@ -13,6 +14,8 @@ const SignupComplete = () => {
     const handleSubmit = (values) => {
       setState({ ...state, values });
     };
+
+    const memberNo = getItem('memberNo');
  
 
     return (
@@ -35,7 +38,7 @@ const SignupComplete = () => {
                 </li>
                 <li>
                   <Button size='large'>
-                    <NavLink to={`/profile/${Cookies.get('memberNo')}`}>
+                    <NavLink to={`/profile/${memberNo}`} state={{memberNo : memberNo}}>
                       <h1>마이페이지</h1>
                     </NavLink>
                   </Button>
