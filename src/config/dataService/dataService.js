@@ -39,15 +39,6 @@ class DataService {
     });
   }
 
-  // static filepost(path = '', data = {}, optionalHeader = {}) {
-  //   return fileUpload({
-  //     method: 'POST',
-  //     url: path,
-  //     data : JSON.stringify(data.data),
-  //     headers: { ...authHeader(), ...optionalHeader },
-  //   });
-  // }
-
   static login(path = '', data = {}, optionalHeader = {}) {
     return client({
       method: 'POST',

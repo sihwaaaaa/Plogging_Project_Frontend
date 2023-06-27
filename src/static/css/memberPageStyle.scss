@@ -1,218 +1,219 @@
-.sc-aXZVg{
-  padding-top: 30px;
-}
-.alert-hidden {
-  visibility: hidden;
-}
-.alert-view {
-  visibility: visible;
-  h5 {
-    font-size: 15px;
-    color : #f07167;
+.profile-component, .ninjadash-authentication-wrap{
+  .sc-aXZVg{
+    padding-top: 30px;
   }
-}
-.btn-signin {
-  background-color: #17c382;
-
-  &:hover {
-    background-color: #227c9d;
+  .alert-hidden {
+    visibility: hidden;
   }
-
-}
-
-
-.btn-social-login {
-  
-  display: flex;
-  justify-content: center;
-  ul{
-    float: left;
-    li {
-      float: left;
-      transition: all .2s;
-      outline: 0;
-      border: 1px solid transparent;
-      padding: .5rem !important;
-      border-radius: 50%;
-      color: #fff;
+  .alert-view {
+    visibility: visible;
+    h5 {
+      font-size: 15px;
+      color : #f07167;
     }
   }
-}
+  .btn-signin {
+    background-color: #17c382;
 
-.kakao-login {
-  float: left;
-  
-  .kakao-circle{
-    float: left;
-    width: 60px;
-    height: 60px;
-    circle{
-      cx: 30px;
-      cy: 30px;
-      r: 30px;
-      stroke-width: 0;
-      svg {
-        margin-left: 10px;
-      }
+    &:hover {
+      background-color: #227c9d;
     }
-
   }
-    
-}
 
-.google-login {
-  float: left;
-  
-  .google-circle{
-    float: left;
-    width: 60px;
-    height: 60px;
-    circle{
-      cx: 30px;
-      cy: 30px;
-      r: 30px;
-      fill: #eee;
-      stroke: #eee;
-      svg {
-        stroke-width: 20px;
-        margin-left: 10px;
-      }
-    }
 
-  }
-    
-}
-
-.naver-login {
-  float: left;
-  img{
-    
-    width: 60px;
-    height: 60px;
-  }
-}
-
-// 회원가입
-.signup-form {
-  display: block;
-
-  .idform {
+  .btn-social-login {
     display: flex;
-    div {
-      &:first-child{
-        flex: 1;
-        display: flex;
-      }
-      &:last-child{
-        float: right;
-        div{
-          margin: 0;
-          button{
-           
-          }
-        }
-      }
-    }
-  }
-  // 성별 폼 배치
-  .gender-form{
-    flex: 20%;
-
-    .male{
-      div {
-        float: left;
-        div{
-          &:first-child{
-            label {
-              float: left;
-            }
-          } 
-          &:last-child{
-            input {
-              float: right;
-            }
-          }
-          
-        }
-      }
-    }
-    .female{
-      flex: 100%;
-      
-      div {
-        float: left;
-        div{
-          &:first-child{
-            label {
-              float: left;
-            }
-          } 
-          &:last-child{
-            input {
-              float: right;
-            }
-          }
-          
-        }
-      }
-    }
-   
-  }
-     
-}
-
-// 회원가입 완료 후 페이지 스타일
-.home-mypage {
-  display: flex;
-  justify-content: center;
-  ul{
-    
-    li{
-      margin: 100px 0;
+    justify-content: center;
+    ul{
       float: left;
-      &:first-child{
-        button {
-          // ;
-          h1{
-            font-size: 20px;
-            text-decoration: solid;
-          }
-          background-color: #17c382;
-          &:hover {
-            border-color: #227c9d;
+      li {
+        float: left;
+        transition: all .2s;
+        outline: 0;
+        border: 1px solid transparent;
+        padding: .5rem !important;
+        border-radius: 50%;
+        color: #fff;
+      }
+    }
+  }
+
+  .kakao-login {
+    float: left;
+
+    .kakao-circle{
+      float: left;
+      width: 60px;
+      height: 60px;
+      circle{
+        cx: 30px;
+        cy: 30px;
+        r: 30px;
+        stroke-width: 0;
+        svg {
+          margin-left: 10px;
+        }
+      }
+
+    }
+
+  }
+
+  .google-login {
+    float: left;
+
+    .google-circle{
+      float: left;
+      width: 60px;
+      height: 60px;
+      circle{
+        cx: 30px;
+        cy: 30px;
+        r: 30px;
+        fill: #eee;
+        stroke: #eee;
+        svg {
+          stroke-width: 20px;
+          margin-left: 10px;
+        }
+      }
+
+    }
+
+  }
+
+  .naver-login {
+    float: left;
+    img{
+
+      width: 60px;
+      height: 60px;
+    }
+  }
+
+  // 회원가입
+  .signup-form {
+    display: block;
+
+    .idform {
+      display: flex;
+      div {
+        &:first-child{
+          flex: 1;
+          display: flex;
+        }
+        &:last-child{
+          float: right;
+          div{
+            margin: 0;
+            button{
+
+            }
           }
         }
-        padding: 0 40px;
       }
-      &:last-child{
-        padding: 0 40px;
-        button {
-          // ;
-          h1{
-            font-size: 20px;
-            text-decoration: solid;
+    }
+    // 성별 폼 배치
+    .gender-form{
+      flex: 20%;
+
+      .male{
+        div {
+          float: left;
+          div{
+            &:first-child{
+              label {
+                float: left;
+              }
+            }
+            &:last-child{
+              input {
+                float: right;
+              }
+            }
+
           }
-          background-color: #17c382;
-          &:hover {
-            border-color: #227c9d;
+        }
+      }
+      .female{
+        flex: 100%;
+
+        div {
+          float: left;
+          div{
+            &:first-child{
+              label {
+                float: left;
+              }
+            }
+            &:last-child{
+              input {
+                float: right;
+              }
+            }
+
+          }
+        }
+      }
+
+    }
+
+  }
+
+  // 회원가입 완료 후 페이지 스타일
+  .home-mypage {
+    display: flex;
+    justify-content: center;
+    ul{
+
+      li{
+        margin: 100px 0;
+        float: left;
+        &:first-child{
+          button {
+            // ;
+            h1{
+              font-size: 20px;
+              text-decoration: solid;
+            }
+            background-color: #17c382;
+            &:hover {
+              border-color: #227c9d;
+            }
+          }
+          padding: 0 40px;
+        }
+        &:last-child{
+          padding: 0 40px;
+          button {
+            // ;
+            h1{
+              font-size: 20px;
+              text-decoration: solid;
+            }
+            background-color: #17c382;
+            &:hover {
+              border-color: #227c9d;
+            }
           }
         }
       }
     }
   }
-}
 
 
-// 각 버튼 항목의 공통 스타일
-.ant-form-item{
-  button{
+  // 각 버튼 항목의 공통 스타일
+  .ant-form-item{
+    button{
       background-color: #17c382;
       &:hover {
-          background-color: #00AF89;
-        }
+        background-color: #00AF89;
+      }
+    }
   }
+
 }
-    
+
 
 
 

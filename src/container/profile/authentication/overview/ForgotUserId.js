@@ -17,9 +17,9 @@ function ForgotUserId() {
   const handleSubmit = async (values) => {
     setState({ ...state, values });
     console.log(values);
-    await DataService.post("/member/findId", values)
+    await DataService.checkPassword("/member/findId",  values )
       .then((res) => {
-        if (res.data.data !== null) {
+        if (res.data.data) {
           setCondition(true);
           setUserId(res.data.data);
           alert("이메일로 발송되었습니다");
