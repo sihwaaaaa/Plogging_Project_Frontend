@@ -50,10 +50,10 @@ const RankList = (props) => {
         <h2>랭킹</h2>
         <div className="container-body-rank">
               <span>
-                회원님의 누적 포인트는 "n" 입니다. 사용하신 포인트는 누적포인트에 적용되지 않습니다
+                회원님들의 줍깅에 참여한 포인트를 활용한 랭킹 입니다. 사용하신 포인트는 누적포인트에 적용되지 않습니다.
               </span>
           <span>
-                회원님의 랭킹을 확인해 보세요!
+                줍깅에 참여해서 포인트를 적립해 보세요!
           </span>
         </div>
         <div className="container-card-wrapper">

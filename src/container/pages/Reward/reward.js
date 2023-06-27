@@ -27,7 +27,7 @@ const Reward = () => {
   const memberNo = getItem("memberNo");
   const [myRank, setMyRank] = useState([]);
   const [donationList, setDonationList] = useState([]);
-  const [currentPoint, setCurrentPoint] = useState([]);
+  const [donationPoint, setDonationPoint] = useState([]);
 
 
   useEffect(() => {
@@ -81,7 +81,7 @@ const Reward = () => {
   useEffect( () => {
     DataService.get("/history/donationPoint/" + memberNo)
       .then(function(response) {
-        setCurrentPoint(response.data);
+        setDonationPoint(response.data);
         console.log("dataCurrentPoint", response.data)
       })
   }, [])
@@ -157,7 +157,7 @@ const Reward = () => {
         </div>
         <div className="rewardpage-rank">
           <Row>
-            <Col xxl={17} xs={24} span={12} offset={2} style={{ marginTop: 20 }}>
+            <Col xxl={17} xs={24} span={14} offset={3} style={{ marginTop: 20 }}>
               <RankList />
             </Col>
           </Row>
@@ -193,7 +193,7 @@ const Reward = () => {
               </span>
                   <div className="useDonation">
               <span>
-                현재 회원님의 기부하신 포인트는 {currentPoint * -1}P 입니다
+                현재 회원님의 기부하신 포인트는 {donationPoint * -1}P 입니다
               </span>
                   </div>
                 </div>
@@ -204,8 +204,8 @@ const Reward = () => {
                 <Image src={donationHeaderImg} alt={donationHeaderImg} />
                 <Button className="donationButton" size="default" type="primary" key="submit"
                         onClick={() => showConfirm("Donation")}>
-                  기부하기
-                  <p>-1000P</p>
+                  <span style={{color:"white"}}>기부하기</span>
+                  <span style={{color:"white"}}>-1000P</span>
                 </Button>
               </Col>
             </Row>

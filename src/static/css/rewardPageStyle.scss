@@ -39,7 +39,7 @@
           font-size: 22px;
           font-weight: bold;
           width: 100%;
-          color: #1b1e2b;
+          color: #666D92;
           margin-bottom: 10px;
         }
       }
@@ -65,11 +65,11 @@
           padding: 0;
 
           span {
+            color: #666D92;
             display: flex;
             font-size: 32px;
             font-weight: bold;
             justify-content: center;
-            color: black;
           }
           p {
             display: flex;
@@ -155,7 +155,7 @@
     span {
       display: inline-block;
       width: 100%;
-      color: #1b1e2b;
+      color: #666D92;
       margin-bottom: 10px;
       font-size: 22px;
       font-weight: bold;
@@ -186,14 +186,14 @@
       }
 
       .total-ranking {
-        width: 900px;
+        width: 1000px;
 
         Table th {
           text-align: center;
           font-weight: bold;
-          font-size: 17px;
+          font-size: 20px;
+          color : #17C382;
         }
-
         Table td {
           font-weight: bold;
           text-align: center;
@@ -256,7 +256,6 @@
     }
 
     .product-table-wrapper {
-      //display: inline-block;
       width: 100%;
 
       .container-product-wrapper {
@@ -294,9 +293,9 @@
             height: 150px;
             margin: 15px 15px 5px;
             span {
-              color: black;
+              color: #666D92;
               display: flex;
-              font-size: 12px;
+              font-size: 22px;
               font-weight: bold;
               margin: 15px 15px 5px;
             }
@@ -308,10 +307,11 @@
     .productButton {
       display: inline-block;
       width: 470px;
-      height: 60px;
+      height: 70px;
       margin: 15px auto auto;
-      padding: 10px;
-      background: #F07167;
+      border-radius: 10px;
+      background: #17C382;
+      font-size: 22px;
     }
 
     @media only screen and (max-width: 620px) {
@@ -362,12 +362,11 @@
     span {
       width: 100%;
       display: flex;
-      color: #1b1e2b;
+      color: #666D92;
       font-size: 22px;
       text-align: center;
       justify-content: center;
     }
-
     .container-body-donation {
       width: 100%;
       margin-bottom: 15px;
@@ -381,16 +380,15 @@
       padding: 20px;
     }
 
-
-
     .donationButton {
       display: block;
-      width: 550px;
-      height: 90px;
-      margin: 20px auto auto;
-      background: #F07167;
+      width: 470px;
+      height: 70px;
+      margin: 15px auto auto;
       font-weight: bold;
-      font-size: 23px;
+      font-size: 14px;
+      border-radius: 10px;
+      background: #17C382;
     }
 
     .container-donation-wrap {
