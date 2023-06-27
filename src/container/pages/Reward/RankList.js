@@ -58,10 +58,9 @@ const RankList = (props) => {
         </div>
         <div className="container-card-wrapper">
           <Image src={trophyIcon} className="rank-trophy" />
-          {/*<img src={ex} className="ex-img" />*/}
           <div className="card-myRanking">
             <div className="total-ranking">
-                <div  className="full-width-table" >
+                <div className="full-width-table" >
                   <Table columns={columnData} rowKey="rank"
                          dataSource={rankingList}
                          pagination={false}

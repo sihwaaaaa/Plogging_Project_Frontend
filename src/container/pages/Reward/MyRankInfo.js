@@ -6,7 +6,7 @@ import "../../../static/css/rewardPageStyle.scss";
 
 const MyRankInfo = (props) => {
   const badgeName = props.myRank.badgeName;
-  const point = props.myRank.point;
+  const currentPoint = props.myRank.point;
 
 
   return (
@@ -24,7 +24,7 @@ const MyRankInfo = (props) => {
             <img src={ex} className="ex-img" />
           </Col>
           <Col span={12}>
-            <p style={{fontSize:"50px", margin:"0", marginTop:"66px"}}>{point} P</p>
+            <p style={{fontSize:"50px", margin:"0", marginTop:"66px"}}>{currentPoint} P</p>
           </Col>
         </Row>
       </Card>
