@@ -24,9 +24,6 @@ const BoardDetailLayout = (data) => {
   const attach = data.board.attach;
 
   const replys = data.reply;
-  const currentReplys = data.currentReplys;
-  const setCurrentReplys = data.setCurrentReplys;
-
   const replyContent = data.replyContent;
   const setReplyContent = data.setReplyContent;
 
@@ -34,9 +31,6 @@ const BoardDetailLayout = (data) => {
 
   const deleteBoard = data.deleteBoard;
   const updateBoard = data.updateBoard;
-
-  console.log(replys)
-  console.log("재할당", currentReplys)
 
 
   /**
@@ -98,7 +92,6 @@ const BoardDetailLayout = (data) => {
     DataService.delete(`/reply/delete/${rno}`)
       .then((response) => {
         console.log(response.data)
-        currentReplys.filter(r => r.rno !== response.data)
       })
   }
 
@@ -139,7 +132,7 @@ const BoardDetailLayout = (data) => {
       onCancel() {},
     });
   };
-
+  console.log(data.board)
 
 
   return (
@@ -210,7 +203,7 @@ const BoardDetailLayout = (data) => {
         ) : ''
         }
         <div className="replyList">
-          {!!currentReplys && currentReplys.length > 0 ? currentReplys.map(reply => {
+          {!!replyContent && replyContent.length > 0 ? replyContent.map(reply => {
             return (
               <div className="replyContainer">
                 <div className="WriterContainer">

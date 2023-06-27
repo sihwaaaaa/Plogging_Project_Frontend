@@ -15,8 +15,6 @@ const BoardDetail = () => {
   const [replyList, setReplyList] = useState([]);
   const [replyContent, setReplyContent] = useState('');
 
-  const [currentReplys, setCurrentReplys] = useState([]);
-
   const changePage = useNavigate();
 
   useEffect(() => {
@@ -45,6 +43,7 @@ const BoardDetail = () => {
     DataService.get(`/reply/${bno}`)
       .then((response) => {
         setReplyList(response.data.data)
+        setReplyContent(response.data.data.content)
         // currentReplys.unshift(...response.data.data.content)
       })
   }
@@ -121,7 +120,6 @@ const BoardDetail = () => {
       <div className="boardDetailWrapper" >
         <div className="boardDetail detailPage" >
           <BoardDetailLayout board={boardDetail} reply={replyList}
-                             currentReplys={currentReplys} setCurrentReplys={setCurrentReplys}
                              changePage={changePage}
                              replyContent={replyContent} setReplyContent={setReplyContent}
                              updateBoard={() => toEditPage()} deleteBoard={clickDeleteBoard}
