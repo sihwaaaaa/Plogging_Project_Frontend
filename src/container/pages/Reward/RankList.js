@@ -35,9 +35,6 @@ const RankList = (props) => {
   useEffect(() => {
     DataService.get("/history/list/rank").then(function(response) {
       setRankingList(response.data);
-      console.log("rankList Test : " + response.data); // [object Object]
-      console.log("data.data : " + response.data.data); //undefined
-      console.log(response);
     });
   }, []);
 
@@ -46,8 +43,6 @@ const RankList = (props) => {
   contentData = rankingList;
 
   // contentData = rankingList;
-  console.log("contentData : " + [contentData]);
-  console.log(rankingList);
 
   return (
     <>
@@ -55,20 +50,19 @@ const RankList = (props) => {
         <h2>랭킹</h2>
         <div className="container-body-rank">
               <span>
-                회원님의 누적 포인트는 "n" 입니다. 사용하신 포인트는 누적포인트에 적용되지 않습니다
+                회원님들의 줍깅에 참여한 포인트를 활용한 랭킹 입니다. 사용하신 포인트는 누적포인트에 적용되지 않습니다.
               </span>
           <span>
-                회원님의 랭킹을 확인해 보세요!
+                줍깅에 참여해서 포인트를 적립해 보세요!
           </span>
         </div>
         <div className="container-card-wrapper">
           <Image src={trophyIcon} className="rank-trophy" />
-          {/*<img src={ex} className="ex-img" />*/}
           <div className="card-myRanking">
             <div className="total-ranking">
-                <div  className="full-width-table" >
-                  <Table columns={columnData}
-                         dataSource={contentData}
+                <div className="full-width-table" >
+                  <Table columns={columnData} rowKey="rank"
+                         dataSource={rankingList}
                          pagination={false}
                   />
                 </div>

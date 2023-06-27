@@ -2,102 +2,101 @@ import React, { Suspense } from "react";
 import { useEffect, useState } from "react";
 import { DataService } from "../../../config/dataService/dataService";
 import { Button } from "../../../components/buttons/buttons";
-import FontAwesome from "react-fontawesome";
 import "../../../static/css/rewardPageStyle.scss";
 import { Row, Col, Card, Image } from "antd";
-import ex from "../../../static/img/ex.jpg.jpg";
 import MyRankInfo from "./MyRankInfo";
 import RankList from "./RankList";
 import RewardProductList from "./rewardProductList";
 import { getItem } from "../../../utility/localStorageControl";
 import BlogCard from "../../../components/cards/BlogCard";
-import { Main } from "../../styled";
-import ploggingImg from "../../../static/img/pages/rewardImg/plogging.jpg"
-import pointImg from "../../../static/img/pages/rewardImg/point.png"
-import uploadImg from "../../../static/img/pages/rewardImg/Camera.jpg"
-import randumBoxImg from "../../../static/img/pages/rewardImg/randumbox.png"
-import donationImg from "../../../static/img/pages/rewardImg/donation.png"
-import donationHeaderImg from "../../../static/img/pages/rewardImg/donation-header.jpg"
-import arrowRightImg from "../../../static/img/pages/rewardImg/arrow-right.png"
-import uilAlignCenterJustify from "@iconscout/react-unicons/icons/uil-align-center-justify";
+import ploggingImg from "../../../static/img/pages/rewardImg/plogging.jpg";
+import pointImg from "../../../static/img/pages/rewardImg/point.png";
+import uploadImg from "../../../static/img/pages/rewardImg/Camera.jpg";
+import randumBoxImg from "../../../static/img/pages/rewardImg/randumbox.png";
+import donationImg from "../../../static/img/pages/rewardImg/donation.png";
+import donationHeaderImg from "../../../static/img/pages/rewardImg/donation-header.jpg";
+import arrowRightImg from "../../../static/img/pages/rewardImg/arrow-right.png";
+import { alertModal } from "../../../components/modals/antd-modals";
+import axios from "axios";
+import posts from "../../profile/myProfile/overview/timeline/Posts";
+
+
 const Reward = () => {
   const [rewardList, setRewardList] = useState([]);
-  // const [myRank, setMyRank] = useState([]);
   const [rankingList, setRankingList] = useState([]);
   const memberNo = getItem("memberNo");
-  // const [memberNo, setMemberNo] = useState([])
-  const [donation, setDonation] = useState({
-    memberNo: getItem("memberNo"),
-    type: "Donation",
-    point: "-1000",
-    rewardNo: "30"
-  });
-
-  const [product, setProduct] = useState({
-    memberNo: getItem("memberNo"),
-    type: "Product",
-    point: "-8000"
-  });
   const [myRank, setMyRank] = useState([]);
   const [donationList, setDonationList] = useState([]);
+  const [donationPoint, setDonationPoint] = useState([]);
+
+
   useEffect(() => {
     DataService.get(`/reward/list/`).then(function(response) {
       setRewardList(response.data.data);
-      console.log("reward List Test : ");
-      console.log(response.data);
     });
   }, []);
 
-  const donationTest = (e) => {
-    console.log(e);
-    setDonation({
-      ...donation
-    });
-  };
-  const ProductTest = (e) => {
-    console.log(" Product Test e : " + e);
-    setProduct({
-      ...product
-    });
-  };
-
-  let obj = Object.assign(donation, donationTest, product, ProductTest);
-  const createDonationTest = (e) => {
-    e.preventDefault();
-    console.log("e : " + e);
-    console.log("test" + obj);
-    console.log("e.data : " + e.data);
-    fetch("http://localhost:8080/history/Donation", {
+  const createDonation = () => {
+     fetch("http://localhost:8080/history/Donation", {
       method: "POST",
       headers: {
         "Content-type": "application/json; charset=utf-8", Authorization: `Bearer ${getItem("ACCESS_TOKEN")}`
       },
-      body: JSON.stringify(obj)
-    }).then(() => console.log(e));
+      body: JSON.stringify({
+        memberNo : memberNo,
+        type: "Donation",
+        point: -1000,
+      }),
+    }).then(() => alertModal.success({
+      title: "기부가 성공적으로 처리 되었습니다",
+      content: "기부를 해주셔서 감사합니다",
+    }))
   };
 
 
-  const createProductTest = (e) => {
-    e.preventDefault();
-    console.log("e : " + e);
-    console.log("test" + obj);
-    console.log("e.data : " + e.data);
+  const createProduct = () => {
     fetch("http://localhost:8080/history/Product", {
       method: "POST",
       headers: {
         "Content-type": "application/json; charset=utf-8", Authorization: `Bearer ${getItem("ACCESS_TOKEN")}`
       },
-      body: JSON.stringify(obj)
-    }).then(() => console.log(e));
+      body: JSON.stringify({
+        memberNo: memberNo,
+        type: "Product",
+        point: -8000,
+      })
+    }).then(() => alertModal.success({
+      title: "랜덤박스 신청이 성공적으로 처리 되었습니다",
+    }))
   };
 
   useEffect(() => {
-    DataService.get("/history/rank/badge/" + memberNo)
+      DataService.get("/history/rank/badge/" + memberNo)
       .then(function(response) {
         setMyRank(response.data);
-        console.log(response.data);
+        console.log("data badge : ", response.data)
       });
   }, []);
+
+  useEffect( () => {
+    DataService.get("/history/donationPoint/" + memberNo)
+      .then(function(response) {
+        setDonationPoint(response.data);
+        console.log("dataCurrentPoint", response.data)
+      })
+  }, [])
+
+  const showConfirm = (type) => {
+    alertModal.confirm({
+      title: type === "Product" ? '랜덤박스 신청을 하시겠습니까?' : '기부를 하시겠습니까?',
+      content: type === "Product" ? "신청을 하시면 회원님의 8000포인트가 차감 됩니다." : '기부하시면 회원님의 1000포인트가 차감 됩니다',
+      onOk() {
+        console.log("ok 누름");
+        type === "Product" ? createProduct() : createDonation()
+      },
+      onCancel() {},
+    });
+  };
   return (
     <>
       <div className="rewardpage-wrapper">
@@ -120,25 +119,25 @@ const Reward = () => {
                 <Row gutter={16}>
                   <Col span={24}>
                     <h3>플로깅, 챌린지 참여</h3>
-                    <Image src={ploggingImg} alt={ploggingImg}/>
+                    <Image src={ploggingImg} alt={ploggingImg} />
                   </Col>
                 </Row>
               </Card>
-              <Image className="arrowimage" src={arrowRightImg} alt={arrowRightImg}/>
+              <Image className="arrowimage" src={arrowRightImg} alt={arrowRightImg} />
               <Card className="card">
                 <Row gutter={16}>
                   <Col span={24}>
                     <h3>인증샷 작성</h3>
-                    <Image src={uploadImg} alt={uploadImg}/>
+                    <Image src={uploadImg} alt={uploadImg} />
                   </Col>
                 </Row>
               </Card>
-              <Image className="arrowimage" src={arrowRightImg} alt={arrowRightImg}/>
+              <Image className="arrowimage" src={arrowRightImg} alt={arrowRightImg} />
               <Card className="card">
                 <Row gutter={16}>
                   <Col span={24}>
                     <h3>포인트 획득</h3>
-                    <Image src={pointImg} alt={pointImg}/>
+                    <Image src={pointImg} alt={pointImg} />
                   </Col>
                 </Row>
               </Card>
@@ -147,9 +146,9 @@ const Reward = () => {
                 <Row gutter={24}>
                   <Col span={24}>
                     <h4>친환경 랜덤박스 신청</h4>
-                    <h3 style={{marginBottom:"45px"}}>포인트 기부</h3>
-                    <Image src={randumBoxImg} alt={randumBoxImg} style={{height:"99px"}}/>
-                    <Image src={donationImg} alt={donationImg} style={{height:"99px"}}/>
+                    <h3 style={{ marginBottom: "45px" }}>포인트 기부</h3>
+                    <Image src={randumBoxImg} alt={randumBoxImg} style={{ height: "99px" }} />
+                    <Image src={donationImg} alt={donationImg} style={{ height: "99px" }} />
                   </Col>
                 </Row>
               </Card>
@@ -157,8 +156,8 @@ const Reward = () => {
           </div>
         </div>
         <div className="rewardpage-rank">
-          <Row justify="center" align="top">
-            <Col xxl={17} xs={24} style={{ marginTop: 20 }}>
+          <Row>
+            <Col xxl={17} xs={24} span={14} offset={3} style={{ marginTop: 20 }}>
               <RankList />
             </Col>
           </Row>
@@ -177,7 +176,7 @@ const Reward = () => {
               </div>
               <RewardProductList />
             </div>
-            <Button key="submit" type="primary" size="default" className="productButton" onClick={createProductTest}>
+            <Button key="submit" type="primary" size="default" className="productButton" onClick={() => showConfirm("Product")}>
               랜덤박스 신청하기
               <p>-8000P</p>
             </Button>
@@ -185,37 +184,41 @@ const Reward = () => {
         </div>
         <div className="rewardpage-donation">
           <div className="container-donation">
+            <Row justify={"left"} align={"middle"}>
             <h2>기부하기</h2>
-            <div className="container-body-donation">
+              <Col span={24} offset={10}>
+                <div className="container-body-donation">
               <span>
-                회원님들의 포인트로 기부하시면 포인트를 모아 결식아동, 저소득, 노인복지, 저소득 계층 청소년 지원 캠페인에 활용 됩니다
+                회원님들의 기부하신 포인트를 모아 지원 내용을 검토해 캠페인 기부에 활용 됩니다.
               </span>
-              <div className="useDonation">
+                  <div className="useDonation">
               <span>
-                현재 회원님의 기부하신 포인트는 "%n" 입니다
+                현재 회원님의 기부하신 포인트는 {donationPoint * -1}P 입니다
               </span>
-              </div>
-            </div>
-            <div className="container-card-wrapper">
-              <Image src={donationHeaderImg} alt={donationHeaderImg}/>
-              <Button className="donationButton" size="default" type="primary" key="submit"
-                      onClick={createDonationTest}>
-                기부하기
-                <p>-1000P</p>
-              </Button>
-            </div>
-            <div className="container-donation-wrap">
-              <h2>기부처</h2>
-              <div className="donation-company">
-                <Main>
-                  <Row gutter={25} className="mt-sm-10">
-                    <Col xl={6} sm={12} xs={24}>
-                      <BlogCard item={{img: "사랑의열매.png" }} />
-                    </Col>
-                  </Row>
-                </Main>
-              </div>
-            </div>
+                  </div>
+                </div>
+              </Col>
+            </Row>
+            <Row>
+              <Col span={12} offset={6}>
+                <Image src={donationHeaderImg} alt={donationHeaderImg} />
+                <Button className="donationButton" size="default" type="primary" key="submit"
+                        onClick={() => showConfirm("Donation")}>
+                  <span style={{color:"white"}}>기부하기</span>
+                  <span style={{color:"white"}}>-1000P</span>
+                </Button>
+              </Col>
+            </Row>
+            <Row>
+              <Col span={24} offset={1}>
+                <div className="container-donation-wrap">
+                  <h2>기부처</h2>
+                  <div className="donation-company">
+                    <BlogCard />
+                  </div>
+                </div>
+              </Col>
+            </Row>
           </div>
         </div>
       </div>
@@ -223,41 +226,3 @@ const Reward = () => {
   );
 };
 export default Reward;
-
-{/*<PointHistory />*/
-}
-{/*{rewardList.map((res) => (*/
-}
-{/*  <div>*/
-}
-{/*    <span>{res.name}</span>*/
-}
-{/*    <span>{res.detail}</span>*/
-}
-{/*    <span>{res.type}</span>*/
-}
-{/*  </div>*/
-}
-{/*))}*/
-}
-
-// const createDonation = (data) => {
-//   const cleanedData = {
-//     type : data.type,
-//     point : data.point,
-//   };
-//   DataService.post('/history/Donation', JSON.stringify(cleanedData))
-//     .then((response) => {
-//       setDonation(response.data);
-//       console.log(response.data);
-//     });
-// };
-
-// const createProduct = (data) => {
-//   DataService.post("/history/Product", {data},'')
-//     .then((response) => {
-//       setProduct(response.data);
-//       console.log("Product Test : " + response.data);
-//       console.log("Product Test : " + response)
-//   })
-// };
