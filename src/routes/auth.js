@@ -6,6 +6,8 @@ import ForgotPassword from '../container/profile/authentication/overview/ForgotP
 import ForgotUserId from '../container/profile/authentication/overview/ForgotUserId';
 import SignupComplete from '../container/profile/authentication/overview/SignupComplete';
 import FindId from '../container/profile/authentication/overview/FindId';
+import FindPassword from '../container/profile/authentication/overview/ResetPassword';
+import ResetPassword from '../container/profile/authentication/overview/ResetPassword';
 
 const Login = lazy(() => import('../container/profile/authentication/overview/SignIn'));
 const SignUp = lazy(() => import('../container/profile/authentication/overview/Signup'));
@@ -23,6 +25,7 @@ const FrontendRoutes = React.memo(() => {
       <Route path='signin' element={<Login />} />
       <Route path="socialLogin" element={<SocialLogin />} />
       <Route path="findId/:memberNo" element={<FindId />} />
+      <Route path="resetPassword/:memberNo/passwordEdit" element={<ResetPassword />} />
       <Route path="socialLogin" element={<SocialLogin />} />
       <Route path="forgotPassword" element={<ForgotPassword />} />
       <Route path="forgotUserId" element={<ForgotUserId />} />

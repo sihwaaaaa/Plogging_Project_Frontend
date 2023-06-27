@@ -65,6 +65,23 @@ class DataService {
     });
   }
 
+  static resetPassword(path = '', data = {}, optionalHeader = {}) {
+    return client({
+      method: 'PUT',
+      url: path,
+      data: JSON.stringify(data),
+      headers: { ...authHeader(), ...optionalHeader },
+    });
+  }
+  static checkPassword(path = '', data = {}, optionalHeader = {}) {
+    return client({
+      method: 'POST',
+      url: path,
+      data: JSON.stringify(data),
+      headers: { ...authHeader(), ...optionalHeader },
+    });
+  }
+
   static emailAuth(path = '', data = {}, optionalHeader = {}) {
     return client({
       method: 'POST',
@@ -85,7 +102,7 @@ class DataService {
     return client({
       method: 'POST',
       url: path,
-      data : JSON.stringify(data),
+      data : JSON.stringify(data.data),
       headers: { ...authHeader(), ...optionalHeader },
     });
   }
@@ -103,7 +120,7 @@ class DataService {
     return client({
       method: 'PUT',
       url: path,
-      data: JSON.stringify(data),
+      data: JSON.stringify(data.data),
       headers: { ...authHeader() },
     });
   }

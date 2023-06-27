@@ -4,7 +4,7 @@ import { Form, Input, Button, Row, Col } from 'antd';
 import { AuthFormWrap } from './style';
 import { DataService } from '../../../../config/dataService/dataService';
 import memberPageStyle from '../../../../static/css/memberPageStyle.scss';
-
+import logo from '../../../../static/img/logodemo.png';
 function FindId() {
 
 
@@ -30,6 +30,7 @@ function FindId() {
             <div className="ninjadash-authentication-top">
               <div>
                 <h2 className="ninjadash-authentication-top__title">Forgot Password?</h2>
+                <img src={logo} alt='메인 로고' />
               </div>
             </div>
             <div className="ninjadash-authentication-content">
@@ -43,9 +44,8 @@ function FindId() {
               </Form.Item>
             </div>
             <div className="ninjadash-authentication-bottom">
-              <p className="return-text">
+              <p className="return-text"></p>
                 비밀번호를 잊으셨나요? <Link to="/member/forgotPassword">비밀번호 찾기</Link>
-              </p>
             </div>
           </Form>
         </AuthFormWrap>
