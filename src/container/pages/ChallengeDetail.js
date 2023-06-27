@@ -91,7 +91,17 @@ const ChallengeDetail = () => {
     chNo:'',
     startDate:'',
     mapNo:'',
+    challengers:[],
+    challengeMemberCnt:'',
   }]);
+
+  // 해당일정에참여한 챌린지원정보
+  const [scheduleMembers, setScheduleMembers] = useState([{
+    smno:"",
+    challenger:"",
+    scheduleNo:"",
+    chNo:"",
+  }])
 
   let dayWeekTransForm = challengeScheduleList.map((c) => {
     let startDate = new Date(c.startDate);
@@ -100,7 +110,7 @@ const ChallengeDetail = () => {
   });
   console.log("dayWeekTransForm : " , dayWeekTransForm)
 
-
+  // 전체 맵정보
   const [mapList, setMapList] = useState([{
     addr:'',
     courseDetail:'',
@@ -165,6 +175,7 @@ const ChallengeDetail = () => {
   }, []);
   // console.log("chMemberList : " , chMemberList.data);
 
+
   // 해당 챌린지 정보 불러오기
   useEffect(() => {
     const fetchData = async () => {
@@ -182,13 +193,39 @@ const ChallengeDetail = () => {
   }, []);
 
 
+  // 해당일정에참여한 챌린지원정보
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const scheduleNo2 = await DataService.get(`/ploggingList/${chNo}`);
+        let scheduleNo = scheduleNo2.data.data.map((c) => c.scheduleNo);
+        // 여러 개의 요청을 처리하기 위해 Promise 배열을 생성
+        const requests = scheduleNo.map((no) => DataService.get(`/scheduleMemberList/${no}`));
+        const responses = await Promise.all(requests);
+
+        // 응답 결과를 병합하여 scheduleMembers를 설정
+        const mergedData = responses.map((res) => res.data.data).flat();
+        setScheduleMembers(mergedData);
+        console.log("setScheduleMembers : " , response.data.data);
+        // console.log(response.status);
+      } catch (error) {
+        // 에러
+        console.log("fetchData error")
+      }
+    };
+    fetchData();
+  }, []);
+
+  let schMembers = scheduleMembers.map((c)=> c.challenger);
+  console.log("scheduleMembers : " , scheduleMembers.map((c)=> c.challenger) );
+
 
   // 플로깅가입
   const challengeJoin = (e) => {
     e.preventDefault(); // submit이 action을 안타고 자기 할일을 그만함
     const confirmed = window.confirm("우리 지구를 깨끗하게 하는 플로깅! 해당 챌린지에 참여하시겠습니까?")
     if(challenge.challengers && Array.isArray(challenge.challengers) && challenge.challengers.length > 0
-      && challenge.challengers.filter(a => {return a === loginMemberNo}).length){
+      && challenge.challengers.filter(a => {return a === memberNo}).length){
       window.alert("이미 가입한 챌린지입니다")
       return false;
     } else if(challenge.challengeMemberCnt === challenge.personnel){
@@ -208,25 +245,36 @@ const ChallengeDetail = () => {
       }).then((res)=>window.location.reload());
     }
   }
+  // 일정참여취소
+  console.log("scheduleMembers : ", scheduleMembers)
+  const scheduleCancle = (e) => {
+    e.preventDefault(); // submit이 action을 안타고 자기 할일을 그만함
+    const confirmed = window.confirm("참여 취소하시겠습니까? ")
 
-  // 일정참여
-  // 챌린지 번호 , 해당 챌린지에 가입한 챌린지원번호들 , 일정번호, 로그인한번호
-  // challenge(챌린지 단일조회).chNo
-  // loginMemberNo 현재 로그인한 맴버번호
-  // 전체 챌린지의 맴버들 리스트 조회
-  // 해당 챌린지의 스케쥴번호들 challengeScheduleList
-  // 맵정보 mapInfo
-  console.log("challenge : ", challenge.challengers);
-  // console.log("loginNo : ", loginMemberNo); // 현재 로그인한 회원번호
-  console.log("chMemberList : ", chMemberList)
-  // console.log("challengeSchNo : ", challengeSchNo); // 스케쥴번호 필요
-  console.log("mapInfo : ", mapInfo)
+    if(confirmed && scheduleMembers.length >0) {
+      const smno = scheduleMembers.map((c) => c.smno);
+      fetch(`/scheduleCancle/${smno}`,{
+        method:"DELETE",
+        headers: {
+          "Content-type":"application/json; charset=utf-8",Authorization: `Bearer ${getItem('ACCESS_TOKEN')}`
+        },
+        body: JSON.stringify(smno)
+      }).then((res)=>res.json());
+    }
+  }
 
-  // let schObj = {challengeSchNo, loginMemberNo, chNo};
-  // console.log("schObj : " , schObj);
+
+  const schMemberNo = scheduleMembers.filter((c)=> c.challenger === memberNo)
+  console.log("schMemberNo === memberNo : " , schMemberNo);
+
+  // console.log("schMemberInfo : " , schMemberInfo);
+  console.log("loginNo : ", memberNo); // 현재 로그인한 회원번호
+  console.log("challengeSchNo : ", scheduleNo); // 스케쥴번호 필요
+console.log("challengeScheduleList : " , challengeScheduleList)
   const scheduleJoin = (e,scheduleNo) => {
     e.preventDefault(); // submit이 action을 안타고 자기 할일을 그만함
     const confirmed = window.confirm("일정에 참여하시겠습니까 ?")
+
     if(confirmed) {
       const schObj = {
         scheduleNo: scheduleNo, // scheduleNo를 schObj에 할당
@@ -241,8 +289,8 @@ const ChallengeDetail = () => {
         },
         body: JSON.stringify(schObj)
       }).then((res)=>
-        // window.location.reload()
-        res.json()
+        window.location.reload(()=> confirmed("일정참여가 완료되었습니다"))
+        // res.json()
       );
     }
   }
@@ -317,11 +365,6 @@ const ChallengeDetail = () => {
           </p>
           <div className="IntroductionDetail">
             {challenge && challenge.content && <span>{challenge.content}</span>}
-            {/*<span>" 아침운동 가야겠다고 생각만 하시죠? "</span>*/}
-            {/*<br />*/}
-            {/** 이런분들께 추천합니다 **/}
-            {/*<br />*/}
-            {/*<span>- 상쾌한 아침공기를 느껴보고 싶으신 분! <br/> - 건강하게! 아침형인간이 되고싶으신 분! <br/> - 목표를 정해서 이뤄내고 싶은 분! </span>*/}
           </div>
         </div>
         <div className="chSchedule">
@@ -349,7 +392,10 @@ const ChallengeDetail = () => {
                   {maps && <p>{maps.courseName}</p>}
                 </div>
                 <div className="Participation" >
-                  <button type="submit" className="chParticipation" key={chinfo.scheduleNo} onClick={(e) => scheduleJoin(e, chinfo.scheduleNo)}>  + 일정참여</button>
+                    <button type="submit" className="chParticipation" key={chinfo.scheduleNo}
+                           onClick={(e) => scheduleJoin(e, chinfo.scheduleNo)}> + 일정참여</button>
+                    {/*<button type="submit" className="chParticipation"*/}
+                    {/*onClick={scheduleCancle}> 참여취소</button>*/}
                   {challenge.memberNo === memberNo && <button type="submit" className="chscDelete"> + 일정삭제</button>}
                 </div>
               </div>
