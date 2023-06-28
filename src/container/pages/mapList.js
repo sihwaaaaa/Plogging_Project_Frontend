@@ -125,17 +125,19 @@ const mapList = () => {
   };
   //스프링 데이터 전송
   const createPlogging = (data) => {
-    DataService.put('/plogging/startPage', { data }).then(function (response) {
+    DataService.put('/plogging/startPage', data).then(function (response) {
       navigate('/board/register', {
         state: {
-          boardDetail : {ploggingNo : response.data.data.ploggingNo}
-        }});
+          isUpdate: false,
+          boardDetail: { ploggingNo: response.data.data.ploggingNo },
+        },
+        replace: true,
+      });
     });
   };
 
-  //현재위치
   const geolocationNav = () => {
-    window.navigator.geolocation.getCurrentPosition(function (pos) {
+    window.navigator.geolocation.watchPosition(function (pos) {
       if (latitude != pos.coords.latitude) {
         setLatitude(pos.coords.latitude);
       }
@@ -145,6 +147,7 @@ const mapList = () => {
       if (!isLocationLoad) {
         setIsLocationLoad(true);
       }
+      console.log(pos.coords.latitude, pos.coords.longitude);
     });
   };
   //라인표시 함수
@@ -359,6 +362,8 @@ const mapList = () => {
   }
   useEffect(() => {
     geolocationNav();
+  }, []);
+  useEffect(() => {
     if (isLocationLoad && !map) {
       setFirstX(longitude);
       setFirstY(latitude);
@@ -601,7 +606,7 @@ const mapList = () => {
     const interval = setInterval(() => {
       geolocationNav();
       console.log('셋 인터벌');
-    }, 10000 * 30);
+    }, 10000);
     return () => {
       clearInterval(interval);
     };

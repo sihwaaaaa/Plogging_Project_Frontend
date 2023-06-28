@@ -137,8 +137,9 @@ const StartPage = () => {
   };
 
   //위치값 받아오기
+
   const geolocationNav = () => {
-    window.navigator.geolocation.getCurrentPosition(function (pos) {
+    window.navigator.geolocation.watchPosition(function (pos) {
       if (latitude != pos.coords.latitude) {
         setLatitude(pos.coords.latitude);
       }
@@ -148,13 +149,14 @@ const StartPage = () => {
       if (!isLocationLoad) {
         setIsLocationLoad(true);
       }
+      console.log(pos.coords.latitude, pos.coords.longitude);
     });
   };
   useEffect(() => {
     const interval = setInterval(() => {
       geolocationNav();
       console.log('셋 인터벌');
-    }, 10000 * 30);
+    }, 10000);
     return () => {
       clearInterval(interval);
     };
@@ -207,6 +209,8 @@ const StartPage = () => {
   }
   useEffect(() => {
     geolocationNav();
+  }, []);
+  useEffect(() => {
     console.log(latitude);
     if (!mapIm && isLocationLoad) {
       mapInit();
