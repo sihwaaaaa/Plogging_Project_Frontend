@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import ploggingImage from '../../static/img/ploggingImage2.png';
+import ploggingImage from '../../static/img/plologo1.jpeg';
 import ploggingImage3 from '../../static/img/ploggingImage3.png';
 import '../../static/css/ChallengeDetail.css';
 import { AvatarWraperStyle } from "../ui-elements/ui-elements-styled";
@@ -12,7 +12,7 @@ import {
 } from "@iconscout/react-unicons";
 import UilUsersAlt from "@iconscout/react-unicons/icons/uil-users-alt";
 import UilArrowDown from "@iconscout/react-unicons/icons/uil-arrow-down";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import ChallengeSchedule from './ChallengeSchedule';
 import { DataService } from "../../config/dataService/dataService";
 import { getItem } from "../../utility/localStorageControl";
@@ -27,23 +27,9 @@ const ChallengeDetail = () => {
   let params = useParams();
   let chNo = params.id;
   let memberNo = getItem('memberNo');
-  // console.log("loginMemberNo", loginMemberNo)
 
-  // const getDayOfWeek = (dateString) => {
-  //   const daysOfWeek = ['일요일', '월요일', '화요일', '수요일', '목요일', '금요일', '토요일'];
-  //   const date = new Date(dateString);
-  //   const dayOfWeek = date.getDay();
-  //   return daysOfWeek[dayOfWeek];
-  // };
-  // const [scheduleList, setScheduleList] = useState([]);
-  // useEffect(() => {
-  //   const updatedScheduleList = challengeScheduleList.map((schedule) => ({
-  //     ...schedule,
-  //     dayOfWeek: getDayOfWeek(schedule.startDate)
-  //   }));
-  //   setScheduleList(updatedScheduleList);
-  //   console.log("setScheduleList : ")
-  // }, []);
+  const navigate = useNavigate();
+  const [route, setRoute] = useState({});
 
   const [state, setState] = useState({
     visible: false,
@@ -111,12 +97,7 @@ const ChallengeDetail = () => {
   console.log("dayWeekTransForm : " , dayWeekTransForm)
 
   // 전체 맵정보
-  const [mapList, setMapList] = useState([{
-    addr:'',
-    courseDetail:'',
-    courseName:'',
-    mapNo:'',
-  }]);
+  const [mapList, setMapList] = useState([]);
 
   let dateTransform = challengeScheduleList.map((c) => {
     let startDate = new Date(c.startDate);
@@ -134,11 +115,11 @@ const ChallengeDetail = () => {
   // const mapNoList = mapList.map((map) => (map.mapNo));
   const challengeMapNo = challengeScheduleList.map((c) => (c.mapNo));
   const scheduleNo = challengeScheduleList.map((c) => (c.scheduleNo));
-  // console.log("mapNoList : ", mapNoList);
+  console.log("mapList : ", mapList);
   const mapInfo = mapList.filter((x) => {
     return challengeMapNo.includes(x.mapNo)
   })
-  // console.log("result : " , mapInfo)
+  console.log("result : " , mapInfo)
   // 해당챌린지의 일정리스트 불러오기
   useEffect(() => {
     const fetchData = async () => {
@@ -231,8 +212,10 @@ const ChallengeDetail = () => {
     } else if(challenge.challengeMemberCnt === challenge.personnel){
       window.alert("인원이 마감된 챌린지 입니다")
       return false;
-    }
-    else{
+    } else if(memberNo === undefined){
+      window.alert("로그인후 가입해주세요 ")
+      return false;
+    } else{
       window.alert("챌린지 가입이 완료되었습니다")
     }
     if(confirmed) {
@@ -274,7 +257,10 @@ console.log("challengeScheduleList : " , challengeScheduleList)
   const scheduleJoin = (e,scheduleNo) => {
     e.preventDefault(); // submit이 action을 안타고 자기 할일을 그만함
     const confirmed = window.confirm("일정에 참여하시겠습니까 ?")
-
+    if(memberNo === undefined){
+      window.alert("로그인후 참여 해주세요")
+      return false;
+    }
     if(confirmed) {
       const schObj = {
         scheduleNo: scheduleNo, // scheduleNo를 schObj에 할당
@@ -377,19 +363,19 @@ console.log("challengeScheduleList : " , challengeScheduleList)
               <p>아직 등록된 챌린지 일정이 없습니다.</p>
             ) :(
             challengeScheduleList.map((chinfo, scheduleIndex) => {
-            const maps = mapInfo[scheduleIndex];
+            const route = mapInfo[scheduleIndex];
             const formattedDate = dateTransform[scheduleIndex];
             const dayTransForm = dayWeekTransForm[scheduleIndex]
-
+            console.log("maps : " , route);
             return (
               <div className="scheduleForm" key={scheduleIndex}>
                 <ul className="scheduleDay">
                   <li>{dayTransForm.dayOfWeek}</li>
-                  <li>10</li>
+                  <li>일정</li>
                 </ul>
                 <div className="scheduleDetail">
                   <p>{formattedDate}</p>
-                  {maps && <p>{maps.courseName}</p>}
+                  {route && <p onClick={() => navigate('/plogging/mapList/'+`${route.mapNo}`, { state: route })}>{route.courseName}</p>}
                 </div>
                 <div className="Participation" >
                     <button type="submit" className="chParticipation" key={chinfo.scheduleNo}

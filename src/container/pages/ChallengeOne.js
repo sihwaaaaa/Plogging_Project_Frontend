@@ -1,5 +1,5 @@
 // import React, { useState } from 'react';
-import ploggingImage from '../../static/img/ploggingImage2.png';
+import ploggingImage from '../../static/img/plologo1.jpeg';
 import '../../static/css/ChallengeStyle.scss';
 import { useEffect, useState } from "react";
 import { DataService } from "../../config/dataService/dataService";

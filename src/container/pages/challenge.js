@@ -13,6 +13,7 @@ import { DataService } from '../../config/dataService/dataService';
 import { PageHeader } from '../../components/page-headers/page-headers';
 import { Button } from '../../components/buttons/buttons';
 import { Link } from "react-router-dom";
+import { getItem } from "../../utility/localStorageControl";
 
 function Challenge() {
   const searchData = useSelector((state) => state.headerSearchData);
@@ -22,6 +23,7 @@ function Challenge() {
     categoryActive: 'all',
   });
 
+  let memberNo = getItem('memberNo');
   let today = new Date()
   function formatDate(date,format){
     const map = {
@@ -93,7 +95,7 @@ function Challenge() {
           <div className="challenge-search">
             <KnowledgebaseTopWrap>
               <div className="ninjadash-knowledgetop">
-                <h2 className="ninjadash-knowledgetop__title">모든 챌린지</h2>
+                <h2 className="ninjadash-knowledgetop__title">회원들과 같이 즐기는 플로깅 챌린지</h2>
                 <div className="ninjadash-knowledgetop__search--form">
                   <Form name="login" layout="vertical">
                     <div className="ninjadash-knowledgetop__formInner">
@@ -111,7 +113,7 @@ function Challenge() {
           </div>
         </div>
         {/* <Modals /> */}
-        <ProjectHeader>
+        {memberNo !== undefined && <ProjectHeader>
           <PageHeader
             className="ninjadash-page-header-main"
             ghost
@@ -119,10 +121,18 @@ function Challenge() {
             buttons={[
               <Button onClick={showModal} key="1" type="primary" size="default" className="createChallenge">
                 <UilPlus /> Create Challenge!
-              </Button>,
+              </Button>
             ]}
           />
-        </ProjectHeader>
+        </ProjectHeader>}
+        {memberNo === undefined && <ProjectHeader>
+          <PageHeader
+            className="ninjadash-page-header-main"
+            ghost
+            title="로그인후 챌린지를 만들어보세요"
+          />
+        </ProjectHeader>}
+
 
         <div className="challenge-slider-title">
           <h4>진행전 / 진행중인 챌린지</h4>

@@ -14,8 +14,13 @@ import { CourseCardWrap } from "../../components/cards/Style";
 import UilMapMarker from "@iconscout/react-unicons/icons/uil-map-marker";
 import UilClock from "@iconscout/react-unicons/icons/uil-clock";
 import { setHours, setMinutes } from "date-fns";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { getItem } from "../../utility/localStorageControl";
+import { useInView } from "react-intersection-observer";
+import { KnowledgebaseTopWrap } from "./knowledgeBase/style";
+import UilLocationPinAlt from "@iconscout/react-unicons/icons/uil-location-pin-alt";
+import '../../static/css/ploggingPageStyle.scss';
+import UilExclamationCircle from "@iconscout/react-unicons/icons/uil-exclamation-circle";
 
 const { Option } = Select;
 
@@ -26,6 +31,13 @@ function ChallengeSchedule({ visible, onCancel,mapList,setMapList }) {
   const [form] = Form.useForm();
   let params = useParams();
   const [secondModalVisible, setSecondModalVisible] = useState(false);
+
+  // 무한스크롤링
+  const [watch, inView] = useInView();
+  const [page, setPage] = useState(0);
+  const [lastPage, setLastPage] = useState(false);
+  const navigate = useNavigate();
+
 
   const [state, setState] = useState({
     visible,
@@ -78,30 +90,29 @@ function ChallengeSchedule({ visible, onCancel,mapList,setMapList }) {
     console.log(dateString)
   }
 
-  // useEffect(() => {
-  //   DataService.get('/plogging')
-  //     .then(function (response) {
-  //       setMapList(response.data);
-  //       console.log(response.data)
-  //     })
-  //     .catch(function (error) {
-  //       console.log(error);
-  //     });
-  // }, []);
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await DataService.get("/plogging")
-        setMapList(response.data);
-        // console.log(response.data);
-        // console.log(response.status);
-      } catch (error) {
-        // 에러 처리
-        console.log("fetchData error")
-      }
-    };
-    fetchData();
+    if (inView && !lastPage && !setResult) {
+      loadMapList();
+      paging();
+    }
+  }, [mapList, inView]);
+  const paging = () => {
+    setPage((page) => page + 1);
+  };
+  const loadMapList = () => {
+    DataService.get(`/plogging?page=${page}`)
+      .then(function (response) {
+        console.log(response);
+        if (response.data.data.content.last) {
+          setLastPage(true);
+        }
+        setMapList((mapList) => mapList.concat(...response.data.data.content));
+      })
+      .catch(function (error) {});
+  };
+  useEffect(() => {
+    loadMapList();
   }, []);
 
 
@@ -149,6 +160,41 @@ function ChallengeSchedule({ visible, onCancel,mapList,setMapList }) {
       }catch (error){
         window.alert("플로깅 일정 추가에 실패하였습니다 선택하지 않은 값이 있는지 확인해주세요")
       }
+    }
+  }
+
+  //검색
+  const [searchResult, setSearchResult] = useState(false); //검색결과 있는지 여부
+  const [setResult, setSetResult] = useState(false); // 검색결과인지
+  const [keyword, setKeyword] = useState('');
+  const inputMapKeyword = (e) => {
+    setKeyword(e.currentTarget.value);
+  };
+
+  const searchMapRoute = () => {
+    e.preventDefault();
+    if (keyword === '') {
+      setMapList([]);
+      setPage(0);
+      loadMapList();
+      setSetResult(false);
+    } else {
+      DataService.get(`/plogging/search?keyword=${keyword}`).then((response) => {
+        if (!response.data.data) {
+          setMapList([]);
+          setSearchResult(true);
+        } else {
+          setSetResult(true);
+          setMapList(response.data.data);
+        }
+      });
+    }
+  };
+  function ploggingStartClick() {
+    if (memberNo) {
+      navigate(nav, { state: route });
+    } else {
+      selfDestroyed();
     }
   }
 
@@ -235,17 +281,13 @@ function ChallengeSchedule({ visible, onCancel,mapList,setMapList }) {
               <Row gutter={15}>
                 <Col md={12} xs={24}>
                   <div className="ploggingSearch">
-                      <Input placeholder="원하는 추천경로를 검색해보세요" />
                     {mapList &&
                       mapList.map((maps) => (
-                        <div key={maps.mapNo}>
+                        <div key={maps.mapNo} ref={maps.mapNo % 5 == 0 ? watch : null}>
                           <CourseCardWrap className="ninjadash-course-card-single"
                                           onClick={() => handleMapItemClick(maps.courseName, maps.mapNo)}
                           >
                             <Card bordered={false}>
-                              <div className="ninjadash-course-card-thumbnail">
-                                {/*<img src={''} alt="ninjaDash" />*/}
-                              </div>
                               <div className="ninjadash-course-card-content">
                                 <h4 className="ninjadash-course-card-title" >
                                   {maps.mapNo}번 코스 <hr/>

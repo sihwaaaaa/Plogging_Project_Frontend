@@ -298,3 +298,9 @@
 .ninjadash-course-card-single{
     width: 550px;
 }
+
+/* 기타 */
+.create-btn {
+    background-color: #227C9D;
+    color: white;
+}
