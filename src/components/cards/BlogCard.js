@@ -23,15 +23,15 @@ function BlogCard({ item, theme }) {
   }, []);
 
   return (
-    <Row gutter={16} >
+    <Row gutter={24} >
       {Donation.map((response) => (
         <Col xl={6} sm={12} xs={24} key={response.rewardNo}>
           <BlogCardStyleWrap>
-            <figure className={`ninjadash-blog ninjadash-blog-${theme}`} style={{height:"350px"}}>
+            <figure className={`ninjadash-blog ninjadash-blog-${theme}`} style={{height:"370px", backgroundColor:"#FFCB77"}}>
               <div className="ninjadash-blog-thumb" style={{overflow:"hidden"}}>
                 <img className="ninjadash-blog__image"
                      style={{
-                       width: "300px",
+                       width: "100%",
                        objectFit: "contain",
                        minHeight: "120px"
                      }}

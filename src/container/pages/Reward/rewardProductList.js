@@ -46,7 +46,7 @@ function rewardProductList() {
         <div key={response.rewardNo}>
           <h3 style={contentStyle}>
             <div>
-              <Image src={(require(`../../../static/img/pages/rewardImg/${response.rewardNo}.jpg`))} style={imageStyle}/>
+              <Image src={(require(`../../../static/img/pages/rewardImg/${response.rewardNo}.png`))} style={imageStyle}/>
               <p style={{fontWeight:"bold"}}>{response.name}</p>
               <p>{response.detail}</p>
             </div>

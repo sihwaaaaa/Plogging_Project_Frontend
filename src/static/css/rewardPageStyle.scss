@@ -32,9 +32,12 @@
       .container-body-header {
         width: 100%;
         margin-bottom: 20px;
+        margin-left: 5px;
         display: inline-block;
 
+
         span {
+          line-height: 200%;
           display: inline-block;
           font-size: 22px;
           font-weight: bold;
@@ -48,10 +51,11 @@
         display: flex;
         width: 100%;
         height: 300px;
-        border: #1b1e2b 1px solid;
+        border: #666D92 3px solid;
+        border-radius: 10px;
         margin-bottom: 30px;
 
-        .ex-img { // 등급에 따른 이미지 삽입
+        .ex-img {
           display: flex;
           width: 150px;
           margin: 0 auto;
@@ -61,9 +65,9 @@
           flex-direction: row;
           align-items: center;
           width: 100%;
-          height: 90px;
-          padding: 0;
-
+          height: 85px;
+          background-color: #FEF9EF;
+          border-bottom: #666D92 3px solid;
           span {
             color: #666D92;
             display: flex;
@@ -88,10 +92,13 @@
     display: flex;
     justify-content: space-around;
     align-items: center;
+
     .card {
-      width: 250px;
+      width: 270px;
       height: 300px;
       border-radius: 23px;
+      background-color: #FEF9EF;
+      border: #666D92 3px solid;
 
       h3 {
         font-size: 22px;
@@ -130,7 +137,7 @@
 }
 
 .rewardpage-rank {
-  background: #FEF9EF;
+  background: #FFCB77;
   width: 100%;
   min-height: 910px;
   display: flex;
@@ -138,7 +145,7 @@
   justify-content: center;
 
   .container-rank {
-    background: #FEF9EF;
+    background: #FFCB77;
     max-width: 75%;
     display: flex;
     justify-content: left;
@@ -187,16 +194,21 @@
 
       .total-ranking {
         width: 1000px;
-
+        Table {
+          background-color: #FFCB77;
+        }
         Table th {
           text-align: center;
           font-weight: bold;
           font-size: 20px;
           color : #17C382;
+          background-color: #FFCB77;
+          border: none;
         }
         Table td {
           font-weight: bold;
           text-align: center;
+          border: none;
         }
       }
     }
@@ -335,7 +347,7 @@
 }
 
 .rewardpage-donation {
-  background: #FEF9EF;
+  background: #FFCB77;
   width: 100%;
   min-height: 1300px;
   display: flex;
@@ -343,8 +355,8 @@
   justify-content: center;
 
   .container-donation {
-    background: #FEF9EF;
-    max-width: 85%;
+    background: #FFCB77;
+    width: 75%;
     display: flex;
     justify-content: left;
     align-items: center;
@@ -353,11 +365,10 @@
     align-content: center;
 
     h2 {
-      margin-left: 25px;
       padding-top: 15px;
       color: #17C382;
       font-size: 35px;
-      font-weight: bolder;
+      font-weight: 900;
     }
     span {
       width: 100%;
@@ -386,16 +397,16 @@
       height: 70px;
       margin: 15px auto auto;
       font-weight: bold;
-      font-size: 14px;
+      font-size: 22px;
       border-radius: 10px;
       background: #17C382;
     }
 
     .container-donation-wrap {
-      width: 90%;
+      width: 100%;
       min-height: 900px;
       .donation-company {
-        background-color: #FEF9EF;
+        background-color: #FFCB77;
         display: flex;
         align-items: flex-start;
         flex-direction: row;
@@ -403,24 +414,5 @@
         justify-content: space-evenly;
       }
     }
-
-    //@media only screen and (max-width: 620px) {
-    //  padding: 20px 20px 50px;
-    //  flex-flow: column;
-    //  h2 {
-    //    padding-top: 30px;
-    //  }
-    //  span {
-    //    width: 100%;
-    //  }
-    //  .card {
-    //    width: 100%;
-    //  }
-    //}
-    //@media only screen and (min-width: 620px) {
-    //  .card + .card {
-    //    margin-left: 15px;
-    //  }
-    //}
   }
 }

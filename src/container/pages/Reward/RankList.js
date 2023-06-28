@@ -53,7 +53,7 @@ const RankList = (props) => {
                 회원님들의 줍깅에 참여한 포인트를 활용한 랭킹 입니다. 사용하신 포인트는 누적포인트에 적용되지 않습니다.
               </span>
           <span>
-                줍깅에 참여해서 포인트를 적립해 보세요!
+                줍깅에 참여해서 포인트를 적립하고 상위 랭킹에 도전해 보세요
           </span>
         </div>
         <div className="container-card-wrapper">
