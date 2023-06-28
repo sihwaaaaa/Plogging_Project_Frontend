@@ -9,17 +9,14 @@ import RankList from "./RankList";
 import RewardProductList from "./rewardProductList";
 import { getItem } from "../../../utility/localStorageControl";
 import BlogCard from "../../../components/cards/BlogCard";
-import ploggingImg from "../../../static/img/pages/rewardImg/plogging.jpg";
+import ploggingImg from "../../../static/img/pages/rewardImg/plogging.png";
 import pointImg from "../../../static/img/pages/rewardImg/point.png";
-import uploadImg from "../../../static/img/pages/rewardImg/Camera.jpg";
+import uploadImg from "../../../static/img/pages/rewardImg/Camera.png";
 import randumBoxImg from "../../../static/img/pages/rewardImg/randumbox.png";
 import donationImg from "../../../static/img/pages/rewardImg/donation.png";
-import donationHeaderImg from "../../../static/img/pages/rewardImg/donation-header.jpg";
+import donationHeaderImg from "../../../static/img/pages/rewardImg/donation-header.png";
 import arrowRightImg from "../../../static/img/pages/rewardImg/arrow-right.png";
 import { alertModal } from "../../../components/modals/antd-modals";
-import axios from "axios";
-import posts from "../../profile/myProfile/overview/timeline/Posts";
-
 
 const Reward = () => {
   const [rewardList, setRewardList] = useState([]);
@@ -28,7 +25,9 @@ const Reward = () => {
   const [myRank, setMyRank] = useState([]);
   const [donationList, setDonationList] = useState([]);
   const [donationPoint, setDonationPoint] = useState([]);
-
+  const [currentPoint, setCurrentPoint] = useState([]);
+  const [donationDisabled, setDonationDisabled] = useState(false);
+  const [productDisabled, setProductDisabled] = useState(false);
 
   useEffect(() => {
     DataService.get(`/reward/list/`).then(function(response) {
@@ -37,20 +36,20 @@ const Reward = () => {
   }, []);
 
   const createDonation = () => {
-     fetch("http://localhost:8080/history/Donation", {
+    fetch("http://localhost:8080/history/Donation", {
       method: "POST",
       headers: {
         "Content-type": "application/json; charset=utf-8", Authorization: `Bearer ${getItem("ACCESS_TOKEN")}`
       },
       body: JSON.stringify({
-        memberNo : memberNo,
+        memberNo: memberNo,
         type: "Donation",
-        point: -1000,
-      }),
+        point: -1000
+      })
     }).then(() => alertModal.success({
       title: "기부가 성공적으로 처리 되었습니다",
-      content: "기부를 해주셔서 감사합니다",
-    }))
+      content: "기부를 해주셔서 감사합니다"
+    }));
   };
 
 
@@ -63,40 +62,67 @@ const Reward = () => {
       body: JSON.stringify({
         memberNo: memberNo,
         type: "Product",
-        point: -8000,
+        point: -8000
       })
     }).then(() => alertModal.success({
-      title: "랜덤박스 신청이 성공적으로 처리 되었습니다",
-    }))
+      title: "랜덤박스 신청이 성공적으로 처리 되었습니다"
+    }));
   };
 
   useEffect(() => {
-      DataService.get("/history/rank/badge/" + memberNo)
+    DataService.get("/history/rank/badge/" + memberNo)
       .then(function(response) {
         setMyRank(response.data);
-        console.log("data badge : ", response.data)
+        console.log("data badge : ", response.data);
+        console.log("reward data badgeNo : ", response.data.badgeNo)
       });
   }, []);
 
-  useEffect( () => {
+  useEffect(() => {
     DataService.get("/history/donationPoint/" + memberNo)
       .then(function(response) {
         setDonationPoint(response.data);
-        console.log("dataCurrentPoint", response.data)
-      })
-  }, [])
+        console.log("dataDonationPoint", response.data);
+      });
+  }, []);
+
+  useEffect(() => {
+    DataService.get("/history/currentPoint/" + memberNo)
+      .then(function(response) {
+        setCurrentPoint(response.data);
+        console.log("current Point : ", response.data);
+        return response.data;
+      }).then((data) => {
+      console.log("data : ", data);
+      if (data >= 1000) {
+        console.log("data >= 1000: ", data);
+        setDonationDisabled(false);
+      } else {
+        setDonationDisabled(true);
+      }
+      if (data >= 8000) {
+        setProductDisabled(false);
+      } else {
+        setProductDisabled(true);
+      }
+    });
+  }, []);
+
 
   const showConfirm = (type) => {
     alertModal.confirm({
-      title: type === "Product" ? '랜덤박스 신청을 하시겠습니까?' : '기부를 하시겠습니까?',
-      content: type === "Product" ? "신청을 하시면 회원님의 8000포인트가 차감 됩니다." : '기부하시면 회원님의 1000포인트가 차감 됩니다',
+      title: type === "Product" ? "랜덤박스 신청을 하시겠습니까?" : "기부를 하시겠습니까?",
+      content: type === "Product" ? "신청을 하시면 회원님의 8000포인트가 차감 됩니다." : "기부하시면 회원님의 1000포인트가 차감 됩니다",
       onOk() {
         console.log("ok 누름");
-        type === "Product" ? createProduct() : createDonation()
+        type === "Product" ? createProduct() : createDonation();
       },
-      onCancel() {},
+      onCancel() {
+      }
     });
   };
+
+
   return (
     <>
       <div className="rewardpage-wrapper">
@@ -105,11 +131,9 @@ const Reward = () => {
             <h2>포인트 적립 안내</h2>
             <div className="container-body-header">
               <span>
-              플로깅이나 챌린지를 통해 포인트를 적립하고 친환경 랜덤박스와 기부를 할 수 있습니다
+              플로깅이나 챌린지를 통해 포인트를 적립하고 친환경 랜덤박스와 기부를 할 수 있습니다 <br />
+                산책도 하고 운동도 하고 환경도 지키고 기부도 하고! 친환경 제품도 구매도 해보세요!
                </span>
-              <span>
-              산책도 하고 운동도 하고 환경도 지키고 기부도 하고! 친환경 제품도 구매도 해보세요!
-              </span>
             </div>
             <div className="container-info-header" style={{ padding: "0" }}>
               <MyRankInfo myRank={myRank} />
@@ -167,7 +191,8 @@ const Reward = () => {
             <h2>랜덤박스</h2>
             <div className="container-body-product">
               <span>
-                회원님이 적립하신 포인트로 랜덤박스를 신청하시면 친환경 제품을 랜덤으로 보내 드립니다!
+                회원님이 적립하신 포인트로 랜덤박스를 신청하시면 친환경 제품을 랜덤으로 보내 드립니다! <br />
+                랜덤박스는 회원님의 기본 배송지로 전달되며 신청 기준 4~5일이 소요 될 수 있습니다.
               </span>
             </div>
             <div className="product-table-wrapper">
@@ -176,7 +201,13 @@ const Reward = () => {
               </div>
               <RewardProductList />
             </div>
-            <Button key="submit" type="primary" size="default" className="productButton" onClick={() => showConfirm("Product")}>
+            <Button
+              key="submit"
+              type="primary"
+              size="default"
+              className="productButton"
+              disabled={productDisabled}
+              onClick={() => showConfirm("Product")}>
               랜덤박스 신청하기
               <p>-8000P</p>
             </Button>
@@ -185,8 +216,8 @@ const Reward = () => {
         <div className="rewardpage-donation">
           <div className="container-donation">
             <Row justify={"left"} align={"middle"}>
-            <h2>기부하기</h2>
-              <Col span={24} offset={10}>
+              <h2>기부하기</h2>
+              <Col span={24} offset={9}>
                 <div className="container-body-donation">
               <span>
                 회원님들의 기부하신 포인트를 모아 지원 내용을 검토해 캠페인 기부에 활용 됩니다.
@@ -199,18 +230,23 @@ const Reward = () => {
                 </div>
               </Col>
             </Row>
-            <Row>
-              <Col span={12} offset={6}>
-                <Image src={donationHeaderImg} alt={donationHeaderImg} />
-                <Button className="donationButton" size="default" type="primary" key="submit"
-                        onClick={() => showConfirm("Donation")}>
-                  <span style={{color:"white"}}>기부하기</span>
-                  <span style={{color:"white"}}>-1000P</span>
+            <Row gutter={24}>
+              <Col span={24} offset={15}>
+                <Image src={donationHeaderImg} alt={donationHeaderImg} className="justify-content-center" />
+                <Button
+                  key="submit"
+                  type="primary"
+                  size="default"
+                  className="donationButton"
+                  disabled={donationDisabled}
+                  onClick={() => showConfirm("Donation")}
+                >
+                  <p>기부하기 <br /> - 1000P</p>
                 </Button>
               </Col>
             </Row>
             <Row>
-              <Col span={24} offset={1}>
+              <Col span={24}>
                 <div className="container-donation-wrap">
                   <h2>기부처</h2>
                   <div className="donation-company">
@@ -223,6 +259,7 @@ const Reward = () => {
         </div>
       </div>
     </>
-  );
+  )
+    ;
 };
 export default Reward;
