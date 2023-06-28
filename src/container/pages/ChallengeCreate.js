@@ -8,6 +8,7 @@ import { BasicFormWrapper } from '../styled';
 import { Cards } from '../../components/cards/frame/cards-frame';
 import { getItem } from "../../utility/localStorageControl";
 import dayjs from "dayjs";
+import '../../static/css/ChallengeDetail.css';
 
 "dayjs";
 
@@ -19,7 +20,7 @@ function Redirect() {
 
 function ChallengeCreate({ visible, onCancel }) {
   const [form] = Form.useForm();
-
+  let memberNo = getItem('memberNo');
   const [state, setState] = useState({
     visible,
     modalType: 'primary',
@@ -159,7 +160,7 @@ function ChallengeCreate({ visible, onCancel }) {
       visible={state.visible}
       footer={[
         <div key="1" className="project-modal-footer">
-          <Button size="default" type="primary" key="submit" onClick={submitChallenge} >
+          <Button size="default" key="submit" onClick={submitChallenge} className="create-btn" >
             챌린지 만들기
           </Button>
           <Button size="default" type="white" key="back" outlined onClick={handleCancel}>
@@ -182,7 +183,7 @@ function ChallengeCreate({ visible, onCancel }) {
             </Form.Item>
             <Form.Item initialValue="" label="">
               {/*<Select style={{ width: '100%' }} onChange={blindCheck} name="blind">*/}
-                <Checkbox onClick={blindCheck} name="blind">비공개 챌린지</Checkbox>
+              {/*  <Checkbox onClick={blindCheck} name="blind">비공개 챌린지</Checkbox>*/}
               {/*</Select>*/}
             </Form.Item>
             <Form.Item label="챌린지소개"  >
@@ -190,7 +191,7 @@ function ChallengeCreate({ visible, onCancel }) {
             </Form.Item>
 
             <Form.Item name="personnel" label="챌린지 인원수*">
-              <Input placeholder="최소2명에서 10명까지 설정가능합니다" onChange={changeValue} name="personnel" />
+              <Input placeholder="챌린지원 인원수를 정해주세요 " onChange={changeValue} name="personnel" />
             </Form.Item>
             <Row gutter={15}>
               <Col md={12} xs={24}>
@@ -206,13 +207,13 @@ function ChallengeCreate({ visible, onCancel }) {
                 </Form.Item>
               </Col>
             </Row>
-            <Cards title="챌린지 사진" className="mb-25">
-              <div className="ninjadash_uploader-list">
-                <Dragger {...props}>
-                  <p className="ant-upload-text">사진을 업로드 해주세요!</p>
-                </Dragger>
-              </div>
-            </Cards>
+            {/*<Cards title="챌린지 사진" className="mb-25">*/}
+            {/*  <div className="ninjadash_uploader-list">*/}
+            {/*    <Dragger {...props}>*/}
+            {/*      <p className="ant-upload-text">사진을 업로드 해주세요!</p>*/}
+            {/*    </Dragger>*/}
+            {/*  </div>*/}
+            {/*</Cards>*/}
           </Form>
         </BasicFormWrapper>
       </div>
