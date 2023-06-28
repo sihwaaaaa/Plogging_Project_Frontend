@@ -75,7 +75,7 @@ function ForgotUserId() {
             </div>
             <div className="ninjadash-authentication-bottom">
               <p className="return-text">
-                로그인 하러가기 <Link to="/">로그인</Link>
+                로그인 하러가기 <Link to="/member/signin">로그인</Link>
               </p>
             </div>
           </Form>

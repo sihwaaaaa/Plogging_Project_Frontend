@@ -38,7 +38,9 @@ function FindId() {
               </p>
               <Form.Item>
                 <Button className="btn-reset" htmlType="submit" type="primary" size="large">
+                  <Link to='/member/signin'>
                   로그인 하러 가기
+                  </Link>
                 </Button>
               </Form.Item>
             </div>
