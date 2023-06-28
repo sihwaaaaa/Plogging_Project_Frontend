@@ -26,7 +26,6 @@ const MyBoardContent = ({ content }) => {
                   <li>
                     <span>글번호</span>
                     <span>제목</span>
-                    <span>내용</span>
                     <span>등록일자</span>
                     <span>카테고리</span>
                   </li>
@@ -36,7 +35,6 @@ const MyBoardContent = ({ content }) => {
                   <li>
                     <span>{data.bno}</span>
                     <span>{data.title}</span>
-                    <span>{data.content}</span>
                     <span>{data.regDate}</span>
                     <span>{data.category}</span>
                   </li>
@@ -50,7 +48,6 @@ const MyBoardContent = ({ content }) => {
                   <li>
                     <span>글번호</span>
                     <span>제목</span>
-                    <span>내용</span>
                     <span>등록일자</span>
                     <span>카테고리</span>
                   </li>
@@ -60,7 +57,6 @@ const MyBoardContent = ({ content }) => {
                 <li>
                     <span>{data.bno}</span>
                     <span>{data.title}</span>
-                    <span>{data.content}</span>
                     <span>{data.regDate}</span>
                     <span>{data.category}</span>
                 </li>
