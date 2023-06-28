@@ -114,7 +114,7 @@ const plogging = () => {
   };
   useEffect(() => {
     const interval = setInterval(() => {
-      geolocatioNav();
+      geolocationNav();
       console.log('셋 인터벌');
     }, 10000);
     return () => {
