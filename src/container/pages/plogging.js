@@ -97,8 +97,9 @@ const plogging = () => {
   const [longitude, setLongitude] = useState();
   const [isLocationLoad, setIsLocationLoad] = useState(false);
   //위치값 받아오기
+
   const geolocationNav = () => {
-    window.navigator.geolocation.getCurrentPosition(function (pos) {
+    window.navigator.geolocation.watchPosition(function (pos) {
       if (latitude != pos.coords.latitude) {
         setLatitude(pos.coords.latitude);
       }
@@ -108,13 +109,14 @@ const plogging = () => {
       if (!isLocationLoad) {
         setIsLocationLoad(true);
       }
+      console.log('get' + pos.coords.latitude, pos.coords.longitude);
     });
   };
   useEffect(() => {
     const interval = setInterval(() => {
-      geolocationNav();
+      geolocatioNav();
       console.log('셋 인터벌');
-    }, 10000 * 30);
+    }, 10000);
     return () => {
       clearInterval(interval);
     };
@@ -170,6 +172,8 @@ const plogging = () => {
   }
   useEffect(() => {
     geolocationNav();
+  }, []);
+  useEffect(() => {
     if (!map && isLocationLoad) {
       mapInit();
     } else if (map && !marker) {
