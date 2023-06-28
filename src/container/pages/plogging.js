@@ -242,7 +242,7 @@ const plogging = () => {
               <KnowledgebaseTopWrap>
                 <div className="ninjadash-knowledgetop">
                   <div className="searchText">
-                    <h3 onClick={() => navigate('startPage/', { state: mapList })}>추천경로</h3>
+                    <h3>추천경로</h3>
                     <UilLocationPinAlt className="mapPin" />
                   </div>
                   <div className="ninjadash-knowledgetop__search--form">
@@ -300,9 +300,6 @@ const plogging = () => {
               <div key={maps.mapNo} ref={maps.mapNo % 5 == 0 ? watch : null}>
                 <CourseCardWrap className="ninjadash-course-card-single">
                   <Card bordered={false}>
-                    <div className="ninjadash-course-card-thumbnail">
-                      <img src={''} alt="ninjaDash" />
-                    </div>
                     <div
                       className="ninjadash-course-card-content"
                       onClick={() => showModal('primary', maps, 'mapList/' + maps.mapNo)}
