@@ -110,6 +110,7 @@ const plogging = () => {
         setIsLocationLoad(true);
       }
       console.log('get' + pos.coords.latitude, pos.coords.longitude);
+      // location.reload();
     });
   };
   useEffect(() => {
@@ -172,14 +173,17 @@ const plogging = () => {
   }
   useEffect(() => {
     geolocationNav();
+    console.log('초기좌표로딩');
   }, []);
+
   useEffect(() => {
     if (!map && isLocationLoad) {
       mapInit();
     } else if (map && !marker) {
       markerInit();
     }
-  }, [isLocationLoad, map]);
+    console.log(map);
+  }, [latitude, longitude, map]);
   // 위치감지 마커변경
   useEffect(() => {
     console.log(marker);
@@ -197,17 +201,17 @@ const plogging = () => {
   };
 
   const searchMapRoute = () => {
+    setMapList([]);
     if (keyword === '') {
-      setMapList([]);
       setPage(0);
       loadMapList();
       setSetResult(false);
     } else {
       DataService.get(`/plogging/search?keyword=${keyword}`).then((response) => {
-        if (!response.data.data) {
-          setMapList([]);
+        if (!response.data.data[0]) {
           setSearchResult(true);
         } else {
+          setSearchResult(false);
           setSetResult(true);
           setMapList(response.data.data);
         }
@@ -388,6 +392,15 @@ const plogging = () => {
             </div>
           </div>
         </Modal>
+        {!map && (
+          <div style={{ paddingRight: '0' }} className="mapEmpty">
+            <div className="mapEmptyBox">
+              <div className="plogginglogo"></div>
+              <h1>로딩중...</h1>
+              <h6>*로딩이 오래걸리면 새로고침을 해주세요</h6>
+            </div>
+          </div>
+        )}
 
         <div style={{ paddingRight: '0' }} className="map">
           <div id="map_div"></div>

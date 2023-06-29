@@ -125,7 +125,8 @@ const mapList = () => {
   };
   //스프링 데이터 전송
   const createPlogging = (data) => {
-    DataService.put('/plogging/startPage', data).then(function (response) {
+    DataService.put('/plogging/startPage', { data }).then(function (response) {
+      console.log(response);
       navigate('/board/register', {
         state: {
           isUpdate: false,
@@ -738,6 +739,15 @@ const mapList = () => {
               </div>
             </Modal>
           </div>
+          {!map && (
+            <div style={{ paddingRight: '0' }} className="mapEmpty">
+              <div className="mapEmptyBox">
+                <div className="plogginglogo"></div>
+                <h1>로딩중...</h1>
+                <h6>*로딩이 오래걸리면 새로고침을 해주세요</h6>
+              </div>
+            </div>
+          )}
           <div style={{ paddingRight: '0' }} className="map">
             <div id="map_wrap" className="map_wrap">
               <div id="map_div"></div>
