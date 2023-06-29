@@ -121,7 +121,7 @@ const UserCards = (props) => {
     dispatch(() => history(`/profile/${memberNo}/passwordEdit`))
   }
   const handleMemberExit = () => {
-    dispatch(() => history("passwordEdit"))
+    dispatch(() => history(`/profile/${memberNo}/secession`))
   }
 
 

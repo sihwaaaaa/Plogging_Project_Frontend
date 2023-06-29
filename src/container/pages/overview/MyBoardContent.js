@@ -21,7 +21,7 @@ const MyBoardContent = ({ content }) => {
           key: id,
           // tabKey: smallTab,
           children: (smallTab == 1 ?
-            (<div className='challenge-endlist'>
+            (<div className='board-plogging'>
                 <ul>
                   <li>
                     <span>글번호</span>
@@ -43,7 +43,7 @@ const MyBoardContent = ({ content }) => {
               </ul>
             </div>
             ) : (
-              <div className='challenge-endlist'>
+              <div className='board-community'>
                 <ul>
                   <li>
                     <span>글번호</span>

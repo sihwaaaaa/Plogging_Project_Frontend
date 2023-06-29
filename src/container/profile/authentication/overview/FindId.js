@@ -34,7 +34,7 @@ function FindId() {
             </div>
             <div className="ninjadash-authentication-content">
               <p className="forgot-text">
-               <h2>당신의 아이디는 {userId} 입니다.</h2>
+               <h4>당신의 아이디는 {userId} 입니다.</h4>
               </p>
               <Form.Item>
                 <Button className="btn-reset" htmlType="submit" type="primary" size="large">

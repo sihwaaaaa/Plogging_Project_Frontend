@@ -1,33 +1,27 @@
 
 import React, { useEffect, useState } from 'react';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { DataService } from '../../../config/dataService/dataService';
 import { Button, Col, Form, Input, Row } from 'antd';
-import { useDispatch } from 'react-redux';
+// import { response } from 'express';
 
-const PasswordEdit = () => {
+const SecessMember = () => {
 
-
-  const dispatch = useDispatch();
-  const history = useNavigate();
-  const location = useLocation();
 
   const memberNo = location.pathname.split('/')[2];
 
   const [originPass, setOriginPass] = useState('');
-  const [newPass, setNewPass] = useState('');
   const [confirmPass, setConfirmPass] = useState('');
   const [isMatch, setIsMatch] = useState(false);
 
   const handleOrigin = (e) => {
     setOriginPass(e.target.value);
   }
-  const handleNew = (e) => {
-    setNewPass( e.target.value);
-  }
   const handleConfirmNew = (e) => {
     setConfirmPass( e.target.value);
   }
+
+  const [no, setNo] = useState();
 
   const validatePassword = async (values) => {
 
@@ -36,26 +30,40 @@ const PasswordEdit = () => {
       return false;
     }
 
-    await DataService.editPassword(`/profile/${memberNo}/passwordEdit`, values)
+    await DataService.deleteMember(`/profile/${memberNo}/secession`, values)
       .then((res) => {
         console.log(res);
-        if (res.data.data != null) {
-          setIsMatch(true);
-          alert("비밀번호 재설정을 완료하였습니다.");
-          dispatch(() => history(`/profile/${memberNo}`));
-        } else {
+        if (res.data.error != null) {
           setIsMatch(false);
+        } else {
+          setIsMatch(true);
         }
       })
   }
 
 
+  useEffect(() => {
+    DataService.get(`/profile/${memberNo}/secession`)
+      .then((res) => {
+        if (res.data.data != null) {
+          console.log(res.data.data.memberNo);
+          setNo(res.data.data.memberNo);
+        }
+      }).catch((res) => {
+        alert("오류 발견");
+      })
+  })
+
   return (
     <Row justify="center">
       <Col xxl={8} xl={12} md={12} sm={18} xs={24}>
-    <Form name='passwordEdit' onFinish={validatePassword}>
+        <Form name='passwordEdit' onFinish={validatePassword}>
+          <Form.Item>
+            <Input type='hidden' name='memberNo'/>
+        </Form.Item>
       <Form.Item
         label="기존 비밀번호"
+        name="password"    
         htmlFor=''
         rules={[
           {
@@ -76,27 +84,6 @@ const PasswordEdit = () => {
         <Input.Password name='ddd' onChange={handleOrigin} placeholder="기존 비밀번호를 입력하세요" />
       </Form.Item>
       <Form.Item
-        label="새로운 비밀번호"
-        name="password"
-        rules={[
-          {
-            validateTrigger: true,
-            required: true,
-            min: 8,
-            max: 20,
-            pattern: /^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{8,}$/,
-            message: '대소문자, 특수문자, 숫자 포함 8 ~ 20자리여야 합니다',
-          },
-          {
-            required: true,
-            validator: newPass.length === 0,
-            validateTrigger: true,
-            message: '비어 있습니다.',
-          },
-        ]}>
-        <Input.Password onChange={handleNew} placeholder="비밀번호를 입력하세요" />
-      </Form.Item>
-      <Form.Item
         label="비밀번호 재확인"
         rules={[
           {
@@ -114,7 +101,7 @@ const PasswordEdit = () => {
             message: '비어 있습니다.',
           },
           {
-            validator: newPass != confirmPass,
+            validator: originPass != confirmPass,
             validateTrigger: true,
             message: '새로운 비밀번호와 일치하지 않습니다.',
           }
@@ -141,4 +128,4 @@ const PasswordEdit = () => {
   );
 };
 
-export default PasswordEdit;
+export default SecessMember;

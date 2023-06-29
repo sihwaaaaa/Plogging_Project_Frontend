@@ -11,16 +11,6 @@ function ForgotPassword() {
 
   const [isSend, setIsSend] = useState(false);
 
-  // const [userId, setUserId] = useState('');
-  // const [email, setEmail] = useState('');
-  // const [userName, setUserName] = useState('');
-
-  let data = useForm();
-
-  const handleChange = (e) => {
-    setState(() => e.target.value);
-  }
-
   const [state, setState] = useState({
     values: null
   });
@@ -98,7 +88,7 @@ function ForgotPassword() {
         <Col xxl={6} xl={8} md={12} sm={18} xs={24}>
           <AuthFormWrap>
             <div className="ninjadash-authentication-content">
-              <h2>{state.email}로 성공적으로 이메일을 발송했습니다. 본인 이메일을 통해서 비밀번호를 재설정해주세요</h2>
+              <h4>{state.email}로 성공적으로 이메일을 발송했습니다. 본인 이메일을 통해서 비밀번호를 재설정해주세요</h4>
             </div>
         </AuthFormWrap>
         </Col>

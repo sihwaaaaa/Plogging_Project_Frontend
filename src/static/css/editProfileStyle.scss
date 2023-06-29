@@ -1,6 +1,7 @@
 .image-intro {
   display: flex;
   padding: 0 5px;
+  
   .card-image {
 
     display: flex;
@@ -9,7 +10,7 @@
   div {
     display: flex;
     textarea {
-      width: 400px;
+      // width: 800px;
       height: 160px;
       resize: none;
     }

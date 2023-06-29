@@ -243,16 +243,13 @@ function EditProfile() {
                     initialValue={state.userId} >
                 <Input type='hidden' />
               </Form.Item>
-              <div className='image-intro'>
-                <div className="card-image">
-                  <img src={img1} alt='뱃지 이미지'/>
-                </div>
-                <div>
-                  
+              <div className='image-intro' >
+                <div>   
                   <Form.Item
                     name="intro"
+                    label="자기소개서"
                      >
-                    <Input.TextArea onChange={onIntroChange} rows={3} defaultValue={state.intro}  placeholder='자기소개를 입력하세요' />
+                    <Input.TextArea onChange={onIntroChange} cols={700} defaultValue={state.intro}  placeholder='자기소개를 입력하세요' />
                   </Form.Item>
                 </div>
               </div>
