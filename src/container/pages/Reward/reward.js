@@ -35,6 +35,11 @@ const Reward = () => {
     });
   }, []);
 
+  /**
+   * @Author 이재원
+   * @Date 23.06.29
+   * @Brief 기부하기 기능
+   */
   const createDonation = () => {
     fetch("http://localhost:8080/history/Donation", {
       method: "POST",
@@ -53,6 +58,11 @@ const Reward = () => {
   };
 
 
+  /**
+   * @Author 이재원
+   * @Date 23.06.29
+   * @Brief 랜덤박스 신청
+   */
   const createProduct = () => {
     fetch("http://localhost:8080/history/Product", {
       method: "POST",
@@ -69,6 +79,11 @@ const Reward = () => {
     }));
   };
 
+  /**
+   * @Author 이재원
+   * @Date 23.06.29
+   * @Brief 회원의 등급, 누적포인트 조회
+   */
   useEffect(() => {
     DataService.get("/history/rank/badge/" + memberNo)
       .then(function(response) {
@@ -78,6 +93,11 @@ const Reward = () => {
       });
   }, []);
 
+  /**
+   * @Author 이재원
+   * @Date 23.06.29
+   * @Brief 회원의 기부한 포인트 조회
+   */
   useEffect(() => {
     DataService.get("/history/donationPoint/" + memberNo)
       .then(function(response) {
@@ -86,6 +106,12 @@ const Reward = () => {
       });
   }, []);
 
+  /**
+   * @Author 이재원
+   * @Date 23.06.29
+   * @Brief 회원의 현재 포인트를 활용하여 기부하기 버튼이나
+   * @Brief 랜덤박스 신청 버튼을 활성화 및 비활성화
+   */
   useEffect(() => {
     DataService.get("/history/currentPoint/" + memberNo)
       .then(function(response) {
@@ -181,7 +207,7 @@ const Reward = () => {
         </div>
         <div className="rewardpage-rank">
           <Row>
-            <Col xxl={17} xs={24} span={14} offset={3} style={{ marginTop: 20 }}>
+            <Col xxl={17} xs={24} span={12} offset={3} style={{ marginTop: 20, display:"flex" }}>
               <RankList />
             </Col>
           </Row>

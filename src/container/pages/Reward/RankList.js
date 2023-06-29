@@ -30,6 +30,11 @@ const RankList = (props) => {
       key: "badgeName"
     }
   ];
+  /**
+   * @Author 이재원
+   * @Date 23.06.29
+   * @Brief 전체 회원의 랭킹, 아이디, 누적포인트, 등급을 조회
+   */
   const [rankingList, setRankingList] = useState([]);
   console.log("props test : " + props);
   useEffect(() => {
