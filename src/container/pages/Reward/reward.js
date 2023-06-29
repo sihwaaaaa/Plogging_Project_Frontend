@@ -130,6 +130,7 @@ const Reward = () => {
         setProductDisabled(false);
       } else {
         setProductDisabled(true);
+
       }
     });
   }, []);
@@ -234,8 +235,8 @@ const Reward = () => {
               className="productButton"
               disabled={productDisabled}
               onClick={() => showConfirm("Product")}>
-              랜덤박스 신청하기
-              <p>-8000P</p>
+              {productDisabled ? <span>회원님의 포인트가 부족합니다. <br /> 필요한 포인트는 8000P 입니다.</span> : '랜덤박스 신청하기'}
+              {productDisabled ? "" : <p>-8000P</p>}
             </Button>
           </div>
         </div>
@@ -267,7 +268,7 @@ const Reward = () => {
                   disabled={donationDisabled}
                   onClick={() => showConfirm("Donation")}
                 >
-                  <p>기부하기 <br /> - 1000P</p>
+                  {donationDisabled ? <p>회원님의 포인트가 부족합니다 <br /> 필요한 포인트는 1000P 입니다</p> : <p>기부하기 <br /> - 1000P</p>}
                 </Button>
               </Col>
             </Row>
