@@ -201,6 +201,7 @@
 
 .chSchedule .scheduleForm .scheduleDetail {
     margin-left: 30px;
+    cursor: pointer;
 }
 
 .chSchedule .scheduleForm .chParticipation{
@@ -298,9 +299,31 @@
 .ninjadash-course-card-single{
     width: 550px;
 }
+/* 챌린지 맴버 리스트 */
+.listBox{
+    padding-top: 120px;
+    margin: 0 auto;
+    width: 80%;
+    border-bottom: 2px solid #227C9D;
+}
+.memberList-icon{
+    background: none;
+    color: #227C9D;
+}
+.listBox h2{
+    padding-left: 20px;
+    padding-bottom: 10px;
+    color: #227C9D;
+    border-bottom: 2px solid #227C9D;
+}
+.listBox .memberIcon{
+    /*border: 1px solid black;*/
+    width: 80px;
+}
 
 /* 기타 */
 .create-btn {
     background-color: #227C9D;
     color: white;
 }
+

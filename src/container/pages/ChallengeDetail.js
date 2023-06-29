@@ -1,14 +1,15 @@
 import React, { useContext, useEffect, useState } from "react";
+import '../../static/css/ChallengeDetail.css';
 import ploggingImage from '../../static/img/plologo1.jpeg';
 import ploggingImage3 from '../../static/img/ploggingImage3.png';
-import '../../static/css/ChallengeDetail.css';
+import ploggingImage2 from '../../static/img/줍깅로고-removebg-preview.png';
 import { AvatarWraperStyle } from "../ui-elements/ui-elements-styled";
 import { Avatar } from "antd";
 import {
   UilAngleRight,
   UilCalender,
   UilGrin, UilListUiAlt, UilSick,
-  UilTrees
+  UilTrees, UilUserNurse
 } from "@iconscout/react-unicons";
 import UilUsersAlt from "@iconscout/react-unicons/icons/uil-users-alt";
 import UilArrowDown from "@iconscout/react-unicons/icons/uil-arrow-down";
@@ -19,6 +20,7 @@ import { getItem } from "../../utility/localStorageControl";
 import { Button } from "../../components/buttons/buttons";
 import UilPlus from "@iconscout/react-unicons/icons/uil-plus";
 import { useSelector } from "react-redux";
+import UilSmile from "@iconscout/react-unicons/icons/uil-smile";
 
 
 
@@ -28,7 +30,8 @@ const ChallengeDetail = () => {
   let chNo = params.id;
   let memberNo = getItem('memberNo');
 
-  const navigate = useNavigate();
+    const navigate = useNavigate();
+
   const [route, setRoute] = useState({});
 
   const [state, setState] = useState({
@@ -55,7 +58,8 @@ const ChallengeDetail = () => {
     challengers:[],
     challengeMemberCnt:'',
   });
-  // console.log("challenge : " ,  challenge);
+  let challengers = challenge.challengers.filter(c => c)
+
 
   // 챌린지 맴버리스트 조회
   const [chMemberList, setChMemberList] = useState({
@@ -64,6 +68,7 @@ const ChallengeDetail = () => {
     challenger:'',
     regDate:'',
   })
+  console.log("chMemberList : " , chMemberList)
   // 챌린지 가입
   const [chMember, setChMember] =useState({
     chNo:'',
@@ -88,6 +93,11 @@ const ChallengeDetail = () => {
     scheduleNo:"",
     chNo:"",
   }])
+  let schNo = challengeScheduleList.filter((c)=> c.scheduleNo);
+  let schMemberList = scheduleMembers.filter((c)=> {
+    return schNo.includes(c.scheduleNo)
+  })
+  console.log("schMemberList : " , schMemberList)
 
   let dayWeekTransForm = challengeScheduleList.map((c) => {
     let startDate = new Date(c.startDate);
@@ -200,6 +210,10 @@ const ChallengeDetail = () => {
   let schMembers = scheduleMembers.map((c)=> c.challenger);
   console.log("scheduleMembers : " , scheduleMembers.map((c)=> c.challenger) );
 
+  let endDateTime = challenge.endDate;
+  let endDay = new Date(endDateTime)
+  let nowDay = new Date()
+  console.log("endDateTime : " , endDay < nowDay)
 
   // 플로깅가입
   const challengeJoin = (e) => {
@@ -214,6 +228,9 @@ const ChallengeDetail = () => {
       return false;
     } else if(memberNo === undefined){
       window.alert("로그인후 가입해주세요 ")
+      return false;
+    } else if(endDay < nowDay === true){
+      window.alert("종료된 챌린지 입니다 ")
       return false;
     } else{
       window.alert("챌린지 가입이 완료되었습니다")
@@ -254,6 +271,8 @@ const ChallengeDetail = () => {
   console.log("loginNo : ", memberNo); // 현재 로그인한 회원번호
   console.log("challengeSchNo : ", scheduleNo); // 스케쥴번호 필요
 console.log("challengeScheduleList : " , challengeScheduleList)
+
+
   const scheduleJoin = (e,scheduleNo) => {
     e.preventDefault(); // submit이 action을 안타고 자기 할일을 그만함
     const confirmed = window.confirm("일정에 참여하시겠습니까 ?")
@@ -268,6 +287,7 @@ console.log("challengeScheduleList : " , challengeScheduleList)
         chNo
       };
       console.log(schObj);
+
       fetch("http://localhost:8080/scheduleJoin",{
         method:"POST",
         headers: {
@@ -309,17 +329,18 @@ console.log("challengeScheduleList : " , challengeScheduleList)
           </AvatarWraperStyle>
         </div>
         <div className="image-title">
-          <img src={ploggingImage} alt="Logo" className="challengeImage" />
-          <div className="chImageTitle">
+            <img src={ploggingImage} alt="Logo" className="challengeImage" />
+            <div className="chImageTitle">
             <p1>Challenge Plogging <br/> </p1>
             <h1>아름다운 지구지키기 <br/> '플로깅'</h1>
             <p2>건강한 지구를 위해 플로깅을 <br /> 동참해주셔서 감사드립니다</p2>
-          </div>
+            </div>
         </div>
 
         <div className="chHeader">
           <AvatarWraperStyle>
-            <span><Avatar icon={< UilGrin />} className="chHeader-icon" />[공식 챌린지]</span>
+            {endDay < nowDay === true && <span style={ {color:"red"} }><Avatar icon={< UilGrin />} className="chHeader-icon" />[종료된 챌린지]</span>}
+            {endDay < nowDay === false && <span><Avatar icon={< UilGrin />} className="chHeader-icon" />[공식 챌린지]</span>}
             <span> {challenge.title} </span>
             {challenge.memberNo === memberNo && <button type="submit" className="delete-bt"> 챌린지 삭제하기 </button>}
             {challenge.memberNo !== memberNo && <button type="submit" className="signup-bt" onClick={challengeJoin}> 챌린지 가입하기 </button>}
@@ -375,13 +396,12 @@ console.log("challengeScheduleList : " , challengeScheduleList)
                 </ul>
                 <div className="scheduleDetail">
                   <p>{formattedDate}</p>
-                  {route && <p onClick={() => navigate('/plogging/mapList/'+`${route.mapNo}`, { state: route })}>{route.courseName}</p>}
+                  {route && <p onClick={() =>
+                    navigate('/plogging/mapList/'+`${route.mapNo}`, { state: route })}>{route.courseName}</p>}
                 </div>
                 <div className="Participation" >
                     <button type="submit" className="chParticipation" key={chinfo.scheduleNo}
                            onClick={(e) => scheduleJoin(e, chinfo.scheduleNo)}> + 일정참여</button>
-                    {/*<button type="submit" className="chParticipation"*/}
-                    {/*onClick={scheduleCancle}> 참여취소</button>*/}
                   {challenge.memberNo === memberNo && <button type="submit" className="chscDelete"> + 일정삭제</button>}
                 </div>
               </div>
@@ -396,6 +416,14 @@ console.log("challengeScheduleList : " , challengeScheduleList)
             <span> + 플로깅 일정추가 </span>
           </Button>}
           {/*<button type="submit" className="scheduleButton"> + 플로깅 일정추가 </button>*/}
+        </div>
+
+        <div className="listBox">
+          <h2><Avatar icon={< UilUsersAlt />} className="memberList-icon" /> 챌린지 회원리스트 총 {challenge.challengeMemberCnt} 명</h2>
+          {challenge.challengers.map((c)=>  (<div className="memberList">
+            <img src={ploggingImage2} alt="Logo" className="memberIcon" />
+            <span>{c}번 회원<Avatar icon={< UilSmile />} className="memberList-icon" /> </span>
+          </div>))}
         </div>
 
         <div className="precautions">

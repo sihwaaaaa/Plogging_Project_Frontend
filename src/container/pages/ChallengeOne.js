@@ -32,7 +32,6 @@ function ChallengeList(props) {
 
   return (
     <>
-
       <div className="sliderWrapper">
         <div className="mapWrapper">
           <img src={ploggingImage} alt="Logo" className="ploImage" />
@@ -40,7 +39,7 @@ function ChallengeList(props) {
             <Link to={url}>
               <div className="challengeInfo">
                 <h4>{challengeOne.challenge.title}</h4>
-                {/*<span>{challengeOne.challenge.content}</span>*/}
+                <span>{challengeOne.challenge.content}</span>
                 <span>{challengeOne.challenge.startDate}</span>
               </div>
             </Link>
