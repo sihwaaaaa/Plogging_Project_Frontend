@@ -237,7 +237,7 @@ const Reward = () => {
             </div>
             <div className="product-table-wrapper">
               <div className="container-product-wrapper">
-                <h3>랜덤박스 구성품</h3>
+                <h3>랜덤박스 구성품  (회원님의 현재 포인트는 {currentPoint}P 입니다)</h3>
               </div>
               <RewardProductList />
             </div>
@@ -257,14 +257,14 @@ const Reward = () => {
           <div className="container-donation">
             <Row justify={"left"} align={"middle"}>
               <h2>기부하기</h2>
-              <Col span={24} offset={9}>
+              <Col span={24} offset={6}>
                 <div className="container-body-donation">
               <span>
                 회원님들의 기부하신 포인트를 모아 지원 내용을 검토해 캠페인 기부에 활용 됩니다.
               </span>
                   <div className="useDonation">
               <span>
-                현재 회원님의 기부하신 포인트는 {donationPoint * -1}P 입니다
+                회원님의 사용 가능한 포인트는 {currentPoint}P 이며 지금까지 기부하신 포인트는 {donationPoint * -1}P 입니다
               </span>
                   </div>
                 </div>
