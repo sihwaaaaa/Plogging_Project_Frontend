@@ -17,6 +17,7 @@ import donationImg from "../../../static/img/pages/rewardImg/donation.png";
 import donationHeaderImg from "../../../static/img/pages/rewardImg/donation-header.png";
 import arrowRightImg from "../../../static/img/pages/rewardImg/arrow-right.png";
 import { alertModal } from "../../../components/modals/antd-modals";
+import { isSuccess } from "auth0-lock/lib/sync";
 
 const Reward = () => {
   const [rewardList, setRewardList] = useState([]);
@@ -44,19 +45,25 @@ const Reward = () => {
     fetch("http://localhost:8080/history/Donation", {
       method: "POST",
       headers: {
-        "Content-type": "application/json; charset=utf-8", Authorization: `Bearer ${getItem("ACCESS_TOKEN")}`
+        "Content-type": "application/json; charset=utf-8",
+        Authorization: `Bearer ${getItem("ACCESS_TOKEN")}`
       },
       body: JSON.stringify({
         memberNo: memberNo,
         type: "Donation",
         point: -1000
       })
-    }).then(() => alertModal.success({
-      title: "기부가 성공적으로 처리 되었습니다",
-      content: "기부를 해주셔서 감사합니다"
-    }));
+    })
+      .then(() => {
+        alertModal.success({
+          title: "기부가 성공적으로 처리 되었습니다",
+          content: "기부 해주셔서 감사합니다",
+          onOk() {
+            location.reload();
+          }
+        });
+      });
   };
-
 
   /**
    * @Author 이재원
@@ -67,16 +74,23 @@ const Reward = () => {
     fetch("http://localhost:8080/history/Product", {
       method: "POST",
       headers: {
-        "Content-type": "application/json; charset=utf-8", Authorization: `Bearer ${getItem("ACCESS_TOKEN")}`
+        "Content-type": "application/json; charset=utf-8",
+        Authorization: `Bearer ${getItem("ACCESS_TOKEN")}`
       },
       body: JSON.stringify({
         memberNo: memberNo,
         type: "Product",
         point: -8000
       })
-    }).then(() => alertModal.success({
-      title: "랜덤박스 신청이 성공적으로 처리 되었습니다"
-    }));
+    })
+      .then(() => {
+        alertModal.success({
+          title: "랜덤박스 신청이 성공적으로 처리 되었습니다",
+          onOk() {
+            location.reload();
+          }
+        });
+      });
   };
 
   /**
@@ -89,7 +103,7 @@ const Reward = () => {
       .then(function(response) {
         setMyRank(response.data);
         console.log("data badge : ", response.data);
-        console.log("reward data badgeNo : ", response.data.badgeNo)
+        console.log("reward data badgeNo : ", response.data.badgeNo);
       });
   }, []);
 
@@ -121,7 +135,6 @@ const Reward = () => {
       }).then((data) => {
       console.log("data : ", data);
       if (data >= 1000) {
-        console.log("data >= 1000: ", data);
         setDonationDisabled(false);
       } else {
         setDonationDisabled(true);
@@ -130,18 +143,18 @@ const Reward = () => {
         setProductDisabled(false);
       } else {
         setProductDisabled(true);
-
       }
     });
-  }, []);
+  });
 
 
   const showConfirm = (type) => {
     alertModal.confirm({
       title: type === "Product" ? "랜덤박스 신청을 하시겠습니까?" : "기부를 하시겠습니까?",
       content: type === "Product" ? "신청을 하시면 회원님의 8000포인트가 차감 됩니다." : "기부하시면 회원님의 1000포인트가 차감 됩니다",
+      okText: type === "Product" ? "신청" : "기부",
+      cancelText: "취소",
       onOk() {
-        console.log("ok 누름");
         type === "Product" ? createProduct() : createDonation();
       },
       onCancel() {
@@ -208,7 +221,7 @@ const Reward = () => {
         </div>
         <div className="rewardpage-rank">
           <Row>
-            <Col xxl={17} xs={24} span={12} offset={3} style={{ marginTop: 20, display:"flex" }}>
+            <Col xxl={17} xs={24} span={12} offset={3} style={{ marginTop: 20, display: "flex" }}>
               <RankList />
             </Col>
           </Row>
@@ -235,7 +248,7 @@ const Reward = () => {
               className="productButton"
               disabled={productDisabled}
               onClick={() => showConfirm("Product")}>
-              {productDisabled ? <span>회원님의 포인트가 부족합니다. <br /> 필요한 포인트는 8000P 입니다.</span> : '랜덤박스 신청하기'}
+              {productDisabled ? <span>회원님의 포인트가 부족합니다. <br /> 필요한 포인트는 8000P 입니다.</span> : "랜덤박스 신청하기"}
               {productDisabled ? "" : <p>-8000P</p>}
             </Button>
           </div>
@@ -261,7 +274,6 @@ const Reward = () => {
               <Col span={24} offset={15}>
                 <Image src={donationHeaderImg} alt={donationHeaderImg} className="justify-content-center" />
                 <Button
-                  key="submit"
                   type="primary"
                   size="default"
                   className="donationButton"
