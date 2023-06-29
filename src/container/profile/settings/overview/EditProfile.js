@@ -245,12 +245,10 @@ function EditProfile() {
               </Form.Item>
               <div className='image-intro' >
                 <div>   
-                  <Form.Item
-                    name="intro"
-                    label="자기소개서"
-                     >
-                    <Input.TextArea onChange={onIntroChange} cols={700} defaultValue={state.intro}  placeholder='자기소개를 입력하세요' />
-                  </Form.Item>
+                  <label htmlFor='intro'>자기소개</label>
+                </div>
+                <div>
+                  <textarea name='intro' onChange={onIntroChange} cols={700} defaultValue={state.intro}  placeholder='자기소개를 입력하세요' />
                 </div>
               </div>
               <div className='essential-form'>

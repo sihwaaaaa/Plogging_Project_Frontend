@@ -9,7 +9,7 @@ import { Link, NavLink, Route, Routes } from 'react-router-dom';
 const TabComponent = ({challenge, plogging, board, point}) => {
 
   const TabMenu = styled.ul`
-    background-color: #dcdcdc;
+    background-color: #17C382;
     color: rgb(232, 234, 237);
     font-weight: bold;
     display: flex;
@@ -19,21 +19,29 @@ const TabComponent = ({challenge, plogging, board, point}) => {
     margin-bottom: 7rem;
     margin-top: 10px;
     cursor: pointer;
+    border-radius: 10px 10px 0px 0px;
     .submenu {
       display: flex;
       /* justify-content: space-between;
       width: 380px;
       heigth: 30px; */
-      width: calc(100% /3);
+      width: calc(100% /3);      
       padding: 10px;
       font-size: 15px;
       transition: 0.5s;
       border-radius: 10px 10px 0px 0px;
+      color: black;
+      :hover {
+        transform: scale(1.08);
+      }
     }
-
+    
     .focused {
-      background-color: rgb(255,255,255);
+      transition-property: none;
+      background-color: #FFCB77;
       color: rgb(21,20,20);
+      transform: scale(1.04);
+      
     }
 
     & div.desc {

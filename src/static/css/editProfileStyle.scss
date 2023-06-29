@@ -1,27 +1,29 @@
 .image-intro {
-  display: flex;
+  margin: 0 auto;
   padding: 0 5px;
   
-  .card-image {
-
-    display: flex;
-  }
-
+  
   div {
     display: flex;
+    label {
+      font-size: 16px;
+      padding: 5px;
+    }
     textarea {
-      // width: 800px;
-      height: 160px;
+      display: flex; 
+      margin: 0 auto;
+      width: 912px;
+      min-height: 160px;
+      font-size: large;
       resize: none;
     }
-    label {
-      padding-left: 10px;
-    }
-
     &:last-child{
       margin: 0 auto;
       padding: 0 5px;
     }
+  }
+  .card-image {
+    display: flex;
   }
 }
 
@@ -38,7 +40,6 @@
   div {
     float: left;
     margin-right: 10px;
-    
   }
 }
 
