@@ -1,15 +1,18 @@
 
 
 /******* 챌린지 ********/
+.bottom-content {
+  background-color: #FEF9EF;
+}
+
+
 
 // 참여중인 챌린지 리스트 스타일
 
 .current-challenge {
   > div {
-
     float: left;
     padding: 20px;
-    
   }
   
   .description > div:nth-child(1){
@@ -27,6 +30,133 @@
   }
 
 
+  .challenge-img img{
+    width: 240px;
+    height: 240px;
+  }
+}
+
+
+
+// 참여했던 챌린지 리스트 스타일
+.challenge-endlist {
+
+  display: block;
+  ul:first-child {
+    @media only screen and (max-width: 1154px) {
+      float: left;
+      width: 100%;
+      font-size: 18px;
+      padding: 0 20px;
+    }
+    @media only screen and (max-width: 975px) {
+      width: 100%;
+      font-size: 11.5px;
+    }
+    font-size: 22px;
+    margin: 0;
+    li{
+      display: flex;
+      justify-content: center;
+      border-top: 2px solid gray;
+      border-bottom: 2px solid gray;
+      span {
+        text-align: center;
+        float: left;
+        padding: 0 48px;
+        @media only screen and (max-width: 840px) {
+          float: left;
+          width: 100%;
+          padding: 0 0;
+        }
+        
+      }
+    }
+  }
+  ul:last-child{
+    display: block;
+    text-align: left;
+    margin: 0 auto;
+    font-size: 1.1em;
+    @media only screen and (max-width: 1154px) {
+      float: left;
+      width: 100%;
+      font-size: 14.5px;
+      padding: 0 20px;
+    }
+    @media only screen and (max-width: 1154px) {
+      float: left;
+      width: 100%;
+      font-size: 14.5px;
+      padding: 0 10px;
+    }
+    li{
+      display: flex;
+      justify-content: left;
+      padding: 10px 0px;
+      span{
+        width: 20%;
+
+        &:first-child{
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+        }
+      
+        &:nth-child(1) {
+          text-align: left;
+          padding: 0 20px;
+          justify-content: center;
+          overflow: hidden;
+          white-space: normal;
+          text-overflow: ellipsis  ;
+
+        &:last-child {
+          float: right;
+          padding:0 20px;
+          @media only screen and (max-width: 840px) {
+            float: left;
+            width: 100%;
+            font-size: 10px;
+            padding: 0 20px;
+          }
+        }
+          
+          @media only screen and (max-width: 840px) {
+            float: left;
+            width: 100%;
+            font-size: 10px;
+            padding: 0 20px;
+          }
+
+
+        }
+      }
+    }
+  }
+
+}
+// 참여중인 챌린지 리스트 스타일
+
+.plogging-favorites {
+  > div {
+
+    float: left;
+    padding: 20px;
+    
+  }
+  .description > div:nth-child(1){
+    span {
+      &:last-child{
+        float: right;
+      }
+    }
+  }
+  .description > div:nth-child(2){
+    span {
+      float: right;
+    }
+  }
   .challenge-img > img{
     width: 240px;
     height: 150px;
@@ -36,12 +166,13 @@
 
 
 // 참여했던 챌린지 리스트 스타일
-.challenge-endlist {
+.plogging-history {
   display: block;
   ul:first-child {
     font-size: 22px;
     border-top: 2px solid gray;
     border-bottom: 2px solid gray;
+    padding: 0 10px;
     margin: 0;
     li{
       border-bottom: 1px solid gray;
@@ -49,33 +180,151 @@
       span {
         text-align: center;
         float: left;
-        padding: 0 50px;
+        padding: 0 65px;
       }
     }
   }
   ul:last-child{
     display: block;
-    text-align: left;
     margin: 0 auto;
-    font-size: 1.1em;
-    li:nth-child(n){
-      padding: 10px 0;
+    // padding: 0 px;
+    font-size: 1.2em;
+    // border-bottom: 2px solid gray;
+    
+    li:nth-child(n+1){
+      padding: 10px 25px;
+      // border-top: 1px solid gray;
       border-bottom: 1px solid gray;
       display: flex;
-      span {
-        width: 550px;
-        float: left;
-        text-align: left;
-        overflow: hidden;
+      text-align: left;
+
+      span:first-child {
         text-overflow: ellipsis;
+        overflow: hidden;
         white-space: nowrap;
-        padding: 0 50px;
+      }
+
+      span {
+        width: 200px;
+        overflow: hidden;
+        white-space: nowrap;
+        float: left;
+        padding: 0 47px;
+      }
+      span:nth-child(n+1){
+        padding-left: 45px;
       }
     }
   }
 
 }
-// 참여중인 챌린지 리스트 스타일
+
+//참여 중인 챌린지 리스트
+
+// 보드 리스트 스타일
+.board-plogging, .board-community {
+  display: block;
+  ul:first-child {
+    font-size: 22px;
+    border-top: 2px solid gray;
+    border-bottom: 2px solid gray;
+    margin: 0;
+    
+    li{
+      flex: 0.25;
+      // display: flex;
+      border-bottom: 1px solid gray;
+      justify-content: center;
+      > span {
+        text-align: center;
+        padding: 0 75px;
+
+        @media only screen and (max-width: 1155px) {
+          width: 100%;
+          font-size: 19px;
+          padding: 0 60px;
+        }
+        @media only screen and (max-width: 1024px) {  
+          font-size: 18px;
+          padding: 0 58px;
+        }
+        @media only screen and (max-width: 840px) {  
+          font-size: 16px;
+          padding: 0 28px;
+        }
+      }
+    }    
+  }
+  ul:last-child{
+
+    text-align: left;
+    margin: 0 auto;
+    font-size: 1.1em;
+    li:nth-child(n){
+      display: flex;
+      border-bottom: 1px solid gray;
+      text-align: left;
+      padding: 5px 0;
+      span {
+        flex: 0.25;
+        text-align: center;
+        &:first-child{
+          text-align: center;
+        }
+        &:nth-child(2){
+          text-align: left;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+        }
+        &:nth-child(3){
+          text-align: center;
+          padding-right: 44px;
+        }
+        &:nth-child(4){
+          text-align: center;
+          padding-right: 30px;
+        }
+        text-align: left;
+        padding: 0 20px;
+      }
+    }
+  }
+
+}
+
+
+// // 보드 리스트 스타일
+
+// .board-plogging{
+//   > div {
+
+//     float: left;
+//     padding: 20px;
+    
+//   }
+  
+//   .description > div:nth-child(1){
+//     span {
+//       &:last-child{
+//         float: right;
+//       }
+//     }
+//   }
+
+//   .description > div:nth-child(2){
+//     span {
+//       float: right;
+//     }
+//   }
+
+
+//   .challenge-img > img{
+//     width: 240px;
+//     height: 150px;
+//   }
+// }
+// 참여중인 플로깅 리스트 스타일
 
 .plogging-favorites {
   > div {
@@ -108,14 +357,12 @@
 
 
 
-// 참여했던 챌린지 리스트 스타일
-.plogging-history {
+.point-history-list {
   display: block;
   ul:first-child {
     font-size: 22px;
     border-top: 2px solid gray;
     border-bottom: 2px solid gray;
-
     margin: 0;
     li{
       border-bottom: 1px solid gray;
@@ -123,35 +370,31 @@
       span {
         text-align: center;
         float: left;
-        padding: 0 50px;
+        padding: 0 78px;
       }
     }
   }
   ul:last-child{
     display: block;
+    text-align: left;
     margin: 0 auto;
-    // padding: 0 px;
-    font-size: 1.2em;
-    // border-bottom: 2px solid gray;
-    li:first-child {
-      padding: 0 20px;
-    }
-
-    li:nth-child(n+1){
-      padding: 12px;
-      // border-top: 1px solid gray;
+    font-size: 1.1em;
+    li:nth-child(n){
+      padding: 10px 0;
       border-bottom: 1px solid gray;
       display: flex;
-      text-align: left;
+
+      span:first-child{
+        margin-left: 5px;
+      }
+
       span {
-        overflow: hidden;
-        white-space: nowrap;
+        width: 550px;
         float: left;
+        text-align: left;
         padding: 0 50px;
       }
     }
   }
 
 }
-
-//참여 중인 챌린지 리스트

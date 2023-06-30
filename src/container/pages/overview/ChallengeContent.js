@@ -4,7 +4,8 @@ import '../../../../src/static/css/tabComponentStyle.scss';
 import { useState } from 'react';
 import { Cards } from '../../../components/cards/frame/cards-frame';
 import { Tabs } from 'antd';
-import challengeImg from '../../../static/img/bar-dark.png';
+import challengeImg from '../../../static/img/plologo1.jpeg';
+import { Link } from 'react-router-dom';
 
 const ChallengeContent = ({ content }) => {
   const [smallTab, setSmallTab] = useState(1);
@@ -43,7 +44,7 @@ const ChallengeContent = ({ content }) => {
                     <li className='current-challenge'>
                       <div>
                         <div className='challenge-img'>
-                          <img src={challengeImg} alt='챌린지 이미지' />
+                          <Link to={`/challenge/chDetail/${data.challenge.chNo}`}><img src={challengeImg} alt='챌린지 이미지' /></Link>
                         </div>
                         <div className='description'>
                           <div>

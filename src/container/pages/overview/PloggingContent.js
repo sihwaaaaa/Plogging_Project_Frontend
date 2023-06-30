@@ -15,6 +15,7 @@ const PloggingContent = ({content}) => {
         onChange={onChange}
         items={new Array(2).fill(null).map((_, i) => {
         const id = String(i + 1);
+        const min = 1 / 60 / 1000;
         // const idx = i + 1;
         return {
           label: (id == '1' ? '추천경로' : '나만의 경로'),
@@ -37,7 +38,7 @@ const PloggingContent = ({content}) => {
                       <li className='history-list'>
                         <span>{data.mapDTO.courseName}</span>
                         <span>{data.distance}</span>
-                        <span>{data.ploggingTime}</span>
+                        <span>{data.ploggingTime * min}</span>
                         <span>{data.regDate}</span>
                       </li>
                     )
@@ -46,7 +47,7 @@ const PloggingContent = ({content}) => {
                       <li className='history-list'>
                         <span>제자리 걸음</span>
                         <span>{data.distance}</span>
-                        <span>{data.ploggingTime}</span>
+                        <span>{data.ploggingTime * min}</span>
                         <span>{data.regDate}</span>
                       </li>
                     )

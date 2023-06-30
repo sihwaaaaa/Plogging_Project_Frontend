@@ -90,6 +90,26 @@ class DataService {
     });
   }
 
+  static deleteMember(path = '', data = {}) {
+    return client({
+      method: 'DELETE',
+      url: path,
+      data: JSON.stringify(data),
+      headers: {...authHeader()},
+    });
+  }  
+  
+
+
+  static editPassword(path = '', data = {}, optionalHeader = {}) {
+    return client({
+      method: 'PUT',
+      url: path,
+      data : JSON.stringify(data),
+      headers: { ...authHeader(), ...optionalHeader },
+    });
+  }
+
   static post(path = '', data = {}, optionalHeader = {}) {
     return client({
       method: 'POST',

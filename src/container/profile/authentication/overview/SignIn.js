@@ -138,9 +138,6 @@ function SignIn() {
                 <Input.Password placeholder="비밀번호를 입력해주세요." />
               </Form.Item>
               <div className="ninjadash-auth-extra-links">
-                <Checkbox onChange={onChange} checked={state.checked}>
-                  자동 로그인
-                </Checkbox>
                 <NavLink className="forgot-pass-link" to="/member/forgotUserId">
                   아이디/비밀번호 찾기
                 </NavLink>

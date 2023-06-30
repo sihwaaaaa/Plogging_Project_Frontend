@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { Cards } from '../../../components/cards/frame/cards-frame';
-import { Tabs } from 'antd';
+import { Button, Tabs } from 'antd';
 import image from '../../../static/img/bar-dark.png'
+import { Link, useNavigate } from 'react-router-dom';
 
 const MyBoardContent = ({ content }) => {
   const [smallTab, setSmallTab] = useState(1);
@@ -15,13 +16,12 @@ const MyBoardContent = ({ content }) => {
         onChange={onChange}
         items={new Array(2).fill(null).map((_, i) => {
         const id = String(i + 1);
-        // const idx = i + 1;
         return {
           label: (id == '1' ? '플로깅' : '커뮤니티'),
           key: id,
           // tabKey: smallTab,
           children: (smallTab == 1 ?
-            (<div className='challenge-endlist'>
+            (<div className='board-plogging'>
                 <ul>
                   <li>
                     <span>글번호</span>
@@ -34,7 +34,7 @@ const MyBoardContent = ({ content }) => {
                 {content.map((data) => data.category == "PLOGGING" ? (
                   <li>
                     <span>{data.bno}</span>
-                    <span>{data.title}</span>
+                    <span><Link to={`/board/${data.bno}`}>{data.title}</Link></span>
                     <span>{data.regDate}</span>
                     <span>{data.category}</span>
                   </li>
@@ -43,7 +43,7 @@ const MyBoardContent = ({ content }) => {
               </ul>
             </div>
             ) : (
-              <div className='challenge-endlist'>
+              <div className='board-community'>
                 <ul>
                   <li>
                     <span>글번호</span>
