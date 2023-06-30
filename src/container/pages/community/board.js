@@ -152,7 +152,6 @@ const Board = () => {
           </div>
         </div>
         <div className="boardContainer">
-          }
           <div>
             <Row gutter={25} className="mt-sm-10">
               {boardList && boardList.length > 0 ? boardList.map(board => {
