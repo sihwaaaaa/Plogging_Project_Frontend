@@ -285,52 +285,57 @@ function Friends() {
           </div>
           <div className="chatWrapper">
             <div className="chatTitle">
-              <h4>채팅하기 </h4>
-              <div className="chatPlus" style={{cursor:'pointer'}}
-                   onClick={() => showModal('primary')}>
-                <UilCommentEdit size="30" />
-              </div>
+              <h4>내 플친 목록 </h4>
+              {/*<div className="chatPlus" style={{cursor:'pointer'}}*/}
+              {/*     onClick={() => showModal('primary')}>*/}
+              {/*  <UilCommentEdit size="30" />*/}
+              {/*</div>*/}
             </div>
-            <Modal
-              type={state.modalType}
-              title={null}
-              visible={state.visible}
-              onCancel={handleCancel}
-              footer={null}
-              width={350}
-            >
-              <div className="myFrinedList" style={{maxHeight:"400px", overflowY:"auto"}}>
-                <div style={{
-                  borderBottom:"1px solid rgb(227, 230, 239)",
-                  padding: "5px 0",
-                  marginBottom: "10px",
-                }}>
-                  <h4 style={{fontWeight:"bold"}}>내 플친 목록</h4>
-                </div>
-                {myFriends.map((data) => (
-                  <FriendListForm key={'friend' + data.friendNo} friend={data} />
-                ))}
-              </div>
-            </Modal>
+            {/*<Modal*/}
+            {/*  type={state.modalType}*/}
+            {/*  title={null}*/}
+            {/*  visible={state.visible}*/}
+            {/*  onCancel={handleCancel}*/}
+            {/*  footer={null}*/}
+            {/*  width={350}*/}
+            {/*>*/}
+            {/*  <div className="myFrinedList" style={{maxHeight:"400px", overflowY:"auto"}}>*/}
+            {/*    <div style={{*/}
+            {/*      borderBottom:"1px solid rgb(227, 230, 239)",*/}
+            {/*      padding: "5px 0",*/}
+            {/*      marginBottom: "10px",*/}
+            {/*    }}>*/}
+            {/*      <h4 style={{fontWeight:"bold"}}>내 플친 목록</h4>*/}
+            {/*    </div>*/}
+            {/*    {myFriends.map((data) => (*/}
+            {/*      <FriendListForm key={'friend' + data.friendNo} friend={data} />*/}
+            {/*    ))}*/}
+            {/*  </div>*/}
+            {/*</Modal>*/}
             <div className="chatBox">
-              <div className="chatList">
-                <div className="chatListTitle">
-                  <span>채팅방 목록</span>
-                </div>
-              </div>
+              {/*<div className="chatList">*/}
+              {/*  <div className="chatListTitle">*/}
+              {/*    <span>채팅방 목록</span>*/}
+              {/*  </div>*/}
+              {/*</div>*/}
               <div className="nowChat">
-                <div className="nowChatTitle">
-                  <span></span>
+                {/*<div className="nowChatTitle">*/}
+                {/*  /!*<span></span>*!/*/}
+                {/*</div>*/}
+                <div className="addChat"
+                     // style={{cursor:'pointer'}}
+                     // onClick={() => showModal('primary')}
+                >
+                  {/*<div className="chatPlus" >*/}
+                  {/*  <UilCommentEdit size="50" />*/}
+                  {/*</div>*/}
+                  {/*<span>친구에게 메시지를 보내보세요</span>*/}
+                  {myFriends.map((data) => (
+                    <FriendListForm key={'friend' + data.friendNo} friend={data} removeFriend={removeFriend} />
+                  ))}
                 </div>
-                <div className="addChat" style={{cursor:'pointer'}}
-                     onClick={() => showModal('primary')} >
-                  <div className="chatPlus" >
-                    <UilCommentEdit size="50" />
-                  </div>
-                  <span>친구에게 메시지를 보내보세요</span>
-                </div>
-                <div className="addChatInput">
-                </div>
+                {/*<div className="addChatInput">*/}
+                {/*</div>*/}
               </div>
             </div>
           </div>

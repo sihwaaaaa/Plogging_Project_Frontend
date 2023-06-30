@@ -17,6 +17,7 @@ import donationImg from "../../../static/img/pages/rewardImg/donation.png";
 import donationHeaderImg from "../../../static/img/pages/rewardImg/donation-header.png";
 import arrowRightImg from "../../../static/img/pages/rewardImg/arrow-right.png";
 import { alertModal } from "../../../components/modals/antd-modals";
+import { useNavigate } from "react-router-dom";
 
 const Reward = () => {
   const [rewardList, setRewardList] = useState([]);
@@ -28,6 +29,8 @@ const Reward = () => {
   const [currentPoint, setCurrentPoint] = useState([]);
   const [donationDisabled, setDonationDisabled] = useState(false);
   const [productDisabled, setProductDisabled] = useState(false);
+
+  const changePage = useNavigate();
 
   useEffect(() => {
     DataService.get(`/reward/list/`).then(function(response) {
@@ -70,12 +73,14 @@ const Reward = () => {
   };
 
   useEffect(() => {
-    DataService.get("/history/rank/badge/" + memberNo)
-      .then(function(response) {
-        setMyRank(response.data);
-        console.log("data badge : ", response.data);
-        console.log("reward data badgeNo : ", response.data.badgeNo)
-      });
+    if(memberNo){
+      DataService.get("/history/rank/badge/" + memberNo)
+        .then(function(response) {
+          setMyRank(response.data);
+          console.log("data badge : ", response.data);
+          console.log("reward data badgeNo : ", response.data.badgeNo)
+        });
+    }
   }, []);
 
   useEffect(() => {
@@ -87,39 +92,58 @@ const Reward = () => {
   }, []);
 
   useEffect(() => {
-    DataService.get("/history/currentPoint/" + memberNo)
-      .then(function(response) {
-        setCurrentPoint(response.data);
-        console.log("current Point : ", response.data);
-        return response.data;
-      }).then((data) => {
-      console.log("data : ", data);
-      if (data >= 1000) {
-        console.log("data >= 1000: ", data);
-        setDonationDisabled(false);
-      } else {
-        setDonationDisabled(true);
-      }
-      if (data >= 8000) {
-        setProductDisabled(false);
-      } else {
-        setProductDisabled(true);
-      }
-    });
+    if(memberNo){
+      DataService.get("/history/currentPoint/" + memberNo)
+        .then(function(response) {
+          setCurrentPoint(response.data);
+          console.log("current Point : ", response.data);
+          return response.data;
+        }).then((data) => {
+        console.log("data : ", data);
+        if (data >= 1000) {
+          console.log("data >= 1000: ", data);
+          setDonationDisabled(false);
+        } else {
+          setDonationDisabled(true);
+        }
+        if (data >= 8000) {
+          setProductDisabled(false);
+        } else {
+          setProductDisabled(true);
+        }
+      });
+    }
   }, []);
 
 
   const showConfirm = (type) => {
-    alertModal.confirm({
-      title: type === "Product" ? "랜덤박스 신청을 하시겠습니까?" : "기부를 하시겠습니까?",
-      content: type === "Product" ? "신청을 하시면 회원님의 8000포인트가 차감 됩니다." : "기부하시면 회원님의 1000포인트가 차감 됩니다",
-      onOk() {
-        console.log("ok 누름");
-        type === "Product" ? createProduct() : createDonation();
-      },
-      onCancel() {
-      }
+    if(memberNo) {
+      alertModal.confirm({
+        title: type === "Product" ? "랜덤박스 신청을 하시겠습니까?" : "기부를 하시겠습니까?",
+        content: type === "Product" ? "신청을 하시면 회원님의 8000포인트가 차감 됩니다." : "기부하시면 회원님의 1000포인트가 차감 됩니다",
+        onOk() {
+          console.log("ok 누름");
+          type === "Product" ? createProduct() : createDonation();
+        },
+        onCancel() {
+        }
+      });
+    } else {
+      selfDestroyed();
+    }
+  };
+
+  const selfDestroyed = () => {
+    let secondsToGo = 1.2;
+    const modal = alertModal.success({
+      title: '로그인 후 이용해 주세요',
+      content: '',
     });
+
+    setTimeout(() => {
+      modal.destroy();
+      changePage('/member/signin')
+    }, secondsToGo * 1000);
   };
 
 
@@ -135,9 +159,11 @@ const Reward = () => {
                 산책도 하고 운동도 하고 환경도 지키고 기부도 하고! 친환경 제품도 구매도 해보세요!
                </span>
             </div>
-            <div className="container-info-header" style={{ padding: "0" }}>
-              <MyRankInfo myRank={myRank} />
-            </div>
+            {memberNo ? (
+              <div className="container-info-header" style={{ padding: "0" }}>
+                <MyRankInfo myRank={myRank} />
+              </div>
+            ) : ''}
             <div className="card-wrapper">
               <Card className="card">
                 <Row gutter={16}>
@@ -215,23 +241,25 @@ const Reward = () => {
         </div>
         <div className="rewardpage-donation">
           <div className="container-donation">
-            <Row justify={"left"} align={"middle"}>
+            <Row justify={"left"} style={{width: "100%"}}>
               <h2>기부하기</h2>
-              <Col span={24} offset={9}>
+              <Col span={24} >
                 <div className="container-body-donation">
-              <span>
-                회원님들의 기부하신 포인트를 모아 지원 내용을 검토해 캠페인 기부에 활용 됩니다.
-              </span>
-                  <div className="useDonation">
-              <span>
-                현재 회원님의 기부하신 포인트는 {donationPoint * -1}P 입니다
-              </span>
-                  </div>
+                  <span>
+                    회원님들의 기부하신 포인트를 모아 지원 내용을 검토해 캠페인 기부에 활용 됩니다.
+                  </span>
+                  {memberNo ? (
+                    <div className="useDonation">
+                      <span>
+                        현재 회원님의 기부하신 포인트는 {donationPoint * -1}P 입니다
+                      </span>
+                    </div>
+                  ) : ''}
                 </div>
               </Col>
             </Row>
             <Row gutter={24}>
-              <Col span={24} offset={15}>
+              <Col span={24} >
                 <Image src={donationHeaderImg} alt={donationHeaderImg} className="justify-content-center" />
                 <Button
                   key="submit"

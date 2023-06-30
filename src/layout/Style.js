@@ -14,6 +14,7 @@ const NavTitle = Styled.p`
 
 const LayoutContainer = Styled.div`
     .ant-layout {
+        overflow-x: hidden;
         background-color: transparent;
         .ant-layout-header{
             padding: ${({ theme }) => (!theme.rtl ? '15px 5px 15px 0' : '15px 0 15px 5px')};

@@ -101,10 +101,6 @@ const BoardRegister = () => {
       if(!location.state || (boardDetail.ploggingNo !== null && !location.state.isUpdate)) {
         submitBoard(article)
         console.log(article)
-        // axios.get(`http://localhost:8080/attach/display?uuid=${attach.uuid}&path=${attach.path}&ext=${attach.ext}&filename=${attach.filename}` )
-        //   .then((response) => {
-        //   console.log(response)
-        // })
         toMainPage()
       } else if (toDetail) {
         updateBoard(updateArticle)
@@ -124,7 +120,10 @@ const BoardRegister = () => {
    * 메인페이지로 이동 함수
    */
   function toMainPage() {
-    changePage(`/board`, {replace: true})
+    changePage(`/board`, {
+      state: {
+        newBoard: article
+      }, replace: true})
   }
 
   /**
@@ -136,8 +135,7 @@ const BoardRegister = () => {
   const submitBoard = (data) => {
     DataService.post('/community/register', { data } , '')
       .then((response) => {
-        console.log("작성시 attach", attach)
-        console.log(response)
+        console.log("작성된 글", response)
       })
   }
 

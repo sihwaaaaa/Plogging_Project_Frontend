@@ -73,7 +73,7 @@ const Admin = () => {
               <Avatar icon={<ArrowUpOutlined />} size={50}/>
             </AvatarWraperStyle>
           </div>
-          <Col xxl={16} xs={24} style={{marginTop:20}}>
+          <Col xxl={16} xs={24} style={{marginTop:20, margin: "auto"}}>
             <div className="selectTab">
               <div>
                 <div onClick={() => scrollToTab(memberRef)}>회원 관리</div>

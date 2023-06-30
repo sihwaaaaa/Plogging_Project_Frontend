@@ -12,6 +12,7 @@ import editProfileStyle from '../../../../static/css/editProfileStyle.scss';
 import { DataService } from '../../../../config/dataService/dataService';
 import Cookies from 'js-cookie';
 import { useNavigate } from 'react-router';
+import { getItem } from "../../../../utility/localStorageControl";
 
 const { Option } = Select;
 function EditProfile() {
@@ -21,7 +22,7 @@ function EditProfile() {
 
 
   // const checked = (checke) => {
-  //   setState({ tags: checke });
+  //   setState({ tags: checke });F
   // };
   const handleComplete = (data) => {
     let fullAddress = data.address;
@@ -180,6 +181,9 @@ function EditProfile() {
       })
   }, []);
 
+
+  const history = useNavigate();
+
   const handleSubmit = async (values) => {
     console.log(values);
     Cookies.set('nickName', values.nickName);
@@ -190,22 +194,26 @@ function EditProfile() {
     Cookies.set('birth', values.birth);
 
     await DataService.put("/profile/edit", values)
-      .then(() => {
+      .then( async () => {
         alert("프로필 수정이 완료되었습니다.");
-        location.reload();
-    })      
-
-    
+        await history(`/profile/${state.memberNo}`, {
+          state : {
+            memberNo : getItem('memberNo')
+          }
+        })
+    })
   }
 
 
 
-  const history = useNavigate();
-
-  const handleCancel = (e) => {
+  const handleCancel = async (e) => {
     e.preventDefault();
     form.resetFields();
-    history(`/profile/${state.memberNo}`)
+    await history(`/profile/${state.memberNo}`, {
+      state : {
+        memberNo : getItem('memberNo')
+      }
+    })
   };
 
   const fields = [

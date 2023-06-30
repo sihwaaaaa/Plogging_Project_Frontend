@@ -42,7 +42,6 @@ const BoardRegisterOrEdit = (props) => {
       || document.getElementsByClassName('form-title-input').title.value === ''){
       warning("title");
     } else if (fileInputRef.current.files.length === 0 && !attach){
-      console.log("attach가 있다고?", attach)
       warning("file");
     } else {
       selfDestroyed();

@@ -19,9 +19,6 @@ const BoardLayout = (data) => {
   const replyCnt = data.board.replyCount;
   const attach = data.board.attach;
 
-  console.log(attach)
-
-
   return (
     <BlogCardStyleWrap>
       <figure style={{boxShadow:"1px 1px 3px rgb(227 230 239 / 60%)"}} className={`ninjadash-blog ninjadash-blog-style-2`}>

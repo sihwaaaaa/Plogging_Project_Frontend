@@ -426,5 +426,32 @@
       margin-top: 20px;
     }
   }
+
+  .reply-page-wrapper {
+    padding-bottom: 30px;
+    width : 100%;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    .reply-page {
+      width: 50%;
+      display: flex;
+      flex-wrap: wrap;
+      flex-direction: row;
+      justify-content: space-evenly;
+      align-items: center;
+      .reply-before-page, .reply-after-page {
+        color: #6f6f6f;
+        cursor: pointer;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        align-items: center;
+      }
+    }
+  }
+
 }
 

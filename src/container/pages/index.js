@@ -149,12 +149,14 @@ function Index() {
         </div>
       </div>
       <div className="index-page-bottom">
-        <div className="bottom-text-wrapper">
           <div className="bottom-text">
-            <h4>지금부터 시작하는건 어떨까요?</h4>
-            <h4>줍깅과 함께해요!</h4>
+            <h4>
+              지금부터 시작하는건 어떨까요?
+            </h4>
+            <h4>
+              줍깅과 함께해요!
+            </h4>
           </div>
-        </div>
       </div>
     </>
   );

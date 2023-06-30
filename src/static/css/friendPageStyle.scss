@@ -231,9 +231,10 @@
     width: 60%;
     height: 90%;
     display: flex;
+    flex-direction: column;
     flex-wrap: wrap;
     align-content: center;
-    align-items: center;
+    align-items: flex-start;
     @media only screen and (min-width: 1080px) {
       max-width: 800px;
       padding-right: 65px;
@@ -274,7 +275,10 @@
       flex-direction: row;
       height: 570px;
       background: white;
-      width: 100%;
+      width: 80%;
+      @media only screen and (max-width: 767px) {
+        width: 100%;
+      }
       border: 1px solid rgb(227, 230, 239);
 
       .chatList {
@@ -299,15 +303,14 @@
       }
 
       .nowChat {
-        width: 65%;
+        //width: 65%;
         height: 575px;
-        @media only screen and (max-width: 767px) {
+        //@media only screen and (max-width: 767px) {
           width:100%;
-        }
+        //}
         .nowChatTitle {
           height: 60px;
           border-bottom: 1px solid rgb(227, 230, 239);
-
         }
         .addChat {
           height: 455px;
@@ -315,7 +318,8 @@
           flex-wrap: wrap;
           flex-direction: column;
           align-items: center;
-          justify-content: center;
+          //justify-content: center;
+          padding:20px;
         }
         .addChatInput {
           height: 60px;
