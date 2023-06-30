@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import { Form, Input } from 'antd';
 import { useSelector } from 'react-redux';
-import FontAwesome from 'react-fontawesome';
+import ploggingImage2 from '../../static/img/줍깅로고-removebg-preview.png';
 import '../../static/css/ChallengeStyle.scss';
 import UilPlus from '@iconscout/react-unicons/icons/uil-plus';
 import { ProjectHeader } from './ChallengeStyle';
@@ -62,17 +62,25 @@ function Challenge() {
   let end = challenges.filter(c=> new Date(c.endDate) < new Date())
   // console.log("start : " ,start)
   console.log("end : " , end)
-
+  // let endDateTime = challenges.filter((c)=>c.endDate).map((date) => date.endDate);
+  let endDateTime = challenges.filter((c) => c.endDate && c.endDate < nowDate).map((date) => date.endDate);
   // const startDateObj = new Date(start);
-  const endDateObj = new Date(end);
-  const currentTime = new Date();
- challenges.forEach(obj=>{
-   if(endDateObj < currentTime){
-     console.log(`${obj.title}은 챌린지가 종료되었습니다`)
-   }else{
-     console.log(`${obj.title}은 챌린지가 종료되지 않았습니다`)
-   }
- })
+  const currentTime = new Date(nowDate);
+  console.log("endDateObj : " , endDateTime)
+  console.log("curr : " , nowDate )
+  let isExpired = endDateTime.some((endDate) => endDate < nowDate);
+
+  console.log("isExpired : " , isExpired)
+
+
+ //
+ // challenges.forEach(obj=>{
+ //   if(endDateTime < nowDate){
+ //     console.log(`${obj.title}은 챌린지가 종료되었습니다`)
+ //   }else{
+ //     console.log(`${obj.title}은 챌린지가 종료되지 않았습니다`)
+ //   }
+ // })
 
 
   const { visible } = state;
@@ -95,16 +103,15 @@ function Challenge() {
           <div className="challenge-search">
             <KnowledgebaseTopWrap>
               <div className="ninjadash-knowledgetop">
-                <h2 className="ninjadash-knowledgetop__title">회원들과 같이 즐기는 플로깅 챌린지</h2>
+                <h2 className="ninjadash-knowledgetop__title"> # 함께하는 플로깅 ' 챌린지 '</h2>
                 <div className="ninjadash-knowledgetop__search--form">
                   <Form name="login" layout="vertical">
                     <div className="ninjadash-knowledgetop__formInner">
-                      <Form.Item className="ninjadash-search-input">
-                        <Input placeholder="원하는 챌린지를 검색해보세요" />
-                        <Button className="btn-search" htmlType="submit" size="large">
-                          <FontAwesome name="search" />
-                        </Button>
-                      </Form.Item>
+                        <div lassName="challengeTitle">
+                        <p> # 환경을 지키고 건강을 챙기며 함께 움직이는 즐거움!</p>
+                        <p> # 지구를 위한 청소운동 챌린지에 도전하세요!</p>
+                          <img src={ploggingImage2} alt="Logo" className="memberIcon" />
+                        </div>
                     </div>
                   </Form>
                 </div>
@@ -135,7 +142,7 @@ function Challenge() {
 
 
         <div className="challenge-slider-title">
-          <h4>진행전 / 진행중인 챌린지</h4>
+          <h4>챌린지 리스트</h4>
         </div>
         <div className="challengeList" style={{ display: 'flex', flexWrap: 'wrap', flexDirection: 'row' }}>
           {challenges.filter(c => c.personnel !== c.challengeMemberCnt).map((data) => (
@@ -145,16 +152,8 @@ function Challenge() {
         <div className="challenge-slider-title">
           <h4>인원마감된 챌린지</h4>
         </div>
-          <div className="challengeList" style={{ display: "flex", flexWrap: "wrap", flexDirection: "row" }}>
-            {challenges.filter(c => c.personnel === c.challengeMemberCnt).map((data) => (
-              <ChallengeOne challenge={data} />
-            ))}
-          </div>
-        <div className="challenge-slider-title">
-          <h4>종료된 챌린지</h4>
-        </div>
-        <div className="challengeList" style={{ display: "flex", flexWrap: "wrap", flexDirection: "row" }}>
-          {challenges.filter(() => endDateObj < currentTime ).map((data) => (
+        <div className="challengeList" style={{ display: 'flex', flexWrap: 'wrap', flexDirection: 'row' }}>
+          {challenges.filter(c => c.personnel === c.challengeMemberCnt).map((data) => (
             <ChallengeOne challenge={data} />
           ))}
         </div>
