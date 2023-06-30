@@ -3,7 +3,12 @@ import { Carousel, Image } from "antd";
 import { DataService } from "../../../config/dataService/dataService";
 import { getItem } from "../../../utility/localStorageControl";
 
-// const rewardProductList = () => {
+
+/**
+ * @Author 이재원
+ * @Date 23.06.29
+ * @Brief 상품 리스트를 Carousel을 활용하여 조회
+ */
 function rewardProductList() {
   const [productList, setProductList] = useState([]);
   const rewardNo = getItem('rewardNo')

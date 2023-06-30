@@ -17,6 +17,7 @@ import donationImg from "../../../static/img/pages/rewardImg/donation.png";
 import donationHeaderImg from "../../../static/img/pages/rewardImg/donation-header.png";
 import arrowRightImg from "../../../static/img/pages/rewardImg/arrow-right.png";
 import { alertModal } from "../../../components/modals/antd-modals";
+import { isSuccess } from "auth0-lock/lib/sync";
 
 const Reward = () => {
   const [rewardList, setRewardList] = useState([]);
@@ -35,49 +36,82 @@ const Reward = () => {
     });
   }, []);
 
+  /**
+   * @Author 이재원
+   * @Date 23.06.29
+   * @Brief 기부하기 기능
+   */
   const createDonation = () => {
     fetch("http://localhost:8080/history/Donation", {
       method: "POST",
       headers: {
-        "Content-type": "application/json; charset=utf-8", Authorization: `Bearer ${getItem("ACCESS_TOKEN")}`
+        "Content-type": "application/json; charset=utf-8",
+        Authorization: `Bearer ${getItem("ACCESS_TOKEN")}`
       },
       body: JSON.stringify({
         memberNo: memberNo,
         type: "Donation",
         point: -1000
       })
-    }).then(() => alertModal.success({
-      title: "기부가 성공적으로 처리 되었습니다",
-      content: "기부를 해주셔서 감사합니다"
-    }));
+    })
+      .then(() => {
+        alertModal.success({
+          title: "기부가 성공적으로 처리 되었습니다",
+          content: "기부 해주셔서 감사합니다",
+          onOk() {
+            location.reload();
+          }
+        });
+      });
   };
 
-
+  /**
+   * @Author 이재원
+   * @Date 23.06.29
+   * @Brief 랜덤박스 신청
+   */
   const createProduct = () => {
     fetch("http://localhost:8080/history/Product", {
       method: "POST",
       headers: {
-        "Content-type": "application/json; charset=utf-8", Authorization: `Bearer ${getItem("ACCESS_TOKEN")}`
+        "Content-type": "application/json; charset=utf-8",
+        Authorization: `Bearer ${getItem("ACCESS_TOKEN")}`
       },
       body: JSON.stringify({
         memberNo: memberNo,
         type: "Product",
         point: -8000
       })
-    }).then(() => alertModal.success({
-      title: "랜덤박스 신청이 성공적으로 처리 되었습니다"
-    }));
+    })
+      .then(() => {
+        alertModal.success({
+          title: "랜덤박스 신청이 성공적으로 처리 되었습니다",
+          onOk() {
+            location.reload();
+          }
+        });
+      });
   };
 
+  /**
+   * @Author 이재원
+   * @Date 23.06.29
+   * @Brief 회원의 등급, 누적포인트 조회
+   */
   useEffect(() => {
     DataService.get("/history/rank/badge/" + memberNo)
       .then(function(response) {
         setMyRank(response.data);
         console.log("data badge : ", response.data);
-        console.log("reward data badgeNo : ", response.data.badgeNo)
+        console.log("reward data badgeNo : ", response.data.badgeNo);
       });
   }, []);
 
+  /**
+   * @Author 이재원
+   * @Date 23.06.29
+   * @Brief 회원의 기부한 포인트 조회
+   */
   useEffect(() => {
     DataService.get("/history/donationPoint/" + memberNo)
       .then(function(response) {
@@ -86,6 +120,12 @@ const Reward = () => {
       });
   }, []);
 
+  /**
+   * @Author 이재원
+   * @Date 23.06.29
+   * @Brief 회원의 현재 포인트를 활용하여 기부하기 버튼이나
+   * @Brief 랜덤박스 신청 버튼을 활성화 및 비활성화
+   */
   useEffect(() => {
     DataService.get("/history/currentPoint/" + memberNo)
       .then(function(response) {
@@ -95,7 +135,6 @@ const Reward = () => {
       }).then((data) => {
       console.log("data : ", data);
       if (data >= 1000) {
-        console.log("data >= 1000: ", data);
         setDonationDisabled(false);
       } else {
         setDonationDisabled(true);
@@ -106,15 +145,16 @@ const Reward = () => {
         setProductDisabled(true);
       }
     });
-  }, []);
+  });
 
 
   const showConfirm = (type) => {
     alertModal.confirm({
       title: type === "Product" ? "랜덤박스 신청을 하시겠습니까?" : "기부를 하시겠습니까?",
       content: type === "Product" ? "신청을 하시면 회원님의 8000포인트가 차감 됩니다." : "기부하시면 회원님의 1000포인트가 차감 됩니다",
+      okText: type === "Product" ? "신청" : "기부",
+      cancelText: "취소",
       onOk() {
-        console.log("ok 누름");
         type === "Product" ? createProduct() : createDonation();
       },
       onCancel() {
@@ -181,7 +221,7 @@ const Reward = () => {
         </div>
         <div className="rewardpage-rank">
           <Row>
-            <Col xxl={17} xs={24} span={14} offset={3} style={{ marginTop: 20 }}>
+            <Col xxl={17} xs={24} span={12} offset={3} style={{ marginTop: 20, display: "flex" }}>
               <RankList />
             </Col>
           </Row>
@@ -197,7 +237,7 @@ const Reward = () => {
             </div>
             <div className="product-table-wrapper">
               <div className="container-product-wrapper">
-                <h3>랜덤박스 구성품</h3>
+                <h3>랜덤박스 구성품  (회원님의 현재 포인트는 {currentPoint}P 입니다)</h3>
               </div>
               <RewardProductList />
             </div>
@@ -208,8 +248,8 @@ const Reward = () => {
               className="productButton"
               disabled={productDisabled}
               onClick={() => showConfirm("Product")}>
-              랜덤박스 신청하기
-              <p>-8000P</p>
+              {productDisabled ? <span>회원님의 포인트가 부족합니다. <br /> 필요한 포인트는 8000P 입니다.</span> : "랜덤박스 신청하기"}
+              {productDisabled ? "" : <p>-8000P</p>}
             </Button>
           </div>
         </div>
@@ -217,14 +257,14 @@ const Reward = () => {
           <div className="container-donation">
             <Row justify={"left"} align={"middle"}>
               <h2>기부하기</h2>
-              <Col span={24} offset={9}>
+              <Col span={24} offset={6}>
                 <div className="container-body-donation">
               <span>
                 회원님들의 기부하신 포인트를 모아 지원 내용을 검토해 캠페인 기부에 활용 됩니다.
               </span>
                   <div className="useDonation">
               <span>
-                현재 회원님의 기부하신 포인트는 {donationPoint * -1}P 입니다
+                회원님의 사용 가능한 포인트는 {currentPoint}P 이며 지금까지 기부하신 포인트는 {donationPoint * -1}P 입니다
               </span>
                   </div>
                 </div>
@@ -234,14 +274,13 @@ const Reward = () => {
               <Col span={24} offset={15}>
                 <Image src={donationHeaderImg} alt={donationHeaderImg} className="justify-content-center" />
                 <Button
-                  key="submit"
                   type="primary"
                   size="default"
                   className="donationButton"
                   disabled={donationDisabled}
                   onClick={() => showConfirm("Donation")}
                 >
-                  <p>기부하기 <br /> - 1000P</p>
+                  {donationDisabled ? <p>회원님의 포인트가 부족합니다 <br /> 필요한 포인트는 1000P 입니다</p> : <p>기부하기 <br /> - 1000P</p>}
                 </Button>
               </Col>
             </Row>

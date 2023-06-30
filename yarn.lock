@@ -6990,11 +6990,6 @@
   "resolved" "https://registry.npmjs.org/fs.realpath/-/fs.realpath-1.0.0.tgz"
   "version" "1.0.0"
 
-"fsevents@^2.3.2", "fsevents@~2.3.2":
-  "integrity" "sha512-xiqMQR4xAeHTuB9uWm+fFRcIOgKBMiOBP+eXiyT7jsgVCq1bkVygt00oASowB7EdtpOHaaPgKt812P9ab+DDKA=="
-  "resolved" "https://registry.npmjs.org/fsevents/-/fsevents-2.3.2.tgz"
-  "version" "2.3.2"
-
 "fstream@^1.0.12", "fstream@1.0.12":
   "integrity" "sha512-WvJ193OHa0GHPEL+AycEJgxvBEwyfRkN1vhjca23OaPVMCaLCXTd5qAu82AjTcgP1UJmytkOKb63Ypde7raDIg=="
   "resolved" "https://registry.npmjs.org/fstream/-/fstream-1.0.12.tgz"
@@ -12406,10 +12401,10 @@
   dependencies:
     "object-assign" "^4.1.1"
 
-"react-intersection-observer@^9.5.1":
-  "integrity" "sha512-YwcNF/4WsMAG1rLVDQHSbpdEW9vDaIl4QW88d+vqeXNUewFV4AJDQB14oHpAJ3rRCnKRmwu3nqfwwYe6wioNIg=="
-  "resolved" "https://registry.npmjs.org/react-intersection-observer/-/react-intersection-observer-9.5.1.tgz"
-  "version" "9.5.1"
+"react-intersection-observer@^9.5.2":
+  "integrity" "sha512-EmoV66/yvksJcGa1rdW0nDNc4I1RifDWkT50gXSFnPLYQ4xUptuDD4V7k+Rj1OgVAlww628KLGcxPXFlOkkU/Q=="
+  "resolved" "https://registry.npmjs.org/react-intersection-observer/-/react-intersection-observer-9.5.2.tgz"
+  "version" "9.5.2"
 
 "react-is@^16.12.0", "react-is@^16.13.1", "react-is@^16.7.0", "react-is@>= 16.8.0":
   "integrity" "sha512-24e6ynE2H+OKt4kqsOvNd8kBpV65zoxbA4BVsEOB3ARVWQki/DHzaUoC5KuON/BiccDaCCTZBuOcfZs70kR8bQ=="

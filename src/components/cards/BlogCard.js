@@ -4,6 +4,11 @@ import { BlogCardStyleWrap } from "./Style";
 import { DataService } from "../../config/dataService/dataService";
 import { Col, Row } from "antd";
 
+/**
+ * @Author 이재원
+ * @Date 23.06.29
+ * @Brief 기부처 조회. 리액트 템플릿에 있는 기능을 활용
+ */
 function BlogCard({ item, theme }) {
   const [Donation, setDonation] = useState([]);
   const rewardNo = [28, 29, 30, 31, 32, 33, 34, 35];
