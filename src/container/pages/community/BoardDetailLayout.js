@@ -1,9 +1,9 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { BlogCardStyleWrap } from "../../../components/cards/Style";
 import image from "../../../static/img/preview3.png";
 import badge from "../../../static/img/logodemo.png";
 import { getItem } from "../../../utility/localStorageControl";
-import { UilComment, UilMultiply } from "@iconscout/react-unicons";
+import { UilArrowLeft, UilArrowRight, UilComment, UilMultiply } from "@iconscout/react-unicons";
 import { DataService } from "../../../config/dataService/dataService";
 import { Button } from "../../../components/buttons/buttons";
 import { alertModal } from "../../../components/modals/antd-modals";
@@ -23,15 +23,24 @@ const BoardDetailLayout = (data) => {
   const replyCnt = data.board.replyCount;
   const attach = data.board.attach;
 
-  const replys = data.reply;
-  const replyContent = data.replyContent;
-  const setReplyContent = data.setReplyContent;
+  const replyList = data.replyList;
+  const setReplyList = data.setReplyList;
+  const replyContents = data.replyContents;
+  const setReplyContents = data.setReplyContents;
+  const [replyContent, setReplyContent] = useState('');
 
   const replyInput = {reply : replyContent, bno: boardNo};
+  const today = new Date();
 
   const deleteBoard = data.deleteBoard;
   const updateBoard = data.updateBoard;
 
+  const setPage = data.setreplyPage;
+  const last = data.replyList.last;
+  const first = data.replyList.first;
+  const page = data.replyPage;
+  const replyBefore = useRef(null);
+  const replyAfter = useRef(null);
 
   /**
    * @Author 천은경
@@ -39,13 +48,20 @@ const BoardDetailLayout = (data) => {
    * @param data
    * input 태그에 입력한 값을 엔터 또는 버튼 클릭시에 replyContent에 저장
    */
-  const submitReply = (data) => {
+  const submitReply = async (data) => {
     event.preventDefault();
     setReplyContent(data.target[0].value);
+    await clear(data.target[0]);
   }
-  function clickSubmitReply(data) {
+
+  function clear(input) {
+    input.value = '';
+  }
+
+  async function clickSubmitReply(data) {
     event.preventDefault();
     setReplyContent(data[0].value)
+    await clear(data[0].value)
   }
 
   /**
@@ -69,7 +85,7 @@ const BoardDetailLayout = (data) => {
   const registerReply = (data) => {
     DataService.post('/reply/write', {data},'')
       .then((response) => {
-        console.log(response)
+        setReplyContents(response.data.data.content)
       })
   }
 
@@ -79,9 +95,20 @@ const BoardDetailLayout = (data) => {
    * 댓글 삭제
    */
   const clickRemoveReply = (rno) => {
-    console.log(rno)
-    removeReply(rno)
+    showCancelConfirm(rno)
+    // removeReply(rno)
   }
+
+  const showCancelConfirm = (rno) => {
+    alertModal.confirm({
+      title: '삭제하시겠습니까?',
+      content: '',
+      onOk() {
+        removeReply(rno)
+      },
+      onCancel() {},
+    });
+  };
 
   /**
    * @Author 천은경
@@ -91,7 +118,7 @@ const BoardDetailLayout = (data) => {
   const removeReply = (rno) => {
     DataService.delete(`/reply/delete/${rno}`)
       .then((response) => {
-        console.log(response.data)
+        setReplyContents(replyContents.filter(reply => reply.rno !== response.data.data))
       })
   }
 
@@ -132,7 +159,21 @@ const BoardDetailLayout = (data) => {
       onCancel() {},
     });
   };
-  console.log(data.board)
+
+
+
+
+  //Pagination
+  const nextPage = (page) => {
+    setPage(page+1)
+  }
+
+  const lastPage = (page) => {
+    setPage(page-1)
+  }
+
+
+
 
 
   return (
@@ -203,16 +244,24 @@ const BoardDetailLayout = (data) => {
         ) : ''
         }
         <div className="replyList">
-          {!!replyContent && replyContent.length > 0 ? replyContent.map(reply => {
+          {!!replyContents && replyContents.length > 0 ? replyContents.map(reply => {
             return (
               <div className="replyContainer">
                 <div className="WriterContainer">
                   <img src={badge} alt="뱃지" />
                 </div>
                 <div className="replyContent">
-                  <div className="reply-info">
-                    <span>{reply.replyerId}</span>
-                    <div>{reply.regDate}</div>
+                  <div className="reply-info" style={{cursor:"pointer"}} onClick={() => toProfile(reply.replyerNo)}>
+                    {reply.replyerId ? (
+                      <span >{reply.replyerId}</span>
+                    ) : (
+                     <span>{getItem('userId')}</span>
+                    )}
+                    {reply.regDate ? (
+                      <div>{reply.regDate}</div>
+                    ) : (
+                      <div>{today.getYear() + 1900 + '-' + ((today.getMonth() < 9) ? '0' + (today.getMonth()+1) : (today.getMonth()+1)) + '-' + today.getDate()}</div>
+                      )}
                   </div>
                   <div className="content">
                     {reply.reply}
@@ -229,6 +278,16 @@ const BoardDetailLayout = (data) => {
           }) : (
             <div style={{padding: "30px 0"}}>아직 댓글이 없어요</div>
           )}
+        </div>
+        <div className="reply-page-wrapper">
+          <div className="reply-page">
+            {replyContents && replyContents.length > 0 && !first ? (
+              <div className="reply-before-page" onClick={() => lastPage(page)} ref={replyBefore}><UilArrowLeft />이전</div>
+            ) : ''}
+            {replyContents && replyContents.length > 0 && !last ? (
+              <div className="reply-after-page" onClick={() => nextPage(page)} ref={replyAfter}>다음<UilArrowRight /></div>
+            ) : last ? (<span style={{cursor:"default", color: "rgb(171 171 171)"}}>마지막 페이지</span>) : ''}
+          </div>
         </div>
       </div>
     </>

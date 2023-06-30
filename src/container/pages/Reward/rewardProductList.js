@@ -46,6 +46,7 @@ function rewardProductList() {
               slidesToScroll={4}
               slidesToShow={4}
               effect="scrollx"
+              style={{overflowX:"hidden"}}
     >
       {productList.map((response) => (
         <div key={response.rewardNo}>

@@ -13,7 +13,8 @@ const BoardDetail = () => {
   const bno = location.state ? location.state.bno : '';
   const [boardDetail, setBoardDetail] = useState([]);
   const [replyList, setReplyList] = useState([]);
-  const [replyContent, setReplyContent] = useState('');
+  const [replyContents, setReplyContents] = useState('');
+  const [replyPage, setReplyPage] = useState(0);
 
   const changePage = useNavigate();
 
@@ -25,6 +26,12 @@ const BoardDetail = () => {
       getReply()
     }
   }, [])
+
+  useEffect(() => {
+    if(location.state) {
+      getReply()
+      }
+  }, [replyPage])
 
   const selfDestroyed = () => {
     let secondsToGo = 1.2;
@@ -40,11 +47,10 @@ const BoardDetail = () => {
 
 
   const getReply = () => {
-    DataService.get(`/reply/${bno}`)
+    DataService.get(`/reply/${bno}?page=${replyPage}`)
       .then((response) => {
         setReplyList(response.data.data)
-        setReplyContent(response.data.data.content)
-        // currentReplys.unshift(...response.data.data.content)
+        setReplyContents(response.data.data.content)
       })
   }
 
@@ -56,7 +62,10 @@ const BoardDetail = () => {
   const getBoard = () => {
     DataService.get(`community/board/${bno}`)
       .then((response) => {
-        setBoardDetail(response.data.data)
+        if(!response.data.error){
+          setBoardDetail(response.data.data)
+        } else if(response.data.error === "500")
+          selfDestroyed()
       })
   }
 
@@ -119,9 +128,10 @@ const BoardDetail = () => {
       </div>
       <div className="boardDetailWrapper" >
         <div className="boardDetail detailPage" >
-          <BoardDetailLayout board={boardDetail} reply={replyList}
-                             changePage={changePage}
-                             replyContent={replyContent} setReplyContent={setReplyContent}
+          <BoardDetailLayout board={boardDetail} changePage={changePage}
+                             replyList={replyList} setReplyList={setReplyList}
+                             replyContents={replyContents} setReplyContents={setReplyContents}
+                             setreplyPage={setReplyPage} replyPage={replyPage}
                              updateBoard={() => toEditPage()} deleteBoard={clickDeleteBoard}
           />
         </div>

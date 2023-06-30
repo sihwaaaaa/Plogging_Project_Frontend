@@ -432,18 +432,18 @@
   align-items: center;
   justify-content: center;
   .bottom-text-wrapper{
-    //width: 50%;
-    //height: 300px;
+    width: 50%;
+    height: 200px;
     //background: rgb(255 255 255 / 85%);;
-    //.bottom-text {
-    //  padding: 20px 30px;
-    //  h3, h4 {
-    //    font-size: 40px;
-    //    font-weight: bold;
-    //    margin: 0;
-    //    color: #00AF89;
-    //  }
-    //}
+    .bottom-text {
+      padding: 20px 30px;
+      h3, h4 {
+        font-size: 30px;
+        font-weight: bold;
+        margin: 0;
+        color: #00AF89;
+      }
+    }
   }
 }
 

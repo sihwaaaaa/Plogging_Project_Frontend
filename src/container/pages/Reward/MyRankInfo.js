@@ -15,8 +15,13 @@ const MyRankInfo = (props) => {
   const badgeName = props.myRank.badgeName;
   const totalPoint = props.myRank.point;
   const badgeNo = props.myRank.badgeNo;
+  const badgeImg = useRef();
 
-  console.log("badgeNo : ", badgeNo);
+  useEffect(() => {
+    if(!!badgeNo && badgeNo !== '') {
+      badgeImg.current.src = require(`../../../static/img/pages/rewardImg/badgeImg/${badgeNo}.png`);
+    }
+  }, [badgeNo])
 
   return (
     <>
@@ -30,7 +35,7 @@ const MyRankInfo = (props) => {
           </Col>
           <Col span={12}>
             <p style={{paddingTop:"30px", margin:"0",fontSize:"25px"}}>{badgeName}</p>
-            {/*<Image className="ex-img" src={require(`../../../static/img/pages/rewardImg/badgeImg/${badgeNo}.png`)}/>*/}
+            <img className="ex-img" ref={badgeImg} alt={'뱃지'} />
           </Col>
           <Col span={12}>
             <p style={{fontSize:"50px", margin:"93px"}}>{totalPoint} P</p>

@@ -36,7 +36,6 @@ const CustomPagination = (props) => {
                              id={currentPage}
                              onClick={pageClick}>{currentPage + 1}</li>)
         }
-        console.log(currentPage)
         return pageNum
     }
 

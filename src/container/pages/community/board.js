@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import { Main } from '../../styled';
 import "../../../static/css/boardStyle.scss";
 import { Col, Row } from "antd";
@@ -37,9 +37,10 @@ const Board = () => {
       .then((response) => {
         setBoardList(response.data.data.content)
         setPageable(response.data.data)
-        console.log(response.data.data)
       })
   }, [category, page, location])
+
+
 
   function detailClick(bno) {
     changePage(`/board/${bno}`, {
@@ -87,7 +88,6 @@ const Board = () => {
   }
 
 
-
   const categoryChange = (category) => {
     if(category === 'COMMUNITY') {
       setCategory('COMMUNITY')
@@ -118,7 +118,6 @@ const Board = () => {
       scrollToTab(allRef)
     }
   }
-
 
   return (
     <Main style={{background: "white", padding: 0}}>
@@ -153,6 +152,7 @@ const Board = () => {
           </div>
         </div>
         <div className="boardContainer">
+          }
           <div>
             <Row gutter={25} className="mt-sm-10">
               {boardList && boardList.length > 0 ? boardList.map(board => {

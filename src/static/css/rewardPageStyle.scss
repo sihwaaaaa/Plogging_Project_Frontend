@@ -193,7 +193,7 @@
       }
 
       .total-ranking {
-        width: 1000px;
+        //width: 1000px;
         Table {
           background-color: #FFCB77;
         }
@@ -279,7 +279,9 @@
         flex-wrap: wrap;
         color: white;
         align-content: center;
-
+        .ant-carousel {
+          overflow: hidden !important;
+        }
         h3 {
           display: flex;
           padding-top: 15px;
@@ -355,10 +357,12 @@
   justify-content: center;
 
   .container-donation {
-    background: #FFCB77;
+    padding-top: 100px;
+    padding-bottom: 100px;
+    background: #ffcb77;
     width: 75%;
     display: flex;
-    justify-content: left;
+    justify-content: center;
     align-items: center;
     flex-wrap: wrap;
     color: white;
@@ -405,6 +409,7 @@
     .container-donation-wrap {
       width: 100%;
       min-height: 900px;
+      padding: 100px 0;
       .donation-company {
         background-color: #FFCB77;
         display: flex;
