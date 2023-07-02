@@ -18,7 +18,6 @@ import donationHeaderImg from "../../../static/img/pages/rewardImg/donation-head
 import arrowRightImg from "../../../static/img/pages/rewardImg/arrow-right.png";
 import { alertModal } from "../../../components/modals/antd-modals";
 import { isSuccess } from "auth0-lock/lib/sync";
-import { useNavigate } from "react-router-dom";
 
 const Reward = () => {
   const [rewardList, setRewardList] = useState([]);
@@ -30,8 +29,6 @@ const Reward = () => {
   const [currentPoint, setCurrentPoint] = useState([]);
   const [donationDisabled, setDonationDisabled] = useState(false);
   const [productDisabled, setProductDisabled] = useState(false);
-
-  const changePage = useNavigate();
 
   useEffect(() => {
     DataService.get(`/reward/list/`).then(function(response) {
@@ -102,14 +99,12 @@ const Reward = () => {
    * @Brief 회원의 등급, 누적포인트 조회
    */
   useEffect(() => {
-    if(memberNo){
-      DataService.get("/history/rank/badge/" + memberNo)
-        .then(function(response) {
-          setMyRank(response.data);
-          console.log("data badge : ", response.data);
-          console.log("reward data badgeNo : ", response.data.badgeNo)
-        });
-    }
+    DataService.get("/history/rank/badge/" + memberNo)
+      .then(function(response) {
+        setMyRank(response.data);
+        console.log("data badge : ", response.data);
+        console.log("reward data badgeNo : ", response.data.badgeNo);
+      });
   }, []);
 
   /**
@@ -118,13 +113,11 @@ const Reward = () => {
    * @Brief 회원의 기부한 포인트 조회
    */
   useEffect(() => {
-    if(memberNo) {
-      DataService.get("/history/donationPoint/" + memberNo)
-        .then(function(response) {
-          setDonationPoint(response.data);
-          console.log("dataDonationPoint", response.data);
-        });
-    }
+    DataService.get("/history/donationPoint/" + memberNo)
+      .then(function(response) {
+        setDonationPoint(response.data);
+        console.log("dataDonationPoint", response.data);
+      });
   }, []);
 
   /**
@@ -134,57 +127,39 @@ const Reward = () => {
    * @Brief 랜덤박스 신청 버튼을 활성화 및 비활성화
    */
   useEffect(() => {
-    if(memberNo){
-      DataService.get("/history/currentPoint/" + memberNo)
-        .then(function(response) {
-          setCurrentPoint(response.data);
-          console.log("current Point : ", response.data);
-          return response.data;
-        }).then((data) => {
-        console.log("data : ", data);
-        if (data >= 1000) {
-          console.log("data >= 1000: ", data);
-          setDonationDisabled(false);
-        } else {
-          setDonationDisabled(true);
-        }
-        if (data >= 8000) {
-          setProductDisabled(false);
-        } else {
-          setProductDisabled(true);
-        }
-      });
-    }
+    DataService.get("/history/currentPoint/" + memberNo)
+      .then(function(response) {
+        setCurrentPoint(response.data);
+        console.log("current Point : ", response.data);
+        return response.data;
+      }).then((data) => {
+      console.log("data : ", data);
+      if (data >= 1000) {
+        setDonationDisabled(false);
+      } else {
+        setDonationDisabled(true);
+      }
+      if (data >= 8000) {
+        setProductDisabled(false);
+      } else {
+        setProductDisabled(true);
+      }
+    });
   });
 
+
   const showConfirm = (type) => {
-    if(memberNo) {
-      alertModal.confirm({
-        title: type === "Product" ? "랜덤박스 신청을 하시겠습니까?" : "기부를 하시겠습니까?",
-        content: type === "Product" ? "신청을 하시면 회원님의 8000포인트가 차감 됩니다." : "기부하시면 회원님의 1000포인트가 차감 됩니다",
-        onOk() {
-          console.log("ok 누름");
-          type === "Product" ? createProduct() : createDonation();
-        },
-        onCancel() {
-        }
-      });
-    } else {
-      selfDestroyed();
-    }
-  };
-
-  const selfDestroyed = () => {
-    let secondsToGo = 1.2;
-    const modal = alertModal.success({
-      title: '로그인 후 이용해 주세요',
-      content: '',
+    alertModal.confirm({
+      title: type === "Product" ? "랜덤박스 신청을 하시겠습니까?" : "기부를 하시겠습니까?",
+      content: type === "Product" ? "신청을 하시면 회원님의 8000포인트가 차감 됩니다." : "기부하시면 회원님의 1000포인트가 차감 됩니다",
+      okText: type === "Product" ? "신청" : "기부",
+      cancelText: "취소",
+      onOk() {
+        type === "Product" ? createProduct() : createDonation();
+      },
+      onCancel() {
+      }
     });
-
-    setTimeout(() => {
-      modal.destroy();
-      changePage('/member/signin')
-    }, secondsToGo * 1000);
   };
 
 
@@ -200,11 +175,9 @@ const Reward = () => {
                 산책도 하고 운동도 하고 환경도 지키고 기부도 하고! 친환경 제품도 구매도 해보세요!
                </span>
             </div>
-            {memberNo ? (
-              <div className="container-info-header" style={{ padding: "0" }}>
-                <MyRankInfo myRank={myRank} />
-              </div>
-            ) : ''}
+            <div className="container-info-header" style={{ padding: "0" }}>
+              <MyRankInfo myRank={myRank} />
+            </div>
             <div className="card-wrapper">
               <Card className="card">
                 <Row gutter={16}>
@@ -282,25 +255,23 @@ const Reward = () => {
         </div>
         <div className="rewardpage-donation">
           <div className="container-donation">
-            <Row justify={"left"} style={{width: "100%"}}>
+            <Row justify={"left"} align={"middle"}>
               <h2>기부하기</h2>
-              <Col span={24} >
+              <Col span={24} offset={6}>
                 <div className="container-body-donation">
-                  <span>
-                    회원님들의 기부하신 포인트를 모아 지원 내용을 검토해 캠페인 기부에 활용 됩니다.
-                  </span>
-                  {memberNo ? (
-                    <div className="useDonation">
-                      <span>
-                        현재 회원님의 기부하신 포인트는 {donationPoint * -1}P 입니다
-                      </span>
-                    </div>
-                  ) : ''}
+              <span>
+                회원님들의 기부하신 포인트를 모아 지원 내용을 검토해 캠페인 기부에 활용 됩니다.
+              </span>
+                  <div className="useDonation">
+              <span>
+                회원님의 사용 가능한 포인트는 {currentPoint}P 이며 지금까지 기부하신 포인트는 {donationPoint * -1}P 입니다
+              </span>
+                  </div>
                 </div>
               </Col>
             </Row>
             <Row gutter={24}>
-              <Col span={24} >
+              <Col span={24} offset={15}>
                 <Image src={donationHeaderImg} alt={donationHeaderImg} className="justify-content-center" />
                 <Button
                   type="primary"

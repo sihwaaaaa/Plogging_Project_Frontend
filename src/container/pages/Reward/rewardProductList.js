@@ -27,7 +27,7 @@ function rewardProductList() {
     textAlign: "center",
     width: "100%",
     height: "450px",
-    justifyContent: "center"
+    justifyContent: "center",
   };
   const imageStyle = {
     display: "inline-block",
