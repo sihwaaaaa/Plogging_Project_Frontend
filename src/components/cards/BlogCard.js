@@ -32,7 +32,7 @@ function BlogCard({ item, theme }) {
       {Donation.map((response) => (
         <Col xl={6} sm={12} xs={24} key={response.rewardNo}>
           <BlogCardStyleWrap>
-            <figure className={`ninjadash-blog ninjadash-blog-${theme}`} style={{height:"370px", backgroundColor:"#FFCB77"}}>
+            <figure className={`ninjadash-blog ninjadash-blog-${theme}`} style={{height:"370px", backgroundColor:"white"}}>
               <div className="ninjadash-blog-thumb" style={{overflow:"hidden"}}>
                 <img className="ninjadash-blog__image"
                      style={{

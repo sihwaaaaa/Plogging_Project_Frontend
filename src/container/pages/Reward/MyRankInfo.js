@@ -21,14 +21,14 @@ const MyRankInfo = (props) => {
   return (
     <>
       <Card className="card-header">
-        <Row>
+        <Row >
           <Col span={12} style={{height:"0"}}>
             <span style={{margin:"-9px"}}>등  급</span>
           </Col>
           <Col span={12}>
             <span style={{margin:"-9px"}}>누 적 포 인 트</span>
           </Col>
-          <Col span={12}>
+          <Col span={12} >
             <p style={{paddingTop:"30px", margin:"0",fontSize:"25px"}}>{badgeName}</p>
             {/*<Image className="ex-img" src={require(`../../../static/img/pages/rewardImg/badgeImg/${badgeNo}.png`)}/>*/}
           </Col>
