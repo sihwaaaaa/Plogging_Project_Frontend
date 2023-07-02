@@ -5,6 +5,7 @@ import { UilAngleRight, UilUserCheck } from "@iconscout/react-unicons";
 import UilUserPlus from "@iconscout/react-unicons/icons/uil-user-plus";
 import UilAngleDown from "@iconscout/react-unicons/icons/uil-angle-down";
 import { getItem } from "../../../utility/localStorageControl";
+import { useNavigate } from "react-router-dom";
 
 const MemberSearchListForm = (props) => {
 
@@ -18,6 +19,15 @@ const MemberSearchListForm = (props) => {
   const requestFriend = props.requestFriend;
   const friend = {toMemberNo : props.result.memberNo};
 
+  const navigate = useNavigate();
+
+  const toProfile = (member) => {
+    navigate(`/profile/${member}`, {
+      state : {
+        memberNo : `${member}`
+      }
+    })
+  }
 
 
   const requestClick = () => {
@@ -43,12 +53,12 @@ const MemberSearchListForm = (props) => {
     <div className="searchFormWrapper">
       <div className="memberForm">
         <div className="badgeWrapper" >
-          <img src={badge} style={{width:40, height:40}} alt={'뱃지'}/>
+          <img onClick={() => toProfile(searchNo)} src={badge} style={{width:40, height:40, cursor:"pointer"}} alt={'뱃지'}/>
         </div>
         <div className="idWrapper">
           <div className="id">
-            <span style={{paddingRight:7}}>{searchId}</span>
-            <span>({searchName})</span>
+            <span onClick={() => toProfile(searchNo)} style={{cursor:"pointer", paddingRight:7}}>{searchId}</span>
+            <span onClick={() => toProfile(searchNo)} style={{cursor:"pointer"}}>({searchName})</span>
             {searchStatus === 'NOTHING' && searchNo !== getItem('memberNo') ? (
               <div onClick={requestClick} className="friendAdd" style={{background: "#FFCB77"}}>
                 <UilUserPlus size={20} color="white" />

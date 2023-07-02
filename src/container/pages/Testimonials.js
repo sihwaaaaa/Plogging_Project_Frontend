@@ -12,6 +12,7 @@ import { Cards } from '../../components/cards/frame/cards-frame';
 import 'swiper/scss';
 import 'swiper/scss/pagination';
 
+
 SwiperCore.use([Navigation, Pagination]);
 function Testimonials() {
   const PageRoutes = [

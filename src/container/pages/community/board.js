@@ -9,6 +9,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import CustomPagination from "../overview/CustomPagination";
 import { Button } from '../../../components/buttons/buttons';
 import { alertModal } from "../../../components/modals/antd-modals";
+import logosmall from "../../../static/img/plogginglogo.png"
 
 const Board = () => {
 
@@ -160,7 +161,12 @@ const Board = () => {
                     <BoardLayout key={board.bno} board={board}  />
                   </Col>
                 )
-              }) : (
+              }) : boardList ? (
+                <div style={{width: "100%", padding: "100px 0", textAlign: "center"}}>
+                  <img style={{width:100, height:"auto"}} src={logosmall} alt="로딩로고"></img>
+                  <h2>로딩중...</h2>
+                </div>
+              ) : (
                 <div style={{width: "100%", padding: "100px 0", textAlign: "center"}}>아직 글이 없어요</div>
               )}
             </Row>

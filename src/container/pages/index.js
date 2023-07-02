@@ -1,10 +1,12 @@
 import React, { useState } from "react";
-import { Card, Col, Row } from "antd";
+import { Card, Carousel, Col, Row } from "antd";
 import '../../static/css/indexPageStyle.scss';
 import { useNavigate } from "react-router-dom";
 import index_plogging1 from "../../static/img/index_plogging1.png";
-import index_plogging2 from "../../static/img/index_plogging2.png";
-import index_plogging3 from "../../static/img/index_plogging3.png";
+import index_plogging2 from "../../static/img/index_plogging.png";
+import index_plogging3 from "../../static/img/index_challenge.png";
+import index_plogging4 from "../../static/img/index_plogging2.png";
+import index_plogging5 from "../../static/img/index_plogging3.png";
 import index_plogginginfo1 from "../../static/img/index-plogginginfo1.png";
 import index_plogginginfo2 from "../../static/img/index-plogginginfo2.png";
 import index_reward1 from "../../static/img/index_reward1.png";
@@ -12,8 +14,15 @@ import index_reward2 from "../../static/img/index_reward2.png";
 import { Button } from '../../components/buttons/buttons';
 import { UilSmileSquintWinkAlt } from "@iconscout/react-unicons";
 import UilPlus from "@iconscout/react-unicons/icons/uil-plus";
-//npm install react-id-swiper@latest swiper@latest
+import SwiperCore, { Autoplay, Navigation, Pagination } from "swiper";
+import { Swiper, SwiperSlide } from 'swiper/react';
+SwiperCore.use([Navigation, Autoplay]) // Swiper
+import 'swiper/css';
+import 'swiper/css/navigation';
+import 'swiper/css/pagination';
+import 'swiper/css/scrollbar';
 
+//npm install react-id-swiper@latest swiper@latest
 function Index() {
 
   const navigate = useNavigate();
@@ -25,7 +34,6 @@ function Index() {
   const toRewardPage = () => {
     navigate('/reward')
   }
-
 
   return (
     <>
@@ -66,56 +74,141 @@ function Index() {
           <h2>줍깅, 이렇게 사용하세요 <UilSmileSquintWinkAlt size={30} /></h2>
           <span>
           </span>
-          <Card className="card">
-            <Row gutter={16}>
-              <Col span={24} className="card-container">
-                <h3>플로깅 준비</h3>
-                <img src={index_plogging1} alt="플로깅준비" />
-                <span>집게와 봉투를 준비하세요</span>
-                <span>제로웨이스트샵에서 빌릴 수 있어요</span>
-              </Col>
-            </Row>
-          </Card>
-          <Card className="card">
-            <Row gutter={16}>
-              <Col span={24} className="card-container">
-                <h3>플로깅하기</h3>
-                <img src={index_plogging2} alt="플로깅인증" />
-                <span>산책하며 쓰레기를 주워요</span>
-                <span>다양한 추천경로가 기다리고 있답니다</span>
-              </Col>
-            </Row>
-          </Card>
-          <Card className="card">
-            <Row gutter={16}>
-              <Col span={24} className="card-container">
-                <h3>챌린지 도전</h3>
-                <img src={index_plogging2} alt="플로깅인증" />
-                <span>혹시 함께하고 싶다면?</span>
-                <span>챌린지에 도전해 더 즐겁게 플로깅해요</span>
-              </Col>
-            </Row>
-          </Card>
-          <Card className="card">
-            <Row gutter={16}>
-              <Col span={24} className="card-container">
-                <h3>플로깅 인증</h3>
-                <img src={index_plogging2} alt="플로깅인증" />
-                <span>플로깅을 마쳤나요?</span>
-                <span>커뮤니티에 인증샷을 남겨주세요</span>
-              </Col>
-            </Row>
-          </Card>
-          <Card className="card">
-            <Row gutter={16}>
-              <Col span={24} className="card-container">
-                <h3>리워드</h3>
-                <img src={index_plogging3} alt="리워드" />
-                <span>포인트가 적립됐어요!</span>
-                <span>원하는 리워드를 신청해보세요</span>
-              </Col>
-            </Row>
-          </Card>
+          <Swiper
+            style={{width:"100%"}}
+            autoplay={{
+              delay: 2000,
+            }}
+            slidesPerView={"auto"}
+            breakpoints={{
+              730: {
+                slidesPerView : 2,
+              },
+              840: {
+                slidesPerView : 2.5,
+              },
+              1024: {
+                slidesPerView : 3,
+              },
+            }}
+            initialSlide={0}
+            observer={true}
+            observeParents={true}
+            spaceBetween={50}
+            navigation
+            scrollbar={{ draggable: true }}
+          >
+            <SwiperSlide>
+            <Card className="card" >
+              <Row gutter={16}>
+                <Col span={24} className="card-container">
+                  <h3>플로깅 준비</h3>
+                  <img src={index_plogging1} alt="플로깅준비" />
+                  <span>집게와 봉투를 준비하세요</span>
+                  <span>제로웨이스트샵에서 빌릴 수 있어요</span>
+                </Col>
+              </Row>
+            </Card>
+            </SwiperSlide>
+            <SwiperSlide>
+            <Card className="card" >
+              <Row gutter={16}>
+                <Col span={24} className="card-container">
+                  <h3>플로깅하기</h3>
+                  <img src={index_plogging2} alt="플로깅인증" />
+                  <span>산책하며 쓰레기를 주워요</span>
+                  <span>다양한 추천경로가 기다리고 있답니다</span>
+                </Col>
+              </Row>
+            </Card>
+            </SwiperSlide>
+            <SwiperSlide>
+            <Card className="card" >
+              <Row gutter={16}>
+                <Col span={24} className="card-container">
+                  <h3>챌린지 도전</h3>
+                  <img src={index_plogging3} alt="플로깅인증" />
+                  <span>혹시 함께하고 싶다면?</span>
+                  <span>챌린지에 도전해 더 즐겁게 플로깅해요</span>
+                </Col>
+              </Row>
+            </Card>
+            </SwiperSlide>
+            <SwiperSlide>
+            <Card className="card" >
+              <Row gutter={16}>
+                <Col span={24} className="card-container">
+                  <h3>플로깅 인증</h3>
+                  <img src={index_plogging4} alt="플로깅인증" />
+                  <span>플로깅을 마쳤나요?</span>
+                  <span>커뮤니티에 인증샷을 남겨주세요</span>
+                </Col>
+              </Row>
+            </Card>
+            </SwiperSlide>
+            <SwiperSlide>
+            <Card className="card" >
+              <Row gutter={16}>
+                <Col span={24} className="card-container">
+                  <h3>리워드</h3>
+                  <img src={index_plogging5} alt="리워드" />
+                  <span>포인트가 적립됐어요!</span>
+                  <span>원하는 리워드를 신청해보세요</span>
+                </Col>
+              </Row>
+            </Card>
+            </SwiperSlide>
+          </Swiper>
+          {/*<Card className="card">*/}
+          {/*  <Row gutter={16}>*/}
+          {/*    <Col span={24} className="card-container">*/}
+          {/*      <h3>플로깅 준비</h3>*/}
+          {/*      <img src={index_plogging1} alt="플로깅준비" />*/}
+          {/*      <span>집게와 봉투를 준비하세요</span>*/}
+          {/*      <span>제로웨이스트샵에서 빌릴 수 있어요</span>*/}
+          {/*    </Col>*/}
+          {/*  </Row>*/}
+          {/*</Card>*/}
+          {/*<Card className="card">*/}
+          {/*  <Row gutter={16}>*/}
+          {/*    <Col span={24} className="card-container">*/}
+          {/*      <h3>플로깅하기</h3>*/}
+          {/*      <img src={index_plogging2} alt="플로깅인증" />*/}
+          {/*      <span>산책하며 쓰레기를 주워요</span>*/}
+          {/*      <span>다양한 추천경로가 기다리고 있답니다</span>*/}
+          {/*    </Col>*/}
+          {/*  </Row>*/}
+          {/*</Card>*/}
+          {/*<Card className="card">*/}
+          {/*  <Row gutter={16}>*/}
+          {/*    <Col span={24} className="card-container">*/}
+          {/*      <h3>챌린지 도전</h3>*/}
+          {/*      <img src={index_plogging3} alt="플로깅인증" />*/}
+          {/*      <span>혹시 함께하고 싶다면?</span>*/}
+          {/*      <span>챌린지에 도전해 더 즐겁게 플로깅해요</span>*/}
+          {/*    </Col>*/}
+          {/*  </Row>*/}
+          {/*</Card>*/}
+          {/*<Card className="card">*/}
+          {/*  <Row gutter={16}>*/}
+          {/*    <Col span={24} className="card-container">*/}
+          {/*      <h3>플로깅 인증</h3>*/}
+          {/*      <img src={index_plogging4} alt="플로깅인증" />*/}
+          {/*      <span>플로깅을 마쳤나요?</span>*/}
+          {/*      <span>커뮤니티에 인증샷을 남겨주세요</span>*/}
+          {/*    </Col>*/}
+          {/*  </Row>*/}
+          {/*</Card>*/}
+          {/*<Card className="card">*/}
+          {/*  <Row gutter={16}>*/}
+          {/*    <Col span={24} className="card-container">*/}
+          {/*      <h3>리워드</h3>*/}
+          {/*      <img src={index_plogging5} alt="리워드" />*/}
+          {/*      <span>포인트가 적립됐어요!</span>*/}
+          {/*      <span>원하는 리워드를 신청해보세요</span>*/}
+          {/*    </Col>*/}
+          {/*  </Row>*/}
+          {/*</Card>*/}
         </div>
       </div>
       <div className="index-page-rewardInfo">

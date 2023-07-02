@@ -5,6 +5,8 @@ import { Button } from "../../../components/buttons/buttons";
 import { getItem } from "../../../utility/localStorageControl";
 import { alertModal } from "../../../components/modals/antd-modals";
 import { DataService } from "../../../config/dataService/dataService";
+import { useNavigate } from "react-router-dom";
+import { UilUserMinus, UilUserTimes } from "@iconscout/react-unicons";
 
 const FriendListForm = (props) => {
 
@@ -13,7 +15,13 @@ const FriendListForm = (props) => {
   const acceptFriend = props.acceptFriend;
   const removeFriend = props.removeFriend;
   const cancelFriend = props.cancelFriend;
+  const createRoom = props.createRoom;
+  const setRoomNo = props.setRoomNo;
+  const setRoomName = props.setRoomName;
+  const setReceiver = props.setReceiver;
+  const setState = props.setState;
 
+  const navigate = useNavigate();
   const [friend, setFriend] = useState(props.friend);
 
   let [friendNo, setFriendNo] = useState(null);
@@ -22,6 +30,20 @@ const FriendListForm = (props) => {
 
   const confirmModal = () => {
 
+  }
+
+  const toProfile = (member) => {
+    navigate(`/profile/${member}`, {
+      state : {
+        memberNo : `${member}`
+      }
+    })
+  }
+
+  const addChat = (receiver) => {
+    setReceiver(receiver.toMemberNo);
+    setRoomName(receiver.toMemberId);
+    setState({visible : false})
   }
 
   // 받은 요청인지 보낸 요청인지에 따른 friend 동적 할당
@@ -48,6 +70,9 @@ const FriendListForm = (props) => {
     else if (memberNo === props.friend.fromMemberNo && props.friend.status === 'FRIEND') {
       return (
         <>
+          <Button>
+            <span style={{color:"skyblue"}} onClick={() => addChat(props.friend)}>채팅하기</span>
+          </Button>
           <Button>
             <span style={{color:"#FFCB77"}} onClick={() => showConfirm("remove")}>플친 끊기</span>
           </Button>
@@ -116,26 +141,30 @@ const FriendListForm = (props) => {
 
 
   return (
-      <div style={{
+      <div
+        className="friend-container"
+        style={{
         display: "flex",
         flexDirection: "row",
         flexWrap: "wrap",
         alignItems: "center",
         padding: "7px 3px",
-        height:60,
-        width: "100%"
+        minHeight:60,
+        width: "100%",
       }}>
         <div className="badgeWrapper"
+             onClick={() => toProfile(friendNo)}
              style={{
                width: 40,
                height: 40,
                border: "1px solid gray",
                borderRadius: "50%",
-               marginLeft: 5
+               marginLeft: 5,
+               cursor: "pointer"
              }}>
           <img src={badge} style={{width:40, height:40}} alt={'뱃지'}/>
         </div>
-        <div style={{marginLeft:10}}>
+        <div onClick={() => toProfile(friendNo)} style={{marginLeft:10, cursor:"pointer"}}>
           {friendId}
         </div>
         <div style={{marginLeft:"auto"}}>

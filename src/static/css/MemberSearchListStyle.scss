@@ -4,7 +4,8 @@
   flex-wrap: wrap;
   flex-direction: row;
   align-items: center;
-  margin-left: auto;
+  margin: auto;
+  justify-content: center;
 
   @media only screen and (max-width: 1280px) {
     justify-content: space-around;

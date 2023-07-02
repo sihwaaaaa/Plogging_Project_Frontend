@@ -58,10 +58,10 @@ const BoardDetailLayout = (data) => {
     input.value = '';
   }
 
-  async function clickSubmitReply(data) {
+  async function clickSubmitReply() {
     event.preventDefault();
-    setReplyContent(data[0].value)
-    await clear(data[0].value)
+    setReplyContent(document.getElementsByClassName('replyInput')[0].value)
+    await clear(document.getElementsByClassName('replyInput')[0])
   }
 
   /**
@@ -239,7 +239,7 @@ const BoardDetailLayout = (data) => {
         {currentUserId ? (
           <form className="replyInputWrapper" onSubmit={(data) => submitReply(data)}>
             <input className="replyInput" placeholder="댓글을 작성해 보세요"></input>
-            <Button className="replyBtn" onClick={() => clickSubmitReply(document.getElementsByClassName('replyInput'))}>작성하기</Button>
+            <button className="replyBtn" onClick={() => clickSubmitReply()}>작성하기</button>
           </form>
         ) : ''
         }

@@ -218,12 +218,12 @@ const ThemeLayout = (WrappedComponent) => {
                     <Row>
                       <Col md={12} xs={24}>
                         <span className="admin-footer__copyright">
-                          © 2023<Link to="#">SovWare</Link>
+                          © 2023<Link to="#">THEJOEUN FINAL TEAM PROJECT</Link>
                         </span>
                       </Col>
                       <Col md={12} xs={24}>
                         <div className="admin-footer__links">
-                          <NavLink to="#">Team </NavLink>
+                          <NavLink to="/team">HERE IS TEAM GROOT</NavLink>
                         </div>
                       </Col>
                     </Row>
