@@ -396,7 +396,14 @@ const plogging = () => {
           <div style={{ paddingRight: '0' }} className="mapEmpty">
             <div className="mapEmptyBox">
               <div className="plogginglogo"></div>
-              <h1>로딩중...</h1>
+              <h1>
+                <span>로</span>
+                <span>딩</span>
+                <span>중</span>
+                <span>.</span>
+                <span>.</span>
+                <span>.</span>
+              </h1>
               <h6>*로딩이 오래걸리면 새로고침을 해주세요</h6>
             </div>
           </div>
