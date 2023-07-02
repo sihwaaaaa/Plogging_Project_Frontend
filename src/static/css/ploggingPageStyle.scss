@@ -46,17 +46,16 @@
         }
       }
       h1 {
+        height: 50px;
         padding-left: 18px;
         font-size: 20px;
         font-weight: 700;
         color: #227c9d;
         span {
           position: relative;
-          top: 20px;
+          top: 5px;
           display: inline-block;
           animation: bounce 0.3s ease infinite alternate;
-          text-shadow: 0 1px 0 #ccc, 0 2px 0 #ccc, 0 3px 0 #ccc, 0 4px 0 #ccc, 0 5px 0 #ccc, 0 6px 0 transparent,
-            0 7px 0 transparent, 0 8px 0 transparent, 0 9px 0 transparent, 0 10px 10px rgba(0, 0, 0, 0.4);
 
           &:nth-child(2) {
             animation-delay: 0.1s;
@@ -81,9 +80,7 @@
           }
           @keyframes bounce {
             100% {
-              top: -20px;
-              text-shadow: 0 1px 0 #ccc, 0 2px 0 #ccc, 0 3px 0 #ccc, 0 4px 0 #ccc, 0 5px 0 #ccc, 0 6px 0 #ccc,
-                0 7px 0 #ccc, 0 8px 0 #ccc, 0 9px 0 #ccc, 0 50px 25px rgba(0, 0, 0, 0.2);
+              top: -3px;
             }
           }
         }
