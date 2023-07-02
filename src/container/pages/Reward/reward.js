@@ -175,6 +175,9 @@ const Reward = () => {
                 산책도 하고 운동도 하고 환경도 지키고 기부도 하고! 친환경 제품도 구매도 해보세요!
                </span>
             </div>
+            {/*폰트 :  white*/}
+            {/*배경색 :#227C9D*/}
+            {/*제목 폰트 :#FFCB77*/}
             <div className="container-info-header" style={{ padding: "0" }}>
               <MyRankInfo myRank={myRank} />
             </div>

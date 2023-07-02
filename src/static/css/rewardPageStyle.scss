@@ -1,5 +1,5 @@
 .rewardpage-wrapper {
-  background: white;
+  background: #FEF9EF;
   width: 100%;
   display: inline-block;
 
@@ -18,11 +18,10 @@
       justify-content: left;
       align-items: center;
       flex-wrap: wrap;
-      color: white;
       align-content: center;
 
       h2 {
-        color: #17c382;
+        color: #FFCB77;
         font-size: 35px;
         font-weight: bolder;
         padding-bottom: 10px;
@@ -35,14 +34,13 @@
         margin-left: 5px;
         display: inline-block;
 
-
         span {
           line-height: 200%;
           display: inline-block;
           font-size: 22px;
           font-weight: bold;
           width: 100%;
-          color: #666D92;
+          color: #1d2429;
           margin-bottom: 10px;
         }
       }
@@ -51,7 +49,6 @@
         display: flex;
         width: 100%;
         height: 300px;
-        border: #666D92 3px solid;
         border-radius: 10px;
         margin-bottom: 30px;
 
@@ -66,14 +63,14 @@
           align-items: center;
           width: 100%;
           height: 85px;
-          background-color: #FEF9EF;
-          border-bottom: #666D92 3px solid;
+          background: #FEF9EF;
           span {
-            color: #666D92;
+            color: #17c382;
             display: flex;
             font-size: 32px;
             font-weight: bold;
             justify-content: center;
+
           }
           p {
             display: flex;
@@ -98,19 +95,19 @@
       height: 300px;
       border-radius: 23px;
       background-color: #FEF9EF;
-      border: #666D92 3px solid;
+      border: #1b1e2b 1px solid;
 
       h3 {
         font-size: 22px;
         text-align: center;
-        color: #1b1e2b;
+        color: #1d2429;
         font-weight: bold;
       }
 
       h4 {
         font-size: 20px;
         text-align: center;
-        color: #1b1e2b;
+        color: #1d2429;
         font-weight: bold;
       }
     }
@@ -137,7 +134,7 @@
 }
 
 .rewardpage-rank {
-  background: #FFCB77;
+  background: #227C9D;
   width: 100%;
   min-height: 910px;
   display: flex;
@@ -145,7 +142,7 @@
   justify-content: center;
 
   .container-rank {
-    background: #FFCB77;
+    background: #227C9D;
     max-width: 75%;
     display: flex;
     justify-content: left;
@@ -162,7 +159,7 @@
     span {
       display: inline-block;
       width: 100%;
-      color: #666D92;
+      color: #FEF9EF;
       margin-bottom: 10px;
       font-size: 22px;
       font-weight: bold;
@@ -170,7 +167,7 @@
 
     h2 {
       padding-top: 15px;
-      color: #17C382;
+      color: #FFCB77;
       font-size: 35px;
       font-weight: bolder;
       padding-bottom: 10px;
@@ -195,14 +192,14 @@
       .total-ranking {
         width: 1000px;
         Table {
-          background-color: #FFCB77;
+          background-color: #FEF9EF;
         }
         Table th {
           text-align: center;
           font-weight: bold;
           font-size: 20px;
-          color : #17C382;
-          background-color: #FFCB77;
+          color : #227C9D;
+          background-color: #FEF9EF;
           border: none;
         }
         Table td {
@@ -255,7 +252,7 @@
 
     h2 {
       padding-top: 15px;
-      color: #17C382;
+      color: #FFCB77;
       font-size: 35px;
       font-weight: bolder;
       padding-bottom: 10px;
@@ -265,6 +262,7 @@
       display: flex;
       width: 100%;
       margin-bottom: 15px;
+      color: black;
     }
 
     .product-table-wrapper {
@@ -277,13 +275,12 @@
         justify-content: left;
         align-items: center;
         flex-wrap: wrap;
-        color: white;
         align-content: center;
 
         h3 {
           display: flex;
           padding-top: 15px;
-          color: #17C382;
+          color: #FFCB77;
           font-size: 20px;
           font-weight: bolder;
           padding-bottom: 1px;
@@ -297,7 +294,7 @@
         border: black 1px solid;
         .container-slide {
           width: 100%;
-          color: black;
+          color: white;
           background-color: #FEF9EF;
           .ex-img {
             display: flex;
@@ -305,7 +302,7 @@
             height: 150px;
             margin: 15px 15px 5px;
             span {
-              color: #666D92;
+              color: white;
               display: flex;
               font-size: 22px;
               font-weight: bold;
@@ -347,7 +344,7 @@
 }
 
 .rewardpage-donation {
-  background: #FFCB77;
+  background: #227C9D;
   width: 100%;
   min-height: 1300px;
   display: flex;
@@ -355,25 +352,25 @@
   justify-content: center;
 
   .container-donation {
-    background: #FFCB77;
+    background: #227C9D;
     width: 75%;
     display: flex;
     justify-content: left;
     align-items: center;
     flex-wrap: wrap;
-    color: white;
+    color: #227C9D;
     align-content: center;
 
     h2 {
       padding-top: 15px;
-      color: #17C382;
+      color: #FFCB77;
       font-size: 35px;
       font-weight: 900;
     }
     span {
       width: 100%;
       display: flex;
-      color: #666D92;
+      color: white;
       font-size: 22px;
       text-align: center;
       justify-content: center;
@@ -406,12 +403,16 @@
       width: 100%;
       min-height: 900px;
       .donation-company {
-        background-color: #FFCB77;
+        background-color: #227C9D;
         display: flex;
         align-items: flex-start;
         flex-direction: row;
         flex-wrap: wrap;
         justify-content: space-evenly;
+        span {
+          color: black;
+          font-weight: bold;
+        }
       }
     }
   }
