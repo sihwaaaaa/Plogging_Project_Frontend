@@ -21,10 +21,10 @@
 <!-- PROJECT LOGO -->
 <br />
 <div align="center">
-  ![logo](https://github.com/plogging-project/Plogging_Project_Frontend/assets/132035168/42b5f42b-6c50-4b3b-9330-e35abd2b1865)
+ 
 
 <h3 align="center">SNS와 플로깅을 동시에! 줍깅</h3>
-
+![logo](https://github.com/plogging-project/Plogging_Project_Frontend/assets/132035168/9f943cb5-5d5c-4884-8002-6c781abcfb91)
   <p align="center">
 
     <br>
