@@ -40,7 +40,7 @@
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
-<img src="src/image/finalIndex.png" >
+![finalIndex](https://github.com/plogging-project/Plogging_Project_Frontend/assets/132035168/b0a40c46-3d53-4ad6-8590-cf2b382aaa3e)
 
 <br>
 React, React Template <br>
@@ -70,7 +70,7 @@ React, React Template <br>
 
 #### 데이터베이스 구성
 
-  <img alt="ERD" src="src/image/ERD.png" width="500">
+![ERD](https://github.com/plogging-project/Plogging_Project_Frontend/assets/132035168/2c05f956-dff1-456c-a86e-82f27e518be3)
 
 #### 데이터베이스 테이블 생성 쿼리
 
@@ -683,6 +683,7 @@ Team Project
 ![Slide6](https://github.com/plogging-project/Plogging_Project_Frontend/assets/132035168/353c7a49-1965-4ce0-a949-05a7095dfff3)
 ![Slide7](https://github.com/plogging-project/Plogging_Project_Frontend/assets/132035168/af2e88c1-cb2b-44d3-91ec-b37ab63320ea)
 ![Slide8](https://github.com/plogging-project/Plogging_Project_Frontend/assets/132035168/8cfbbeee-17b6-4886-88c2-fc90ecf997b9)
+
 
 </details>
 
