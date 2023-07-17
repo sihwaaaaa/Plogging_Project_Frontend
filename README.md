@@ -26,10 +26,9 @@
 <h3 align="center">SNS와 플로깅을 동시에! 줍깅</h3>
 
   <p align="center">
-
-    <br>
-    <p>작업기간 : 2023.05.24~2023.07.03</p>    
-    <br>
+   
+    작업기간 : 2023.05.24~2023.07.03</p>    
+    
   </p>
   <a href="https://pl.flatjava.co.kr/" target="_blank">View Demo</a>
 </div>
