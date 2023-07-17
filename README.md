@@ -24,7 +24,7 @@
  
 
 <h3 align="center">SNS와 플로깅을 동시에! 줍깅</h3>
-![logo](https://github.com/plogging-project/Plogging_Project_Frontend/assets/132035168/9f943cb5-5d5c-4884-8002-6c781abcfb91)
+![finalIndex](https://github.com/plogging-project/Plogging_Project_Frontend/assets/132035168/edf6e6ea-69b0-42a6-95b2-69da2273c3cb)
   <p align="center">
 
     <br>
