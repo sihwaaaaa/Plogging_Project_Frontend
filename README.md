@@ -19,8 +19,10 @@
 -->
 
 <!-- PROJECT LOGO -->
-![logo](https://github.com/plogging-project/Plogging_Project_Frontend/assets/132035168/42b5f42b-6c50-4b3b-9330-e35abd2b1865)
+<div align="center">
 
+![logo](https://github.com/plogging-project/Plogging_Project_Frontend/assets/132035168/42b5f42b-6c50-4b3b-9330-e35abd2b1865)
+</div>
 <h3 align="center">SNS와 플로깅을 동시에! 줍깅</h3>
 
   <p align="center">
