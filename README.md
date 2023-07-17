@@ -23,8 +23,10 @@
 <div align="center">
  
 
-<h3 align="center">SNS와 플로깅을 동시에! 줍깅</h3>
-![finalIndex](https://github.com/plogging-project/Plogging_Project_Frontend/assets/132035168/edf6e6ea-69b0-42a6-95b2-69da2273c3cb)
+<div align="center">
+  <a href="https://github.com/plogging-project/Plogging_Project_Frontend" target="_blank">
+    <img src="src/image/logo.png" alt="Logo" width="200">
+  </a>
   <p align="center">
 
     <br>
