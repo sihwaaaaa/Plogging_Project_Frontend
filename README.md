@@ -19,11 +19,7 @@
 -->
 
 <!-- PROJECT LOGO -->
-<br />
-<div align="center">
-  <a href="https://github.com/plogging-project/Plogging_Project_Frontend" target="_blank">
-    <img src="src/image/logo.png" alt="Logo" width="200">
-  </a>
+![logo](https://github.com/plogging-project/Plogging_Project_Frontend/assets/132035168/42b5f42b-6c50-4b3b-9330-e35abd2b1865)
 
 <h3 align="center">SNS와 플로깅을 동시에! 줍깅</h3>
 
@@ -635,12 +631,10 @@ Team Project
 <!-- LICENSE -->
 ## Etc
 #### 작업 서류
+![요구사항정의서](https://github.com/plogging-project/Plogging_Project_Frontend/assets/132035168/348f0794-f3ce-4ee7-a80f-6bf824947cf9)
 <a href="https://onedrive.live.com/edit.aspx?resid=39026BE146DB1865!9909&ithint=file%2cxlsx&wdo=2&authkey=!AHkkaw2eZGgqXIE">
-  요구사항 정의서, 일정관리, test case, 테이블 명세서, 인터페이스 명세서 등
+요구사항 정의서, 일정관리, test case, 테이블 명세서, 인터페이스 명세서 등
 </a>
-<img src="src/image/요구사항정의서.png"> <br>
-위 링크 이동시 하단 sheet를 클릭하여 서류 이동할 수 있음
-
 <br>
 
 #### PPT
