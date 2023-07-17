@@ -28,8 +28,7 @@
   <p align="center">
 
     <br>
-    <p>작업기간 : 2023.03.24~2023.04.26</p>
-    vcs worked on svn
+    <p>작업기간 : 2023.05.24~2023.07.03</p>    
     <br>
   </p>
   <a href="https://pl.flatjava.co.kr/" target="_blank">View Demo</a>
