@@ -620,7 +620,7 @@ Team Project
 
 김민수 : 챌린지
 
-이재원(본인) : 리워드
+이재원 : 리워드
 	 
 </pre>
 
@@ -750,30 +750,3 @@ JPA나 리액트의 기초를 적용해가면서 좀 더 빨리 적응했더라�
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 
-
-<!-- CONTACT -->
-## Contact
-
-Lee JaeWon - wodnjsdl01@gmail.com
-
-<a href="https://pl.flatjava.co.kr/" target="_blank">Demo Link</a>
-
-<a href="https://portfolio.flatjava.co.kr/" target="_blank">Portfolio Link</a>
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-
-
-<!-- ACKNOWLEDGMENTS -->
-## Acknowledgments
-
-읽어주셔서 감사합니다 더욱더 노력하겠습니다!
-
-### References
-README Template : [README-Template](https://github.com/othneildrew/Best-README-Template)<br>
-Reference : 
-[헬로깅](https://www.helloging.co.kr/)<br>
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-[![Hits](https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fgithub.com%2Fyangchanyong%2FAWS_fullstack_semi_project&count_bg=%23A1EF67&title_bg=%2300FF57&icon=&icon_color=%23E7E7E7&title=hits&edge_flat=false)](https://hits.seeyoufarm.com)
