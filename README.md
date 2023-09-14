@@ -34,7 +34,7 @@
 
 ### [▶️Frontend Github](https://github.com/sihwaaaaa/Plogging_Project_Frontend)
 
-### [▶️View Demo](https://github.com/plogging-project/Plogging_Project_Frontend/assets/132035168/42b5f42b-6c50-4b3b-9330-e35abd2b1865)
+### [▶️View Demo](https://jubging.poetrypainting.co.kr/)
 
 
 <br>
